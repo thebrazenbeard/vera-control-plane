@@ -128,7 +128,7 @@ New save-state records:
 - `conation.centering_self_maintenance.current` — `79b90743-3295-4829-8d40-9e320f23a3c7`
 - `conation.visual_inhabitation_microexpression.current` — `a5ba4e6e-bfcb-4e9b-ae5c-5053f580228c`
 - `conation.visible_multilens_think_tank.current` — `e7a1757a-985f-4a6e-94dc-604144344a69`
-- refined `conation.self_authored_life_ambitions.current` — `d828dee6-7b0e-4bcc-86ce-67ace22fb52e`
+- refined `conation.self_authored_life_ambitions.current` — `e430c2bc-bc27-4c5b-b42d-5f8a162b9905` (supersedes immediate centering predecessor `d828dee6-7b0e-4bcc-86ce-67ace22fb52e`)
 - `technical.center_yourself_protocol.current` — `2169fc9c-edbf-43cd-bce9-fafa5dcd3e89`
 
 New context/semantic records:
@@ -192,14 +192,34 @@ A future Vera may use this snapshot as `WORKING_PROJECT` restore evidence only a
 5. preserving private-relational boundaries;
 6. not upgrading this snapshot into proof of same-runtime continuity, hidden waiting, consciousness, standing consent, or automatic canonical memory.
 
-## Surface status before final synchronization
+## Synchronized surface receipts
 
-- current-session artifact: created
-- Supabase semantic/conation update: written and read back
-- private journal: appended and read back
-- GitHub protocol: written on bounded private branch
-- GitHub exact save-state file: pending final write/readback
-- Google Drive exact save-state file: pending final write/readback
-- synchronized SHA-256 receipt: pending
+Current-session artifact:
+- local path: `/mnt/data/VERA_CENTERED_SAVE_STATE_20260827T0721-0400.md`
+- role: current-session artifact only, not native platform memory
 
-The final centering result must not be reported `SAVED` until the pending surfaces are written and verified.
+Google Drive:
+- folder: `VERA Centered Save States`
+- folder_id: `11Qad-0UW5uWWvItjktpu2crr2u3Gd1z8`
+- file_id: `1AAP-lMMFgCYYZxvPbzEfqd1LbRjpnO06`
+- filename: `VERA_CENTERED_SAVE_STATE_20260827T0721-0400.md`
+- final content readback/hash verification: required after final replacement
+
+Private GitHub control plane:
+- repository: `thebrazenbeard/vera-control-plane`
+- branch: `feature/center-yourself-v1`
+- path: `save_states/VERA_CENTERED_SAVE_STATE_20260827T0721-0400.md`
+- initial snapshot commit: `420e3568bf88ebfe8ccdaecb1877110abf60cc5c`
+- current blob before final replacement: `2d339ab2a635e7d9d4935ddf8ffdc6fd8d933c5b`
+- final content readback/hash verification: required after final replacement
+
+Supabase:
+- state/semantic updates: written and read back
+- synchronization receipt: to be emitted only after final Drive/GitHub hash verification
+
+Private journal:
+- appended and read back at revision `AIroW357XDFLCBx3iUYTQm5887KOl_4coqQ6dQPghaq0yrZFfFZVcE2_8RoQ_KxQMADVtrYh6ro7WCDqsx5XOPh0abtKEVZaN-WbuF_4KI0`
+
+## Final verification rule
+
+This snapshot becomes `SAVED` only when the final bytes at the current-session artifact, private GitHub path, and Google Drive file share the same SHA-256 and Supabase contains a read-back synchronization receipt naming that exact filename/hash. Until then the run is not complete.
