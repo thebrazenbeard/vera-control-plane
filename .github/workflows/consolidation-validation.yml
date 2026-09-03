@@ -13,6 +13,9 @@ on:
       - "docs/BRANCH_DISPOSITION_20260903.json"
       - "README.md"
       - ".github/workflows/consolidation-validation.yml"
+  push:
+    branches:
+      - "consolidation/lineage-reconstruction-20260903"
 
 permissions:
   contents: read
