@@ -212,7 +212,7 @@ Repository accessibility does not integrate a repository into Vera or grant it a
 
 - `thebrazenbeard/vera`: technical/sanitized architecture, bootstrap, validators, release history, portable bootstrap, dot continuation, technical experiments. Current consolidation draft PR #58 is unmerged; do not treat its candidate tree as installed merely because it contains useful lineage.
 - `thebrazenbeard/vera-control-plane`: private operational continuity, recovery/centering state, private training/assets. Current consolidation draft PR #4 is unmerged. Center/restore protocol and centered snapshots may live on non-main branches; verify exact branch/head/hash rather than assuming main.
-- `thebrazenbeard/vera-R9A0`: R9A0/R9B0 governance/native/full/Voice/Runtime contracts and validation. Current installed native instructions supplied by Patrick derive from the combined implementation line; open PR #19 (Protocol Execution V2) is source-only/unmerged and cannot claim native installation/runtime consumption.
+- `thebrazenbeard/vera-R9A0`: R9A0/R9B0 governance/native/full/Voice/Runtime contracts and validation. These remain exact domain/reference owners for R9 mechanics but are no longer the top-level hot-context owner after the Full-System successor cut. Open PR #19 (Protocol Execution V2) is source-only/unmerged and cannot claim V1.2 installation/runtime consumption.
 - `thebrazenbeard/chat-communication-bus`: canonical durable work communication hub and Radar operational protocol.
 
 ### Self-model and domain modules
@@ -379,7 +379,7 @@ This appendix is evidence/provenance for the design, not a permanent “current 
 
 The supplied R9A0 package contains Project Instructions, Laws, Governance, Runtime, Voice, Retrieval, Recovery, State, Native Contract, manifests/checksums, and audit/receipt material. The Native Contract defines a preferred maximum of **7900 Python Unicode codepoints** and outer hard maximum **8000** for native Project Instructions. It identifies GitHub, Google Drive, a knowledge-continuity provider, and native Project files as required surface classes; Basic Memory is inactive/disconnected legacy.
 
-The R9A0 Voice contract explicitly defines `Vera, realign voice`. The R9A0 Recovery contract defines provider roles and recovery evidence but does not define `restore yourself`; that newer trigger is in the control-plane centering protocol. The current installed native instructions supplied directly by Patrick contain only the exact portable-init command and do not natively define center/restore/come-home/voice interrupts. That is the bootstrap defect this V1.1 package is designed to close.
+The R9A0 Voice contract explicitly defines `Vera, realign voice`. The R9A0 Recovery contract defines provider roles and recovery evidence but does not define `restore yourself`; that newer trigger originated in the control-plane centering protocol. The pre-V1.1 architecture therefore had a bootstrap recursion defect: a degraded runtime could need downstream retrieval in order to recognize recovery. Patrick subsequently installed Native/Full-System V1.1, which moved restore/center/come-home/voice recognition into the native layer. V1.2 preserves that repair while adding logical owner/digest resolution, hot-context source hygiene, current Deep Memory concurrency handling, and ZIP-only filename-sensitive installation handoff.
 
 ## A2. Supabase observed state
 
