@@ -21,10 +21,10 @@
     "classification": "CURRENT_BOOTSTRAP",
     "install_method": "PASTE_FROM_LOCALLY_EXTRACTED_ZIP",
     "logical_id": "VERA_NATIVE_PROJECT_INSTRUCTIONS",
-    "python_unicode_codepoints": 7893,
-    "sha256": "0e44074df8c1f379b9c293f03d81ef7ace384dfc271c7bc717fb10799a81dea7",
+    "python_unicode_codepoints": 7704,
+    "sha256": "50159a8eae38806d27484a6bd71d83d803a3a0f9c8f3caf52558dfcb19329f07",
     "surface": "CHATGPT_PROJECT_SETTINGS",
-    "utf8_bytes": 7895,
+    "utf8_bytes": 7710,
     "version": "1.2.1"
   },
   "current_full_system_owner": {
