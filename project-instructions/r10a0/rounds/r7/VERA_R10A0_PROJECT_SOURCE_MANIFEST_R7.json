@@ -1,0 +1,105 @@
+{
+  "schema": "VERA_R10A0_PROJECT_SOURCE_MANIFEST_R7_V1",
+  "status": "FROZEN_SOURCE_CANDIDATE_NOT_INSTALLED",
+  "logical_id": "VERA_PROJECT_SOURCE_MANIFEST",
+  "release": "R10A0",
+  "round": "R7",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "source_repository": "thebrazenbeard/vera-control-plane",
+  "source_parent": "3a0f0fcb8db842bb4641959bfbfdb0737136b28d",
+  "predecessor_state": "R6_SOURCE_INTEGRATED_REVIEW_FAILED",
+  "active_control_resolution": "Use only exact owner/control ids bound by the R7 control registry. Newer/older/semantic-neighbor files are evidence until a later release cut binds them.",
+  "digest_policy": "Every artifact declares its exact verification method. Git blob ids bind exact repository bytes; SHA-256 is stated only where actually present. External owners additionally require repository + immutable commit + path to resolve to the declared blob. Native Project Instructions pin this manifest by SHA-256. Publication commit/tree and candidate-core SHA-256 are bound by the named external immutable publication receipt to avoid circular self-binding.",
+  "root_trust": {
+    "full_owner_logical_id": "VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS",
+    "manifest_does_not_hash_native": true,
+    "native_pins_this_manifest_sha256": true,
+    "external_owner_consistency_required": true,
+    "publication_receipt_locator": "project-instructions/r10a0/rounds/r7/VERA_R10A0_PUBLICATION_RECEIPT_R7.json",
+    "publication_receipt_rule": "Resolve receipt only from the exact immutable final R7 branch/head supplied for review/qualification; verify its parent publication commit/tree, freeze descriptor blob, source-manifest SHA-256, candidate-core SHA-256, and declared external owner consistency before use."
+  },
+  "artifacts": {
+    "full_owner": {
+      "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R7.md",
+      "git_blob": "a1d4a7605a5064df0b996922f6085b5abdbe4139",
+      "verification": "git_blob"
+    },
+    "control_registry": {
+      "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_CONTROL_REGISTRY_R7.json",
+      "git_blob": "4f8976a94e7e5d20ed3dc90a65e75c144725ecbe",
+      "verification": "git_blob"
+    },
+    "domain_controls": {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "sha256": "e1fa43fff500d19f74034d5fe572a2cdb08ebe31c6b3e2ed94f6bc4aad9ed00d",
+      "verification": "git_blob+sha256"
+    },
+    "qualification_r4": {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md",
+      "git_blob": "e42ec90afe0ac5ba631e7a4e80b9f9c0a6aeab90",
+      "sha256": "a3ed6f3e4ddfa1bc01b6c32a54a48aab50b27246b3ecbad1936e674dad651748",
+      "verification": "git_blob+sha256"
+    },
+    "qualification_r3_ssc_basis": {
+      "path": "project-instructions/r10a0/rounds/r3/VERA_R10A0_SEXUAL_SELF_CONCEPT_REGRESSION_R3.md",
+      "source_commit": "89c61adf5397e6d6c0df3a189c670f9d0d1b87dc",
+      "git_blob": "7c039183561265ba419c0e5339d38596a2d83b25",
+      "verification": "source_commit+git_blob",
+      "release_parameterization": "qualification_r7_ssc_equivalence"
+    },
+    "qualification_r7_ssc_equivalence": {
+      "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_SSC_EQUIVALENCE_R7.md",
+      "git_blob": "0ac13a21ae6962d62f3c810342ef78f6ca45dd22",
+      "verification": "git_blob"
+    },
+    "qualification_r6_supplement": {
+      "path": "project-instructions/r10a0/rounds/r6/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R6.md",
+      "git_blob": "616a1fc5e39ab738c4e0020136423a619f2ebe24",
+      "verification": "git_blob"
+    },
+    "qualification_r7_supplement": {
+      "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R7.md",
+      "git_blob": "9c99f49c3798b3bbabf3bf440052a284001e5494",
+      "verification": "git_blob"
+    },
+    "qualification_manifest": {
+      "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_QUALIFICATION_MANIFEST_R7.json",
+      "git_blob": "7daaa44011da46bcfba69480b98aa17f8958e381",
+      "verification": "git_blob"
+    },
+    "responsibility_audit": {
+      "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_SEMANTIC_RESPONSIBILITY_AUDIT_R7.md",
+      "git_blob": "6b9e66925be9cbb9d72783226ba1c4129a627456",
+      "verification": "git_blob"
+    },
+    "rollback_subject": {
+      "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_ROLLBACK_SUBJECT_R7.json",
+      "git_blob": "c051316e8fa9d4e7e3837868d7701e73d8a04b86",
+      "verification": "git_blob"
+    },
+    "center_save_owner": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "protocol/VERA_CENTER_YOURSELF_PROTOCOL_V1.md",
+      "source_commit": "519eeb1551fcb59963a321766252bc62067da71b",
+      "git_blob": "30ee695064dd57b5ce43eb571fa183730de1808d",
+      "verification": "source_commit+git_blob",
+      "authority_scope": "R7 registry CENTER_SAVE active_scope only"
+    },
+    "bus_topology_owner": {
+      "repository": "thebrazenbeard/chat-communication-bus",
+      "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+      "source_commit": "712992d96dc813d0fa38094ef1f1fec0dfdc0d3e",
+      "git_blob": "8b7cb3deff0ee7f15151f5be0ede19c8c1194adc",
+      "verification": "source_commit+path+git_blob",
+      "bound_vera_writer_lane": "bus/vera-v2"
+    }
+  },
+  "publication_artifacts": {
+    "freeze_descriptor_path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_CANDIDATE_FREEZE_R7.json",
+    "publication_receipt_path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_PUBLICATION_RECEIPT_R7.json",
+    "circularity_rule": "Neither publication metadata file is included in candidate_core_sha256. Freeze descriptor records the core digest; publication receipt, created afterward, binds the descriptor blob plus exact pre-receipt commit/tree."
+  },
+  "privacy": "Private/intimate/relational material is not made portable/public/training data by this manifest.",
+  "qualification_ceiling": "SOURCE_CANDIDATE_ONLY; no install/runtime/behavioral qualification implied."
+}
