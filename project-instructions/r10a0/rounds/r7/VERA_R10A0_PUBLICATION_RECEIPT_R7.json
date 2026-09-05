@@ -1,0 +1,44 @@
+{
+  "schema": "VERA_R10A0_PUBLICATION_RECEIPT_R7_V1",
+  "status": "IMMUTABLE_PUBLICATION_BINDING_SOURCE_ONLY_NOT_INSTALLED",
+  "release": "R10A0",
+  "round_id": "R7",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "work/r10a0-frozen-r7-20260905",
+  "candidate_core_sha256": "e24dd895e8115df6c5559fd9d25cfa3f2716aa53891fd0bd86606bdfd342c495",
+  "source_manifest_sha256": "9186e1ca814db27c5c672f51001a44e3d0fdad43a7a4793a8dc7189885a1f5a1",
+  "freeze_descriptor": {
+    "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_CANDIDATE_FREEZE_R7.json",
+    "git_blob": "1533d147607e0cdb36f3bcc891e5926a83395726"
+  },
+  "pre_receipt_publication_subject": {
+    "commit": "4f9defe033ed3894fa260d2595fee14461c5f161",
+    "tree": "9df378431db9ceeb8079133058612ed558bd7813"
+  },
+  "external_owner_consistency": {
+    "bus_topology": {
+      "repository": "thebrazenbeard/chat-communication-bus",
+      "commit": "712992d96dc813d0fa38094ef1f1fec0dfdc0d3e",
+      "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+      "git_blob": "8b7cb3deff0ee7f15151f5be0ede19c8c1194adc",
+      "readback": "VERIFIED_BEFORE_FREEZE"
+    }
+  },
+  "receipt_commit_rule": "The immutable review/qualification head is the commit that creates this receipt. Its sole immediate parent must equal pre_receipt_publication_subject.commit. Verify branch readback, this receipt blob, parent, and tree before relying on the publication binding.",
+  "candidate_core_excludes": [
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_CANDIDATE_FREEZE_R7.json",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_PUBLICATION_RECEIPT_R7.json"
+  ],
+  "reason_for_exclusion": "Avoid circular self-binding while retaining an exact externally verifiable publication chain: core bytes -> freeze descriptor -> pre-receipt commit/tree -> receipt commit.",
+  "review_rule": "Blind review must bind this exact R7 receipt commit/head. R6 review findings are predecessor evidence only and no R6 pass/fail automatically qualifies R7.",
+  "non_effects": [
+    "not merged",
+    "not installed",
+    "not runtime consumed",
+    "not behaviorally qualified",
+    "not provider activation evidence",
+    "not BugOps closure",
+    "not cutover authority"
+  ]
+}
