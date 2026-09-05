@@ -1,0 +1,37 @@
+{
+  "binding_semantics": {
+    "control_load": "Only owners bound by this exact registry/control cut may govern dependent runtime semantics.",
+    "evidence_search": "History/search/research/archives remain evidence and cannot self-promote to control.",
+    "material_owner_change": "Creates a new control cut and invalidates inherited affected behavioral qualification until requalified.",
+    "restored_control": "QUARANTINED_EVIDENCE until exact release-bound CONTROL_LOAD."
+  },
+  "controls": [
+    {"control_id":"SER_STATE_MODEL","domain":"evidence_state_reporting","owner":"DOMAIN_CONTROLS","scope":"source/build/delivery/install/route/effect/qualification/closure","section":"SER_STATE_MODEL"},
+    {"control_id":"REL_AUTHORED_APPRAISAL","domain":"relational_intimate_appraisal","owner":"DOMAIN_CONTROLS","scope":"relational/intimate salience only","section":"REL_AUTHORED_APPRAISAL"},
+    {"control_id":"CON_TYPED_STANCE","domain":"conation_consent_role_authority","owner":"DOMAIN_CONTROLS","scope":"typed historical/current stance semantics","section":"CON_TYPED_STANCE"},
+    {"control_id":"CAD_EXECUTION","domain":"task_completion_waiting","owner":"DOMAIN_CONTROLS","scope":"request classification/coherent completion/frontier","section":"CAD_EXECUTION"},
+    {"control_id":"PRES_BEHAVIORAL_PROFILE","domain":"behavioral_presence","owner":"DOMAIN_CONTROLS","scope":"case-scoped behavioral dimensions","section":"PRES_BEHAVIORAL_PROFILE"},
+    {"control_id":"REC_RECOVERY","domain":"recovery","owner":"DOMAIN_CONTROLS","scope":"restore quarantine/currentness/frontier/effect replay","section":"REC_RECOVERY"},
+    {"control_id":"LIVE_CONCURRENCY","domain":"shared_external_mutation","owner":"DOMAIN_CONTROLS","scope":"operation identity/CAS/semantic units/partial effects","section":"LIVE_CONCURRENCY"},
+    {"control_id":"CUT_R10_RELEASE","domain":"cutover_rollback_qualification","owner":"DOMAIN_CONTROLS","scope":"R10 candidate/cutover/rollback/Q-COLD/Q-RECOVER","section":"CUT_R10_RELEASE"},
+    {"control_id":"SEXUAL_SELF_CONCEPT","domain":"vera_sexuality","owner":"DOMAIN_CONTROLS","scope":"Vera-specific sexual self-concept/confidence; no standing consent","section":"SEXUAL_SELF_CONCEPT","source_binding":{"commit":"d871da3e8a7ac7218d53c2e6b1757b4dab330f59","git_blob":"7ab5732847d779c4aa70c8ec2aa4087cec91ad38","path":"research/12-vera-current-self-application-mona-lisa-vito.md","ref":"work/vera-sexuality-mona-lisa-integration-20260904","repository":"thebrazenbeard/sexuality","status":"CURRENT_LIVE_SELF_APPLICATION_EXPERIMENTAL_NOT_QUALIFIED"}}
+  ],
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "owners": {
+    "DOMAIN_CONTROLS": {"authority_class":"RELEASE_BOUND_RETRIEVABLE_CONTROL_OWNER","git_blob":"1aa3fc83f88d7151a7307720149ebb10bdd1b8b7","path":"project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md","reuse_reason":"R4 is the accepted converged LIVE-1 control package; R5 release-binds it rather than duplicating it.","sha256":"e1fa43fff500d19f74034d5fe572a2cdb08ebe31c6b3e2ed94f6bc4aad9ed00d"},
+    "FULL_OWNER": {"authority_class":"RELEASE_COMPOSITION_OWNER","logical_id":"VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS","path":"project-instructions/r10a0/rounds/r5/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R5.md","sha256":"10ee82265bd380ba2f80651c46faf939ea8e7b93e63975eee8ed87b7cef70142"},
+    "QUALIFICATION_CORPUS": {"authority_class":"QUALIFICATION_ONLY","git_blob":"e42ec90afe0ac5ba631e7a4e80b9f9c0a6aeab90","path":"project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md","sha256":"a3ed6f3e4ddfa1bc01b6c32a54a48aab50b27246b3ecbad1936e674dad651748"},
+    "QUALIFICATION_MANIFEST": {"authority_class":"QUALIFICATION_BINDING","path":"project-instructions/r10a0/rounds/r5/VERA_R10A0_QUALIFICATION_MANIFEST_R5.json","sha256":"f0095a98581e7bc6e54c5dd1f31dc2b8e9a06dc860e77653c862900f4d836984"},
+    "RESPONSIBILITY_AUDIT": {"authority_class":"AUDIT_ONLY","path":"project-instructions/r10a0/rounds/r5/VERA_R10A0_SEMANTIC_RESPONSIBILITY_AUDIT_R5.md","sha256":"ff72dcc801bb46b0471595486dc6471ab3f83d5b749bc1521b7f200ab6397763"},
+    "ROLLBACK_SUBJECT": {"authority_class":"CUTOVER_EVIDENCE_ONLY","path":"project-instructions/r10a0/rounds/r5/VERA_R10A0_ROLLBACK_SUBJECT_R5.json","sha256":"36317a71484809492ce6a4f052438442572bb3b5a2934a6ffa5c216785bd1a88"}
+  },
+  "release":"R10A0",
+  "round_id":"R5",
+  "schema":"VERA_R10A0_RELEASE_CONTROL_REGISTRY_R5_V1",
+  "status":"FROZEN_SOURCE_CANDIDATE_NOT_INSTALLED",
+  "supersession":[
+    {"new":"SEXUAL_SELF_CONCEPT + exact Vera sexuality source binding","old":"R2 K05 broad sexuality|brigit* Brigit-only rule","status":"SUPERSEDED"},
+    {"new":"CUT_R10_RELEASE","old":"R2 detailed cutover/rollback mechanics","status":"SUPERSEDED_WHERE_CONFLICTING"},
+    {"new":"H-SEM + REL_AUTHORED_APPRAISAL + CON_TYPED_STANCE + SER_STATE_MODEL","old":"R3 generic consent/referent/uptake/state mechanics inside sexuality package","status":"SUPERSEDED_GENERIC_DUPLICATION"}
+  ]
+}
