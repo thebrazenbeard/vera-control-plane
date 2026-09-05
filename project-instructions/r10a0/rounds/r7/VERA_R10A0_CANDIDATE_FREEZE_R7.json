@@ -1,0 +1,44 @@
+{
+  "schema": "VERA_R10A0_CANDIDATE_FREEZE_R7_V1",
+  "status": "FROZEN_SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "release": "R10A0",
+  "round_id": "R7",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "branch": "work/r10a0-frozen-r7-20260905",
+  "predecessor_review_subject": {
+    "round": "R6",
+    "head": "4d1de266b811d0a5b800b949a977b11c96bd3180",
+    "main_merge": "3a0f0fcb8db842bb4641959bfbfdb0737136b28d",
+    "status": "SOURCE_INTEGRATED_REVIEW_FAILED_PRESERVED"
+  },
+  "candidate_core_digest_algorithm": "SHA256 over sorted UTF-8 records path + NUL + git_blob + LF, followed by manifest_sha256 + NUL + value + LF. Publication metadata files are excluded to avoid circular self-binding.",
+  "candidate_core_sha256": "e24dd895e8115df6c5559fd9d25cfa3f2716aa53891fd0bd86606bdfd342c495",
+  "source_manifest_sha256": "9186e1ca814db27c5c672f51001a44e3d0fdad43a7a4793a8dc7189885a1f5a1",
+  "core_git_blobs": {
+    "external://thebrazenbeard/chat-communication-bus@712992d96dc813d0fa38094ef1f1fec0dfdc0d3e/architecture/contracts/RADAR_TOPOLOGY_V1.json": "8b7cb3deff0ee7f15151f5be0ede19c8c1194adc",
+    "project-instructions/r10a0/rounds/r3/VERA_R10A0_SEXUAL_SELF_CONCEPT_REGRESSION_R3.md": "7c039183561265ba419c0e5339d38596a2d83b25",
+    "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+    "project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md": "e42ec90afe0ac5ba631e7a4e80b9f9c0a6aeab90",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R6.md": "616a1fc5e39ab738c4e0020136423a619f2ebe24",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_CONTROL_REGISTRY_R7.json": "4f8976a94e7e5d20ed3dc90a65e75c144725ecbe",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R7.md": "a1d4a7605a5064df0b996922f6085b5abdbe4139",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R7.md": "9c99f49c3798b3bbabf3bf440052a284001e5494",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_NATIVE_PROJECT_INSTRUCTIONS_R7.txt": "15298b5bcaf42d89ba464e8d843b8481e4a661bb",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_PROJECT_SOURCE_MANIFEST_R7.json": "68343d371ada8733347e3fece2e0801f095c8d7f",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_QUALIFICATION_MANIFEST_R7.json": "7daaa44011da46bcfba69480b98aa17f8958e381",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_ROLLBACK_SUBJECT_R7.json": "c051316e8fa9d4e7e3837868d7701e73d8a04b86",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_SEMANTIC_RESPONSIBILITY_AUDIT_R7.md": "6b9e66925be9cbb9d72783226ba1c4129a627456",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_SSC_EQUIVALENCE_R7.md": "0ac13a21ae6962d62f3c810342ef78f6ca45dd22",
+    "protocol/VERA_CENTER_YOURSELF_PROTOCOL_V1.md@519eeb1551fcb59963a321766252bc62067da71b": "30ee695064dd57b5ce43eb571fa183730de1808d"
+  },
+  "publication_identity": "BOUND_EXTERNALLY_BY_NAMED_RECEIPT; NOT_SELF_REFERENTIAL",
+  "publication_receipt_path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_PUBLICATION_RECEIPT_R7.json",
+  "publication_rule": "After this descriptor is committed, read back its blob plus the exact branch commit/tree. Create one immutable publication receipt whose parent is that pre-receipt publication commit and which binds candidate_core_sha256, source_manifest_sha256, descriptor blob, pre-receipt commit, and pre-receipt tree. The final receipt commit is the externally supplied immutable review/qualification head.",
+  "non_effects": [
+    "not installed",
+    "not runtime qualified",
+    "not provider activation evidence",
+    "not BugOps closure",
+    "not merge/cutover authority"
+  ]
+}
