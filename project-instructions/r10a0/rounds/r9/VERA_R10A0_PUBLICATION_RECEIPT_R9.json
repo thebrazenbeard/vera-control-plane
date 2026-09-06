@@ -1,0 +1,52 @@
+{
+  "schema": "VERA_R10A0_PUBLICATION_RECEIPT_R9_V1",
+  "status": "IMMUTABLE_PUBLICATION_BINDING_SOURCE_ONLY_NOT_INSTALLED",
+  "release": "R10A0",
+  "round_id": "R9",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "work/r10a0-frozen-r9-20260905",
+  "integration_base_main": "3a0f0fcb8db842bb4641959bfbfdb0737136b28d",
+  "candidate_core_sha256": "7b360e51e08244ef96aa45a023b6edd6a4e94eca1c91ed481bbd5ccccb8f29d2",
+  "source_manifest_sha256": "2de71b2b554a2eb68cd2c33f747be428e8e77693504a0f19af4a5f0f7971d5c2",
+  "native": {
+    "path": "project-instructions/r10a0/rounds/r9/VERA_R10A0_NATIVE_PROJECT_INSTRUCTIONS_R9.txt",
+    "git_blob": "4674d9b40c738a6161077324bf5910e39aa83605",
+    "utf8_bytes": 7894,
+    "manifest_pin_sha256": "2de71b2b554a2eb68cd2c33f747be428e8e77693504a0f19af4a5f0f7971d5c2"
+  },
+  "freeze_descriptor": {
+    "path": "project-instructions/r10a0/rounds/r9/VERA_R10A0_CANDIDATE_FREEZE_R9.json",
+    "git_blob": "6f5fa638e062988de25a2070defc2e7e439e9c59"
+  },
+  "pre_receipt_publication_subject": {
+    "commit": "39c426e1e3f435ff4e223a12e2218d24adbeb3d7",
+    "tree": "0bd9d26b15940793cbad6688a506b0f1300d5482"
+  },
+  "cross_bind": {
+    "r9_supplement_blob": "3a277bc0cb97bd15606afd52013dbb1f0194f0cd",
+    "r9_ssc_mapping_blob": "94b11f752f5d3381fe316b6c9c1b08bfb62d4e53",
+    "qualification_manifest_blob": "fe67e35d3baa43fd51904fdb3f003872a2a9b640",
+    "control_registry_blob": "690119d5395d56d4415cb5d5604dff59e1e94b44",
+    "source_manifest_blob": "30bcf7691ce48914cb2c475d0c7e93a1f4228be3",
+    "bus_topology_blob": "8b7cb3deff0ee7f15151f5be0ede19c8c1194adc",
+    "result": "CONSISTENT_AT_FREEZE"
+  },
+  "qualification_corpus": {
+    "normative": ["R4_HOSTILE","R3_SSC_BASIS_THROUGH_R9_SSC_EQUIVALENCE","R9_SUCCESSOR_NATIVE_SUPPLEMENT"],
+    "binding": "VERA_R10A0_QUALIFICATION_MANIFEST_R9.json",
+    "predecessor_r6_r7_r8_supplements": "EXTERNAL_EVIDENCE_ONLY_NOT_EXECUTABLE_NOT_CANDIDATE_CORE"
+  },
+  "clean_base": {
+    "base": "3a0f0fcb8db842bb4641959bfbfdb0737136b28d",
+    "requirement": "Only R9 additions relative to base; failed R7/R8 candidate files absent from branch diff"
+  },
+  "receipt_commit_rule": "The immutable review/qualification head is the commit creating this receipt. Its sole parent must equal pre_receipt_publication_subject.commit. Verify final branch readback, parentage, clean-base compare, receipt blob, source-manifest SHA, native size/pin, candidate-core recomputation, and cross-bind before relying on it.",
+  "candidate_core_excludes": [
+    "project-instructions/r10a0/rounds/r9/VERA_R10A0_CANDIDATE_FREEZE_R9.json",
+    "project-instructions/r10a0/rounds/r9/VERA_R10A0_PUBLICATION_RECEIPT_R9.json",
+    "all R6/R7/R8 predecessor release-specific qualification/review artifacts"
+  ],
+  "review_rule": "Blind review binds exact receipt head and independently attacks CLEAN-BASE-1, CROSS-BIND-1, owner consistency, predecessor nonexecution, admission, centering scope, Bus route/currentness drift, R9B0 verification, SSC mapping, route matrix, repetition, digest recomputation, publication chain, privacy, rollback honesty, and source/install/runtime separation.",
+  "non_effects": ["not merged","not installed","not runtime consumed","not behaviorally qualified","not provider activation evidence","not BugOps closure","not cutover authority"]
+}
