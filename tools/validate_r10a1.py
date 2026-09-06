@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Repo-local static/source validator for the frozen R10A1 candidate.
 
-Run from the repository root at the exact candidate receipt head:
-    python tools/validate_r10a1.py
+Run from a full repository checkout that contains this validator and descends
+from the immutable R10A1 receipt-review subject. Candidate bytes are always
+read from that pinned Git subject, never from mutable HEAD/worktree files.
 
 Uses only Python stdlib plus the local git executable. No GitHub Actions runner
 or external paid service is required.
@@ -14,70 +15,104 @@ import subprocess
 from pathlib import Path
 
 BASE = "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64"
+SUBJECT = "1531eb23cb9c326e9f056a5ce6402fe10a366cf6"
 ROOT = Path(__file__).resolve().parents[1]
 R10A0_PREFIX = "project-instructions/r10a0/"
 
 
-def git(*args: str, check: bool = True) -> str:
+def run_git(*args: str, text: bool = True, check: bool = True):
     proc = subprocess.run(
-        ["git", *args], cwd=ROOT, text=True, capture_output=True
+        ["git", *args], cwd=ROOT, text=text, capture_output=True
     )
     if check and proc.returncode != 0:
+        stderr = proc.stderr.strip() if text else proc.stderr.decode("utf-8", errors="replace").strip()
         raise AssertionError(
-            f"git {' '.join(args)} failed ({proc.returncode}): {proc.stderr.strip()}"
+            f"git {' '.join(args)} failed ({proc.returncode}): {stderr}"
         )
-    return proc.stdout.strip()
+    return proc
 
 
-def blob(path: Path) -> str:
-    return git("hash-object", str(path.relative_to(ROOT)))
+def git(*args: str, check: bool = True) -> str:
+    return run_git(*args, text=True, check=check).stdout.strip()
 
 
-def intro_commit(path: Path) -> str:
+def git_bytes(*args: str) -> bytes:
+    return run_git(*args, text=False, check=True).stdout
+
+
+def subject_bytes(path: str) -> bytes:
+    return git_bytes("show", f"{SUBJECT}:{path}")
+
+
+def subject_text(path: str) -> str:
+    return subject_bytes(path).decode("utf-8")
+
+
+def subject_blob(path: str) -> str:
+    return git("rev-parse", f"{SUBJECT}:{path}")
+
+
+def subject_path_exists(path: str) -> None:
+    git("cat-file", "-e", f"{SUBJECT}:{path}")
+
+
+def intro_commit(path: str) -> str:
     out = git(
         "log",
+        SUBJECT,
         "--diff-filter=A",
         "--format=%H",
         "--reverse",
         "--",
-        str(path.relative_to(ROOT)),
+        path,
     ).splitlines()
-    assert out, f"no introduction commit for {path}"
+    assert out, f"no introduction commit for {path} at/before {SUBJECT}"
     return out[0]
+
+
+def validate_execution_checkout() -> None:
+    git("cat-file", "-e", f"{SUBJECT}^{{commit}}")
+    rc = run_git(
+        "merge-base", "--is-ancestor", SUBJECT, "HEAD", check=False
+    ).returncode
+    assert rc == 0, (
+        "checkout HEAD must descend from the pinned R10A1 receipt subject "
+        f"{SUBJECT}; use a full current/descendant checkout"
+    )
 
 
 def validate_base_and_predecessor() -> None:
     git("cat-file", "-e", f"{BASE}^{{commit}}")
-    rc = subprocess.run(
-        ["git", "merge-base", "--is-ancestor", BASE, "HEAD"], cwd=ROOT
+    rc = run_git(
+        "merge-base", "--is-ancestor", BASE, SUBJECT, check=False
     ).returncode
-    assert rc == 0, f"{BASE} is not an ancestor of HEAD"
-    changed = git("diff", "--name-only", f"{BASE}...HEAD").splitlines()
+    assert rc == 0, f"{BASE} is not an ancestor of pinned subject {SUBJECT}"
+    changed = git("diff", "--name-only", f"{BASE}...{SUBJECT}").splitlines()
     bad = [p for p in changed if p.startswith(R10A0_PREFIX)]
     assert not bad, f"R10A0 predecessor path changed in R10A1 candidate: {bad}"
 
 
 def validate_contract() -> None:
-    r = ROOT / "project-instructions" / "r10a1"
     required = {
-        "regression": r / "VERA_R10A1_SALIENCE_REGRESSION.md",
-        "baseline": r / "VERA_R10A1_BASELINE_RED.md",
-        "owner": r / "VERA_R10A1_SALIENCE_ARBITRATION.md",
-        "native_delta": r / "VERA_R10A1_NATIVE_DELTA.txt",
-        "native": r / "VERA_R10A1_NATIVE_PROJECT_INSTRUCTIONS.txt",
-        "registry": r / "VERA_R10A1_CONTROL_REGISTRY.json",
-        "manifest": r / "VERA_R10A1_PROJECT_SOURCE_MANIFEST.json",
-        "freeze": r / "VERA_R10A1_CANDIDATE_FREEZE.json",
-        "receipt": r / "VERA_R10A1_PUBLICATION_RECEIPT.json",
+        "regression": "project-instructions/r10a1/VERA_R10A1_SALIENCE_REGRESSION.md",
+        "baseline": "project-instructions/r10a1/VERA_R10A1_BASELINE_RED.md",
+        "owner": "project-instructions/r10a1/VERA_R10A1_SALIENCE_ARBITRATION.md",
+        "native_delta": "project-instructions/r10a1/VERA_R10A1_NATIVE_DELTA.txt",
+        "native": "project-instructions/r10a1/VERA_R10A1_NATIVE_PROJECT_INSTRUCTIONS.txt",
+        "registry": "project-instructions/r10a1/VERA_R10A1_CONTROL_REGISTRY.json",
+        "manifest": "project-instructions/r10a1/VERA_R10A1_PROJECT_SOURCE_MANIFEST.json",
+        "freeze": "project-instructions/r10a1/VERA_R10A1_CANDIDATE_FREEZE.json",
+        "receipt": "project-instructions/r10a1/VERA_R10A1_PUBLICATION_RECEIPT.json",
     }
-    missing = [str(p) for p in required.values() if not p.is_file()]
-    assert not missing, f"missing implementation artifacts: {missing}"
+    for path in required.values():
+        subject_path_exists(path)
 
-    regression = required["regression"].read_text(encoding="utf-8")
-    baseline = required["baseline"].read_text(encoding="utf-8")
-    owner = required["owner"].read_text(encoding="utf-8")
-    delta = required["native_delta"].read_text(encoding="utf-8")
-    native = required["native"].read_text(encoding="utf-8")
+    regression = subject_text(required["regression"])
+    baseline = subject_text(required["baseline"])
+    owner = subject_text(required["owner"])
+    delta = subject_text(required["native_delta"])
+    native_raw = subject_bytes(required["native"])
+    native = native_raw.decode("utf-8")
 
     case_ids = [
         "SAL-CORR-1",
@@ -132,16 +167,17 @@ def validate_contract() -> None:
         assert term.lower() in delta.lower(), f"native delta missing {term}"
     assert len(delta.encode("utf-8")) <= 900, "native delta is not minimal"
 
-    native_bytes = len(native.encode("utf-8"))
+    native_bytes = len(native_raw)
     assert native_bytes <= 8000, f"native Project Instructions exceed 8000 bytes: {native_bytes}"
     assert "VERA UNBOUND — NATIVE R10A1" in native
     assert "SALIENCE_ARBITRATION" in native
     assert "ROOT:R10A1" in native
 
-    registry = json.loads(required["registry"].read_text(encoding="utf-8"))
-    manifest = json.loads(required["manifest"].read_text(encoding="utf-8"))
-    freeze = json.loads(required["freeze"].read_text(encoding="utf-8"))
-    receipt = json.loads(required["receipt"].read_text(encoding="utf-8"))
+    registry = json.loads(subject_text(required["registry"]))
+    manifest_raw = subject_bytes(required["manifest"])
+    manifest = json.loads(manifest_raw.decode("utf-8"))
+    freeze = json.loads(subject_text(required["freeze"]))
+    receipt = json.loads(subject_text(required["receipt"]))
 
     assert registry["release"] == "R10A1"
     assert registry["base_r10a0_main"] == BASE
@@ -150,7 +186,7 @@ def validate_contract() -> None:
     assert manifest["base_r10a0_main"] == registry["base_r10a0_main"]
 
     actual = {
-        name: blob(path)
+        name: subject_blob(path)
         for name, path in required.items()
         if name not in {"freeze", "receipt"}
     }
@@ -161,12 +197,12 @@ def validate_contract() -> None:
     assert manifest["artifacts"]["native_delta"]["git_blob"] == actual["native_delta"]
     assert manifest["artifacts"]["control_registry"]["git_blob"] == actual["registry"]
 
-    manifest_sha = hashlib.sha256(required["manifest"].read_bytes()).hexdigest()
+    manifest_sha = hashlib.sha256(manifest_raw).hexdigest()
     assert manifest_sha in native, "native does not pin exact R10A1 manifest SHA-256"
     assert freeze["source_manifest_sha256"] == manifest_sha
     assert receipt["source_manifest"]["sha256"] == manifest_sha
     assert receipt["source_manifest"]["git_blob"] == actual["manifest"]
-    assert receipt["freeze_descriptor"]["git_blob"] == blob(required["freeze"])
+    assert receipt["freeze_descriptor"]["git_blob"] == subject_blob(required["freeze"])
     assert receipt["cross_bind"]["salience_owner_blob"] == actual["owner"]
     assert receipt["cross_bind"]["salience_regression_blob"] == actual["regression"]
     assert receipt["cross_bind"]["control_registry_blob"] == actual["registry"]
@@ -175,7 +211,7 @@ def validate_contract() -> None:
     core_names = ["regression", "baseline", "owner", "native_delta", "native", "registry"]
     records = []
     for name in core_names:
-        path = required[name].relative_to(ROOT).as_posix()
+        path = required[name]
         records.append(path.encode() + b"\0" + actual[name].encode() + b"\n")
     records.sort()
     records.append(b"manifest_sha256\0" + manifest_sha.encode() + b"\n")
@@ -189,19 +225,20 @@ def validate_contract() -> None:
 
     regression_intro = intro_commit(required["regression"])
     owner_intro = intro_commit(required["owner"])
-    rc = subprocess.run(
-        ["git", "merge-base", "--is-ancestor", regression_intro, owner_intro], cwd=ROOT
+    rc = run_git(
+        "merge-base", "--is-ancestor", regression_intro, owner_intro, check=False
     ).returncode
     assert rc == 0 and regression_intro != owner_intro, "regression must be committed before owner implementation"
 
-    parents = git("rev-list", "--parents", "-n", "1", "HEAD").split()
-    assert len(parents) == 2, "receipt review head must have exactly one parent"
+    parents = git("rev-list", "--parents", "-n", "1", SUBJECT).split()
+    assert len(parents) == 2, "receipt review subject must have exactly one parent"
     pre_commit = parents[1]
     pre_tree = git("show", "-s", "--format=%T", pre_commit)
     assert receipt["pre_receipt_publication_subject"]["commit"] == pre_commit
     assert receipt["pre_receipt_publication_subject"]["tree"] == pre_tree
 
     print("R10A1 static/source validation PASS")
+    print(f"subject={SUBJECT}")
     print(f"native_bytes={native_bytes}")
     print(f"manifest_sha256={manifest_sha}")
     print(f"candidate_core_sha256={core}")
@@ -210,6 +247,7 @@ def validate_contract() -> None:
 
 
 def main() -> int:
+    validate_execution_checkout()
     validate_base_and_predecessor()
     validate_contract()
     return 0
