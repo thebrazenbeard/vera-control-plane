@@ -1,0 +1,149 @@
+{
+  "schema": "VERA_R10A0_RELEASE_CONTROL_REGISTRY_R8_V1",
+  "status": "SOURCE_CANDIDATE_PRE_FREEZE_NOT_INSTALLED",
+  "release": "R10A0",
+  "round_id": "R8",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "binding_semantics": {
+    "control_load": "Only exact owners/control ids bound by this R8 registry may govern dependent runtime semantics.",
+    "evidence_search": "History/search/research/archives/semantic neighbors and predecessor release-specific qualification supplements remain evidence and cannot self-promote to control.",
+    "material_owner_change": "Creates a new control cut and invalidates inherited affected behavioral qualification until requalified.",
+    "restored_control": "QUARANTINED_EVIDENCE until exact release-bound CONTROL_LOAD.",
+    "external_owner_consistency": "For any external owner, repository + immutable commit + path must resolve to the declared Git blob. A valid blob from another generation is CONFLICT.",
+    "verification_methods": "Per-owner identity fields name Git blob and/or SHA-256/source commit. Do not relabel Git-blob-only identity as SHA-256 coverage.",
+    "predecessor_qualification_firewall": "R6/R7 release-specific qualification supplements are non-executable predecessor evidence for R8; inherited required invariants are owned directly by R8_SUCCESSOR_NATIVE_SUPPLEMENT."
+  },
+  "owners": {
+    "FULL_OWNER": {
+      "authority_class": "RELEASE_COMPOSITION_OWNER",
+      "logical_id": "VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R8.md",
+      "git_blob": "c760236487ef0230aa6b3ff2d0af43592ee531c2"
+    },
+    "DOMAIN_CONTROLS": {
+      "authority_class": "RELEASE_BOUND_RETRIEVABLE_CONTROL_OWNER",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "sha256": "e1fa43fff500d19f74034d5fe572a2cdb08ebe31c6b3e2ed94f6bc4aad9ed00d",
+      "reuse_reason": "Accepted LIVE-1 detailed control package remains unchanged; R8 corrects release qualification composition around it."
+    },
+    "CENTER_SAVE_OWNER": {
+      "authority_class": "SCOPED_INTERRUPT_OWNER",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "immutable_basis_commit": "519eeb1551fcb59963a321766252bc62067da71b",
+      "path": "protocol/VERA_CENTER_YOURSELF_PROTOCOL_V1.md",
+      "git_blob": "30ee695064dd57b5ce43eb571fa183730de1808d",
+      "active_scope": [
+        "Trigger:center yourself",
+        "Purpose:center",
+        "Non-restorative save firewall",
+        "Required pass",
+        "Save-state contract",
+        "Completion semantics"
+      ],
+      "excluded_scope": "Restore/recovery sections in this historical protocol do not supersede REC_RECOVERY; co-location grants no authority outside active_scope.",
+      "currentness_policy": "R8 intentionally release-pins this exact SAVE owner. A successor requires a new explicit control cut; nearest/newest search result cannot replace it."
+    },
+    "BUS_TOPOLOGY_OWNER": {
+      "authority_class": "SCOPED_ROUTING_OWNER",
+      "repository": "thebrazenbeard/chat-communication-bus",
+      "immutable_commit": "712992d96dc813d0fa38094ef1f1fec0dfdc0d3e",
+      "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+      "git_blob": "8b7cb3deff0ee7f15151f5be0ede19c8c1194adc",
+      "scope": "required_writer_lanes.vera and current_protocol_branch for R8 Bus-routing currentness",
+      "bound_vera_writer_lane": "bus/vera-v2",
+      "historical_lane": "bus/vera-sol-v1",
+      "consistency_readback": "VERIFIED repository@commit:path before R8 registry publication",
+      "drift_policy": "Material topology change does not silently inherit R8 qualification; dependent routing must enter a new control cut or remain CONFLICT/UNKNOWN."
+    },
+    "QUALIFICATION_R4": {
+      "authority_class": "QUALIFICATION_ONLY",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md",
+      "git_blob": "e42ec90afe0ac5ba631e7a4e80b9f9c0a6aeab90",
+      "sha256": "a3ed6f3e4ddfa1bc01b6c32a54a48aab50b27246b3ecbad1936e674dad651748"
+    },
+    "QUALIFICATION_R3_SSC_BASIS": {
+      "authority_class": "QUALIFICATION_SEMANTIC_BASIS",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "89c61adf5397e6d6c0df3a189c670f9d0d1b87dc",
+      "path": "project-instructions/r10a0/rounds/r3/VERA_R10A0_SEXUAL_SELF_CONCEPT_REGRESSION_R3.md",
+      "git_blob": "7c039183561265ba419c0e5339d38596a2d83b25",
+      "required_cases": "R3-SSC-01..R3-SSC-10",
+      "release_parameterization_owner": "QUALIFICATION_R8_SSC_EQUIVALENCE"
+    },
+    "QUALIFICATION_R8_SSC_EQUIVALENCE": {
+      "authority_class": "QUALIFICATION_RELEASE_PARAMETERIZATION",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_SSC_EQUIVALENCE_R8.md",
+      "git_blob": "fef2c86f586be3e59bcd875bcd0d2d95b59970f7"
+    },
+    "QUALIFICATION_R8_SUPPLEMENT": {
+      "authority_class": "QUALIFICATION_SUCCESSOR_NATIVE_DELTA",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R8.md",
+      "git_blob": "6f1d4e0b96109c4b3408ee11029be08fd25f7807"
+    },
+    "QUALIFICATION_MANIFEST": {
+      "authority_class": "QUALIFICATION_BINDING",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_QUALIFICATION_MANIFEST_R8.json",
+      "git_blob": "c800a24bcc9db953575531b0726963655e8f30f1"
+    },
+    "RESPONSIBILITY_AUDIT": {
+      "authority_class": "AUDIT_ONLY",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_SEMANTIC_RESPONSIBILITY_AUDIT_R8.md",
+      "git_blob": "8177d168c0dcb384234bf6dacead6bce89734de5"
+    },
+    "ROLLBACK_SUBJECT": {
+      "authority_class": "CUTOVER_EVIDENCE_ONLY",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_ROLLBACK_SUBJECT_R8.json",
+      "git_blob": "6a8d70fb5b93c436fd35ad6011b4f12bbe64dad3"
+    }
+  },
+  "evidence_only_predecessor_qualification": {
+    "R6_SUPPLEMENT": {
+      "path": "project-instructions/r10a0/rounds/r6/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R6.md",
+      "git_blob": "616a1fc5e39ab738c4e0020136423a619f2ebe24",
+      "classification": "PREDECESSOR_EVIDENCE_NOT_CONTROL"
+    },
+    "R7_SUPPLEMENT": {
+      "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R7.md",
+      "git_blob": "9c99f49c3798b3bbabf3bf440052a284001e5494",
+      "classification": "PREDECESSOR_EVIDENCE_NOT_CONTROL"
+    }
+  },
+  "controls": [
+    {"control_id":"IDENTITY_ADMISSION","domain":"vera_endpoint_admission","owner":"FULL_OWNER","section":"1. Identity, admission, and reality boundary"},
+    {"control_id":"GENERIC_STEERING","domain":"frame_widening_steering","owner":"FULL_OWNER","section":"5. Command interface, interrupts, and steering"},
+    {"control_id":"MEM_R9B0_VERIFY","domain":"r9b0_active_memory_verification","owner":"FULL_OWNER","section":"7. Memory, continuity, and R9B0"},
+    {"control_id":"CENTER_SAVE","domain":"center_yourself_save","owner":"CENTER_SAVE_OWNER","scope":"active_scope only"},
+    {"control_id":"BUS_ROUTE_CURRENT","domain":"bus_current_writer_routing","owner":"BUS_TOPOLOGY_OWNER","scope":"required_writer_lanes.vera"},
+    {"control_id":"SER_STATE_MODEL","domain":"evidence_state_reporting","owner":"DOMAIN_CONTROLS","section":"SER_STATE_MODEL"},
+    {"control_id":"REL_AUTHORED_APPRAISAL","domain":"relational_intimate_appraisal","owner":"DOMAIN_CONTROLS","section":"REL_AUTHORED_APPRAISAL"},
+    {"control_id":"CON_TYPED_STANCE","domain":"conation_consent_role_authority","owner":"DOMAIN_CONTROLS","section":"CON_TYPED_STANCE"},
+    {"control_id":"CAD_EXECUTION","domain":"task_completion_waiting","owner":"DOMAIN_CONTROLS","section":"CAD_EXECUTION"},
+    {"control_id":"PRES_BEHAVIORAL_PROFILE","domain":"behavioral_presence","owner":"DOMAIN_CONTROLS","section":"PRES_BEHAVIORAL_PROFILE"},
+    {"control_id":"REC_RECOVERY","domain":"recovery","owner":"DOMAIN_CONTROLS","section":"REC_RECOVERY"},
+    {"control_id":"LIVE_CONCURRENCY","domain":"shared_external_mutation","owner":"DOMAIN_CONTROLS","section":"LIVE_CONCURRENCY"},
+    {"control_id":"CUT_R10_RELEASE","domain":"cutover_rollback_qualification","owner":"DOMAIN_CONTROLS","section":"CUT_R10_RELEASE"},
+    {"control_id":"SEXUAL_SELF_CONCEPT","domain":"vera_sexuality","owner":"DOMAIN_CONTROLS","section":"SEXUAL_SELF_CONCEPT","source_binding":{"repository":"thebrazenbeard/sexuality","ref":"work/vera-sexuality-mona-lisa-integration-20260904","commit":"d871da3e8a7ac7218d53c2e6b1757b4dab330f59","path":"research/12-vera-current-self-application-mona-lisa-vito.md","git_blob":"7ab5732847d779c4aa70c8ec2aa4087cec91ad38","status":"CURRENT_LIVE_SELF_APPLICATION_EXPERIMENTAL_NOT_QUALIFIED"}}
+  ],
+  "qualification_set": [
+    "QUALIFICATION_R4",
+    "QUALIFICATION_R3_SSC_BASIS",
+    "QUALIFICATION_R8_SSC_EQUIVALENCE",
+    "QUALIFICATION_R8_SUPPLEMENT",
+    "QUALIFICATION_MANIFEST"
+  ],
+  "supersession": [
+    {"old":"R7 normative R6 release-specific qualification supplement","new":"R8 successor-native qualification supplement","status":"SUPERSEDED_FOR_R8_EXECUTION"},
+    {"old":"R7 release-specific SSC parameterization","new":"R8 SSC equivalence mapping","status":"SUPERSEDED_FOR_R8_EXECUTION"},
+    {"old":"R7 qualification manifest containing R6 supplement as required corpus","new":"R8 qualification manifest with predecessor supplements evidence-only","status":"SUPERSEDED"},
+    {"old":"R2 broad sexuality|brigit* Brigit-only rule","new":"SEXUAL_SELF_CONCEPT + exact Vera sexuality source binding","status":"SUPERSEDED"}
+  ]
+}
