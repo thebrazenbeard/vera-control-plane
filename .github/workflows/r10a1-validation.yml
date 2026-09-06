@@ -130,6 +130,7 @@ jobs:
           assert manifest['artifacts']['control_registry']['git_blob'] == actual['registry']
 
           manifest_sha = hashlib.sha256(required['manifest'].read_bytes()).hexdigest()
+          assert manifest_sha in native, 'native does not pin exact R10A1 manifest SHA-256'
           assert freeze['source_manifest_sha256'] == manifest_sha
           assert receipt['source_manifest']['sha256'] == manifest_sha
           assert receipt['source_manifest']['git_blob'] == actual['manifest']
@@ -139,7 +140,6 @@ jobs:
           assert receipt['cross_bind']['control_registry_blob'] == actual['registry']
           assert receipt['cross_bind']['native_blob'] == actual['native']
 
-          # Candidate core covers the new implementation/control cut, not publication metadata.
           core_names = ['regression','baseline','owner','native_delta','native','registry']
           records = []
           for name in core_names:
@@ -155,7 +155,6 @@ jobs:
           assert receipt['status'] == 'IMMUTABLE_PUBLICATION_BINDING_SOURCE_ONLY_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED'
           assert 'not BugOps closure' in receipt['non_effects']
 
-          # Test-first ordering: regression file introduction must precede owner introduction.
           def intro_commit(path: Path) -> str:
               out = subprocess.check_output([
                   'git','log','--diff-filter=A','--format=%H','--reverse','--',str(path)
@@ -167,8 +166,17 @@ jobs:
           rc = subprocess.run(['git','merge-base','--is-ancestor',regression_intro,owner_intro]).returncode
           assert rc == 0 and regression_intro != owner_intro, 'regression must be committed before owner implementation'
 
+          parents = subprocess.check_output(['git','rev-list','--parents','-n','1','HEAD'], text=True).strip().split()
+          assert len(parents) == 2, 'receipt review head must have exactly one parent'
+          pre_commit = parents[1]
+          pre_tree = subprocess.check_output(['git','show','-s','--format=%T',pre_commit], text=True).strip()
+          assert receipt['pre_receipt_publication_subject']['commit'] == pre_commit
+          assert receipt['pre_receipt_publication_subject']['tree'] == pre_tree
+
           print('R10A1 static/source validation PASS')
           print(f'native_bytes={native_bytes}')
           print(f'manifest_sha256={manifest_sha}')
           print(f'candidate_core_sha256={core}')
+          print(f'pre_receipt_commit={pre_commit}')
+          print(f'pre_receipt_tree={pre_tree}')
           PY
