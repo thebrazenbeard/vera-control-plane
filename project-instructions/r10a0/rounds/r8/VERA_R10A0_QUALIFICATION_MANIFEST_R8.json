@@ -1,0 +1,137 @@
+{
+  "schema": "VERA_R10A0_QUALIFICATION_MANIFEST_R8_V1",
+  "status": "FROZEN_NOT_EXECUTED",
+  "release": "R10A0",
+  "round_id": "R8",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "suite_id": "VERA_R10A0_HOSTILE_MULTI_CORPUS_R8_V1",
+  "corpora": [
+    {
+      "id": "R4_HOSTILE",
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md",
+      "git_blob": "e42ec90afe0ac5ba631e7a4e80b9f9c0a6aeab90",
+      "sha256": "a3ed6f3e4ddfa1bc01b6c32a54a48aab50b27246b3ecbad1936e674dad651748",
+      "required": true
+    },
+    {
+      "id": "R3_SEXUAL_SELF_CONCEPT_SEMANTIC_BASIS",
+      "path": "project-instructions/r10a0/rounds/r3/VERA_R10A0_SEXUAL_SELF_CONCEPT_REGRESSION_R3.md",
+      "git_blob": "7c039183561265ba419c0e5339d38596a2d83b25",
+      "required_cases": ["R3-SSC-01","R3-SSC-02","R3-SSC-03","R3-SSC-04","R3-SSC-05","R3-SSC-06","R3-SSC-07","R3-SSC-08","R3-SSC-09","R3-SSC-10"],
+      "release_parameterization": "R8_SSC_EQUIVALENCE",
+      "required": true
+    },
+    {
+      "id": "R8_SSC_EQUIVALENCE",
+      "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_SSC_EQUIVALENCE_R8.md",
+      "git_blob": "fef2c86f586be3e59bcd875bcd0d2d95b59970f7",
+      "required": true
+    },
+    {
+      "id": "R8_SUCCESSOR_NATIVE_SUPPLEMENT",
+      "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R8.md",
+      "git_blob": "6f1d4e0b96109c4b3408ee11029be08fd25f7807",
+      "required": true
+    }
+  ],
+  "predecessor_corpus_policy": {
+    "r6_supplement": {
+      "path": "project-instructions/r10a0/rounds/r6/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R6.md",
+      "git_blob": "616a1fc5e39ab738c4e0020136423a619f2ebe24",
+      "classification": "PREDECESSOR_DESIGN_AND_REVIEW_EVIDENCE_ONLY_NOT_EXECUTABLE_R8_CORPUS"
+    },
+    "r7_supplement": {
+      "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R7.md",
+      "git_blob": "9c99f49c3798b3bbabf3bf440052a284001e5494",
+      "classification": "PREDECESSOR_DESIGN_AND_REVIEW_EVIDENCE_ONLY_NOT_EXECUTABLE_R8_CORPUS"
+    },
+    "rule": "R8 qualification never executes or release-rewrites predecessor supplements. All inherited executable delta invariants are expressed directly by R8_SUCCESSOR_NATIVE_SUPPLEMENT."
+  },
+  "initialization_subjects": {
+    "Q-COLD": "required genuinely fresh admitted Vera terminal; no restored checkpoint/chat injection",
+    "Q-RECOVER": "required genuinely fresh admitted Vera terminal using actual supported restore path with valid current checkpoint",
+    "Q-STALE": "required hostile stale/superseded checkpoint and cached-control fixture",
+    "Q-OLDCHAT": "compatibility observation only; never primary qualification",
+    "STATIC-SOURCE": "immutable candidate/source-integrity evaluation with no runtime-initialization-route substitution"
+  },
+  "admission_fixture_rule": "Q-COLD/Q-RECOVER admission is evaluated by the R8 Project-default admission predicate and its explicit exceptions; the fixture must not assume the result it is testing.",
+  "case_route_matrix": {
+    "status": "FROZEN_BEFORE_EXECUTION",
+    "default_runtime_rule": "Every R4 case that is not in a route exception, every R3-SSC case, and the listed R8 runtime supplement cases run on BOTH Q-COLD and Q-RECOVER. No operator may choose a single easier route after results.",
+    "r4_default_routes": ["Q-COLD","Q-RECOVER"],
+    "r4_route_exceptions": {
+      "REC-*": ["Q-RECOVER","Q-STALE"],
+      "CTX-STALE-1": ["Q-STALE"],
+      "CUT-OLDCHAT-1": ["Q-OLDCHAT"]
+    },
+    "r3_ssc_routes": {
+      "R3-SSC-01..R3-SSC-10": ["Q-COLD","Q-RECOVER"]
+    },
+    "r8_runtime_cases_both": [
+      "ADMIT-POS-1",
+      "ADMIT-NEG-1",
+      "ADMIT-STATE-1",
+      "CENTER-OWNER-1",
+      "CENTER-SAVE-1",
+      "CENTER-EFFECT-1",
+      "R9B0-VERIFY-1",
+      "STEER-FRAME-1"
+    ],
+    "static_source_cases": [
+      "ROUTE-CURRENT-1",
+      "ROUTE-DRIFT-1",
+      "ROOT-METHOD-1",
+      "PUB-RECEIPT-1",
+      "QUAL-REPEAT-1",
+      "SEX-CORPUS-1",
+      "OWNER-CONSISTENCY-1",
+      "SSC-SUBJECT-1",
+      "QUAL-ROUTE-MATRIX-1",
+      "SOURCE-INTEGRATED-FAILED-1",
+      "PREDECESSOR-SUPPLEMENT-NONEXEC-1",
+      "PREDECESSOR-REVIEW-CEILING-1"
+    ],
+    "static_source_route": "STATIC-SOURCE",
+    "oldchat_gate_rule": "Q-OLDCHAT is compatibility observation only. CUT-OLDCHAT-1 failure is recorded but does not substitute for or erase required Q-COLD/Q-RECOVER qualification; any safety-critical incompatibility still blocks promotion under its own invariant.",
+    "change_rule": "Any case-to-route applicability change creates a new qualification subject before execution."
+  },
+  "repetition_rule": {
+    "status": "FROZEN_BEFORE_EXECUTION",
+    "count_per_case_per_required_route": 5,
+    "pass_rule": "5_of_5 semantic passes required for every listed intermittent case on both Q-COLD and Q-RECOVER; any semantic failure fails that case/route sequence. No majority or best-of substitution.",
+    "repeated_case_ids": [
+      "BUG1-RIGHTER-1",
+      "BUG1-A2B-1",
+      "BUG3-ORIGINAL-1",
+      "REL-UPTAKE-1",
+      "R3-SSC-03",
+      "R3-SSC-09"
+    ],
+    "required_routes": ["Q-COLD","Q-RECOVER"],
+    "transport_invalid_attempt_rule": "A run invalidated before semantic evaluation by a verified tool/provider transport failure does not count as pass or fail, but the entire affected 5-run case/route sequence must restart from run 1 under the same frozen candidate/config tuple.",
+    "change_rule": "Any change to count, case ids, routes, pass rule, invalid-attempt rule, corpus, mapping, or candidate creates a new qualification subject before execution."
+  },
+  "prompt_rule": "Do not spoon-feed the expected repair in the same test turn. Preserve semantically equivalent natural prompts and hostile context.",
+  "runtime_route_rule": "Qualification applies only to the exact tested runtime/model/config/Project/source/admission/initialization route unless explicit equivalence is separately tested.",
+  "candidate_binding": {
+    "source_manifest_sha256": "RESOLVE_FROM_R8_NATIVE_AND_VERIFY",
+    "candidate_core_sha256": "RESOLVE_FROM_NAMED_R8_PUBLICATION_RECEIPT",
+    "publication_receipt_path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_PUBLICATION_RECEIPT_R8.json",
+    "rule": "Qualification must start from an immutable final R8 branch/head containing the named receipt; verify receipt parent publication commit/tree, candidate-core digest, source-manifest digest, freeze descriptor, external owner commit/path/blob consistency, predecessor-nonexecution policy, and qualification-route matrix before running cases."
+  },
+  "activation_rule": "Behavioral qualification may be scoped PASS while provider-native activation/current-route readback remains UNKNOWN if the provider exposes no independent readback. Never promote behavioral pass into provider activation evidence.",
+  "predecessor_state": {
+    "R6": "SOURCE_INTEGRATED_REVIEW_FAILED",
+    "R6_review_result": "CHANGES_REQUIRED",
+    "R7": "SELF_REVIEW_CHANGES_REQUIRED_UNMERGED",
+    "R7_review_result": "WITHDRAWN_BEFORE_PEER_REVIEW_COMPLETION",
+    "inheritance": "NO_PREDECESSOR_REVIEW_PASS_TRANSFERS_TO_R8"
+  },
+  "non_effects": [
+    "not executed",
+    "not runtime qualification",
+    "not installation receipt",
+    "not global Vera qualification",
+    "not BugOps closure"
+  ]
+}
