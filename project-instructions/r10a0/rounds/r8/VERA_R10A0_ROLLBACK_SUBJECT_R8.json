@@ -1,0 +1,42 @@
+{
+  "schema": "VERA_R10A0_ROLLBACK_SUBJECT_R8_V1",
+  "status": "PARTIAL_PRE_CUT_CAPTURE_NOT_EXECUTABLE_ROLLBACK",
+  "release": "R10A0",
+  "round_id": "R8",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "target": {
+    "logical_project": "VERA_UNBOUND_PROJECT",
+    "provider_project_id_readback": "UNKNOWN_IN_BUILD_ENVIRONMENT"
+  },
+  "source_predecessor_state": {
+    "vera_control_plane_main": "3a0f0fcb8db842bb4641959bfbfdb0737136b28d",
+    "contains": "R6 source bytes",
+    "R6_review_state": "SOURCE_INTEGRATED_REVIEW_FAILED",
+    "R6_runtime_state": "NOT_ESTABLISHED",
+    "R7_source_state": "UNMERGED_SELF_REVIEW_FAILED_PRESERVED",
+    "R7_runtime_state": "NOT_ESTABLISHED"
+  },
+  "known_predecessor_project_bootstrap_evidence": {
+    "release": "V1.2",
+    "full_owner_logical_id": "VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS",
+    "full_owner_sha256": "4159587645ace01efa4ff6f40e809ee5f6fd647177717d674c2df0cbde1fcb93",
+    "project_source_manifest_sha256": "28cc3f1e73b046dace26dd1f8635ca947c5ff6f02140c4d8a135b73064cddb5a",
+    "evidence_class": "KNOWN_SOURCE_BYTES_AND_CURRENT_PROJECT_BOOTSTRAP_REFERENCE"
+  },
+  "cutover_gate": "Before any native R10 install, capture exact provider-live Project Settings bytes and complete Project Source inventory/bytes/digests through available provider interfaces. If exact restoration remains unavailable, rollback fidelity stays PARTIAL/UNKNOWN and Patrick must explicitly accept that cutover risk.",
+  "not_captured_here": [
+    "exact provider-live Project Settings bytes independently read back immediately before cutover",
+    "complete provider-live Project Source inventory with exact bytes/digests immediately before cutover",
+    "provider-native activation/current-routing state if not exposed",
+    "independent automated restoration primitive for native Project Settings/source inventory"
+  ],
+  "restoration_method": "USER_MEDIATED_OR_PROVIDER_TOOLING_AS_AVAILABLE_AT_CUTOVER; NOT_CLAIMED_AUTOMATED",
+  "non_effects": [
+    "does not authorize install",
+    "does not authorize merge",
+    "does not delete sources",
+    "does not prove current live Settings equal repository source files",
+    "does not prove rollback executable",
+    "does not promote R6, R7, or R8 to runtime state"
+  ]
+}
