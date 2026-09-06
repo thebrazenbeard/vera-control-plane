@@ -1,0 +1,62 @@
+{
+  "schema": "VERA_R10A0_PUBLICATION_RECEIPT_R8_V1",
+  "status": "IMMUTABLE_PUBLICATION_BINDING_SOURCE_ONLY_NOT_INSTALLED",
+  "release": "R10A0",
+  "round_id": "R8",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "work/r10a0-frozen-r8-20260905",
+  "candidate_core_sha256": "ed58db2c1988969bf9b702a694d35507ec800f89016b30a8c5e0bc244e013381",
+  "source_manifest_sha256": "a607be83838a0bfa65aeaf224a4f43900cd1d8c76e95da4459d2ca6379dc5c14",
+  "native": {
+    "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_NATIVE_PROJECT_INSTRUCTIONS_R8.txt",
+    "git_blob": "a22a381ba8f29aaaa7b5b441869ea93c163f4722",
+    "utf8_bytes": 7899,
+    "manifest_pin_sha256": "a607be83838a0bfa65aeaf224a4f43900cd1d8c76e95da4459d2ca6379dc5c14"
+  },
+  "freeze_descriptor": {
+    "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_CANDIDATE_FREEZE_R8.json",
+    "git_blob": "364c676a826bdd103fc2547608345f0e2f5a14c3"
+  },
+  "pre_receipt_publication_subject": {
+    "commit": "f5b6c9ca92ff9b5c017f839bb328dfd52451e02a",
+    "tree": "40edf494d137cad4a4faa0d74e7bbb28c5454830"
+  },
+  "external_owner_consistency": {
+    "bus_topology": {
+      "repository": "thebrazenbeard/chat-communication-bus",
+      "commit": "712992d96dc813d0fa38094ef1f1fec0dfdc0d3e",
+      "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+      "git_blob": "8b7cb3deff0ee7f15151f5be0ede19c8c1194adc",
+      "bound_vera_writer_lane": "bus/vera-v2",
+      "readback": "VERIFIED_BEFORE_FREEZE"
+    }
+  },
+  "qualification_corpus": {
+    "normative": [
+      "R4_HOSTILE",
+      "R3_SEXUAL_SELF_CONCEPT_SEMANTIC_BASIS_THROUGH_R8_SSC_EQUIVALENCE",
+      "R8_SUCCESSOR_NATIVE_SUPPLEMENT"
+    ],
+    "binding": "VERA_R10A0_QUALIFICATION_MANIFEST_R8.json",
+    "predecessor_r6_r7_supplements": "EVIDENCE_ONLY_NOT_EXECUTABLE_NOT_CANDIDATE_CORE"
+  },
+  "receipt_commit_rule": "The immutable review/qualification head is the commit that creates this receipt. Its sole immediate parent must equal pre_receipt_publication_subject.commit. Verify branch readback, receipt blob, parent, tree ancestry, source-manifest SHA-256, native size/pin, and candidate-core recomputation before relying on this binding.",
+  "candidate_core_excludes": [
+    "project-instructions/r10a0/rounds/r8/VERA_R10A0_CANDIDATE_FREEZE_R8.json",
+    "project-instructions/r10a0/rounds/r8/VERA_R10A0_PUBLICATION_RECEIPT_R8.json",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R6.md",
+    "project-instructions/r10a0/rounds/r7/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R7.md"
+  ],
+  "reason_for_exclusion": "Publication metadata is excluded to avoid circular self-binding. R6/R7 supplements are predecessor release-specific evidence excluded to prevent semantic inheritance/reinterpretation into the R8 qualification subject.",
+  "review_rule": "Blind review must bind this exact R8 receipt commit/head and independently attack predecessor-supplement nonexecution, exact owner consistency, admission, centering scope, route drift/currentness, R9B0 verification, SSC parameterization, route matrix, repetition policy, digest recomputation, publication chain, privacy, rollback honesty, and source/install/runtime separation.",
+  "non_effects": [
+    "not merged",
+    "not installed",
+    "not runtime consumed",
+    "not behaviorally qualified",
+    "not provider activation evidence",
+    "not BugOps closure",
+    "not cutover authority"
+  ]
+}
