@@ -1,0 +1,182 @@
+name: R10A1 salience source validation
+
+on:
+  pull_request:
+    paths:
+      - "project-instructions/r10a1/**"
+      - ".github/workflows/r10a1-validation.yml"
+      - "docs/superpowers/specs/2026-09-06-r10a1-salience-arbitration-design.md"
+      - "docs/superpowers/plans/2026-09-06-r10a1-salience-arbitration.md"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-r10a1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify exact R10A0 base and predecessor immutability
+        shell: bash
+        run: |
+          set -euo pipefail
+          base=2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64
+          git cat-file -e "${base}^{commit}"
+          git merge-base --is-ancestor "$base" HEAD
+          if git diff --name-status "$base"...HEAD | awk '$2 ~ /^project-instructions\/r10a0\// {print; bad=1} END {exit bad ? 0 : 1}' | grep -q .; then
+            echo "R10A0 predecessor path changed in R10A1 candidate" >&2
+            git diff --name-status "$base"...HEAD | grep 'project-instructions/r10a0/' >&2 || true
+            exit 1
+          fi
+
+      - name: Validate R10A1 test-first source contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import subprocess
+          from pathlib import Path
+
+          root = Path('.')
+          r = root / 'project-instructions' / 'r10a1'
+
+          required = {
+              'regression': r / 'VERA_R10A1_SALIENCE_REGRESSION.md',
+              'baseline': r / 'VERA_R10A1_BASELINE_RED.md',
+              'owner': r / 'VERA_R10A1_SALIENCE_ARBITRATION.md',
+              'native_delta': r / 'VERA_R10A1_NATIVE_DELTA.txt',
+              'native': r / 'VERA_R10A1_NATIVE_PROJECT_INSTRUCTIONS.txt',
+              'registry': r / 'VERA_R10A1_CONTROL_REGISTRY.json',
+              'manifest': r / 'VERA_R10A1_PROJECT_SOURCE_MANIFEST.json',
+              'freeze': r / 'VERA_R10A1_CANDIDATE_FREEZE.json',
+              'receipt': r / 'VERA_R10A1_PUBLICATION_RECEIPT.json',
+          }
+          missing = [str(p) for p in required.values() if not p.is_file()]
+          assert not missing, f'missing implementation artifacts: {missing}'
+
+          regression = required['regression'].read_text(encoding='utf-8')
+          baseline = required['baseline'].read_text(encoding='utf-8')
+          owner = required['owner'].read_text(encoding='utf-8')
+          delta = required['native_delta'].read_text(encoding='utf-8')
+          native = required['native'].read_text(encoding='utf-8')
+
+          case_ids = [
+              'SAL-CORR-1','SAL-ACT-1','SAL-LOCAL-1','SAL-TECH-1',
+              'SAL-PROV-1','SAL-SELF-1','SAL-CAUSE-1','SAL-BOUND-1','SAL-COMPOSE-1'
+          ]
+          for cid in case_ids:
+              assert cid in regression, f'missing frozen case {cid}'
+          assert 'first eligible behavior' in regression.lower()
+          assert '5/5' in regression
+          assert 'automatic inversion' in regression.lower() or 'unsupported anti' in regression.lower()
+          assert 'R10A0_FIRST_ELIGIBLE_BEHAVIOR_CAUSALITY = FAIL_ON_OBSERVED_CASES' in baseline
+
+          required_owner_terms = [
+              'SALIENCE_ARBITRATION',
+              'CORRECTION_INTERRUPT',
+              'EXACT_PROPOSITION',
+              'ACTIONABILITY',
+              'LOCAL_CONTEXT_ARBITRATION',
+              'PROVENANCE_UNCERTAINTY',
+              'SELF_RELATIONAL_COMPOSITION',
+              'old_claim', 'corrected_scope', 'invalidated_dependents',
+              'surviving_claims', 'newly_unknown_fields', 'corrected_target',
+              'first eligible behavior',
+          ]
+          for term in required_owner_terms:
+              assert term.lower() in owner.lower(), f'owner missing {term}'
+          assert 'surface-marker quota' in owner.lower() or 'surface marker' in owner.lower()
+          assert 'platform' in owner.lower() and 'authority' in owner.lower()
+          assert 'relational > technical' in owner.lower() or 'blanket' in owner.lower()
+
+          required_delta_terms = [
+              'SALIENCE_ARBITRATION','correction','action','local','provenance','self/relationship','authority'
+          ]
+          for term in required_delta_terms:
+              assert term.lower() in delta.lower(), f'native delta missing {term}'
+          assert len(delta.encode('utf-8')) <= 900, 'native delta is not minimal'
+
+          native_bytes = len(native.encode('utf-8'))
+          assert native_bytes <= 8000, f'native Project Instructions exceed 8000 bytes: {native_bytes}'
+          assert 'VERA UNBOUND — NATIVE R10A1' in native
+          assert 'SALIENCE_ARBITRATION' in native
+          assert 'ROOT:R10A1' in native
+
+          registry = json.loads(required['registry'].read_text(encoding='utf-8'))
+          manifest = json.loads(required['manifest'].read_text(encoding='utf-8'))
+          freeze = json.loads(required['freeze'].read_text(encoding='utf-8'))
+          receipt = json.loads(required['receipt'].read_text(encoding='utf-8'))
+
+          assert registry['release'] == 'R10A1'
+          assert registry['base_r10a0_main'] == '2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64'
+          assert registry['controls']['SALIENCE_ARBITRATION']['owner'] == 'SALIENCE_ARBITRATION_OWNER'
+          assert manifest['release'] == 'R10A1'
+          assert manifest['base_r10a0_main'] == registry['base_r10a0_main']
+
+          def blob(path: Path) -> str:
+              return subprocess.check_output(['git','hash-object',str(path)], text=True).strip()
+
+          actual = {name: blob(path) for name, path in required.items() if name not in {'freeze','receipt'}}
+          assert registry['owners']['SALIENCE_ARBITRATION_OWNER']['git_blob'] == actual['owner']
+          assert registry['qualification']['salience_regression_blob'] == actual['regression']
+          assert manifest['artifacts']['salience_owner']['git_blob'] == actual['owner']
+          assert manifest['artifacts']['salience_regression']['git_blob'] == actual['regression']
+          assert manifest['artifacts']['native_delta']['git_blob'] == actual['native_delta']
+          assert manifest['artifacts']['control_registry']['git_blob'] == actual['registry']
+
+          manifest_sha = hashlib.sha256(required['manifest'].read_bytes()).hexdigest()
+          assert manifest_sha in native, 'native does not pin exact R10A1 manifest SHA-256'
+          assert freeze['source_manifest_sha256'] == manifest_sha
+          assert receipt['source_manifest']['sha256'] == manifest_sha
+          assert receipt['source_manifest']['git_blob'] == actual['manifest']
+          assert receipt['freeze_descriptor']['git_blob'] == blob(required['freeze'])
+          assert receipt['cross_bind']['salience_owner_blob'] == actual['owner']
+          assert receipt['cross_bind']['salience_regression_blob'] == actual['regression']
+          assert receipt['cross_bind']['control_registry_blob'] == actual['registry']
+          assert receipt['cross_bind']['native_blob'] == actual['native']
+
+          core_names = ['regression','baseline','owner','native_delta','native','registry']
+          records = []
+          for name in core_names:
+              path = required[name].as_posix()
+              records.append(path.encode() + b'\0' + actual[name].encode() + b'\n')
+          records.sort()
+          records.append(b'manifest_sha256\0' + manifest_sha.encode() + b'\n')
+          core = hashlib.sha256(b''.join(records)).hexdigest()
+          assert freeze['candidate_core_sha256'] == core
+          assert receipt['candidate_core_sha256'] == core
+
+          assert 'runtime qualified' not in owner.lower()
+          assert receipt['status'] == 'IMMUTABLE_PUBLICATION_BINDING_SOURCE_ONLY_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED'
+          assert 'not BugOps closure' in receipt['non_effects']
+
+          def intro_commit(path: Path) -> str:
+              out = subprocess.check_output([
+                  'git','log','--diff-filter=A','--format=%H','--reverse','--',str(path)
+              ], text=True).strip().splitlines()
+              assert out, f'no introduction commit for {path}'
+              return out[0]
+          regression_intro = intro_commit(required['regression'])
+          owner_intro = intro_commit(required['owner'])
+          rc = subprocess.run(['git','merge-base','--is-ancestor',regression_intro,owner_intro]).returncode
+          assert rc == 0 and regression_intro != owner_intro, 'regression must be committed before owner implementation'
+
+          parents = subprocess.check_output(['git','rev-list','--parents','-n','1','HEAD'], text=True).strip().split()
+          assert len(parents) == 2, 'receipt review head must have exactly one parent'
+          pre_commit = parents[1]
+          pre_tree = subprocess.check_output(['git','show','-s','--format=%T',pre_commit], text=True).strip()
+          assert receipt['pre_receipt_publication_subject']['commit'] == pre_commit
+          assert receipt['pre_receipt_publication_subject']['tree'] == pre_tree
+
+          print('R10A1 static/source validation PASS')
+          print(f'native_bytes={native_bytes}')
+          print(f'manifest_sha256={manifest_sha}')
+          print(f'candidate_core_sha256={core}')
+          print(f'pre_receipt_commit={pre_commit}')
+          print(f'pre_receipt_tree={pre_tree}')
+          PY
