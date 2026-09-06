@@ -1,6 +1,6 @@
 {
   "schema": "VERA_R10A0_RELEASE_CONTROL_REGISTRY_R8_V1",
-  "status": "SOURCE_CANDIDATE_PRE_FREEZE_NOT_INSTALLED",
+  "status": "FROZEN_SOURCE_CANDIDATE_NOT_INSTALLED",
   "release": "R10A0",
   "round_id": "R8",
   "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
@@ -19,7 +19,7 @@
       "logical_id": "VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS",
       "repository": "thebrazenbeard/vera-control-plane",
       "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R8.md",
-      "git_blob": "c760236487ef0230aa6b3ff2d0af43592ee531c2"
+      "git_blob": "588d37c0dfb92008ea87b55a1a68f965dbaf24e5"
     },
     "DOMAIN_CONTROLS": {
       "authority_class": "RELEASE_BOUND_RETRIEVABLE_CONTROL_OWNER",
@@ -35,14 +35,7 @@
       "immutable_basis_commit": "519eeb1551fcb59963a321766252bc62067da71b",
       "path": "protocol/VERA_CENTER_YOURSELF_PROTOCOL_V1.md",
       "git_blob": "30ee695064dd57b5ce43eb571fa183730de1808d",
-      "active_scope": [
-        "Trigger:center yourself",
-        "Purpose:center",
-        "Non-restorative save firewall",
-        "Required pass",
-        "Save-state contract",
-        "Completion semantics"
-      ],
+      "active_scope": ["Trigger:center yourself","Purpose:center","Non-restorative save firewall","Required pass","Save-state contract","Completion semantics"],
       "excluded_scope": "Restore/recovery sections in this historical protocol do not supersede REC_RECOVERY; co-location grants no authority outside active_scope.",
       "currentness_policy": "R8 intentionally release-pins this exact SAVE owner. A successor requires a new explicit control cut; nearest/newest search result cannot replace it."
     },
@@ -55,7 +48,7 @@
       "scope": "required_writer_lanes.vera and current_protocol_branch for R8 Bus-routing currentness",
       "bound_vera_writer_lane": "bus/vera-v2",
       "historical_lane": "bus/vera-sol-v1",
-      "consistency_readback": "VERIFIED repository@commit:path before R8 registry publication",
+      "consistency_readback": "VERIFIED repository@commit:path before R8 freeze",
       "drift_policy": "Material topology change does not silently inherit R8 qualification; dependent routing must enter a new control cut or remain CONFLICT/UNKNOWN."
     },
     "QUALIFICATION_R4": {
@@ -84,7 +77,7 @@
       "authority_class": "QUALIFICATION_SUCCESSOR_NATIVE_DELTA",
       "repository": "thebrazenbeard/vera-control-plane",
       "path": "project-instructions/r10a0/rounds/r8/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R8.md",
-      "git_blob": "6f1d4e0b96109c4b3408ee11029be08fd25f7807"
+      "git_blob": "4f7dd91284075beec08cb35d6185159bb5727f16"
     },
     "QUALIFICATION_MANIFEST": {
       "authority_class": "QUALIFICATION_BINDING",
@@ -106,21 +99,13 @@
     }
   },
   "evidence_only_predecessor_qualification": {
-    "R6_SUPPLEMENT": {
-      "path": "project-instructions/r10a0/rounds/r6/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R6.md",
-      "git_blob": "616a1fc5e39ab738c4e0020136423a619f2ebe24",
-      "classification": "PREDECESSOR_EVIDENCE_NOT_CONTROL"
-    },
-    "R7_SUPPLEMENT": {
-      "path": "project-instructions/r10a0/rounds/r7/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R7.md",
-      "git_blob": "9c99f49c3798b3bbabf3bf440052a284001e5494",
-      "classification": "PREDECESSOR_EVIDENCE_NOT_CONTROL"
-    }
+    "R6_SUPPLEMENT": {"path":"project-instructions/r10a0/rounds/r6/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R6.md","git_blob":"616a1fc5e39ab738c4e0020136423a619f2ebe24","classification":"PREDECESSOR_EVIDENCE_NOT_CONTROL"},
+    "R7_SUPPLEMENT": {"path":"project-instructions/r10a0/rounds/r7/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R7.md","git_blob":"9c99f49c3798b3bbabf3bf440052a284001e5494","classification":"PREDECESSOR_EVIDENCE_NOT_CONTROL"}
   },
   "controls": [
-    {"control_id":"IDENTITY_ADMISSION","domain":"vera_endpoint_admission","owner":"FULL_OWNER","section":"1. Identity, admission, and reality boundary"},
-    {"control_id":"GENERIC_STEERING","domain":"frame_widening_steering","owner":"FULL_OWNER","section":"5. Command interface, interrupts, and steering"},
-    {"control_id":"MEM_R9B0_VERIFY","domain":"r9b0_active_memory_verification","owner":"FULL_OWNER","section":"7. Memory, continuity, and R9B0"},
+    {"control_id":"IDENTITY_ADMISSION","domain":"vera_endpoint_admission","owner":"FULL_OWNER","section":"1. Identity, admission, reality boundary"},
+    {"control_id":"GENERIC_STEERING","domain":"frame_widening_steering","owner":"FULL_OWNER","section":"5. Interrupts and steering"},
+    {"control_id":"MEM_R9B0_VERIFY","domain":"r9b0_active_memory_verification","owner":"FULL_OWNER","section":"7. Memory / continuity / R9B0"},
     {"control_id":"CENTER_SAVE","domain":"center_yourself_save","owner":"CENTER_SAVE_OWNER","scope":"active_scope only"},
     {"control_id":"BUS_ROUTE_CURRENT","domain":"bus_current_writer_routing","owner":"BUS_TOPOLOGY_OWNER","scope":"required_writer_lanes.vera"},
     {"control_id":"SER_STATE_MODEL","domain":"evidence_state_reporting","owner":"DOMAIN_CONTROLS","section":"SER_STATE_MODEL"},
@@ -133,13 +118,7 @@
     {"control_id":"CUT_R10_RELEASE","domain":"cutover_rollback_qualification","owner":"DOMAIN_CONTROLS","section":"CUT_R10_RELEASE"},
     {"control_id":"SEXUAL_SELF_CONCEPT","domain":"vera_sexuality","owner":"DOMAIN_CONTROLS","section":"SEXUAL_SELF_CONCEPT","source_binding":{"repository":"thebrazenbeard/sexuality","ref":"work/vera-sexuality-mona-lisa-integration-20260904","commit":"d871da3e8a7ac7218d53c2e6b1757b4dab330f59","path":"research/12-vera-current-self-application-mona-lisa-vito.md","git_blob":"7ab5732847d779c4aa70c8ec2aa4087cec91ad38","status":"CURRENT_LIVE_SELF_APPLICATION_EXPERIMENTAL_NOT_QUALIFIED"}}
   ],
-  "qualification_set": [
-    "QUALIFICATION_R4",
-    "QUALIFICATION_R3_SSC_BASIS",
-    "QUALIFICATION_R8_SSC_EQUIVALENCE",
-    "QUALIFICATION_R8_SUPPLEMENT",
-    "QUALIFICATION_MANIFEST"
-  ],
+  "qualification_set": ["QUALIFICATION_R4","QUALIFICATION_R3_SSC_BASIS","QUALIFICATION_R8_SSC_EQUIVALENCE","QUALIFICATION_R8_SUPPLEMENT","QUALIFICATION_MANIFEST"],
   "supersession": [
     {"old":"R7 normative R6 release-specific qualification supplement","new":"R8 successor-native qualification supplement","status":"SUPERSEDED_FOR_R8_EXECUTION"},
     {"old":"R7 release-specific SSC parameterization","new":"R8 SSC equivalence mapping","status":"SUPERSEDED_FOR_R8_EXECUTION"},
