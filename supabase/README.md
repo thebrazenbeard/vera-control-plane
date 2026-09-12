@@ -25,6 +25,8 @@ The initial migration files mirror the three provider-hardening migrations alrea
 
 They create no Vera runtime-state domain tables.
 
+The runtime-plane substrate migration `20260912183000_initialize_runtime_planes.sql` is a byte-identical promoted copy from `thebrazenbeard/vera@50c155f9715183b48ddcb404a53bb16c148b323e`. It is `SOURCE_BOUND_NOT_APPLIED`: present for controlled deployment custody, not evidence of installation or current-route activation.
+
 ## Deployment policy
 
 GitHub integration may bind this repository to the Supabase project, using repository root `.` as the working directory. `Deploy to production` remains disabled until Patrick separately authorizes activation after review. Supabase branching is not enabled by this baseline.

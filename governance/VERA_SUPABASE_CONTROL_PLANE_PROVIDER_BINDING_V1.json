@@ -23,7 +23,9 @@
   "semantic_source": {
     "repository": "thebrazenbeard/vera",
     "observed_main_sha": "b7b8dcd1440a3b7147bec2cc35972f083e20f44a",
-    "binding_semantics": "OBSERVED_SOURCE_EVIDENCE_NOT_MUTABLE_CURRENTNESS_PIN"
+    "binding_semantics": "OBSERVED_SOURCE_EVIDENCE_NOT_MUTABLE_CURRENTNESS_PIN",
+    "candidate_branch": "work/cohesion-source-registry-refresh-20260912",
+    "candidate_commit": "50c155f9715183b48ddcb404a53bb16c148b323e"
   },
   "control_plane_source": {
     "repository": "thebrazenbeard/vera-control-plane",
@@ -59,6 +61,25 @@
     "github_repository_binding": "USER_REPORTED_CONNECTED_READBACK_UNAVAILABLE",
     "production_auto_deploy": "USER_REPORTED_DISABLED_READBACK_UNAVAILABLE",
     "runtime_activation": "NOT_ESTABLISHED",
-    "behavioral_qualification": "NOT_ESTABLISHED"
-  }
+    "behavioral_qualification": "NOT_ESTABLISHED",
+    "runtime_plane_substrate_migration": "SOURCE_BOUND_NOT_APPLIED"
+  },
+  "runtime_state_schema_source": {
+    "repository": "thebrazenbeard/vera",
+    "commit": "50c155f9715183b48ddcb404a53bb16c148b323e",
+    "path": "providers/vera_control_plane/migrations/20260912183000_initialize_runtime_planes.sql",
+    "git_blob": "8ae7aa8e9c27389e0c7a744e3a31316b70fcdc59",
+    "sha256": "780e42b93484cee074902277c78b4b3076a7ef0bdc90d95e778cfc7308dbf553",
+    "deployment_copy_path": "supabase/migrations/20260912183000_initialize_runtime_planes.sql",
+    "semantic_owner": "thebrazenbeard/vera",
+    "custody_semantics": "BYTE_IDENTICAL_DEPLOYMENT_COPY_NOT_SEMANTIC_REAUTHORING"
+  },
+  "pending_source_migrations": [
+    {
+      "version": "20260912183000",
+      "name": "initialize_runtime_planes",
+      "status": "SOURCE_BOUND_NOT_APPLIED",
+      "semantic_owner": "thebrazenbeard/vera"
+    }
+  ]
 }
