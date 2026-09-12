@@ -25,7 +25,7 @@
     "observed_main_sha": "b7b8dcd1440a3b7147bec2cc35972f083e20f44a",
     "binding_semantics": "OBSERVED_SOURCE_EVIDENCE_NOT_MUTABLE_CURRENTNESS_PIN",
     "candidate_branch": "work/cohesion-source-registry-refresh-20260912",
-    "candidate_commit": "50c155f9715183b48ddcb404a53bb16c148b323e"
+    "candidate_commit": "719658fb75d783b34fb884ae707a6bee6b2c63b6"
   },
   "control_plane_source": {
     "repository": "thebrazenbeard/vera-control-plane",
@@ -62,7 +62,8 @@
     "production_auto_deploy": "USER_REPORTED_DISABLED_READBACK_UNAVAILABLE",
     "runtime_activation": "NOT_ESTABLISHED",
     "behavioral_qualification": "NOT_ESTABLISHED",
-    "runtime_plane_substrate_migration": "SOURCE_BOUND_NOT_APPLIED"
+    "runtime_plane_substrate_migration": "SOURCE_BOUND_NOT_APPLIED",
+    "predecessor_import_staging_migration": "SOURCE_BOUND_NOT_APPLIED"
   },
   "runtime_state_schema_source": {
     "repository": "thebrazenbeard/vera",
@@ -80,6 +81,23 @@
       "name": "initialize_runtime_planes",
       "status": "SOURCE_BOUND_NOT_APPLIED",
       "semantic_owner": "thebrazenbeard/vera"
+    },
+    {
+      "version": "20260912193000",
+      "name": "create_predecessor_import_staging",
+      "status": "SOURCE_BOUND_NOT_APPLIED",
+      "semantic_owner": "thebrazenbeard/vera"
     }
-  ]
+  ],
+  "predecessor_import_schema_source": {
+    "repository": "thebrazenbeard/vera",
+    "commit": "719658fb75d783b34fb884ae707a6bee6b2c63b6",
+    "path": "providers/vera_control_plane/migrations/20260912193000_create_predecessor_import_staging.sql",
+    "git_blob": "0f486c7af34b3346380e3249d49d551499388d44",
+    "sha256": "daf6f99e26f828cfc2a583bb498564112dfacec4c78d362617594360e3e81351",
+    "deployment_copy_path": "supabase/migrations/20260912193000_create_predecessor_import_staging.sql",
+    "semantic_owner": "thebrazenbeard/vera",
+    "custody_semantics": "BYTE_IDENTICAL_DEPLOYMENT_COPY_NOT_SEMANTIC_REAUTHORING",
+    "payload_migration_authority": "NOT_GRANTED_BY_SOURCE_BINDING"
+  }
 }
