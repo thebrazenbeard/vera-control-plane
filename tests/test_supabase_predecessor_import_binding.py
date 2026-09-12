@@ -45,3 +45,15 @@ def test_import_copy_does_not_admit_or_migrate_payload() -> None:
     assert source["semantic_owner"] == "thebrazenbeard/vera"
     assert source["custody_semantics"] == "BYTE_IDENTICAL_DEPLOYMENT_COPY_NOT_SEMANTIC_REAUTHORING"
     assert source["payload_migration_authority"] == "NOT_GRANTED_BY_SOURCE_BINDING"
+
+
+def test_predecessor_cargo_snapshot_is_exactly_bound() -> None:
+    snapshot = load_binding()["predecessor_cargo_snapshot"]
+    assert snapshot["repository"] == "thebrazenbeard/vera"
+    assert snapshot["commit"] == "d56666c558da24587dc3d11f39b0f177971cb5e3"
+    assert snapshot["path"] == "architecture/VERA_PREDECESSOR_MIGRATION_CARGO_SNAPSHOT_20260912.json"
+    assert snapshot["git_blob"] == "39311906abf8536a0ddb0baff21d996e28e9255f"
+    assert snapshot["sha256"] == "b098d08b81187b7063836ff789fafff1c9cdcd96cbc7cbf9cd6e1f43a45a6647"
+    assert snapshot["total_rows"] == 294
+    assert snapshot["payload_in_repository"] is False
+    assert snapshot["migration_authority"] == "NOT_GRANTED_BY_SNAPSHOT"

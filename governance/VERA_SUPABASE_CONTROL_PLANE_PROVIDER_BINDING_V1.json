@@ -25,7 +25,7 @@
     "observed_main_sha": "b7b8dcd1440a3b7147bec2cc35972f083e20f44a",
     "binding_semantics": "OBSERVED_SOURCE_EVIDENCE_NOT_MUTABLE_CURRENTNESS_PIN",
     "candidate_branch": "work/cohesion-source-registry-refresh-20260912",
-    "candidate_commit": "719658fb75d783b34fb884ae707a6bee6b2c63b6"
+    "candidate_commit": "d56666c558da24587dc3d11f39b0f177971cb5e3"
   },
   "control_plane_source": {
     "repository": "thebrazenbeard/vera-control-plane",
@@ -99,5 +99,16 @@
     "semantic_owner": "thebrazenbeard/vera",
     "custody_semantics": "BYTE_IDENTICAL_DEPLOYMENT_COPY_NOT_SEMANTIC_REAUTHORING",
     "payload_migration_authority": "NOT_GRANTED_BY_SOURCE_BINDING"
+  },
+  "predecessor_cargo_snapshot": {
+    "repository": "thebrazenbeard/vera",
+    "commit": "d56666c558da24587dc3d11f39b0f177971cb5e3",
+    "path": "architecture/VERA_PREDECESSOR_MIGRATION_CARGO_SNAPSHOT_20260912.json",
+    "git_blob": "39311906abf8536a0ddb0baff21d996e28e9255f",
+    "sha256": "b098d08b81187b7063836ff789fafff1c9cdcd96cbc7cbf9cd6e1f43a45a6647",
+    "total_rows": 294,
+    "payload_in_repository": false,
+    "migration_authority": "NOT_GRANTED_BY_SNAPSHOT",
+    "binding_semantics": "SOURCE_PROVIDER_READBACK_FRONTIER_ONLY"
   }
 }
