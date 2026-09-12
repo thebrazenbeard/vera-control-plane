@@ -1,0 +1,64 @@
+{
+  "artifact_id": "VERA_SUPABASE_CONTROL_PLANE_PROVIDER_BINDING_V1",
+  "artifact_class": "PROVIDER_DEPLOYMENT_BINDING",
+  "subject": "Vera",
+  "provider": {
+    "kind": "supabase",
+    "project_name": "Vera Control Plane",
+    "project_ref": "fawkirqroyniueeqspif",
+    "region": "us-east-2",
+    "postgres_major": 17,
+    "authority_semantics": "PROVIDER_NOT_CONTROL_AUTHORITY"
+  },
+  "deployment_source": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "production_branch": "main",
+    "working_directory": ".",
+    "github_integration_state": "USER_REPORTED_CONNECTED",
+    "github_integration_evidence": "PATRICK_DIRECT_REPORT_2026-09-12",
+    "github_integration_readback": "UNAVAILABLE_VIA_CURRENT_TOOLING",
+    "production_deploy": "USER_REPORTED_DISABLED_PENDING_REVIEW",
+    "supabase_branching": "USER_REPORTED_DISABLED"
+  },
+  "semantic_source": {
+    "repository": "thebrazenbeard/vera",
+    "observed_main_sha": "b7b8dcd1440a3b7147bec2cc35972f083e20f44a",
+    "binding_semantics": "OBSERVED_SOURCE_EVIDENCE_NOT_MUTABLE_CURRENTNESS_PIN"
+  },
+  "control_plane_source": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "baseline_main_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+    "candidate_branch": "work/supabase-control-plane-binding-20260912"
+  },
+  "installed_baseline_migrations": [
+    {
+      "version": "20260912170153",
+      "name": "harden_public_default_privileges"
+    },
+    {
+      "version": "20260912170345",
+      "name": "enforce_rls_on_exposed_schemas"
+    },
+    {
+      "version": "20260912170408",
+      "name": "reserve_locked_api_schema"
+    }
+  ],
+  "invariants": [
+    "PROVIDER != CONTROL AUTHORITY",
+    "PERSISTENCE != ADMISSION",
+    "SOURCE != INSTALLATION",
+    "INSTALLATION != CURRENT_ROUTE",
+    "CURRENT_ROUTE != BEHAVIORAL_QUALIFICATION",
+    "NO_PRODUCTION_AUTO_DEPLOY_WITHOUT_PATRICK_EXACT_AUTHORITY",
+    "NO_RUNTIME_STATE_SEMANTIC_OWNERSHIP_TRANSFER_TO_CONTROL_PLANE"
+  ],
+  "effect_status": {
+    "provider_created": "VERIFIED",
+    "provider_hardening_migrations": "VERIFIED",
+    "github_repository_binding": "USER_REPORTED_CONNECTED_READBACK_UNAVAILABLE",
+    "production_auto_deploy": "USER_REPORTED_DISABLED_READBACK_UNAVAILABLE",
+    "runtime_activation": "NOT_ESTABLISHED",
+    "behavioral_qualification": "NOT_ESTABLISHED"
+  }
+}
