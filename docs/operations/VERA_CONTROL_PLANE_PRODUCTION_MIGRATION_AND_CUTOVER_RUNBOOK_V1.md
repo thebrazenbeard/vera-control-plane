@@ -161,7 +161,7 @@ Do not transform a hard stop into a broader redesign. Fix the exact blocker or r
 
 ## Current frontier at publication
 
-- PR #119 exact head `ceca583b9f888794a9b2b70a7b32e616b4f0e8f1` has a fresh bounded PostgreSQL 17 execution result of `23 passed`; OV hostile review of that exact head remains the source-review gate.
+- PR #119 exact head `42acf32c5cd20caba922608cd81e6086fc9cdf29` includes the strict-JSON and terminal-receipt-seal source repairs; PostgreSQL staging/seal execution and OV hostile review for this exact head remain `UNVERIFIED`. The earlier `ceca583b9f888794a9b2b70a7b32e616b4f0e8f1` execution receipt does not transfer.
 - PR #20 remains `SOURCE_BOUND_NOT_APPLIED` for the runtime-plane and predecessor-import migrations.
 - The deployment binding must not be refreshed from #119 until the exact reviewed head is frozen; execution GREEN alone is not hostile-review PASS.
 - No mutation of `fawkirqroyniueeqspif` is performed by publishing this runbook.
