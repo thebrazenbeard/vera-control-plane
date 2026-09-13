@@ -70,7 +70,7 @@
     "commit": "50c155f9715183b48ddcb404a53bb16c148b323e",
     "path": "providers/vera_control_plane/migrations/20260912183000_initialize_runtime_planes.sql",
     "git_blob": "8ae7aa8e9c27389e0c7a744e3a31316b70fcdc59",
-    "sha256": "780e42b93484cee074902277c78b4b3076a7ef0bdc90d95e778cfc7308dbf553",
+    "sha256": "925c8488a856b10da23e2726494f0bd8c3084ea77782f661c08acb36d67e78b8",
     "deployment_copy_path": "supabase/migrations/20260912183000_initialize_runtime_planes.sql",
     "semantic_owner": "thebrazenbeard/vera",
     "custody_semantics": "BYTE_IDENTICAL_DEPLOYMENT_COPY_NOT_SEMANTIC_REAUTHORING"
