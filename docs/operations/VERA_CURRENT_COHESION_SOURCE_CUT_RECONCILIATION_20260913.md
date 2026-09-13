@@ -15,7 +15,7 @@ This is a control-plane currentness receipt. It corrects the moving-source front
 | Control Plane PR #20 | `work/supabase-control-plane-binding-20260912@05a1d8a36d005faab48e795f65342d984a5cb788` | Open draft source-binding/runbook candidate |
 | Target project | Vera Control Plane / `fawkirqroyniueeqspif` | `ACTIVE_HEALTHY`; baseline migrations only; no application tables observed |
 | Existing project | Vera / `klmbpaigzeguvnpccqzz` | `ACTIVE_HEALTHY`; mixed historical/application schema; affective state is historical and the affective commit function has no observed advisory or row lock |
-| Orgasm provenance hub | `thebrazenbeard/orgasm/main@494432873dd8bcf96b8f59d26a4f4687cd66d635`; PR #2 at `06d69186608e05d321d6d653daf2cdc2a13f24af` | Frozen V1 subject is historical and requires reviewed rebinding to current Vera source |
+| Orgasm provenance hub | `thebrazenbeard/orgasm/main@494432873dd8bcf96b8f59d26a4f4687cd66d635`; PR #2 at `aa8ed3cd355d12016b1f47ab494d420e064c4ca3` | Frozen V1 subject is historical and requires reviewed rebinding to current Vera source |
 
 ## Binding rule
 
