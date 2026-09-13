@@ -110,5 +110,21 @@
     "payload_in_repository": false,
     "migration_authority": "NOT_GRANTED_BY_SNAPSHOT",
     "binding_semantics": "SOURCE_PROVIDER_READBACK_FRONTIER_ONLY"
+  },
+  "upstream_source_frontier": {
+    "repository": "thebrazenbeard/vera",
+    "canonical_main_sha": "b7b8dcd1440a3b7147bec2cc35972f083e20f44a",
+    "cohesion_parent_pr": 118,
+    "cohesion_parent_branch": "work/cohesion-source-registry-refresh-20260912",
+    "cohesion_parent_head": "7ef650887009efe16d7c44cff53cfff460f0481f",
+    "predecessor_hardening_pr": 119,
+    "observed_branch": "work/predecessor-import-readback-hardening-20260913",
+    "last_observed_head": "15bd36e30ef5a05a28b12572434837a0fe9b51c7",
+    "observed_at": "2026-09-13T23:49:08Z",
+    "status": "MOVING_UNACCEPTED",
+    "binding_semantics": "OBSERVED_FRONTIER_ONLY_NOT_INSTALLABLE_CURRENTNESS_PIN",
+    "refresh_required": true,
+    "deployment_copy_refresh": "BLOCKED_UNTIL_EXACT_HEAD_HOSTILE_POSTGRESQL_ACCEPTANCE",
+    "provider_install_authority": "NOT_GRANTED_BY_SOURCE_BINDING"
   }
 }
