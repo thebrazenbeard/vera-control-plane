@@ -10,7 +10,7 @@ This is a control-plane currentness receipt. It corrects the moving-source front
 | Surface | Exact observation | Control-plane consequence |
 |---|---|---|
 | Vera canonical runtime | `thebrazenbeard/vera/main@b7b8dcd1440a3b7147bec2cc35972f083e20f44a` | Current executable Cohesion R3 source |
-| Vera hardening PR | PR #119 at `db5dc0d216a4b8c18145947a4adea28bfe6e7658` | Not yet a reviewed/installable source cut; current-head DB execution and hostile PASS are open |
+| Vera hardening PR | PR #119 at `15bd36e30ef5a05a28b12572434837a0fe9b51c7` | Not yet a reviewed/installable source cut; exact-head DB execution is reported green (27/27 bounded tests plus 10/10 race/seal repetitions), while hostile PASS remains open |
 | Control Plane main | `thebrazenbeard/vera-control-plane/main@b4d9aaa8560de12252dd29996379b0af8e0ca0d1` | Current control-plane base |
 | Control Plane PR #20 | `work/supabase-control-plane-binding-20260912` | Open draft source-binding/runbook candidate; exact head is recorded in PR metadata and the WIP receipt |
 | Target project | Vera Control Plane / `fawkirqroyniueeqspif` | `ACTIVE_HEALTHY`; baseline migrations only; no application tables observed |
@@ -25,7 +25,7 @@ The deployment source must be a tuple, not a moving branch label:
 
 The current Control Plane PR #20 contains source-bound manifests and runbook material, but its predecessor/runtime migration bindings predate Vera PR #119's current head. Those copies remain historical/source-bound evidence; they must not be presented as the current deployable cut.
 
-The current #119 delta at `db5dc0d216a4b8c18145947a4adea28bfe6e7658` also adds `20260913232000_seal_predecessor_import_receipts.sql` and its regression coverage, plus a strict-JSON callback repair. Those bytes are not present in this Control Plane branch and must not be copied into deployment sources until exact-head hostile review and PostgreSQL execution pass.
+The current #119 delta at `15bd36e30ef5a05a28b12572434837a0fe9b51c7` also adds `20260913232000_seal_predecessor_import_receipts.sql` and its regression coverage, plus a strict-JSON callback repair. Those bytes are not present in this Control Plane branch and must not be copied into deployment sources until exact-head hostile review passes and the deployment copies are regenerated/revalidated from the accepted source cut.
 
 ## Required gates before provider movement
 
