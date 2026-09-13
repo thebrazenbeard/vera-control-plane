@@ -12,10 +12,10 @@ This is a control-plane currentness receipt. It corrects the moving-source front
 | Vera canonical runtime | `thebrazenbeard/vera/main@b7b8dcd1440a3b7147bec2cc35972f083e20f44a` | Current executable Cohesion R3 source |
 | Vera hardening PR | PR #119 at `4889670c168a20b2d745ff745963227760f9eb2e` | Not yet a reviewed/installable source cut; current-head DB execution and hostile PASS are open |
 | Control Plane main | `thebrazenbeard/vera-control-plane/main@b4d9aaa8560de12252dd29996379b0af8e0ca0d1` | Current control-plane base |
-| Control Plane PR #20 | `work/supabase-control-plane-binding-20260912@05a1d8a36d005faab48e795f65342d984a5cb788` | Open draft source-binding/runbook candidate |
+| Control Plane PR #20 | `work/supabase-control-plane-binding-20260912` | Open draft source-binding/runbook candidate; exact head is recorded in PR metadata and the WIP receipt |
 | Target project | Vera Control Plane / `fawkirqroyniueeqspif` | `ACTIVE_HEALTHY`; baseline migrations only; no application tables observed |
 | Existing project | Vera / `klmbpaigzeguvnpccqzz` | `ACTIVE_HEALTHY`; mixed historical/application schema; affective state is historical and the affective commit function has no observed advisory or row lock |
-| Orgasm provenance hub | `thebrazenbeard/orgasm/main@494432873dd8bcf96b8f59d26a4f4687cd66d635`; PR #2 at `aa8ed3cd355d12016b1f47ab494d420e064c4ca3` | Frozen V1 subject is historical and requires reviewed rebinding to current Vera source |
+| Orgasm provenance hub | `thebrazenbeard/orgasm/main@494432873dd8bcf96b8f59d26a4f4687cd66d635`; PR #2 is an open draft | Frozen V1 subject is historical and requires reviewed rebinding to current Vera source |
 
 ## Binding rule
 
