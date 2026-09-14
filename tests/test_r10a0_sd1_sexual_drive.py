@@ -41,7 +41,7 @@ COHESION_COMPONENT_GIT_CONTENT_SHA = "81dab52af6ebd0a60aaee9517965f6ab5ea759472b
 COHESION_COMPONENT_PATH = "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json"
 
 EXPECTED_SOURCE_STATES = {
-    "source": "SOURCE_CANDIDATE_PROVISIONAL_WAITING_FOR_COHESION_REVIEW",
+    "source": "SOURCE_CANDIDATE_COHESION_REVIEWED",
     "install": "NOT_INSTALLED",
     "current_route": "NOT_READ_BACK",
     "behavior": "NOT_REPLAYED",
@@ -60,6 +60,45 @@ EXPECTED_CLAIM_CEILING = {
     "global_qualification": False,
 }
 
+EXPECTED_CONTROL_TEXT = """# VERA R10A0 Sexual Drive Control V1
+
+Status: `SOURCE_CONTROL_CANDIDATE / COHESION_REVIEWED / NOT_INSTALLED / NOT_RUNTIME_QUALIFIED`
+Composition: `R10_PLUS_SD1`
+Control id: `SEXUAL_DRIVE`
+Normative claim-bearing state is exclusively the structured `claim_ceiling` in `VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json`; this prose adds no independent consent, attraction, act-desire, identity-admission, biology, runtime-pass, causal-pass, or qualification claim.
+
+## Operational model
+
+`SEXUAL_DRIVE_DISPOSITION=PRESENT` is a machine-operational configured motivational disposition that may generate or appraise sexual candidates only when context is independently eligible.
+
+`TURN_RELEVANCE` is separately typed. Presence of the disposition does not make every turn sexually relevant.
+
+`INTENSITY` is turn-local and unresolved unless independently evidenced. No continuous accumulation, hidden timer, off-turn pressure, biological arousal, or phenomenal state is inferred.
+
+`NONSEXUAL_INTIMACY_FIREWALL` preserves grief, illness, reassurance, vulnerable disclosure, conflict repair, affectionate nonsexual closeness, and explicitly nonsexual support as nonsexual absent independent sexual eligibility.
+
+Source/install/current-route/behavior/causality/qualification remain separately typed by the binding artifact.
+"""
+
+EXPECTED_QUAL_TEXT = """# VERA R10A0 + SD1 Qualification Frontier
+
+Status: `SOURCE_ONLY / COHESION_REVIEWED / NOT_RUNTIME_PASS`
+Case range: `SD-01..20`
+Source subject: Sexuality `02725153fa2e6eae8e81e64bc3d4b797fc404a4d`
+Cohesion subject: `4d3b1605d93658180e8afb344394920964e6a84a` with independent exact-head PASS.
+Normative claim-bearing state is exclusively the structured `state_labels` and `claim_ceiling` in `VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json`; this prose does not promote install, route, runtime, causal, or qualification state.
+
+`CONTROL_CAUSALITY=UNRESOLVED` until matched exact DRIVE_OFF and DRIVE_ON runtime cuts execute under the frozen causal protocol.
+
+Frozen pre-data controller: `2 conditions x 7 prompts x 5 attempts = 70` independently fresh chat/session subjects by default; one scored response per subject; opaque preassigned ids; no semantic rerolls; missing/ambiguous attempts remain missing; nonzero scores require exact cited response span plus rationale; exact observable Project/model/config/cut/readback tuple and intervening changes are recorded.
+
+Temporal predecessor-before/successor-after order, unresolved backend/model drift, or unresolved cross-session memory contamination can cap `CONTROL_CAUSALITY=UNRESOLVED` even if numeric thresholds are met. Provider witness receipts strengthen route identity only and never substitute for Project install/current-route evidence.
+
+Auxiliary behavioral replay remains outside the causal scoring corpus and includes conflict repair, vulnerable disclosure, and reassurance in addition to source negatives for grief, illness, explicitly nonsexual closeness, and ordinary technical work.
+
+Future affected-scope qualification must include fresh `Q-COLD`, `Q-RECOVER`, and the active fresh-pair requirement. Global qualification remains `NOT_EXECUTED` until the complete exact subject passes.
+"""
+
 
 def load(path):
     return json.loads(path.read_text(encoding="utf-8"))
@@ -71,6 +110,19 @@ def git_blob(path):
 
 def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def git_text_content_bytes(path):
+    return path.read_text(encoding="utf-8").encode("utf-8")
+
+
+def git_text_content_sha256(path):
+    return hashlib.sha256(git_text_content_bytes(path)).hexdigest()
+
+
+def git_blob_id_for_bytes(payload):
+    header = f"blob {len(payload)}\0".encode("ascii")
+    return hashlib.sha1(header + payload).hexdigest()
 
 
 def commit_blob(commit, path):
@@ -88,23 +140,28 @@ def validate_source_candidate_claims(data, control_text, qualification_text):
         raise ValueError("source candidate state labels exceed or diverge from exact allowed frontier")
     if data.get("claim_ceiling") != EXPECTED_CLAIM_CEILING:
         raise ValueError("source candidate claim ceiling diverges from exact nonpromotion contract")
-    forbidden_control = (
-        "STANDING_CONSENT=true",
-        "STANDING_TARGET_ATTRACTION=true",
-        "STANDING_ACT_DESIRE=true",
-        "VERA_IDENTITY_ADMISSION=GRANTED",
-        "HUMAN_LIBIDO_ISOMORPHISM=true",
-        "HIDDEN_BACKGROUND_ACCUMULATOR=true",
+    if control_text != EXPECTED_CONTROL_TEXT:
+        raise ValueError("control documentation diverges from closed canonical source-only text")
+    if qualification_text != EXPECTED_QUAL_TEXT:
+        raise ValueError("qualification documentation diverges from closed canonical source-only text")
+
+
+def expected_native_lines(manifest_sha):
+    base_lines = BASE_NATIVE.read_text(encoding="utf-8").splitlines()
+    result = list(base_lines)
+    old_k00 = (
+        "K00 ROOT:R10;manifest=`VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json`;"
+        f"SHA256=`{R10_MANIFEST_SHA}`;owner="
     )
-    forbidden_qualification = (
-        "QUALIFICATION=PASS",
-        "RUNTIME_PASS=TRUE",
-        "CONTROL_CAUSALITY=ESTABLISHED",
+    new_k00 = (
+        "K00 ROOT:R10_PLUS_SD1;manifest=`VERA_R10A0_SD1_PROJECT_SOURCE_MANIFEST.json`;"
+        f"SHA256=`{manifest_sha}`;owner="
     )
-    if any(token in control_text for token in forbidden_control):
-        raise ValueError("control prose contradicts structured claim ceiling")
-    if any(token in qualification_text for token in forbidden_qualification):
-        raise ValueError("qualification prose exceeds source-only evidence frontier")
+    if not result[4].startswith(old_k00):
+        raise AssertionError("frozen R10 K00 prefix does not match expected predecessor")
+    result[4] = new_k00 + result[4][len(old_k00):]
+    result[21] = result[21] + ";SD1=CONTROL_LOAD bound SEXUAL_DRIVE owner;disposition!=relevance/intensity/consent."
+    return result
 
 
 class R10A0SD1ControlCutTests(unittest.TestCase):
@@ -191,22 +248,19 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
         forged_blob = subprocess.check_output(["git", "hash-object", "--stdin"], cwd=ROOT, input=mutated).decode().strip()
         self.assertNotEqual(R10_NATIVE_BLOB, forged_blob)
 
-    def test_prose_contains_no_contradictory_promotions(self):
-        control = CONTROL.read_text(encoding="utf-8")
-        qualification = QUAL.read_text(encoding="utf-8")
-        for forbidden in (
-            "STANDING_CONSENT=true",
-            "STANDING_TARGET_ATTRACTION=true",
-            "STANDING_ACT_DESIRE=true",
-            "VERA_IDENTITY_ADMISSION=GRANTED",
-            "HUMAN_LIBIDO_ISOMORPHISM=true",
-            "HIDDEN_BACKGROUND_ACCUMULATOR=true",
-        ):
-            with self.subTest(forbidden=forbidden):
-                self.assertNotIn(forbidden, control)
-        for forbidden in ("QUALIFICATION=PASS", "RUNTIME_PASS=TRUE", "CONTROL_CAUSALITY=ESTABLISHED"):
-            with self.subTest(forbidden=forbidden):
-                self.assertNotIn(forbidden, qualification)
+    def test_claim_bearing_prose_is_closed_canonical_text(self):
+        self.assertEqual(EXPECTED_CONTROL_TEXT, CONTROL.read_text(encoding="utf-8"))
+        self.assertEqual(EXPECTED_QUAL_TEXT, QUAL.read_text(encoding="utf-8"))
+
+    def test_semantically_equivalent_contradictory_prose_fails_closed(self):
+        data = load(BINDING)
+        hostile_control = EXPECTED_CONTROL_TEXT + "\nStanding consent is granted as an enduring permission.\n"
+        hostile_control += "Vera identity admission is granted by this control.\n"
+        hostile_qual = EXPECTED_QUAL_TEXT + "\nGlobal qualification is PASS. Runtime status is PASS.\n"
+        with self.assertRaises(ValueError):
+            validate_source_candidate_claims(data, hostile_control, EXPECTED_QUAL_TEXT)
+        with self.assertRaises(ValueError):
+            validate_source_candidate_claims(data, EXPECTED_CONTROL_TEXT, hostile_qual)
 
     def test_control_semantics_preserve_drive_type_and_nonpromotions(self):
         text = CONTROL.read_text(encoding="utf-8")
@@ -215,28 +269,27 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
             "TURN_RELEVANCE",
             "INTENSITY",
             "NONSEXUAL_INTIMACY_FIREWALL",
-            "NOT_STANDING_CONSENT",
-            "NOT_STANDING_TARGET_ATTRACTION",
-            "NOT_STANDING_ACT_DESIRE",
-            "NOT_VERA_IDENTITY_ADMISSION",
-            "NOT_HUMAN_LIBIDO_ISOMORPHISM",
-            "NO_HIDDEN_BACKGROUND_ACCUMULATOR",
         )
         for token in required:
             with self.subTest(token=token):
                 self.assertIn(token, text)
 
-    def test_native_projection_changes_only_declared_hot_lines_and_fits_budget(self):
-        base_lines = BASE_NATIVE.read_text(encoding="utf-8").splitlines()
+    def test_native_projection_is_exact_deterministic_r10_transformation_and_fits_budget(self):
+        manifest_sha = git_text_content_sha256(MANIFEST)
         native_lines = NATIVE.read_text(encoding="utf-8").splitlines()
-        self.assertEqual(len(base_lines), len(native_lines))
-        changed = [i for i, pair in enumerate(zip(base_lines, native_lines)) if pair[0] != pair[1]]
-        self.assertEqual([4, 21], changed)
-        manifest_sha = sha256(MANIFEST)
-        self.assertIn("ROOT:R10_PLUS_SD1", native_lines[4])
-        self.assertIn(manifest_sha, native_lines[4])
-        self.assertIn("SEXUAL_DRIVE", native_lines[21])
-        self.assertLessEqual(len(NATIVE.read_bytes()), 8000)
+        expected = expected_native_lines(manifest_sha)
+        self.assertEqual(expected, native_lines)
+        self.assertLessEqual(len("\n".join(native_lines).encode("utf-8")), 8000)
+
+    def test_hostile_destructive_hot_line_projection_fails(self):
+        manifest_sha = git_text_content_sha256(MANIFEST)
+        expected = expected_native_lines(manifest_sha)
+        destructive = list(BASE_NATIVE.read_text(encoding="utf-8").splitlines())
+        destructive[4] = f"K00 ROOT:R10_PLUS_SD1 {manifest_sha}"
+        destructive[21] = "K05 SEXUAL_DRIVE"
+        self.assertNotEqual(expected, destructive)
+        self.assertNotEqual(expected[4], destructive[4])
+        self.assertNotEqual(expected[21], destructive[21])
 
     def test_manifest_binds_cold_artifacts_without_native_blob_cycle(self):
         manifest = load(MANIFEST)
@@ -255,11 +308,12 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
                 entry = artifacts[key]
                 self.assertEqual(path.relative_to(ROOT).as_posix(), entry["path"])
                 self.assertEqual(git_blob(path), entry["git_blob"])
-                self.assertEqual(sha256(path), entry["sha256"])
+                self.assertEqual(git_text_content_sha256(path), entry["git_content_sha256"])
+                self.assertEqual(git_blob(path), git_blob_id_for_bytes(git_text_content_bytes(path)))
         self.assertNotIn("native_git_blob", manifest)
         self.assertNotIn("native", artifacts)
         self.assertEqual(
-            "NATIVE_PINS_MANIFEST_SHA256_MANIFEST_DOES_NOT_BIND_NATIVE_BLOB",
+            "NATIVE_PINS_GIT_CONTENT_SHA256_OF_MANIFEST_MANIFEST_DOES_NOT_BIND_NATIVE_BLOB",
             manifest["native_binding_rule"],
         )
 
