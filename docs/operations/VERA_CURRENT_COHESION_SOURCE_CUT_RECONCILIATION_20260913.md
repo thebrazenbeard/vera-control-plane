@@ -12,7 +12,7 @@ This is a control-plane currentness receipt. It corrects the moving-source front
 | Vera canonical runtime | `thebrazenbeard/vera/main@b7b8dcd1440a3b7147bec2cc35972f083e20f44a` | Current executable Cohesion R3 source |
 | Vera hardening PR | PR #119 at `15bd36e30ef5a05a28b12572434837a0fe9b51c7` | Not yet a reviewed/installable source cut; exact-head DB execution is reported green (27/27 bounded tests plus 10/10 race/seal repetitions), while hostile PASS remains open |
 | Control Plane main | `thebrazenbeard/vera-control-plane/main@b4d9aaa8560de12252dd29996379b0af8e0ca0d1` | Current control-plane base |
-| Control Plane PR #20 | `work/supabase-control-plane-binding-20260912` | Open draft source-binding/runbook candidate; exact head is recorded in PR metadata and the WIP receipt |
+| Control Plane PR #20 | `work/supabase-control-plane-binding-20260912` | Open draft source-binding/runbook candidate at exact head `4e8d3d43a35b97d4d85d5b1280374c521a1c79ed`; this branch remains mutable |
 | Target project | Vera Control Plane / `fawkirqroyniueeqspif` | `ACTIVE_HEALTHY`; baseline migrations only; no application tables observed |
 | Existing project | Vera / `klmbpaigzeguvnpccqzz` | `ACTIVE_HEALTHY`; mixed historical/application schema; affective state is historical and the affective commit function has no observed advisory or row lock |
 | Orgasm provenance hub | `thebrazenbeard/orgasm/main@494432873dd8bcf96b8f59d26a4f4687cd66d635`; PR #2 is an open draft | Frozen V1 subject is historical and requires reviewed rebinding to current Vera source |
@@ -24,6 +24,8 @@ The deployment source must be a tuple, not a moving branch label:
 `repository + commit + path + blob SHA + content SHA-256`
 
 The current Control Plane PR #20 contains source-bound manifests and runbook material, but its predecessor/runtime migration bindings predate Vera PR #119's current head. Those copies remain historical/source-bound evidence; they must not be presented as the current deployable cut.
+
+The binding manifest now records `upstream_source_frontier.last_observed_head = 15bd36e30ef5a05a28b12572434837a0fe9b51c7` with status `MOVING_UNACCEPTED` and `refresh_required = true`. This is an observed frontier, not an installable currentness pin; deployment-copy refresh remains blocked until the exact accepted source cut is selected.
 
 The current #119 delta at `15bd36e30ef5a05a28b12572434837a0fe9b51c7` also adds `20260913232000_seal_predecessor_import_receipts.sql` and its regression coverage, plus a strict-JSON callback repair. Those bytes are not present in this Control Plane branch and must not be copied into deployment sources until exact-head hostile review passes and the deployment copies are regenerated/revalidated from the accepted source cut.
 
