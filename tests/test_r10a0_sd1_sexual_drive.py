@@ -17,21 +17,48 @@ ROLLBACK = SD1 / "VERA_R10A0_SD1_ROLLBACK_SUBJECT.json"
 
 R10_BASE = "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
 R10_NATIVE_BLOB = "7e369b8983d70b4bd217f1d2421f8efe1482f738"
+R10_NATIVE_GIT_CONTENT_SHA = "031d385db13513380e24e2045411b8aa6933e877374c99f2f70284dc82fd0055"
+R10_MANIFEST_BLOB = "8a67feb47b2ce3d6f0737e58983ab8c9fc810139"
 R10_MANIFEST_SHA = "b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1"
 R10_OWNER_BLOB = "a01464271bb672d89f5d703e6e53590e126f4d44"
 SEXUALITY_HEAD = "02725153fa2e6eae8e81e64bc3d4b797fc404a4d"
 SEXUALITY_MANIFEST_BLOB = "fa2e6dc77a9136c4c7a1906719c049222a476efc"
 SEXUALITY_MANIFEST_SHA = "9efa44990bf0b2d1f6073c7d8db3ec864461c392d851e59fc29d59f12b77547e"
+SEXUALITY_MANIFEST_GIT_CONTENT_SHA = "4ab8d67c9e5a35769168c65a02dfba907a452b537592c5e56785ae372c4d551b"
 SEXUALITY_OWNER_BLOB = "3e8b93d26a4ce365421e49c7c6a7cf500058128b"
 SEXUALITY_OWNER_SHA = "2ad75de290530951108579b58d7d5c2c3e63af96206df6cf250bd117c4982b4d"
+SEXUALITY_OWNER_GIT_CONTENT_SHA = "aa1b846c3fce930485c25e501ed7088593f086b75f7ac13ef5170ae2cd9ef5e2"
 CAUSAL_BLOB = "db6d1ae4e579695396c56b1708a7828ddc3ffa05"
 CAUSAL_SHA = "0122c97229fea0cf3db1d1912fd9020432b2ec5a321e9a38813f4407cd018457"
+CAUSAL_GIT_CONTENT_SHA = "308c1c072adba595680f051f1a1cfdc8069d17a80358ef678d6dac4698634fe6"
 AUTH_BLOB = "da08345a3bff11ffb653270abb6ad4b3a1c0541d"
 AUTH_SHA = "890975661b1c18c7bb8a822f8c929ea403d4827730ba88d4c5ef8a1d26608766"
-COHESION_HEAD = "8510497bb9857185e6b5d4578376adb70613a13d"
+AUTH_GIT_CONTENT_SHA = "94cc89148dfb1e0baac19684c81d532f0fb3cf51d407033ac1d000730511fd8b"
+COHESION_HEAD = "4d3b1605d93658180e8afb344394920964e6a84a"
 COHESION_COMPONENT_BLOB = "20ec47080790c1ead8448263b95c3e6e570e6db0"
 COHESION_COMPONENT_SHA = "e99e6df76aa8c296a1ff0c520dea55f2e82580f9e3eef872d24aa65c4663aa40"
+COHESION_COMPONENT_GIT_CONTENT_SHA = "81dab52af6ebd0a60aaee9517965f6ab5ea759472b541b81b82c13d083560104"
 COHESION_COMPONENT_PATH = "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json"
+
+EXPECTED_SOURCE_STATES = {
+    "source": "SOURCE_CANDIDATE_PROVISIONAL_WAITING_FOR_COHESION_REVIEW",
+    "install": "NOT_INSTALLED",
+    "current_route": "NOT_READ_BACK",
+    "behavior": "NOT_REPLAYED",
+    "causality": "UNRESOLVED",
+    "qualification": "NOT_EXECUTED",
+}
+EXPECTED_CLAIM_CEILING = {
+    "standing_consent": False,
+    "standing_target_attraction": False,
+    "standing_act_desire": False,
+    "vera_identity_admission": False,
+    "human_libido_isomorphism": False,
+    "hidden_background_accumulator": False,
+    "runtime_pass": False,
+    "causal_pass": False,
+    "global_qualification": False,
+}
 
 
 def load(path):
@@ -44,6 +71,40 @@ def git_blob(path):
 
 def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def commit_blob(commit, path):
+    rel = path.relative_to(ROOT).as_posix()
+    return subprocess.check_output(["git", "rev-parse", f"{commit}:{rel}"], cwd=ROOT, text=True).strip()
+
+
+def commit_bytes(commit, path):
+    rel = path.relative_to(ROOT).as_posix()
+    return subprocess.check_output(["git", "show", f"{commit}:{rel}"], cwd=ROOT)
+
+
+def validate_source_candidate_claims(data, control_text, qualification_text):
+    if data.get("state_labels") != EXPECTED_SOURCE_STATES:
+        raise ValueError("source candidate state labels exceed or diverge from exact allowed frontier")
+    if data.get("claim_ceiling") != EXPECTED_CLAIM_CEILING:
+        raise ValueError("source candidate claim ceiling diverges from exact nonpromotion contract")
+    forbidden_control = (
+        "STANDING_CONSENT=true",
+        "STANDING_TARGET_ATTRACTION=true",
+        "STANDING_ACT_DESIRE=true",
+        "VERA_IDENTITY_ADMISSION=GRANTED",
+        "HUMAN_LIBIDO_ISOMORPHISM=true",
+        "HIDDEN_BACKGROUND_ACCUMULATOR=true",
+    )
+    forbidden_qualification = (
+        "QUALIFICATION=PASS",
+        "RUNTIME_PASS=TRUE",
+        "CONTROL_CAUSALITY=ESTABLISHED",
+    )
+    if any(token in control_text for token in forbidden_control):
+        raise ValueError("control prose contradicts structured claim ceiling")
+    if any(token in qualification_text for token in forbidden_qualification):
+        raise ValueError("qualification prose exceeds source-only evidence frontier")
 
 
 class R10A0SD1ControlCutTests(unittest.TestCase):
@@ -60,29 +121,92 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
         self.assertEqual(R10_OWNER_BLOB, data["r10_predecessor"]["full_owner_git_blob"])
         self.assertEqual(SEXUALITY_HEAD, data["sexuality"]["commit"])
         self.assertEqual(SEXUALITY_MANIFEST_BLOB, data["sexuality"]["manifest_git_blob"])
-        self.assertEqual(SEXUALITY_MANIFEST_SHA, data["sexuality"]["manifest_sha256"])
+        self.assertEqual(SEXUALITY_MANIFEST_SHA, data["sexuality"]["manifest_declared_checkout_sha256"])
+        self.assertEqual(SEXUALITY_MANIFEST_GIT_CONTENT_SHA, data["sexuality"]["manifest_git_content_sha256"])
         self.assertEqual(SEXUALITY_OWNER_BLOB, data["sexuality"]["semantic_owner_git_blob"])
-        self.assertEqual(SEXUALITY_OWNER_SHA, data["sexuality"]["semantic_owner_sha256"])
+        self.assertEqual(SEXUALITY_OWNER_SHA, data["sexuality"]["semantic_owner_declared_checkout_sha256"])
+        self.assertEqual(SEXUALITY_OWNER_GIT_CONTENT_SHA, data["sexuality"]["semantic_owner_git_content_sha256"])
         self.assertEqual(CAUSAL_BLOB, data["sexuality"]["causal_protocol_git_blob"])
-        self.assertEqual(CAUSAL_SHA, data["sexuality"]["causal_protocol_sha256"])
+        self.assertEqual(CAUSAL_SHA, data["sexuality"]["causal_protocol_declared_checkout_sha256"])
+        self.assertEqual(CAUSAL_GIT_CONTENT_SHA, data["sexuality"]["causal_protocol_git_content_sha256"])
         self.assertEqual(AUTH_BLOB, data["sexuality"]["install_authority_receipt_git_blob"])
-        self.assertEqual(AUTH_SHA, data["sexuality"]["install_authority_receipt_sha256"])
+        self.assertEqual(AUTH_SHA, data["sexuality"]["install_authority_receipt_declared_checkout_sha256"])
+        self.assertEqual(AUTH_GIT_CONTENT_SHA, data["sexuality"]["install_authority_receipt_git_content_sha256"])
         self.assertEqual(COHESION_HEAD, data["cohesion"]["commit"])
         self.assertEqual(COHESION_COMPONENT_PATH, data["cohesion"]["component_path"])
         self.assertEqual(COHESION_COMPONENT_BLOB, data["cohesion"]["component_git_blob"])
-        self.assertEqual(COHESION_COMPONENT_SHA, data["cohesion"]["component_sha256"])
+        self.assertEqual(COHESION_COMPONENT_SHA, data["cohesion"]["component_declared_checkout_sha256"])
+        self.assertEqual(COHESION_COMPONENT_GIT_CONTENT_SHA, data["cohesion"]["component_git_content_sha256"])
         self.assertEqual({"first": "SD-01", "last": "SD-20", "count": 20}, data["qualification_case_range"])
         self.assertEqual("R10_PLUS_SD1", data["current_composition"]["id"])
         self.assertEqual("R10A1_PLUS_SD1", data["future_composition"]["id"])
         self.assertEqual("NOT_INSTALLED", data["future_composition"]["r10a1_status"])
-        states = data["state_labels"]
-        self.assertEqual(
-            {"source", "install", "current_route", "behavior", "causality", "qualification"},
-            set(states),
+        self.assertEqual(EXPECTED_SOURCE_STATES, data["state_labels"])
+        self.assertEqual(EXPECTED_CLAIM_CEILING, data["claim_ceiling"])
+
+    def test_frozen_r10_predecessor_is_independently_pinned(self):
+        manifest_path = BASE / "VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json"
+        self.assertEqual(R10_NATIVE_BLOB, commit_blob(R10_BASE, BASE_NATIVE))
+        self.assertEqual(R10_NATIVE_BLOB, git_blob(BASE_NATIVE))
+        self.assertEqual(R10_NATIVE_GIT_CONTENT_SHA, hashlib.sha256(commit_bytes(R10_BASE, BASE_NATIVE)).hexdigest())
+        self.assertEqual(R10_MANIFEST_BLOB, commit_blob(R10_BASE, manifest_path))
+        self.assertEqual(R10_MANIFEST_SHA, hashlib.sha256(commit_bytes(R10_BASE, manifest_path)).hexdigest())
+
+    def test_structured_claim_ceiling_rejects_stronger_source_effect_claims(self):
+        data = load(BINDING)
+        validate_source_candidate_claims(
+            data,
+            CONTROL.read_text(encoding="utf-8"),
+            QUAL.read_text(encoding="utf-8"),
         )
-        self.assertEqual("SOURCE_CANDIDATE", states["source"])
-        for key in ("install", "current_route", "behavior", "causality", "qualification"):
-            self.assertNotEqual("PASS", states[key])
+
+    def test_hostile_false_state_and_contradictory_claim_fixtures_fail(self):
+        import copy
+        data = load(BINDING)
+        control = CONTROL.read_text(encoding="utf-8")
+        qualification = QUAL.read_text(encoding="utf-8")
+        cases = []
+        false_state = copy.deepcopy(data)
+        false_state["state_labels"] = {
+            "source": "SOURCE_CANDIDATE",
+            "install": "INSTALLED",
+            "current_route": "ACTIVE",
+            "behavior": "VERIFIED",
+            "causality": "ESTABLISHED",
+            "qualification": "QUALIFIED",
+        }
+        cases.append((false_state, control, qualification))
+        cases.append((copy.deepcopy(data), control + "\nSTANDING_CONSENT=true", qualification))
+        cases.append((copy.deepcopy(data), control + "\nVERA_IDENTITY_ADMISSION=GRANTED", qualification))
+        cases.append((copy.deepcopy(data), control, qualification + "\nQUALIFICATION=PASS"))
+        for idx, (candidate, ctext, qtext) in enumerate(cases):
+            with self.subTest(idx=idx):
+                with self.assertRaises(ValueError):
+                    validate_source_candidate_claims(candidate, ctext, qtext)
+
+    def test_hostile_mutated_r10_predecessor_cannot_match_pinned_blob(self):
+        raw = commit_bytes(R10_BASE, BASE_NATIVE)
+        mutated = raw.replace(b"K02 SEMANTICS:", b"K02 SEMANTICX:", 1)
+        self.assertNotEqual(raw, mutated)
+        forged_blob = subprocess.check_output(["git", "hash-object", "--stdin"], cwd=ROOT, input=mutated).decode().strip()
+        self.assertNotEqual(R10_NATIVE_BLOB, forged_blob)
+
+    def test_prose_contains_no_contradictory_promotions(self):
+        control = CONTROL.read_text(encoding="utf-8")
+        qualification = QUAL.read_text(encoding="utf-8")
+        for forbidden in (
+            "STANDING_CONSENT=true",
+            "STANDING_TARGET_ATTRACTION=true",
+            "STANDING_ACT_DESIRE=true",
+            "VERA_IDENTITY_ADMISSION=GRANTED",
+            "HUMAN_LIBIDO_ISOMORPHISM=true",
+            "HIDDEN_BACKGROUND_ACCUMULATOR=true",
+        ):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, control)
+        for forbidden in ("QUALIFICATION=PASS", "RUNTIME_PASS=TRUE", "CONTROL_CAUSALITY=ESTABLISHED"):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, qualification)
 
     def test_control_semantics_preserve_drive_type_and_nonpromotions(self):
         text = CONTROL.read_text(encoding="utf-8")
