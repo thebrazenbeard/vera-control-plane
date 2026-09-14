@@ -26,35 +26,4 @@ classification: `NONCANONICAL_PRIVATE_CONTINUATION_STATE`
 
 ## Project predecessor capture
 Current Project Files surface exposes exactly two Project-backed sources:
-1. `VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json`, file id `file_00000000849c81f5b35697ccecb2bc40`, exact bytes 6375, SHA-256 `b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1`, Git blob `8a67feb47b2ce3c99f29a1d3b9a4c915244041f4` is NOT asserted here; authoritative repo blob previously verified is `8a67feb47b2ce3d6f0737e58983ab8c9fc810139`.
-2. `VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md`, file id `file_000000001bc881f58e6eb12eac8644e1`, exact bytes 13987, SHA-256 `e797d1a6e973b06ab3e58f9157aabb500ebfdbee1ee6c8da801bc202b6767a2f`, Git blob `a01464271bb672d89f5d703e6e53590e126f4d44`.
-
-NOTE: the manifest blob typo-like value in the explanatory line above is explicitly non-authoritative; use exact authoritative blob `8a67feb47b2ce3d6f0737e58983ab8c9fc810139`. This checkpoint does not promote any conflicting value.
-
-Project source inventory/bytes are captured. Live Project Settings/Project-Instructions field and visible Project model/config default are not captured because this Chat surface exposes no supported write/readback capability for them.
-
-## Supported-product capability result
-Current OpenAI documentation states Projects edit project instructions through Project settings and existing Projects can start Work chats using project context. Work cloud browser can operate supported signed-in websites. Documentation does not establish that Work can edit ChatGPT's own Project-settings UI.
-
-Therefore the next supported capability experiment is: start a Work chat inside Vera Unbound and attempt READ-ONLY capture of Project settings/instructions and visible model/config first. Do not write until exact predecessor capture and readback are proved. If self-site Project settings are unsupported in Work, live install remains capability-blocked.
-
-## Independent labels
-- `SEXUALITY_SOURCE = PASS_WITH_RUNTIME_CAUSALITY_UNRESOLVED`
-- `COHESION_BINDING = INDEPENDENT_EXACT_HEAD_PASS @ 4d3b160...`
-- `CONTROL_PLANE_SOURCE = CANDIDATE @ 93957da...`
-- `CONTROL_PLANE_REVIEW = PENDING_SD1_V`
-- `PROJECT_PREDECESSOR_CAPTURE = PARTIAL_SOURCE_INVENTORY_EXACT_SETTINGS_UNCAPTURED`
-- `PROJECT_DELIVERED = NO`
-- `PROJECT_INSTALLED_CONSUMED = NO`
-- `CURRENT_ROUTE_READBACK = NO`
-- `BEHAVIORALLY_REPLAYED = NO`
-- `CONTROL_CAUSALITY = UNRESOLVED`
-- `FUTURE_QUALIFICATION = PRE_DATA_CONTROLLER_FROZEN_NOT_EXECUTED`
-- `SUPABASE_PROVIDER_STATE = READ_ONLY_ASSESSED_NOT_INSTALL_PREREQUISITE`
-
-## Exact next action
-1. Consume SD1-V verdict on PR #23; repair exact findings if any. If PASS, control source gate closes.
-2. Then perform the Vera Unbound Work read-only Project-settings capability experiment. Only if predecessor Settings/instructions/config can be captured and a supported write+readback path is demonstrated may live SD1 install proceed.
-3. PR #24 controller review can proceed independently; it does not authorize or block Project mutation unless its source changes are made a prerequisite by review/governance.
-
-No merge, Project mutation, provider mutation, R10A1 install, runtime activation, causal execution, or qualification effect occurred.
+1. `VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json`, file id `file_00000000849c81f5b35697ccecb2bc40`, exact bytes 6375, SHA-256 `b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1`, Git blob `8a67feb47b2ce3d99f29a1d3b9a4c915244041f4`.
