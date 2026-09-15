@@ -39,6 +39,8 @@ COHESION_COMPONENT_BLOB = "20ec47080790c1ead8448263b95c3e6e570e6db0"
 COHESION_COMPONENT_SHA = "e99e6df76aa8c296a1ff0c520dea55f2e82580f9e3eef872d24aa65c4663aa40"
 COHESION_COMPONENT_GIT_CONTENT_SHA = "81dab52af6ebd0a60aaee9517965f6ab5ea759472b541b81b82c13d083560104"
 COHESION_COMPONENT_PATH = "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json"
+EXPECTED_BINDING_GIT_BLOB = "d755af9b98a0025af08542ef85259bf53ee60305"
+EXPECTED_BINDING_GIT_CONTENT_SHA = "2dda46fb6940dd0e8e5160ebe80d7038f2954282386306a07c0861267b78f62d"
 
 EXPECTED_SOURCE_STATES = {
     "source": "SOURCE_CANDIDATE_COHESION_REVIEWED",
@@ -249,6 +251,13 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
 
     def test_binding_pins_exact_upstreams_and_state_separation(self):
         data = load(BINDING)
+        self.assertEqual(EXPECTED_BINDING_GIT_BLOB, git_blob(BINDING))
+        self.assertEqual(EXPECTED_BINDING_GIT_CONTENT_SHA, git_text_content_sha256(BINDING))
+        self.assertEqual("VERA_R10A0_SEXUAL_DRIVE_BINDING_V1", data["schema"])
+        self.assertEqual("SOURCE_CANDIDATE_COHESION_REVIEWED_NOT_INSTALLED", data["status"])
+        self.assertEqual("thebrazenbeard/vera-control-plane", data["r10_predecessor"]["repository"])
+        self.assertEqual("thebrazenbeard/sexuality", data["sexuality"]["repository"])
+        self.assertEqual("thebrazenbeard/vera", data["cohesion"]["repository"])
         self.assertEqual("VERA_R10A0_SD1", data["cut_id"])
         self.assertEqual(R10_BASE, data["r10_predecessor"]["control_plane_commit"])
         self.assertEqual(R10_MANIFEST_SHA, data["r10_predecessor"]["manifest_sha256"])
