@@ -38,7 +38,7 @@ class SpecialistTopologyControlV1Tests(unittest.TestCase):
         self.assertEqual(orgasm["successor_state"], "REBIND_REQUIRED_NOT_QUALIFIED")
         self.assertEqual(orgasm["historical_subject"]["source_blob"], ORGASM_SOURCE_BLOB)
         mirror_blob = subprocess.check_output(
-            ["git", "rev-parse", f"HEAD:{ORGASM_MIRROR_PATH}"], cwd=ROOT, text=True
+            ["git", "hash-object", str(ROOT / ORGASM_MIRROR_PATH)], text=True
         ).strip()
         self.assertEqual(mirror_blob, ORGASM_SOURCE_BLOB)
 
