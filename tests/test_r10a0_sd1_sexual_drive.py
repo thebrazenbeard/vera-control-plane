@@ -146,6 +146,56 @@ def validate_source_candidate_claims(data, control_text, qualification_text):
         raise ValueError("qualification documentation diverges from closed canonical source-only text")
 
 
+def validate_manifest_binding_crossbind(manifest, binding):
+    if manifest.get("status") != binding.get("status"):
+        raise ValueError("manifest/binding status mismatch")
+    if manifest.get("cut_id") != binding.get("cut_id"):
+        raise ValueError("manifest/binding cut mismatch")
+    if manifest.get("composition") != binding.get("current_composition", {}).get("id"):
+        raise ValueError("manifest/binding composition mismatch")
+    if manifest.get("source_repository") != "thebrazenbeard/vera-control-plane":
+        raise ValueError("unexpected manifest source repository")
+
+    r10_keys = (
+        "control_plane_commit", "native_git_blob", "native_git_content_sha256",
+        "manifest_git_blob", "manifest_sha256", "full_owner_git_blob",
+    )
+    expected_r10 = {key: binding["r10_predecessor"][key] for key in r10_keys}
+    if manifest.get("r10_predecessor") != expected_r10:
+        raise ValueError("manifest/binding R10 predecessor mismatch")
+
+    sexuality_keys = (
+        "repository", "commit", "manifest_git_blob", "manifest_git_content_sha256",
+        "manifest_declared_checkout_sha256", "semantic_owner_git_blob",
+        "semantic_owner_git_content_sha256", "causal_protocol_git_blob",
+        "causal_protocol_git_content_sha256", "install_authority_receipt_git_blob",
+        "install_authority_receipt_git_content_sha256",
+    )
+    expected_sexuality = {key: binding["sexuality"][key] for key in sexuality_keys}
+    if manifest.get("external_bindings", {}).get("sexuality") != expected_sexuality:
+        raise ValueError("manifest/binding Sexuality tuple mismatch")
+
+    cohesion_keys = (
+        "repository", "commit", "component_path", "component_git_blob",
+        "component_git_content_sha256", "component_structured_sha256",
+        "component_declared_checkout_sha256", "review_status", "review_evidence_bus_commit",
+    )
+    expected_cohesion = {key: binding["cohesion"][key] for key in cohesion_keys}
+    if manifest.get("external_bindings", {}).get("cohesion") != expected_cohesion:
+        raise ValueError("manifest/binding Cohesion tuple mismatch")
+    if set(manifest.get("external_bindings", {})) != {"sexuality", "cohesion"}:
+        raise ValueError("manifest external binding set mismatch")
+
+    case_range = binding.get("qualification_case_range", {})
+    expected_range = f'{case_range.get("first")}..{case_range.get("last", "").removeprefix("SD-")}'
+    if manifest.get("qualification_case_range") != expected_range:
+        raise ValueError("manifest qualification range mismatch")
+    expected_separation = [key.upper() for key in binding.get("state_labels", {})]
+    if manifest.get("state_separation") != expected_separation:
+        raise ValueError("manifest state-separation mismatch")
+    return True
+
+
 def expected_native_lines(manifest_sha):
     base_lines = BASE_NATIVE.read_text(encoding="utf-8").splitlines()
     result = list(base_lines)
@@ -316,6 +366,35 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
             "NATIVE_PINS_GIT_CONTENT_SHA256_OF_MANIFEST_MANIFEST_DOES_NOT_BIND_NATIVE_BLOB",
             manifest["native_binding_rule"],
         )
+
+    def test_manifest_cross_binds_complete_duplicated_binding_subjects(self):
+        manifest = load(MANIFEST)
+        binding = load(BINDING)
+        self.assertTrue(validate_manifest_binding_crossbind(manifest, binding))
+
+    def test_hostile_manifest_binding_disagreement_fails_closed(self):
+        import copy
+        manifest = load(MANIFEST)
+        binding = load(BINDING)
+        mutations = (
+            (("r10_predecessor", "full_owner_git_blob"), "forged-r10-owner"),
+            (("external_bindings", "sexuality", "commit"), "forged-sexuality-commit"),
+            (("external_bindings", "sexuality", "semantic_owner_git_blob"), "forged-sexuality-owner"),
+            (("external_bindings", "cohesion", "component_git_blob"), "forged-cohesion-component"),
+        )
+        for path, value in mutations:
+            candidate = copy.deepcopy(manifest)
+            node = candidate
+            for key in path[:-1]:
+                node = node[key]
+            node[path[-1]] = value
+            with self.subTest(path=path):
+                with self.assertRaises(ValueError):
+                    validate_manifest_binding_crossbind(candidate, binding)
+        candidate = copy.deepcopy(manifest)
+        candidate["external_bindings"]["sexuality"]["unexpected_claim"] = "forged"
+        with self.assertRaises(ValueError):
+            validate_manifest_binding_crossbind(candidate, binding)
 
     def test_rollback_subject_does_not_invent_live_predecessor_capture(self):
         rollback = load(ROLLBACK)
