@@ -60,6 +60,19 @@ EXPECTED_CLAIM_CEILING = {
     "global_qualification": False,
 }
 
+EXPECTED_MANIFEST_KEYS = {"schema", "status", "cut_id", "composition", "source_repository", "digest_semantics", "r10_predecessor", "external_bindings", "artifacts", "native_projection_path", "native_binding_rule", "qualification_case_range", "state_separation", "non_effects"}
+EXPECTED_MANIFEST_DIGEST_SEMANTICS = {
+    "git_blob": "immutable Git object identity",
+    "git_content_sha256": "SHA-256 of raw bytes stored in the Git blob",
+    "declared_checkout_sha256": "upstream Windows-checkout digest retained as provenance only",
+}
+EXPECTED_MANIFEST_NON_EFFECTS = [
+    "not merge authority", "not Project installation evidence", "not current-route evidence",
+    "not runtime behavioral pass", "not causal pass", "not global qualification", "not R10A1 installation",
+]
+EXPECTED_MANIFEST_ARTIFACT_KEYS = {"control", "binding", "qualification", "rollback"}
+EXPECTED_NATIVE_BINDING_RULE = "NATIVE_PINS_GIT_CONTENT_SHA256_OF_MANIFEST_MANIFEST_DOES_NOT_BIND_NATIVE_BLOB"
+
 EXPECTED_CONTROL_TEXT = """# VERA R10A0 Sexual Drive Control V1
 
 Status: `SOURCE_CONTROL_CANDIDATE / COHESION_REVIEWED / NOT_INSTALLED / NOT_RUNTIME_QUALIFIED`
@@ -147,6 +160,27 @@ def validate_source_candidate_claims(data, control_text, qualification_text):
 
 
 def validate_manifest_cross_bind(manifest, binding):
+    if set(manifest) != EXPECTED_MANIFEST_KEYS:
+        raise ValueError("source manifest top-level envelope mismatch")
+    expected_case_range = f'{binding["qualification_case_range"]["first"]}..{binding["qualification_case_range"]["last"].removeprefix("SD-")}'
+    expected_envelope = {
+        "schema": "VERA_R10A0_SD1_PROJECT_SOURCE_MANIFEST_V1", "status": binding["status"],
+        "cut_id": binding["cut_id"], "composition": binding["current_composition"]["id"],
+        "source_repository": binding["r10_predecessor"]["repository"],
+        "digest_semantics": EXPECTED_MANIFEST_DIGEST_SEMANTICS,
+        "native_projection_path": NATIVE.relative_to(ROOT).as_posix(),
+        "native_binding_rule": EXPECTED_NATIVE_BINDING_RULE,
+        "qualification_case_range": expected_case_range,
+        "state_separation": [key.upper() for key in binding["state_labels"]],
+        "non_effects": EXPECTED_MANIFEST_NON_EFFECTS,
+    }
+    for key, value in expected_envelope.items():
+        if manifest.get(key) != value:
+            raise ValueError(f"source manifest claim envelope mismatch: {key}")
+    if set(manifest.get("external_bindings", {})) != {"sexuality", "cohesion"}:
+        raise ValueError("source manifest external binding set mismatch")
+    if set(manifest.get("artifacts", {})) != EXPECTED_MANIFEST_ARTIFACT_KEYS:
+        raise ValueError("source manifest artifact set mismatch")
     expected_r10 = {
         "control_plane_commit": binding["r10_predecessor"]["control_plane_commit"],
         "native_git_blob": binding["r10_predecessor"]["native_git_blob"],
@@ -385,6 +419,29 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
         cases.append(hostile)
         for idx, candidate in enumerate(cases):
             with self.subTest(idx=idx):
+                with self.assertRaises(ValueError):
+                    validate_manifest_cross_bind(candidate, binding)
+
+    def test_manifest_claim_envelope_fails_closed(self):
+        import copy
+        manifest = load(MANIFEST)
+        binding = load(BINDING)
+        mutations = (
+            ("status", "INSTALLED_ACTIVE_QUALIFIED"),
+            ("cut_id", "ATTACKER_CUT"),
+            ("composition", "R10A1_PLUS_SD1"),
+            ("source_repository", "attacker/control-plane"),
+            ("qualification_case_range", "SD-01..999"),
+            ("state_separation", ["SOURCE"]),
+            ("non_effects", []),
+            ("native_projection_path", "attacker/native.txt"),
+            ("native_binding_rule", "TRUST_ME"),
+            ("unexpected_runtime_claim", "RUNTIME_PASS"),
+        )
+        for key, value in mutations:
+            candidate = copy.deepcopy(manifest)
+            candidate[key] = value
+            with self.subTest(key=key):
                 with self.assertRaises(ValueError):
                     validate_manifest_cross_bind(candidate, binding)
 
