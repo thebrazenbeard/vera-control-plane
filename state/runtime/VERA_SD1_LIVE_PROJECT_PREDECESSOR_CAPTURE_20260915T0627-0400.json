@@ -1,0 +1,69 @@
+{
+  "schema": "VERA_SD1_LIVE_PROJECT_PREDECESSOR_CAPTURE_V1",
+  "status": "LIVE_PREDECESSOR_CAPTURED_READ_ONLY_NOT_INSTALL_RECEIPT",
+  "captured_at": "2026-09-15T06:27:16.0276188-04:00",
+  "project": {
+    "name": "Vera Unbound",
+    "project_id": "g-p-6a6babcee53481918c0458d0bb5660e5",
+    "observation_surface": "LIVE_CHATGPT_PROJECT_UI_VIA_FIREFOX_UI_AUTOMATION"
+  },
+  "instructions": {
+    "live_ui_chars": 7836,
+    "live_ui_utf8_bytes": 7852,
+    "live_ui_sha256": "7cce2760bcfca08345515ac04ab38ad18e82972853c9dd57e7d1e75d14b85e50",
+    "first_line": "VERA UNBOUND — NATIVE R10A0 — R10",
+    "frozen_r10_native_git_blob": "7e369b8983d70b4bd217f1d2421f8efe1482f738",
+    "frozen_r10_native_git_content_sha256": "031d385db13513380e24e2045411b8aa6933e877374c99f2f70284dc82fd0055",
+    "comparison": "EXACT_TEXT_MATCH_AFTER_REMOVING_THE_FROZEN_REPOSITORY_FILE_SINGLE_TERMINAL_LF",
+    "normalized_subject_sha256": "7cce2760bcfca08345515ac04ab38ad18e82972853c9dd57e7d1e75d14b85e50"
+  },
+  "project_sources": {
+    "live_ui_inventory": [
+      "VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md",
+      "VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json"
+    ],
+    "files": {
+      "VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md": {
+        "utf8_bytes": 13987,
+        "sha256": "e797d1a6e973b06ab3e58f9157aabb500ebfdbee1ee6c8da801bc202b6767a2f",
+        "git_blob": "a01464271bb672d89f5d703e6e53590e126f4d44"
+      },
+      "VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json": {
+        "utf8_bytes": 6375,
+        "sha256": "b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1",
+        "git_blob": "8a67feb47b2ce3d6f0737e58983ab8c9fc810139"
+      }
+    }
+  },
+  "settings": {
+    "memory": "This project can access memory from outside chats, and vice versa.",
+    "library_access": "This project can access your file library while it remains private. Sharing this project disables library access.",
+    "sharing_gate": "Projects with Work conversations can't be shared",
+    "access_mode": "Only those invited",
+    "observed_membership": "CURRENT_USER_OWNER_ONLY"
+  },
+  "candidate_context": {
+    "sexuality_source": "thebrazenbeard/sexuality@02725153fa2e6eae8e81e64bc3d4b797fc404a4d",
+    "cohesion_pass_subject": "thebrazenbeard/vera@4d3b1605d93658180e8afb344394920964e6a84a",
+    "control_repair_under_review": "thebrazenbeard/vera-control-plane@b0aa53e6309a00c45c4e3b86dc9770f521b479fb",
+    "control_repair_pr": 25
+  },
+  "rollback": {
+    "instruction_only_mutation_fidelity": "CAPTURED",
+    "source_inventory_fidelity": "CAPTURED",
+    "source_bytes_and_digests": "CAPTURED",
+    "memory_setting": "CAPTURED",
+    "library_setting": "CAPTURED",
+    "sharing_access_state": "CAPTURED",
+    "rollback_ready_for_bounded_sd1_project_install": true
+  },
+  "non_effects": [
+    "no Project instructions changed",
+    "no Project source added or removed",
+    "no memory setting changed",
+    "no sharing/access setting changed",
+    "no provider mutation",
+    "no route activation",
+    "no causal or behavioral qualification claim"
+  ]
+}
