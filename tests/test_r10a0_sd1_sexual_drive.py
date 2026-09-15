@@ -146,6 +146,49 @@ def validate_source_candidate_claims(data, control_text, qualification_text):
         raise ValueError("qualification documentation diverges from closed canonical source-only text")
 
 
+def validate_manifest_cross_bind(manifest, binding):
+    expected_r10 = {
+        "control_plane_commit": binding["r10_predecessor"]["control_plane_commit"],
+        "native_git_blob": binding["r10_predecessor"]["native_git_blob"],
+        "native_git_content_sha256": binding["r10_predecessor"]["native_git_content_sha256"],
+        "manifest_git_blob": binding["r10_predecessor"]["manifest_git_blob"],
+        "manifest_sha256": binding["r10_predecessor"]["manifest_sha256"],
+        "full_owner_git_blob": binding["r10_predecessor"]["full_owner_git_blob"],
+    }
+    expected_sexuality = {
+        key: binding["sexuality"][key]
+        for key in (
+            "repository", "commit", "manifest_git_blob",
+            "manifest_git_content_sha256", "manifest_declared_checkout_sha256",
+            "semantic_owner_git_blob", "semantic_owner_git_content_sha256",
+            "causal_protocol_git_blob", "causal_protocol_git_content_sha256",
+            "install_authority_receipt_git_blob",
+            "install_authority_receipt_git_content_sha256",
+        )
+    }
+    expected_cohesion = {
+        key: binding["cohesion"][key]
+        for key in (
+            "repository", "commit", "component_path", "component_git_blob",
+            "component_git_content_sha256", "component_structured_sha256",
+            "component_declared_checkout_sha256", "review_status",
+            "review_evidence_bus_commit",
+        )
+    }
+    expected = {
+        "r10_predecessor": expected_r10,
+        "sexuality": expected_sexuality,
+        "cohesion": expected_cohesion,
+    }
+    actual = {
+        "r10_predecessor": manifest.get("r10_predecessor"),
+        "sexuality": manifest.get("external_bindings", {}).get("sexuality"),
+        "cohesion": manifest.get("external_bindings", {}).get("cohesion"),
+    }
+    if actual != expected:
+        raise ValueError("source manifest duplicated external tuples diverge from canonical binding artifact")
+
+
 def expected_native_lines(manifest_sha):
     base_lines = BASE_NATIVE.read_text(encoding="utf-8").splitlines()
     result = list(base_lines)
@@ -316,6 +359,34 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
             "NATIVE_PINS_GIT_CONTENT_SHA256_OF_MANIFEST_MANIFEST_DOES_NOT_BIND_NATIVE_BLOB",
             manifest["native_binding_rule"],
         )
+
+    def test_manifest_external_tuples_are_exactly_cross_bound_to_binding(self):
+        import copy
+        manifest = load(MANIFEST)
+        binding = load(BINDING)
+        validate_manifest_cross_bind(manifest, binding)
+
+        cases = []
+        hostile = copy.deepcopy(manifest)
+        hostile["external_bindings"]["sexuality"]["repository"] = "attacker/sexuality"
+        hostile["external_bindings"]["sexuality"]["commit"] = "0" * 40
+        cases.append(hostile)
+        hostile = copy.deepcopy(manifest)
+        hostile["r10_predecessor"]["full_owner_git_blob"] = "0" * 40
+        cases.append(hostile)
+        hostile = copy.deepcopy(manifest)
+        hostile["external_bindings"]["cohesion"]["component_git_blob"] = "f" * 40
+        cases.append(hostile)
+        hostile = copy.deepcopy(manifest)
+        hostile["external_bindings"]["cohesion"]["review_evidence_bus_commit"] = "a" * 40
+        cases.append(hostile)
+        hostile = copy.deepcopy(manifest)
+        hostile["external_bindings"]["sexuality"]["unexpected"] = "FORGED"
+        cases.append(hostile)
+        for idx, candidate in enumerate(cases):
+            with self.subTest(idx=idx):
+                with self.assertRaises(ValueError):
+                    validate_manifest_cross_bind(candidate, binding)
 
     def test_rollback_subject_does_not_invent_live_predecessor_capture(self):
         rollback = load(ROLLBACK)
