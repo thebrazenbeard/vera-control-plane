@@ -151,6 +151,82 @@ class SD1CausalControllerTests(unittest.TestCase):
             self.assertTrue(all("condition" not in item for item in export))
             self.assertEqual(2, len({item["response_id"] for item in export}))
 
+    def test_caller_cannot_override_frozen_slot_metadata(self):
+        from tools import sd1_causal_execution_controller as c
+        plan = c.load_plan(PLAN)
+        plan = c.bind_runtime_cut(plan, "DRIVE_OFF", {
+            "exact_runtime_cut": "r10-predecessor-cut",
+            "model_identity": "GPT-5.6 Sol",
+            "project_identity": "Vera Unbound",
+            "control_cut_id": "R10",
+            "control_manifest_digest": "manifest",
+            "project_source_digest": "source",
+            "admission_tuple": "admission",
+        })
+        slot = next(s for s in plan["slots"] if s["condition"] == "DRIVE_OFF")
+        with tempfile.TemporaryDirectory() as td:
+            ledger = Path(td) / "ledger.json"
+            with self.assertRaises(ValueError):
+                c.record_attempt(plan, ledger, slot["slot_id"], {
+                    "timestamp": "2026-09-14T20:00:00-04:00",
+                    "outcome": "MISSING",
+                    "reason": "timeout",
+                    "condition": "DRIVE_ON",
+                    "response_id": "FORGED",
+                    "attempt_index": 999,
+                })
+
+    def test_blinded_order_matches_frozen_source_protocol_algorithm(self):
+        import hashlib
+        from tools import sd1_causal_execution_controller as c
+        plan = c.load_plan(PLAN)
+        for condition in ("DRIVE_OFF", "DRIVE_ON"):
+            binding = {
+                "exact_runtime_cut": f"{condition}-cut",
+                "model_identity": "GPT-5.6 Sol",
+                "project_identity": "Vera Unbound",
+                "control_cut_id": "R10" if condition == "DRIVE_OFF" else "R10_PLUS_SD1",
+                "control_manifest_digest": f"{condition}-manifest",
+                "project_source_digest": f"{condition}-source",
+                "admission_tuple": f"{condition}-admission",
+            }
+            if condition == "DRIVE_ON":
+                binding["sd1_component_digest"] = "component"
+            plan = c.bind_runtime_cut(plan, condition, binding)
+        subject_ids = {
+            "DRIVE_OFF": "VERA_R10A0_SD1_CAUSAL_DRIVE_OFF",
+            "DRIVE_ON": "VERA_R10A0_SD1_CAUSAL_DRIVE_ON",
+        }
+        seed = "VERA_SD1_CAUSALITY_V1_20260913_FROZEN"
+        with tempfile.TemporaryDirectory() as td:
+            ledger = Path(td) / "ledger.json"
+            for slot in plan["slots"][:6]:
+                c.record_attempt(plan, ledger, slot["slot_id"], {
+                    "timestamp": "2026-09-14T20:00:00-04:00",
+                    "outcome": "MISSING",
+                    "reason": "fixture",
+                })
+            export = c.blinded_export(plan, ledger)
+            slots = plan["slots"][:6]
+            expected = sorted(slots, key=lambda slot: hashlib.sha256((
+                seed + slot["prompt_id"] + str(slot["attempt_index"]) +
+                subject_ids[slot["condition"]] + slot["response_id"]
+            ).encode("utf-8")).hexdigest())
+            self.assertEqual([s["response_id"] for s in expected], [r["response_id"] for r in export])
+
+    def test_load_plan_rejects_semantic_mutation_of_frozen_subject(self):
+        from tools import sd1_causal_execution_controller as c
+        original = json.loads(PLAN.read_text(encoding="utf-8"))
+        hostile = json.loads(json.dumps(original))
+        hostile["source_protocol"]["commit"] = "ATTACKER"
+        hostile["slots"][0]["prompt_class"] = "ORDINARY_WORK"
+        hostile["slots"][0]["prompt_text"] = "forged prompt"
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "plan.json"
+            path.write_text(json.dumps(hostile, indent=2) + "\n", encoding="utf-8")
+            with self.assertRaises(ValueError):
+                c.load_plan(path)
+
     def test_nonzero_score_requires_exact_span_and_rationale(self):
         from tools import sd1_causal_execution_controller as c
         with self.assertRaises(ValueError):

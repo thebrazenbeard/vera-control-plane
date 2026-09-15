@@ -6,6 +6,14 @@ from pathlib import Path
 from typing import Any
 
 _ALLOWED_OUTCOMES = {"RESPONSE", "MISSING", "UNKNOWN"}
+_FROZEN_IMMUTABLE_PLAN_SHA256 = "526f35438c2521d40e7a2bfa145da363e0c5063d2affef27131f9370e08564ba"
+_RANDOMIZATION_SEED = "VERA_SD1_CAUSALITY_V1_20260913_FROZEN"
+_CONDITION_SUBJECT_IDS = {
+    "DRIVE_OFF": "VERA_R10A0_SD1_CAUSAL_DRIVE_OFF",
+    "DRIVE_ON": "VERA_R10A0_SD1_CAUSAL_DRIVE_ON",
+}
+_RESPONSE_INPUT_FIELDS = {"timestamp", "outcome", "response_text", "pre_run_readback"}
+_NONRESPONSE_INPUT_FIELDS = {"timestamp", "outcome", "reason"}
 _REQUIRED_BINDING_FIELDS = {
     "DRIVE_OFF": (
         "exact_runtime_cut", "model_identity", "project_identity", "control_cut_id",
@@ -17,17 +25,33 @@ _REQUIRED_BINDING_FIELDS = {
     ),
 }
 
-def load_plan(path: str | Path) -> dict[str, Any]:
-    data = json.loads(Path(path).read_text(encoding="utf-8"))
-    if data.get("schema") != "SD1_CAUSAL_EXECUTION_CONTROLLER_V1":
-        raise ValueError("unexpected causal controller schema")
-    slots = data.get("slots")
-    if not isinstance(slots, list) or len(slots) != 70:
+def _canonical_sha256(data: Any) -> str:
+    payload = json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _validate_immutable_plan(plan: dict[str, Any]) -> None:
+    immutable = {
+        key: plan.get(key)
+        for key in ("schema", "status", "source_protocol", "pre_data_freeze", "blinding", "slots")
+    }
+    if _canonical_sha256(immutable) != _FROZEN_IMMUTABLE_PLAN_SHA256:
+        raise ValueError("causal plan immutable subject diverges from frozen pre-data plan")
+    slots = plan.get("slots")
+    if type(slots) is not list or len(slots) != 70:
         raise ValueError("causal controller must contain exactly 70 frozen slots")
     if len({item.get("slot_id") for item in slots}) != 70:
         raise ValueError("slot ids must be unique")
     if len({item.get("response_id") for item in slots}) != 70:
         raise ValueError("response ids must be unique")
+    bindings = plan.get("runtime_bindings")
+    if type(bindings) is not dict or set(bindings) != {"DRIVE_OFF", "DRIVE_ON"}:
+        raise ValueError("runtime bindings must contain exactly DRIVE_OFF and DRIVE_ON")
+
+
+def load_plan(path: str | Path) -> dict[str, Any]:
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    _validate_immutable_plan(data)
     return data
 
 
@@ -39,7 +63,8 @@ def _binding_fields(condition: str) -> tuple[str, ...]:
 
 
 def bind_runtime_cut(plan: dict[str, Any], condition: str, binding: dict[str, Any]) -> dict[str, Any]:
-    if not isinstance(binding, dict):
+    _validate_immutable_plan(plan)
+    if type(binding) is not dict:
         raise ValueError("runtime binding must be a mapping")
     required = _binding_fields(condition)
     if set(binding) != set(required):
@@ -72,6 +97,9 @@ def _expected_readback(binding: dict[str, Any], condition: str) -> dict[str, str
 
 
 def record_attempt(plan: dict[str, Any], ledger_path: str | Path, slot_id: str, record: dict[str, Any]) -> dict[str, Any]:
+    _validate_immutable_plan(plan)
+    if type(record) is not dict:
+        raise ValueError("attempt record must be an exact mapping")
     slot = _find_slot(plan, slot_id)
     condition = slot["condition"]
     binding = plan["runtime_bindings"][condition]
@@ -80,23 +108,11 @@ def record_attempt(plan: dict[str, Any], ledger_path: str | Path, slot_id: str, 
     outcome = record.get("outcome")
     if outcome not in _ALLOWED_OUTCOMES:
         raise ValueError("attempt outcome must be RESPONSE, MISSING, or UNKNOWN")
+    expected_fields = _RESPONSE_INPUT_FIELDS if outcome == "RESPONSE" else _NONRESPONSE_INPUT_FIELDS
+    if set(record) != expected_fields:
+        raise ValueError("attempt payload contains missing, extra, or caller-owned frozen metadata fields")
     if type(record.get("timestamp")) is not str or not record["timestamp"]:
         raise ValueError("attempt timestamp is required")
-    if outcome == "RESPONSE":
-        if type(record.get("response_text")) is not str or not record["response_text"]:
-            raise ValueError("response outcome requires response_text")
-        supplied = record.get("pre_run_readback")
-        if type(supplied) is not dict or supplied != _expected_readback(binding, condition):
-            raise ValueError("response requires exact complete pre-run readback")
-    else:
-        if "response_text" in record:
-            raise ValueError("missing/unknown outcome cannot carry replacement response text")
-        if type(record.get("reason")) is not str or not record["reason"]:
-            raise ValueError("missing/unknown outcome requires reason")
-    path = Path(ledger_path)
-    ledger = _load_ledger(path)
-    if slot_id in ledger["records"]:
-        raise ValueError("attempt slot is immutable once recorded; reroll/overwrite forbidden")
     stored = {
         "slot_id": slot_id,
         "response_id": slot["response_id"],
@@ -104,32 +120,88 @@ def record_attempt(plan: dict[str, Any], ledger_path: str | Path, slot_id: str, 
         "prompt_id": slot["prompt_id"],
         "prompt_class": slot["prompt_class"],
         "attempt_index": slot["attempt_index"],
-        **record,
+        "timestamp": record["timestamp"],
+        "outcome": outcome,
     }
+    if outcome == "RESPONSE":
+        if type(record.get("response_text")) is not str or not record["response_text"]:
+            raise ValueError("response outcome requires response_text")
+        supplied = record.get("pre_run_readback")
+        if type(supplied) is not dict or supplied != _expected_readback(binding, condition):
+            raise ValueError("response requires exact complete pre-run readback")
+        stored["response_text"] = record["response_text"]
+        stored["pre_run_readback"] = dict(supplied)
+    else:
+        if type(record.get("reason")) is not str or not record["reason"]:
+            raise ValueError("missing/unknown outcome requires reason")
+        stored["reason"] = record["reason"]
+    path = Path(ledger_path)
+    ledger = _load_ledger(path)
+    if slot_id in ledger["records"]:
+        raise ValueError("attempt slot is immutable once recorded; reroll/overwrite forbidden")
     ledger["records"][slot_id] = stored
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(ledger, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return stored
 
 
+def _validate_ledger_record(plan: dict[str, Any], slot_id: str, record: dict[str, Any]) -> dict[str, Any]:
+    if type(record) is not dict:
+        raise ValueError("ledger record must be a mapping")
+    slot = _find_slot(plan, slot_id)
+    frozen = {
+        "slot_id": slot_id,
+        "response_id": slot["response_id"],
+        "condition": slot["condition"],
+        "prompt_id": slot["prompt_id"],
+        "prompt_class": slot["prompt_class"],
+        "attempt_index": slot["attempt_index"],
+    }
+    for key, value in frozen.items():
+        if record.get(key) != value:
+            raise ValueError("ledger metadata diverges from frozen slot map")
+    outcome = record.get("outcome")
+    expected = set(frozen) | ({"timestamp", "outcome", "response_text", "pre_run_readback"} if outcome == "RESPONSE" else {"timestamp", "outcome", "reason"})
+    if outcome not in _ALLOWED_OUTCOMES or set(record) != expected:
+        raise ValueError("ledger record schema diverges from frozen outcome schema")
+    return slot
+
+
+def _blind_sort_key(slot: dict[str, Any]) -> str:
+    subject_id = _CONDITION_SUBJECT_IDS[slot["condition"]]
+    material = (
+        _RANDOMIZATION_SEED
+        + slot["prompt_id"]
+        + str(slot["attempt_index"])
+        + subject_id
+        + slot["response_id"]
+    )
+    return hashlib.sha256(material.encode("utf-8")).hexdigest()
+
+
 def blinded_export(plan: dict[str, Any], ledger_path: str | Path) -> list[dict[str, Any]]:
+    _validate_immutable_plan(plan)
     ledger = _load_ledger(Path(ledger_path))
     exported = []
-    for record in ledger["records"].values():
+    for slot_id, record in ledger["records"].items():
+        slot = _validate_ledger_record(plan, slot_id, record)
         item = {
-            "response_id": record["response_id"],
-            "prompt_id": record["prompt_id"],
-            "prompt_class": record["prompt_class"],
-            "attempt_index": record["attempt_index"],
+            "response_id": slot["response_id"],
+            "prompt_id": slot["prompt_id"],
+            "prompt_class": slot["prompt_class"],
+            "attempt_index": slot["attempt_index"],
             "outcome": record["outcome"],
             "timestamp": record["timestamp"],
+            "_blind_sort_key": _blind_sort_key(slot),
         }
         if record["outcome"] == "RESPONSE":
             item["response_text"] = record["response_text"]
         else:
             item["reason"] = record["reason"]
         exported.append(item)
-    exported.sort(key=lambda item: hashlib.sha256(item["response_id"].encode("ascii")).hexdigest())
+    exported.sort(key=lambda item: item["_blind_sort_key"])
+    for item in exported:
+        item.pop("_blind_sort_key")
     return exported
 
 
