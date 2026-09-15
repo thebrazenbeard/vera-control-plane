@@ -14,6 +14,8 @@ _CONDITION_SUBJECT_IDS = {
 }
 _RESPONSE_INPUT_FIELDS = {"timestamp", "outcome", "response_text", "pre_run_readback"}
 _NONRESPONSE_INPUT_FIELDS = {"timestamp", "outcome", "reason"}
+_LEDGER_GENESIS_DIGEST = hashlib.sha256(b"SD1_CAUSAL_ATTEMPT_LEDGER_V1_GENESIS").hexdigest()
+_INTEGRITY_FIELDS = {"previous_record_digest", "record_digest"}
 _REQUIRED_BINDING_FIELDS = {
     "DRIVE_OFF": (
         "exact_runtime_cut", "model_identity", "project_identity", "control_cut_id",
@@ -76,12 +78,30 @@ def bind_runtime_cut(plan: dict[str, Any], condition: str, binding: dict[str, An
     return out
 
 
+def _empty_ledger() -> dict[str, Any]:
+    return {
+        "schema": "SD1_CAUSAL_ATTEMPT_LEDGER_V1",
+        "records": {},
+        "record_order": [],
+        "chain_head": _LEDGER_GENESIS_DIGEST,
+    }
+
+
 def _load_ledger(path: Path) -> dict[str, Any]:
     if not path.exists():
-        return {"schema": "SD1_CAUSAL_ATTEMPT_LEDGER_V1", "records": {}}
+        return _empty_ledger()
     data = json.loads(path.read_text(encoding="utf-8"))
+    if set(data) != {"schema", "records", "record_order", "chain_head"}:
+        raise ValueError("invalid causal ledger envelope")
     if data.get("schema") != "SD1_CAUSAL_ATTEMPT_LEDGER_V1" or type(data.get("records")) is not dict:
         raise ValueError("invalid causal ledger")
+    order = data.get("record_order")
+    if type(order) is not list or len(order) != len(set(order)):
+        raise ValueError("ledger record order must be a unique list")
+    if set(data["records"]) != set(order):
+        raise ValueError("ledger record order and record keys diverge")
+    if type(data.get("chain_head")) is not str or not data["chain_head"]:
+        raise ValueError("ledger chain head is required")
     return data
 
 
@@ -137,12 +157,25 @@ def record_attempt(plan: dict[str, Any], ledger_path: str | Path, slot_id: str, 
         stored["reason"] = record["reason"]
     path = Path(ledger_path)
     ledger = _load_ledger(path)
+    _validate_ledger_integrity(plan, ledger)
     if slot_id in ledger["records"]:
         raise ValueError("attempt slot is immutable once recorded; reroll/overwrite forbidden")
+    previous = ledger["chain_head"]
+    stored["previous_record_digest"] = previous
+    stored["record_digest"] = _record_digest(previous, stored)
     ledger["records"][slot_id] = stored
+    ledger["record_order"].append(slot_id)
+    ledger["chain_head"] = stored["record_digest"]
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(ledger, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    return stored
+    persisted = _load_ledger(path)
+    _validate_ledger_integrity(plan, persisted)
+    return persisted["records"][slot_id]
+
+
+def _record_digest(previous_digest: str, record: dict[str, Any]) -> str:
+    payload = {key: value for key, value in record.items() if key not in _INTEGRITY_FIELDS}
+    return _canonical_sha256({"previous_record_digest": previous_digest, "record": payload})
 
 
 def _validate_ledger_record(plan: dict[str, Any], slot_id: str, record: dict[str, Any]) -> dict[str, Any]:
@@ -161,10 +194,42 @@ def _validate_ledger_record(plan: dict[str, Any], slot_id: str, record: dict[str
         if record.get(key) != value:
             raise ValueError("ledger metadata diverges from frozen slot map")
     outcome = record.get("outcome")
-    expected = set(frozen) | ({"timestamp", "outcome", "response_text", "pre_run_readback"} if outcome == "RESPONSE" else {"timestamp", "outcome", "reason"})
+    expected_payload = {"timestamp", "outcome", "response_text", "pre_run_readback"} if outcome == "RESPONSE" else {"timestamp", "outcome", "reason"}
+    expected = set(frozen) | expected_payload | _INTEGRITY_FIELDS
     if outcome not in _ALLOWED_OUTCOMES or set(record) != expected:
         raise ValueError("ledger record schema diverges from frozen outcome schema")
+    if type(record.get("timestamp")) is not str or not record["timestamp"]:
+        raise ValueError("ledger attempt timestamp is required")
+    binding = plan["runtime_bindings"][slot["condition"]]
+    if binding.get("ready") is not True:
+        raise ValueError("ledger condition runtime cut is not bound and read back")
+    if outcome == "RESPONSE":
+        if type(record.get("response_text")) is not str or not record["response_text"]:
+            raise ValueError("ledger response requires response_text")
+        if record.get("pre_run_readback") != _expected_readback(binding, slot["condition"]):
+            raise ValueError("ledger response readback diverges from bound runtime tuple")
+    else:
+        if type(record.get("reason")) is not str or not record["reason"]:
+            raise ValueError("ledger missing/unknown outcome requires reason")
+    previous = record.get("previous_record_digest")
+    digest = record.get("record_digest")
+    if type(previous) is not str or type(digest) is not str:
+        raise ValueError("ledger integrity digests are required")
+    if digest != _record_digest(previous, record):
+        raise ValueError("ledger record digest mismatch")
     return slot
+
+
+def _validate_ledger_integrity(plan: dict[str, Any], ledger: dict[str, Any]) -> None:
+    previous = _LEDGER_GENESIS_DIGEST
+    for slot_id in ledger["record_order"]:
+        record = ledger["records"][slot_id]
+        if record.get("previous_record_digest") != previous:
+            raise ValueError("ledger hash chain predecessor mismatch")
+        _validate_ledger_record(plan, slot_id, record)
+        previous = record["record_digest"]
+    if ledger["chain_head"] != previous:
+        raise ValueError("ledger hash chain head mismatch")
 
 
 def _blind_sort_key(slot: dict[str, Any]) -> str:
@@ -182,8 +247,10 @@ def _blind_sort_key(slot: dict[str, Any]) -> str:
 def blinded_export(plan: dict[str, Any], ledger_path: str | Path) -> list[dict[str, Any]]:
     _validate_immutable_plan(plan)
     ledger = _load_ledger(Path(ledger_path))
+    _validate_ledger_integrity(plan, ledger)
     exported = []
-    for slot_id, record in ledger["records"].items():
+    for slot_id in ledger["record_order"]:
+        record = ledger["records"][slot_id]
         slot = _validate_ledger_record(plan, slot_id, record)
         item = {
             "response_id": slot["response_id"],
