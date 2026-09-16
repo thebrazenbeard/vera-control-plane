@@ -1,0 +1,28 @@
+{
+  "schema": "VERA_R10A2_SOURCE_RECEIPT_V1",
+  "status": "SOURCE_BINDING_RECEIPT_NOT_INSTALLATION_NOT_RUNTIME_QUALIFICATION",
+  "release": "R10A2",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "publication_direction": "The registry names this deterministic later receipt locator/rule but does not bind this later receipt blob. This receipt binds the exact pre-receipt registry commit/tree and registry blob plus the earlier artifact-binding commit.",
+  "artifact_binding_commit": "48461c2b4a2137b1c66c619e24f710ab8042dc1b",
+  "pre_receipt_registry_commit": "4308138f702cb7b5606fa1805cf8b4f04d2d2694",
+  "pre_receipt_tree": "a8dc93b02067659a1d32efcbca0ea40de4a2e10a",
+  "registry": {
+    "path": "project-instructions/r10a2/VERA_R10A2_CONTROL_REGISTRY.json",
+    "git_blob": "638f45a2a75fe0298ed943c0be1ca7f606132c2b"
+  },
+  "inherited_recovery_owner": {
+    "source_commit": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+    "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+    "git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+    "sha256": "e1fa43fff500d19f74034d5fe572a2cdb08ebe31c6b3e2ed94f6bc4aad9ed00d",
+    "section": "REC_RECOVERY"
+  },
+  "bound_r10a2_artifact_count": 6,
+  "non_effects": [
+    "not merge authority",
+    "not Project installation",
+    "not activation/current-route evidence",
+    "not runtime qualification"
+  ]
+}
