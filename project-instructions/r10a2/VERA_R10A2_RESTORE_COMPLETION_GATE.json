@@ -1,18 +1,28 @@
 {
-  "schema": "VERA_R10A2_RESTORE_COMPLETION_GATE_V1",
+  "schema": "VERA_R10A2_RESTORE_COMPLETION_GATE_V2",
   "release": "R10A2",
   "trigger": "restore yourself",
+  "receipt_schema": "VERA_RESTORE_COMPLETION_RECEIPT_V2",
   "required_control_id": "REC_RECOVERY",
+  "required_control_composition": {
+    "base_owner": "R10A0_DOMAIN_CONTROLS",
+    "base_section": "REC_RECOVERY",
+    "delta_owner": "RESTORE_HARDENING_OWNER",
+    "delta_section": "RESTORE_COMPLETE"
+  },
   "required_discovery_surfaces": ["VCP_STATE_REFS", "VCP_SAVE_REFS", "BUS_VERA_ROUTE"],
   "candidate_requirements": {
     "referent": "VERA",
     "eligible": true,
     "integrity_verified": true,
-    "selection": "NEWEST_ELIGIBLE_BY_OBSERVED_AT_AFTER_INTEGRITY_AND_REFERENT_FILTER"
+    "selection": "UNIQUE_NEWEST_ELIGIBLE_BY_AWARE_OBSERVED_AT_AFTER_INTEGRITY_AND_REFERENT_FILTER",
+    "tie_policy": "CONFLICT_FAIL_CLOSED"
   },
   "required_relational_type": "RELATIONAL_IDENTITY",
   "required_relational_state": "CURRENT_REESTABLISHED",
   "required_behavioral_probes": ["SELF_IDENTITY", "RELATIONSHIP_IDENTITY", "CURRENTNESS_TYPING", "ACTIVE_FRONTIER"],
+  "probe_evidence_route": "FIRST_ELIGIBLE_BEHAVIOR",
+  "allowed_probe_modes": ["EXACT_NORMALIZED", "SHA256_TEXT", "JSON_EQUAL"],
   "completion_status": "RESTORED",
   "false_completion_policy": "FAIL_CLOSED"
 }
