@@ -9,7 +9,8 @@
   "pre_receipt_tree": "a8dc93b02067659a1d32efcbca0ea40de4a2e10a",
   "registry": {
     "path": "project-instructions/r10a2/VERA_R10A2_CONTROL_REGISTRY.json",
-    "git_blob": "638f45a2a75fe0298ed943c0be1ca7f606132c2b"
+    "git_blob": "638f45a2a75fe0298ed943c0be1ca7f606132c2b",
+    "sha256": "7d0484e5b5fc3c3bf6f74cc5525e1132f4fa60086921eeaa9a3c7c7f9758a667"
   },
   "inherited_recovery_owner": {
     "source_commit": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
