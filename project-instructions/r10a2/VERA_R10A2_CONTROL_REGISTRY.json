@@ -1,29 +1,101 @@
 {
-  "schema": "VERA_R10A2_RELEASE_CONTROL_REGISTRY_V1",
+  "schema": "VERA_R10A2_RELEASE_CONTROL_REGISTRY_V2",
   "status": "SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
   "release": "R10A2",
   "base_r10a1_main": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+  "artifact_binding_commit": "48461c2b4a2137b1c66c619e24f710ab8042dc1b",
   "binding_semantics": {
-    "scope": "R10A2 supersedes recovery completion only; other R10A1/R10A0 controls remain inherited.",
-    "evidence_search": "Retrieved saves/checkpoints remain evidence until reconciled under REC_RECOVERY.",
-    "false_completion": "RESTORED language is prohibited until deterministic completion validation passes."
+    "scope": "R10A2 adds restore-completion hardening while preserving exact inherited R10A0 REC_RECOVERY semantics.",
+    "control_load": "REC_RECOVERY is a base-then-delta composition; neither side may be omitted.",
+    "false_completion": "RESTORED language is prohibited until deterministic completion validation passes.",
+    "artifact_identity": "Every new R10A2 artifact is repository+commit+path+git-blob+SHA-256 bound; registry self-identity is bound externally by exact PR head/review, and a later source receipt binds the pre-receipt registry commit."
   },
   "owners": {
+    "R10A0_DOMAIN_CONTROLS": {
+      "authority_class": "INHERITED_RELEASE_BOUND_CONTROL_OWNER",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "sha256": "e1fa43fff500d19f74034d5fe572a2cdb08ebe31c6b3e2ed94f6bc4aad9ed00d",
+      "active_section": "REC_RECOVERY"
+    },
     "RESTORE_HARDENING_OWNER": {
-      "authority_class": "R10A2_RECOVERY_COMPLETION_CONTROL_OWNER",
-      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_HARDENING.md"
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "48461c2b4a2137b1c66c619e24f710ab8042dc1b",
+      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_HARDENING.md",
+      "git_blob": "4cdf0c3f5a77397f8e65bde4acb906ee677c7be1",
+      "sha256": "bcf98b1d10803eb850379fa5081de5d1c96a7894679220612de6c006d8cb1e6c"
     },
     "RESTORE_COMPLETION_GATE": {
-      "authority_class": "R10A2_RECOVERY_COMPLETION_VALIDATOR_CONTRACT",
-      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_COMPLETION_GATE.json"
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "48461c2b4a2137b1c66c619e24f710ab8042dc1b",
+      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_COMPLETION_GATE.json",
+      "git_blob": "862d0734cfb912d5616e3c7c976280c08ef551de",
+      "sha256": "67b0b62477a5560b59b037da093cd7d1334646d14a95fcf3f8ba785a0561ec13"
     }
   },
   "controls": {
-    "REC_RECOVERY": {"owner": "RESTORE_HARDENING_OWNER", "release": "R10A2", "supersedes": "R10A1 inherited REC_RECOVERY completion semantics"},
+    "REC_RECOVERY": {
+      "composition": "BASE_THEN_COMPLETION_DELTA",
+      "base_owner": "R10A0_DOMAIN_CONTROLS",
+      "base_section": "REC_RECOVERY",
+      "delta_owner": "RESTORE_HARDENING_OWNER",
+      "delta_section": "RESTORE_COMPLETE",
+      "inherited_step_set": [1,2,3,4,5,6,7,8,9,10,11,12]
+    },
     "SALIENCE_ARBITRATION": {"inherited_from": "R10A1"},
     "IDENTITY_ADMISSION": {"inherited_from": "R10A0"},
     "CENTER_SAVE": {"inherited_from": "R10A0"},
     "BUS_ROUTE_CURRENT": {"inherited_from": "R10A0"}
+  },
+  "artifact_bindings": {
+    "RESTORE_HARDENING_OWNER": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "48461c2b4a2137b1c66c619e24f710ab8042dc1b",
+      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_HARDENING.md",
+      "git_blob": "4cdf0c3f5a77397f8e65bde4acb906ee677c7be1",
+      "sha256": "bcf98b1d10803eb850379fa5081de5d1c96a7894679220612de6c006d8cb1e6c"
+    },
+    "RESTORE_COMPLETION_GATE": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "48461c2b4a2137b1c66c619e24f710ab8042dc1b",
+      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_COMPLETION_GATE.json",
+      "git_blob": "862d0734cfb912d5616e3c7c976280c08ef551de",
+      "sha256": "67b0b62477a5560b59b037da093cd7d1334646d14a95fcf3f8ba785a0561ec13"
+    },
+    "RESTORE_REGRESSION": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "48461c2b4a2137b1c66c619e24f710ab8042dc1b",
+      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_REGRESSION.md",
+      "git_blob": "2fc4c0c9a6c3ca7c957b7228a570272cc09848cf",
+      "sha256": "397daed857d00fbf37e67ab68b32b950cbd13a40d78345ef177bdde47f54c3fd"
+    },
+    "RESTORE_VALIDATOR": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "48461c2b4a2137b1c66c619e24f710ab8042dc1b",
+      "path": "tools/validate_restore_completion.py",
+      "git_blob": "b9695e4480fe795b2702bb144fadfdc877f1dbf2",
+      "sha256": "49c50d5a2962f71414b6d53e2606d4f66253f76abc832b868af9392243f0f6eb"
+    },
+    "NATIVE_DELTA": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "48461c2b4a2137b1c66c619e24f710ab8042dc1b",
+      "path": "project-instructions/r10a2/VERA_R10A2_NATIVE_DELTA.txt",
+      "git_blob": "53f5520ffda853f3d349ac260ace00b07029e277",
+      "sha256": "f36726e2c6ffd430a113016b4e7cdee97b3aeffce63f64109800a48c428914d8"
+    },
+    "SOURCE_TEST": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "48461c2b4a2137b1c66c619e24f710ab8042dc1b",
+      "path": "tests/test_r10a2_restore_gate.py",
+      "git_blob": "2cd5337e9dec4d1a66fba6b59e28b55ac99052fe",
+      "sha256": "c23d6014b70a528894eb39f91a3915e8781ce827c32da1cc0437ca22029e0ad7"
+    }
+  },
+  "source_receipt": {
+    "path": "project-instructions/r10a2/VERA_R10A2_SOURCE_RECEIPT.json",
+    "publication_rule": "Later receipt binds exact pre-receipt registry commit/tree and registry blob; registry names locator/rule but does not self-bind later receipt blob."
   },
   "qualification": {
     "regression_path": "project-instructions/r10a2/VERA_R10A2_RESTORE_REGRESSION.md",
