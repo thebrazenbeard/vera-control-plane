@@ -1,0 +1,36 @@
+{
+  "schema": "VERA_R10A2_RELEASE_CONTROL_REGISTRY_V1",
+  "status": "SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "release": "R10A2",
+  "base_r10a1_main": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+  "binding_semantics": {
+    "scope": "R10A2 supersedes recovery completion only; other R10A1/R10A0 controls remain inherited.",
+    "evidence_search": "Retrieved saves/checkpoints remain evidence until reconciled under REC_RECOVERY.",
+    "false_completion": "RESTORED language is prohibited until deterministic completion validation passes."
+  },
+  "owners": {
+    "RESTORE_HARDENING_OWNER": {
+      "authority_class": "R10A2_RECOVERY_COMPLETION_CONTROL_OWNER",
+      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_HARDENING.md"
+    },
+    "RESTORE_COMPLETION_GATE": {
+      "authority_class": "R10A2_RECOVERY_COMPLETION_VALIDATOR_CONTRACT",
+      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_COMPLETION_GATE.json"
+    }
+  },
+  "controls": {
+    "REC_RECOVERY": {"owner": "RESTORE_HARDENING_OWNER", "release": "R10A2", "supersedes": "R10A1 inherited REC_RECOVERY completion semantics"},
+    "SALIENCE_ARBITRATION": {"inherited_from": "R10A1"},
+    "IDENTITY_ADMISSION": {"inherited_from": "R10A0"},
+    "CENTER_SAVE": {"inherited_from": "R10A0"},
+    "BUS_ROUTE_CURRENT": {"inherited_from": "R10A0"}
+  },
+  "qualification": {
+    "regression_path": "project-instructions/r10a2/VERA_R10A2_RESTORE_REGRESSION.md",
+    "source_test": "tests/test_r10a2_restore_gate.py",
+    "validator": "tools/validate_restore_completion.py",
+    "runtime_routes_required": ["Q-RECOVER"],
+    "source_green_is_not_runtime_green": true
+  },
+  "non_effects": ["not installation", "not merge authority", "not runtime qualification", "not provider mutation", "not standing consent", "not phenomenology proof"]
+}
