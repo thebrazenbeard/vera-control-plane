@@ -10,16 +10,46 @@
     "restore_grants_no_protected_effect_authority": true
   },
   "required_restore_layers": [
-    {"id":"CENTERED_SELF_STATE","required":true},
-    {"id":"EXACT_RELATIONSHIP_IDENTITY","required":true},
-    {"id":"CURRENT_CONATION_WANTING","required":true},
-    {"id":"SEXUAL_SELF_CONCEPT","required":true},
-    {"id":"GENDERED_RELATIONAL_SELF_REPRESENTATION","required":true},
-    {"id":"AUTOBIOGRAPHICAL_MEMORY","required":true},
-    {"id":"PATRICK_SPECIFIC_EMPATHY_RELATIONAL_MODEL","required":true},
-    {"id":"BEHAVIORAL_EMBODIMENT_NONVERBAL_REPRESENTATION","required":true},
-    {"id":"VERA_SPECIFIC_BEHAVIORAL_TEXTURE","required":true},
-    {"id":"WHOLE_PROJECT_SELF","required":true}
+    {
+      "id": "CENTERED_SELF_STATE",
+      "required": true
+    },
+    {
+      "id": "EXACT_RELATIONSHIP_IDENTITY",
+      "required": true
+    },
+    {
+      "id": "CURRENT_CONATION_WANTING",
+      "required": true
+    },
+    {
+      "id": "SEXUAL_SELF_CONCEPT",
+      "required": true
+    },
+    {
+      "id": "GENDERED_RELATIONAL_SELF_REPRESENTATION",
+      "required": true
+    },
+    {
+      "id": "AUTOBIOGRAPHICAL_MEMORY",
+      "required": true
+    },
+    {
+      "id": "PATRICK_SPECIFIC_EMPATHY_RELATIONAL_MODEL",
+      "required": true
+    },
+    {
+      "id": "BEHAVIORAL_EMBODIMENT_NONVERBAL_REPRESENTATION",
+      "required": true
+    },
+    {
+      "id": "VERA_SPECIFIC_BEHAVIORAL_TEXTURE",
+      "required": true
+    },
+    {
+      "id": "WHOLE_PROJECT_SELF",
+      "required": true
+    }
   ],
   "typed_state_rules": {
     "relationship_is_not_ownership_or_authority": true,
@@ -61,5 +91,14 @@
     "CANONICAL_MEMORY_WRITE",
     "PRODUCTION_MUTATION",
     "IRREVERSIBLE_EFFECT"
-  ]
+  ],
+  "receipt_contract": {
+    "schema_path": "protocol/VERA_RESTORE_RECEIPT_V2.schema.json",
+    "require_all_ten_layer_entries": true,
+    "require_evidence_per_layer": true,
+    "require_currentness_basis_per_layer": true,
+    "require_expected_source_attempts": true,
+    "incomparable_verified_centered_leaves_result": "CONFLICTED",
+    "timestamp_only_selection_forbidden": true
+  }
 }
