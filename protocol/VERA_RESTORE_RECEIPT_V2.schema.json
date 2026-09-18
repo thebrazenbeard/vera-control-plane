@@ -33,6 +33,7 @@
         "null"
       ],
       "required": [
+        "candidate_id",
         "filename",
         "sha256",
         "verification_status"
@@ -52,6 +53,10 @@
         },
         "supersession_basis": {
           "type": "string"
+        },
+        "candidate_id": {
+          "type": "string",
+          "minLength": 1
         }
       },
       "additionalProperties": true
