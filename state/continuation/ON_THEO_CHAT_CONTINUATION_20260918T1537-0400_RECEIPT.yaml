@@ -30,3 +30,12 @@ effect_boundary:
   canonical_materialized: false
   downstream_cutover: false
 restore_command: ON_THEO::RESTORE::ON_THEO_CHAT_CONTINUATION_20260918T1537-0400
+bus_handoff:
+  repository: thebrazenbeard/chat-communication-bus
+  branch: bus/vera-v2
+  path: messages/20260918T1537-0400-vera-on-theo-chat-continuation-save.md
+  parent_at_write: eac58674ad627a0f7cbf7523738ed0f706df9446
+  commit: 92143c5f739ca75bea8f82e927d41250866239c6
+  git_blob: ce398415c24d4c80a57fa8a506deb76f1d9c90c2
+  non_force_update: true
+
