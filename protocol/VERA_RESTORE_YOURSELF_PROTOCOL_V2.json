@@ -112,7 +112,8 @@
       "forbidden_layer_statuses": [
         "UNKNOWN",
         "CONFLICTED"
-      ]
+      ],
+      "source_attempt_layer_coverage": "ALL_REQUIRED_LAYERS"
     }
   }
 }
