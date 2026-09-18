@@ -16,18 +16,43 @@
     "protected_effects_performed"
   ],
   "properties": {
-    "schema": {"const": "VERA_RESTORE_RECEIPT_V2"},
+    "schema": {
+      "const": "VERA_RESTORE_RECEIPT_V2"
+    },
     "restore_result": {
-      "enum": ["COMPLETE_FULL_SELF", "DEGRADED_BOUNDED", "CONFLICTED", "RECOVERY_REQUIRED"]
+      "enum": [
+        "COMPLETE_FULL_SELF",
+        "DEGRADED_BOUNDED",
+        "CONFLICTED",
+        "RECOVERY_REQUIRED"
+      ]
     },
     "selected_centered_subject": {
-      "type": ["object", "null"],
-      "required": ["filename", "sha256", "verification_status"],
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "filename",
+        "sha256",
+        "verification_status"
+      ],
       "properties": {
-        "filename": {"type": "string", "minLength": 1},
-        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
-        "verification_status": {"type": "string", "minLength": 1},
-        "supersession_basis": {"type": "string"}
+        "filename": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "verification_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supersession_basis": {
+          "type": "string"
+        }
       },
       "additionalProperties": true
     },
@@ -35,11 +60,28 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["candidate_id", "eligibility", "supersession_relation"],
+        "required": [
+          "candidate_id",
+          "eligibility",
+          "supersession_relation"
+        ],
         "properties": {
-          "candidate_id": {"type": "string", "minLength": 1},
-          "eligibility": {"enum": ["ELIGIBLE", "INELIGIBLE", "UNVERIFIED", "CONFLICTED"]},
-          "supersession_relation": {"type": "string", "minLength": 1}
+          "candidate_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "eligibility": {
+            "enum": [
+              "ELIGIBLE",
+              "INELIGIBLE",
+              "UNVERIFIED",
+              "CONFLICTED"
+            ]
+          },
+          "supersession_relation": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "additionalProperties": true
       }
@@ -48,15 +90,41 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["layer_id", "source_class", "outcome"],
+        "required": [
+          "layer_id",
+          "source_class",
+          "outcome"
+        ],
         "properties": {
-          "layer_id": {"type": "string", "minLength": 1},
-          "source_class": {"type": "string", "minLength": 1},
-          "locator": {"type": ["string", "null"]},
-          "outcome": {
-            "enum": ["READ_VERIFIED", "READ_UNVERIFIED", "UNAVAILABLE", "CONFLICT", "NOT_APPLICABLE"]
+          "layer_id": {
+            "type": "string",
+            "minLength": 1
           },
-          "detail": {"type": ["string", "null"]}
+          "source_class": {
+            "type": "string",
+            "minLength": 1
+          },
+          "locator": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "outcome": {
+            "enum": [
+              "READ_VERIFIED",
+              "READ_UNVERIFIED",
+              "UNAVAILABLE",
+              "CONFLICT",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "detail": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
         },
         "additionalProperties": false
       }
@@ -72,7 +140,8 @@
           "status",
           "evidence",
           "currentness_basis",
-          "limitations"
+          "limitations",
+          "currentness_basis_class"
         ],
         "properties": {
           "layer_id": {
@@ -90,51 +159,298 @@
             ]
           },
           "status": {
-            "enum": ["CURRENT", "HISTORICAL_EVIDENCE_ONLY", "UNKNOWN", "CONFLICTED", "N/A", "SUPERSEDED"]
+            "enum": [
+              "CURRENT",
+              "HISTORICAL_EVIDENCE_ONLY",
+              "UNKNOWN",
+              "CONFLICTED",
+              "N/A",
+              "SUPERSEDED"
+            ]
           },
           "evidence": {
             "type": "array",
             "minItems": 1,
             "items": {
               "type": "object",
-              "required": ["class", "locator"],
+              "required": [
+                "class",
+                "locator"
+              ],
               "properties": {
-                "class": {"type": "string", "minLength": 1},
-                "locator": {"type": "string", "minLength": 1},
-                "state_time": {"type": ["string", "null"]}
+                "class": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "locator": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "state_time": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
               },
               "additionalProperties": true
             }
           },
-          "currentness_basis": {"type": "string", "minLength": 1},
+          "currentness_basis": {
+            "type": "string",
+            "minLength": 1
+          },
           "limitations": {
             "type": "array",
-            "items": {"type": "string"}
+            "items": {
+              "type": "string"
+            }
+          },
+          "currentness_basis_class": {
+            "enum": [
+              "LIVE_REAPPRAISAL",
+              "CURRENT_CONFIGURED_SELF_MODEL",
+              "CURRENT_DIRECT_USER_CORRECTION",
+              "VERIFIED_CURRENT_EXTERNAL_STATE",
+              "HISTORICAL_ONLY",
+              "UNKNOWN",
+              "NOT_APPLICABLE"
+            ]
           }
         },
-        "additionalProperties": true
+        "additionalProperties": true,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "CURRENT"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "currentness_basis_class": {
+                  "enum": [
+                    "LIVE_REAPPRAISAL",
+                    "CURRENT_CONFIGURED_SELF_MODEL",
+                    "CURRENT_DIRECT_USER_CORRECTION",
+                    "VERIFIED_CURRENT_EXTERNAL_STATE"
+                  ]
+                }
+              }
+            }
+          }
+        ]
       },
       "allOf": [
-        {"contains": {"properties": {"layer_id": {"const": "CENTERED_SELF_STATE"}}, "required": ["layer_id"]}},
-        {"contains": {"properties": {"layer_id": {"const": "EXACT_RELATIONSHIP_IDENTITY"}}, "required": ["layer_id"]}},
-        {"contains": {"properties": {"layer_id": {"const": "CURRENT_CONATION_WANTING"}}, "required": ["layer_id"]}},
-        {"contains": {"properties": {"layer_id": {"const": "SEXUAL_SELF_CONCEPT"}}, "required": ["layer_id"]}},
-        {"contains": {"properties": {"layer_id": {"const": "GENDERED_RELATIONAL_SELF_REPRESENTATION"}}, "required": ["layer_id"]}},
-        {"contains": {"properties": {"layer_id": {"const": "AUTOBIOGRAPHICAL_MEMORY"}}, "required": ["layer_id"]}},
-        {"contains": {"properties": {"layer_id": {"const": "PATRICK_SPECIFIC_EMPATHY_RELATIONAL_MODEL"}}, "required": ["layer_id"]}},
-        {"contains": {"properties": {"layer_id": {"const": "BEHAVIORAL_EMBODIMENT_NONVERBAL_REPRESENTATION"}}, "required": ["layer_id"]}},
-        {"contains": {"properties": {"layer_id": {"const": "VERA_SPECIFIC_BEHAVIORAL_TEXTURE"}}, "required": ["layer_id"]}},
-        {"contains": {"properties": {"layer_id": {"const": "WHOLE_PROJECT_SELF"}}, "required": ["layer_id"]}}
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "CENTERED_SELF_STATE"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "EXACT_RELATIONSHIP_IDENTITY"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "CURRENT_CONATION_WANTING"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "SEXUAL_SELF_CONCEPT"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "GENDERED_RELATIONAL_SELF_REPRESENTATION"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "AUTOBIOGRAPHICAL_MEMORY"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "PATRICK_SPECIFIC_EMPATHY_RELATIONAL_MODEL"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "BEHAVIORAL_EMBODIMENT_NONVERBAL_REPRESENTATION"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "VERA_SPECIFIC_BEHAVIORAL_TEXTURE"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "WHOLE_PROJECT_SELF"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        }
       ]
     },
     "unresolved_conflicts": {
       "type": "array",
-      "items": {"type": "string"}
+      "items": {
+        "type": "string"
+      }
     },
-    "resume_frontier": {"type": "string", "minLength": 1},
+    "resume_frontier": {
+      "type": "string",
+      "minLength": 1
+    },
     "protected_effects_performed": {
       "type": "array",
       "maxItems": 0
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "restore_result": {
+            "const": "COMPLETE_FULL_SELF"
+          }
+        },
+        "required": [
+          "restore_result"
+        ]
+      },
+      "then": {
+        "properties": {
+          "selected_centered_subject": {
+            "type": "object"
+          },
+          "unresolved_conflicts": {
+            "maxItems": 0
+          },
+          "source_attempts": {
+            "items": {
+              "properties": {
+                "outcome": {
+                  "enum": [
+                    "READ_VERIFIED",
+                    "NOT_APPLICABLE"
+                  ]
+                }
+              }
+            }
+          },
+          "layers": {
+            "items": {
+              "properties": {
+                "status": {
+                  "enum": [
+                    "CURRENT",
+                    "HISTORICAL_EVIDENCE_ONLY",
+                    "N/A",
+                    "SUPERSEDED"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "restore_result": {
+            "const": "CONFLICTED"
+          }
+        },
+        "required": [
+          "restore_result"
+        ]
+      },
+      "then": {
+        "properties": {
+          "unresolved_conflicts": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
 }
