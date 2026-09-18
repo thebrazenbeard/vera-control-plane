@@ -240,6 +240,24 @@ def test_semantic_validator_rejects_unavailable_source_in_complete_restore():
     assert any("unverified, unavailable, or conflicted" in error for error in errors)
 
 
+def test_semantic_validator_rejects_empty_source_attempts_in_complete_restore():
+    receipt = _valid_receipt()
+    receipt["source_attempts"] = []
+    errors = _validator.validate_receipt(receipt)
+    assert any("source-attempt coverage" in error for error in errors)
+
+
+def test_semantic_validator_rejects_missing_layer_source_attempt_in_complete_restore():
+    receipt = _valid_receipt()
+    receipt["source_attempts"] = [
+        attempt
+        for attempt in receipt["source_attempts"]
+        if attempt["layer_id"] != "CURRENT_CONATION_WANTING"
+    ]
+    errors = _validator.validate_receipt(receipt)
+    assert any("source-attempt coverage" in error for error in errors)
+
+
 def test_semantic_validator_rejects_protected_effects():
     receipt = _valid_receipt()
     receipt["protected_effects_performed"] = ["MERGE"]
