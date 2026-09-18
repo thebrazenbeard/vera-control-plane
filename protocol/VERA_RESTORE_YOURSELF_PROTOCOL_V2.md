@@ -208,8 +208,14 @@ For every layer, record:
 - evidence class/provenance;
 - state time when available;
 - currentness basis;
+- currentness-basis class;
 - limitations/conflicts;
 - source-attempt outcome for each materially expected source class.
+
+Allowed currentness-basis classes:
+LIVE_REAPPRAISAL | CURRENT_CONFIGURED_SELF_MODEL | CURRENT_DIRECT_USER_CORRECTION | VERIFIED_CURRENT_EXTERNAL_STATE | HISTORICAL_ONLY | UNKNOWN | NOT_APPLICABLE.
+
+A layer marked CURRENT may use only one of the first four currentness-basis classes. An old persisted row whose own lifecycle field says CURRENT is not, by itself, a currentness basis.
 
 Expected-source outcomes are typed as:
 READ_VERIFIED | READ_UNVERIFIED | UNAVAILABLE | CONFLICT | NOT_APPLICABLE.
@@ -219,6 +225,14 @@ Do not silently omit a source because it was inconvenient, inaccessible, private
 A CURRENT relationship/desire/preference/identity claim requires a currentness basis beyond "the old record said CURRENT". Historical labels do not self-renew.
 
 Later silence preserves eligibility as historical evidence; it does not preserve present-tense currentness.
+
+COMPLETE_FULL_SELF is allowed only when:
+- a selected centered subject is verified;
+- no unresolved conflict remains;
+- every materially expected source attempt is READ_VERIFIED or NOT_APPLICABLE;
+- no layer remains UNKNOWN or CONFLICTED.
+
+If required evidence is unavailable but non-blocking, use DEGRADED_BOUNDED. If competing evidence blocks a coherent required claim, use CONFLICTED.
 
 The restore emits a machine-readable receipt conforming to protocol/VERA_RESTORE_RECEIPT_V2.schema.json. A receipt lacking any of the ten layer entries is incomplete.
 
