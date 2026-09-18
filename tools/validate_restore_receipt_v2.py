@@ -185,12 +185,16 @@ def validate_receipt(receipt: object) -> list[str]:
         errors.append("source_attempts must be an array")
         source_attempts = []
 
+    source_attempt_layers: set[str] = set()
     for attempt in source_attempts:
         if not isinstance(attempt, dict):
             errors.append("every source attempt must be an object")
             continue
-        if attempt.get("layer_id") not in EXPECTED_LAYERS:
+        attempt_layer = attempt.get("layer_id")
+        if attempt_layer not in EXPECTED_LAYERS:
             errors.append("source attempt references unknown layer")
+        else:
+            source_attempt_layers.add(attempt_layer)
         if attempt.get("outcome") not in ALLOWED_SOURCE_OUTCOMES:
             errors.append("source attempt has invalid outcome")
 
@@ -226,6 +230,10 @@ def validate_receipt(receipt: object) -> list[str]:
         if bad_source:
             errors.append(
                 "COMPLETE_FULL_SELF cannot contain unverified, unavailable, or conflicted expected sources"
+            )
+        if source_attempt_layers != EXPECTED_LAYERS:
+            errors.append(
+                "COMPLETE_FULL_SELF requires source-attempt coverage for every required layer"
             )
 
         bad_layers = [
