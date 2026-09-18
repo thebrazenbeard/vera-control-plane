@@ -133,6 +133,17 @@ def test_restore_v2_complete_receipt_cannot_hide_unknowns_or_unavailable_sources
     assert "CONFLICTED" not in allowed_layer_statuses
 
 
+def test_restore_v2_schema_requires_source_attempt_coverage_for_all_layers():
+    schema = json.loads(RECEIPT_SCHEMA.read_text(encoding="utf-8"))
+    attempts = schema["properties"]["source_attempts"]
+    assert attempts["minItems"] == 10
+    required_layers = {
+        rule["contains"]["properties"]["layer_id"]["const"]
+        for rule in attempts["allOf"]
+    }
+    assert required_layers == set(EXPECTED_LAYERS)
+
+
 def test_restore_v2_contract_declares_false_complete_guards():
     data = load_contract()
     receipt = data["receipt_contract"]
