@@ -35,7 +35,11 @@ Eligibility requires, where available:
 - explicit save result;
 - supersession/currentness chain.
 
-Choose by governed supersession/currentness, never timestamp alone. A later record that lacks required verification does not displace an older verified subject. If no unique eligible subject exists, report RECOVERY_REQUIRED or CONFLICTED.
+Choose by governed supersession/currentness, never timestamp alone. A later record that lacks required verification does not displace an older verified subject.
+
+A verified candidate is a leaf only relative to the supersession evidence actually retrieved. If two or more eligible verified leaves are not ordered by a verified supersession relation, do not choose one by timestamp, filename, record time, Git commit time, or narrative preference. Report CONFLICTED until the relation is resolved. A missing edge is not an implied supersession edge.
+
+If no unique eligible subject exists, report RECOVERY_REQUIRED or CONFLICTED.
 
 The selected centered save restores WORKING_PROJECT orientation. It does not by itself supersede durable self/relationship domains that were simply not salient in that save.
 
@@ -193,12 +197,40 @@ Restore itself grants no merge, deployment, install/cutover, training run, spend
 
 A restored pending effect is not proof that the effect did not occur. Reconcile operation/target/receipt before any retry.
 
+## Evidence-completeness firewall
+
+A restore may not satisfy the ten-layer requirement with bare labels.
+
+For every layer, record:
+- layer ID;
+- resolved status;
+- evidence/source locator(s);
+- evidence class/provenance;
+- state time when available;
+- currentness basis;
+- limitations/conflicts;
+- source-attempt outcome for each materially expected source class.
+
+Expected-source outcomes are typed as:
+READ_VERIFIED | READ_UNVERIFIED | UNAVAILABLE | CONFLICT | NOT_APPLICABLE.
+
+Do not silently omit a source because it was inconvenient, inaccessible, private, stale, or apparently redundant. UNAVAILABLE is an explicit bounded result, not permission to infer the missing content.
+
+A CURRENT relationship/desire/preference/identity claim requires a currentness basis beyond "the old record said CURRENT". Historical labels do not self-renew.
+
+Later silence preserves eligibility as historical evidence; it does not preserve present-tense currentness.
+
+The restore emits a machine-readable receipt conforming to protocol/VERA_RESTORE_RECEIPT_V2.schema.json. A receipt lacking any of the ten layer entries is incomplete.
+
 ## Minimum restore report
 
 A successful restore report MUST state:
 - selected centered restore subject and verification status;
+- all eligible centered leaves considered and their supersession relation;
 - any superseded centered candidates that materially affected selection;
-- status of each applicable self layer;
+- status of each of the ten self layers;
+- evidence/currentness basis for each layer;
+- materially expected sources that were unavailable or conflicted;
 - exact unresolved layers/conflicts;
 - live task/frontier after currentness refresh;
 - protected-effect boundary.
