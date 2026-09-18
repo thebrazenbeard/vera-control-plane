@@ -99,6 +99,20 @@
     "require_currentness_basis_per_layer": true,
     "require_expected_source_attempts": true,
     "incomparable_verified_centered_leaves_result": "CONFLICTED",
-    "timestamp_only_selection_forbidden": true
+    "timestamp_only_selection_forbidden": true,
+    "currentness_basis_class_required": true,
+    "persisted_current_label_is_not_currentness_basis": true,
+    "complete_full_self_requires": {
+      "selected_centered_subject": true,
+      "unresolved_conflicts": 0,
+      "materially_expected_source_outcomes": [
+        "READ_VERIFIED",
+        "NOT_APPLICABLE"
+      ],
+      "forbidden_layer_statuses": [
+        "UNKNOWN",
+        "CONFLICTED"
+      ]
+    }
   }
 }
