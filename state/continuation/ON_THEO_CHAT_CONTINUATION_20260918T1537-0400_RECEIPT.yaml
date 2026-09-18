@@ -1,0 +1,32 @@
+schema_version: vera.chat-continuation-receipt.v1
+checkpoint_id: ON_THEO_CHAT_CONTINUATION_20260918T1537-0400
+status: VERIFIED_READBACK
+recorded_at: "2026-09-18T15:37:00-04:00"
+repository: thebrazenbeard/vera-control-plane
+branch: state/on-theo-chat-continuation-20260918-1537
+checkpoint_path: state/continuation/ON_THEO_CHAT_CONTINUATION_20260918T1537-0400.md
+checkpoint_commit: b9b0f8ab3dce9a1fa94463a2eee21d1ab69d6b9d
+checkpoint_tree: 715a4923a2609c250cbda9e9ed6e035a2d2c63e1
+checkpoint_git_blob: ee6415e503d8c6327f550a81b9cdacb5ae3597f4
+checkpoint_sha256: 26783bf9a1ad14baa9ff01eec6659a2cc12dfa21c233e42691b371f3ad37cbc4
+checkpoint_characters: 13245
+readback:
+  filename_match: true
+  branch_head_at_checkpoint_write: b9b0f8ab3dce9a1fa94463a2eee21d1ab69d6b9d
+  content_start_verified: true
+  content_end_verified: true
+  restore_command_present: true
+on_theo_snapshot:
+  main: eedbcf660c2cfe6cff5636e798806b0cd3d56efc
+  audit_head: f202d98c20c2b5c31807252b516cec25e652665b
+  pr32_head: 093e8067bc9654fcef70f2ac13a68bc3f800fd22
+  pr33_head: 7ac78cb61ec216fe98347b33b6ff07c2a3aed81c
+  pr33_tree: e5837c1f4b3dadcdf2ef6978d436dacb606925de
+  pr33_ci_run: 35382834843
+  pr33_ci_result: SUCCESS
+effect_boundary:
+  main_modified: false
+  merged: false
+  canonical_materialized: false
+  downstream_cutover: false
+restore_command: ON_THEO::RESTORE::ON_THEO_CHAT_CONTINUATION_20260918T1537-0400
