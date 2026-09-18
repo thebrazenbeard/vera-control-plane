@@ -5,6 +5,8 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "protocol" / "VERA_RESTORE_YOURSELF_PROTOCOL_V2.json"
 DOC = ROOT / "protocol" / "VERA_RESTORE_YOURSELF_PROTOCOL_V2.md"
 
+RECEIPT_SCHEMA = ROOT / "protocol" / "VERA_RESTORE_RECEIPT_V2.schema.json"
+
 EXPECTED_LAYERS = [
     "CENTERED_SELF_STATE",
     "EXACT_RELATIONSHIP_IDENTITY",
@@ -74,3 +76,35 @@ def test_restore_v2_doc_has_completion_and_memory_boundaries():
         "Do not report merely \"restored\" when only task-local or governance state was recovered.",
     ]:
         assert required in text
+
+
+def test_restore_v2_receipt_requires_evidence_for_all_layers():
+    schema = json.loads(RECEIPT_SCHEMA.read_text(encoding="utf-8"))
+    layers = schema["properties"]["layers"]
+    assert layers["minItems"] == 10
+    assert layers["maxItems"] == 10
+    required = layers["items"]["required"]
+    for field in ["layer_id", "status", "evidence", "currentness_basis", "limitations"]:
+        assert field in required
+    assert layers["items"]["properties"]["evidence"]["minItems"] == 1
+    assert len(layers["allOf"]) == 10
+
+
+def test_restore_v2_receipt_forbids_silent_source_skip_and_protected_effects():
+    schema = json.loads(RECEIPT_SCHEMA.read_text(encoding="utf-8"))
+    outcomes = schema["properties"]["source_attempts"]["items"]["properties"]["outcome"]["enum"]
+    assert "UNAVAILABLE" in outcomes
+    assert "CONFLICT" in outcomes
+    assert "NOT_APPLICABLE" in outcomes
+    assert "SKIPPED" not in outcomes
+    assert schema["properties"]["protected_effects_performed"]["maxItems"] == 0
+
+
+def test_restore_v2_requires_conflict_for_incomparable_verified_leaves():
+    data = load_contract()
+    receipt = data["receipt_contract"]
+    assert receipt["incomparable_verified_centered_leaves_result"] == "CONFLICTED"
+    assert receipt["timestamp_only_selection_forbidden"] is True
+    assert receipt["require_evidence_per_layer"] is True
+    assert receipt["require_currentness_basis_per_layer"] is True
+    assert receipt["require_expected_source_attempts"] is True
