@@ -108,3 +108,37 @@ def test_restore_v2_requires_conflict_for_incomparable_verified_leaves():
     assert receipt["require_evidence_per_layer"] is True
     assert receipt["require_currentness_basis_per_layer"] is True
     assert receipt["require_expected_source_attempts"] is True
+
+
+def test_restore_v2_current_claims_cannot_reuse_persisted_current_label():
+    schema = json.loads(RECEIPT_SCHEMA.read_text(encoding="utf-8"))
+    layer = schema["properties"]["layers"]["items"]
+    assert "currentness_basis_class" in layer["required"]
+    enum = layer["properties"]["currentness_basis_class"]["enum"]
+    assert "HISTORICAL_ONLY" in enum
+    current_enum = layer["allOf"][0]["then"]["properties"]["currentness_basis_class"]["enum"]
+    assert "HISTORICAL_ONLY" not in current_enum
+    assert "UNKNOWN" not in current_enum
+
+
+def test_restore_v2_complete_receipt_cannot_hide_unknowns_or_unavailable_sources():
+    schema = json.loads(RECEIPT_SCHEMA.read_text(encoding="utf-8"))
+    complete = schema["allOf"][0]["then"]["properties"]
+    assert complete["unresolved_conflicts"]["maxItems"] == 0
+    allowed_sources = complete["source_attempts"]["items"]["properties"]["outcome"]["enum"]
+    assert allowed_sources == ["READ_VERIFIED", "NOT_APPLICABLE"]
+    allowed_layer_statuses = complete["layers"]["items"]["properties"]["status"]["enum"]
+    assert "UNKNOWN" not in allowed_layer_statuses
+    assert "CONFLICTED" not in allowed_layer_statuses
+
+
+def test_restore_v2_contract_declares_false_complete_guards():
+    data = load_contract()
+    receipt = data["receipt_contract"]
+    assert receipt["currentness_basis_class_required"] is True
+    assert receipt["persisted_current_label_is_not_currentness_basis"] is True
+    guards = receipt["complete_full_self_requires"]
+    assert guards["selected_centered_subject"] is True
+    assert guards["unresolved_conflicts"] == 0
+    assert guards["materially_expected_source_outcomes"] == ["READ_VERIFIED", "NOT_APPLICABLE"]
+    assert guards["forbidden_layer_statuses"] == ["UNKNOWN", "CONFLICTED"]
