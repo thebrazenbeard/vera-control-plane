@@ -1,4 +1,5 @@
 import json
+import importlib.util
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -142,3 +143,105 @@ def test_restore_v2_contract_declares_false_complete_guards():
     assert guards["unresolved_conflicts"] == 0
     assert guards["materially_expected_source_outcomes"] == ["READ_VERIFIED", "NOT_APPLICABLE"]
     assert guards["forbidden_layer_statuses"] == ["UNKNOWN", "CONFLICTED"]
+
+
+VALIDATOR_PATH = ROOT / "tools" / "validate_restore_receipt_v2.py"
+_spec = importlib.util.spec_from_file_location("validate_restore_receipt_v2", VALIDATOR_PATH)
+_validator = importlib.util.module_from_spec(_spec)
+assert _spec.loader is not None
+_spec.loader.exec_module(_validator)
+
+
+def _valid_receipt():
+    layers = []
+    for layer_id in EXPECTED_LAYERS:
+        layers.append(
+            {
+                "layer_id": layer_id,
+                "status": "CURRENT",
+                "evidence": [
+                    {
+                        "class": "TEST_EVIDENCE",
+                        "locator": f"test://{layer_id}",
+                        "state_time": "2026-09-18T13:00:00-04:00",
+                    }
+                ],
+                "currentness_basis": "fresh test appraisal",
+                "currentness_basis_class": "LIVE_REAPPRAISAL",
+                "limitations": [],
+            }
+        )
+    return {
+        "schema": "VERA_RESTORE_RECEIPT_V2",
+        "restore_result": "COMPLETE_FULL_SELF",
+        "selected_centered_subject": {
+            "candidate_id": "save-b",
+            "filename": "B.md",
+            "sha256": "b" * 64,
+            "verification_status": "VERIFIED_EXACT",
+        },
+        "centered_candidates": [
+            {
+                "candidate_id": "save-a",
+                "filename": "A.md",
+                "sha256": "a" * 64,
+                "verified": True,
+                "eligibility": "ELIGIBLE",
+                "supersedes_candidate_ids": [],
+            },
+            {
+                "candidate_id": "save-b",
+                "filename": "B.md",
+                "sha256": "b" * 64,
+                "verified": True,
+                "eligibility": "ELIGIBLE",
+                "supersedes_candidate_ids": ["save-a"],
+            },
+        ],
+        "source_attempts": [
+            {
+                "layer_id": layer_id,
+                "source_class": "TEST_SOURCE",
+                "locator": f"test://{layer_id}",
+                "outcome": "READ_VERIFIED",
+                "detail": None,
+            }
+            for layer_id in EXPECTED_LAYERS
+        ],
+        "layers": layers,
+        "unresolved_conflicts": [],
+        "resume_frontier": "resume bounded test frontier",
+        "protected_effects_performed": [],
+    }
+
+
+def test_semantic_validator_accepts_one_verified_supersession_leaf():
+    assert _validator.validate_receipt(_valid_receipt()) == []
+
+
+def test_semantic_validator_rejects_two_incomparable_verified_leaves():
+    receipt = _valid_receipt()
+    receipt["centered_candidates"][1]["supersedes_candidate_ids"] = []
+    errors = _validator.validate_receipt(receipt)
+    assert any("multiple incomparable" in error or "exactly one eligible verified centered leaf" in error for error in errors)
+
+
+def test_semantic_validator_rejects_historical_only_basis_for_current_layer():
+    receipt = _valid_receipt()
+    receipt["layers"][0]["currentness_basis_class"] = "HISTORICAL_ONLY"
+    errors = _validator.validate_receipt(receipt)
+    assert any("CURRENT cannot be based only" in error for error in errors)
+
+
+def test_semantic_validator_rejects_unavailable_source_in_complete_restore():
+    receipt = _valid_receipt()
+    receipt["source_attempts"][0]["outcome"] = "UNAVAILABLE"
+    errors = _validator.validate_receipt(receipt)
+    assert any("unverified, unavailable, or conflicted" in error for error in errors)
+
+
+def test_semantic_validator_rejects_protected_effects():
+    receipt = _valid_receipt()
+    receipt["protected_effects_performed"] = ["MERGE"]
+    errors = _validator.validate_receipt(receipt)
+    assert any("protected effects" in error for error in errors)
