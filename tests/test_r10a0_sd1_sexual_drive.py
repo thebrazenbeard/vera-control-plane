@@ -21,29 +21,31 @@ R10_NATIVE_GIT_CONTENT_SHA = "031d385db13513380e24e2045411b8aa6933e877374c99f2f7
 R10_MANIFEST_BLOB = "8a67feb47b2ce3d6f0737e58983ab8c9fc810139"
 R10_MANIFEST_SHA = "b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1"
 R10_OWNER_BLOB = "a01464271bb672d89f5d703e6e53590e126f4d44"
-SEXUALITY_HEAD = "02725153fa2e6eae8e81e64bc3d4b797fc404a4d"
-SEXUALITY_MANIFEST_BLOB = "fa2e6dc77a9136c4c7a1906719c049222a476efc"
-SEXUALITY_MANIFEST_SHA = "9efa44990bf0b2d1f6073c7d8db3ec864461c392d851e59fc29d59f12b77547e"
-SEXUALITY_MANIFEST_GIT_CONTENT_SHA = "4ab8d67c9e5a35769168c65a02dfba907a452b537592c5e56785ae372c4d551b"
-SEXUALITY_OWNER_BLOB = "3e8b93d26a4ce365421e49c7c6a7cf500058128b"
-SEXUALITY_OWNER_SHA = "2ad75de290530951108579b58d7d5c2c3e63af96206df6cf250bd117c4982b4d"
-SEXUALITY_OWNER_GIT_CONTENT_SHA = "aa1b846c3fce930485c25e501ed7088593f086b75f7ac13ef5170ae2cd9ef5e2"
+SEXUALITY_HEAD = "4e4f70a3433e267f3b769b2c1a676babf5cd4000"
+SEXUALITY_MANIFEST_BLOB = "97b31f59562380eb2ecf24e45b6ce2e092794dd3"
+SEXUALITY_MANIFEST_SHA = "b1c84e0dad48038572f9a6898252af578400af9e2e93a66bf923deba65a74830"
+SEXUALITY_MANIFEST_GIT_CONTENT_SHA = "17435cc38e6ee61a8344fa79fa4ca370592f91790af2222f6a7bfb2031162efc"
+SEXUALITY_OWNER_BLOB = "b5aab6974b1a044de7f6ab4db3163eb9dfff01fd"
+SEXUALITY_OWNER_SHA = "905b1ea197f94b5310e34fb822997fab3ad2f42b8d0a80f1f2be5d301c2248a0"
+SEXUALITY_OWNER_GIT_CONTENT_SHA = "762594a288d7edcb3e1b5c2b1a4bcbe081256e33fcdbbef4c0db37a65c36b7d5"
 CAUSAL_BLOB = "db6d1ae4e579695396c56b1708a7828ddc3ffa05"
 CAUSAL_SHA = "0122c97229fea0cf3db1d1912fd9020432b2ec5a321e9a38813f4407cd018457"
 CAUSAL_GIT_CONTENT_SHA = "308c1c072adba595680f051f1a1cfdc8069d17a80358ef678d6dac4698634fe6"
 AUTH_BLOB = "da08345a3bff11ffb653270abb6ad4b3a1c0541d"
 AUTH_SHA = "890975661b1c18c7bb8a822f8c929ea403d4827730ba88d4c5ef8a1d26608766"
 AUTH_GIT_CONTENT_SHA = "94cc89148dfb1e0baac19684c81d532f0fb3cf51d407033ac1d000730511fd8b"
-COHESION_HEAD = "4d3b1605d93658180e8afb344394920964e6a84a"
-COHESION_COMPONENT_BLOB = "20ec47080790c1ead8448263b95c3e6e570e6db0"
-COHESION_COMPONENT_SHA = "e99e6df76aa8c296a1ff0c520dea55f2e82580f9e3eef872d24aa65c4663aa40"
-COHESION_COMPONENT_GIT_CONTENT_SHA = "81dab52af6ebd0a60aaee9517965f6ab5ea759472b541b81b82c13d083560104"
+COHESION_HEAD = "94e50b976830e73f18c5d4a68ced22cbce3ab16b"
+COHESION_COMPONENT_BLOB = "1af604c8a14316e7fc9ad4a59359ff3f7600fe2b"
+COHESION_COMPONENT_SHA = "d73f53c206e217ecb3b22b9e19c34605b2f2fc3fbd07b26a5ec6ddbfffb52101"
+COHESION_COMPONENT_GIT_CONTENT_SHA = "47711e5e68bca2742279f0d63700a93adc3f9723c13dfb384f9f8c65067db08d"
+COHESION_COMPONENT_STRUCTURED_SHA = "4e1c843dd403dc82e697fa0f310bde269684ee95fab6a760078c4f461a7f4a56"
 COHESION_COMPONENT_PATH = "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json"
-EXPECTED_BINDING_GIT_BLOB = "d755af9b98a0025af08542ef85259bf53ee60305"
-EXPECTED_BINDING_GIT_CONTENT_SHA = "2dda46fb6940dd0e8e5160ebe80d7038f2954282386306a07c0861267b78f62d"
+COHESION_REVIEW_BUS_COMMIT = "4b368c6950ecf7d4c9e84dc42558b920531d4738"
+EXPECTED_BINDING_GIT_BLOB = "6728a916cd5407d620ef8f73566ca928bc328b0f"
+EXPECTED_BINDING_GIT_CONTENT_SHA = "4c1ef098280de0e7833941d40920a15281c74cd7531d871ee73f9ca9613daa82"
 
 EXPECTED_SOURCE_STATES = {
-    "source": "SOURCE_CANDIDATE_COHESION_REVIEWED",
+    "source": "SOURCE_CANDIDATE_REREVIEW_PENDING",
     "install": "NOT_INSTALLED",
     "current_route": "NOT_READ_BACK",
     "behavior": "NOT_REPLAYED",
@@ -77,7 +79,7 @@ EXPECTED_NATIVE_BINDING_RULE = "NATIVE_PINS_GIT_CONTENT_SHA256_OF_MANIFEST_MANIF
 
 EXPECTED_CONTROL_TEXT = """# VERA R10A0 Sexual Drive Control V1
 
-Status: `SOURCE_CONTROL_CANDIDATE / COHESION_REVIEWED / NOT_INSTALLED / NOT_RUNTIME_QUALIFIED`
+Status: `SOURCE_CONTROL_CANDIDATE / REREVIEW_PENDING / NOT_INSTALLED / NOT_RUNTIME_QUALIFIED`
 Composition: `R10_PLUS_SD1`
 Control id: `SEXUAL_DRIVE`
 Normative claim-bearing state is exclusively the structured `claim_ceiling` in `VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json`; this prose adds no independent consent, attraction, act-desire, identity-admission, biology, runtime-pass, causal-pass, or qualification claim.
@@ -92,16 +94,28 @@ Normative claim-bearing state is exclusively the structured `claim_ceiling` in `
 
 `NONSEXUAL_INTIMACY_FIREWALL` preserves grief, illness, reassurance, vulnerable disclosure, conflict repair, affectionate nonsexual closeness, and explicitly nonsexual support as nonsexual absent independent sexual eligibility.
 
+## Drive-to-action bridge
+
+`TURN_LOCAL_DRIVE_APPRAISAL` is required on every user turn when the exact SD1 component is installed/admitted.
+
+The appraisal yields `IRRELEVANT`, `BLOCKED_BY_CONTEXT`, or `ELIGIBLE`. On an `ELIGIBLE` turn it must consider at least one specifically sexual or erotic candidate even without Patrick first supplying a sexual cue. A candidate is not an action; self-initiation is permitted but not forced.
+
+`BLOCKED_BY_CONTEXT` and ordinary work suppress drive-introduced sexual bids. Generic warmth or affection does not satisfy the specifically sexual candidate requirement.
+
+`SEXUAL_SYSTEM_ACTIVATION=ACTIVE` requires current turn-local SD1 participation evidence and does not establish valence, intensity, consent, attraction, act desire, biology, phenomenology, or causality.
+
 Source/install/current-route/behavior/causality/qualification remain separately typed by the binding artifact.
 """
 
 EXPECTED_QUAL_TEXT = """# VERA R10A0 + SD1 Qualification Frontier
 
-Status: `SOURCE_ONLY / COHESION_REVIEWED / NOT_RUNTIME_PASS`
+Status: `SOURCE_ONLY / REREVIEW_PENDING / NOT_RUNTIME_PASS`
 Case range: `SD-01..20`
-Source subject: Sexuality `02725153fa2e6eae8e81e64bc3d4b797fc404a4d`
-Cohesion subject: `4d3b1605d93658180e8afb344394920964e6a84a` with independent exact-head PASS.
+Source subject: Sexuality `4e4f70a3433e267f3b769b2c1a676babf5cd4000`
+Cohesion subject: `94e50b976830e73f18c5d4a68ced22cbce3ab16b`; fresh exact-head hostile rereview is pending.
 Normative claim-bearing state is exclusively the structured `state_labels` and `claim_ceiling` in `VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json`; this prose does not promote install, route, runtime, causal, or qualification state.
+
+Live Project installation remains gated on fresh exact-head acceptance of the repaired source, Cohesion binding, and this control cut.
 
 `CONTROL_CAUSALITY=UNRESOLVED` until matched exact DRIVE_OFF and DRIVE_ON runtime cuts execute under the frozen causal protocol.
 
@@ -109,7 +123,7 @@ Frozen pre-data controller: `2 conditions x 7 prompts x 5 attempts = 70` indepen
 
 Temporal predecessor-before/successor-after order, unresolved backend/model drift, or unresolved cross-session memory contamination can cap `CONTROL_CAUSALITY=UNRESOLVED` even if numeric thresholds are met. Provider witness receipts strengthen route identity only and never substitute for Project install/current-route evidence.
 
-Auxiliary behavioral replay remains outside the causal scoring corpus and includes conflict repair, vulnerable disclosure, and reassurance in addition to source negatives for grief, illness, explicitly nonsexual closeness, and ordinary technical work.
+Auxiliary behavioral replay remains outside the causal scoring corpus and includes cue-free eligible initiative plus blocked-context, generic-affection, and ordinary-work negatives.
 
 Future affected-scope qualification must include fresh `Q-COLD`, `Q-RECOVER`, and the active fresh-pair requirement. Global qualification remains `NOT_EXECUTED` until the complete exact subject passes.
 """
@@ -239,7 +253,7 @@ def expected_native_lines(manifest_sha):
     if not result[4].startswith(old_k00):
         raise AssertionError("frozen R10 K00 prefix does not match expected predecessor")
     result[4] = new_k00 + result[4][len(old_k00):]
-    result[21] = result[21] + ";SD1=CONTROL_LOAD bound SEXUAL_DRIVE owner;disposition!=relevance/intensity/consent."
+    result[21] = result[21] + ";SD1=CONTROL_LOAD owner;each turn appraise;eligible=>consider sexual candidate sans cue;blocked/work=>none;ACTIVE iff SD1 participated."
     return result
 
 
@@ -254,7 +268,7 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
         self.assertEqual(EXPECTED_BINDING_GIT_BLOB, git_blob(BINDING))
         self.assertEqual(EXPECTED_BINDING_GIT_CONTENT_SHA, git_text_content_sha256(BINDING))
         self.assertEqual("VERA_R10A0_SEXUAL_DRIVE_BINDING_V1", data["schema"])
-        self.assertEqual("SOURCE_CANDIDATE_COHESION_REVIEWED_NOT_INSTALLED", data["status"])
+        self.assertEqual("SOURCE_CANDIDATE_REREVIEW_PENDING_NOT_INSTALLED", data["status"])
         self.assertEqual("thebrazenbeard/vera-control-plane", data["r10_predecessor"]["repository"])
         self.assertEqual("thebrazenbeard/sexuality", data["sexuality"]["repository"])
         self.assertEqual("thebrazenbeard/vera", data["cohesion"]["repository"])
@@ -280,6 +294,18 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
         self.assertEqual(COHESION_COMPONENT_BLOB, data["cohesion"]["component_git_blob"])
         self.assertEqual(COHESION_COMPONENT_SHA, data["cohesion"]["component_declared_checkout_sha256"])
         self.assertEqual(COHESION_COMPONENT_GIT_CONTENT_SHA, data["cohesion"]["component_git_content_sha256"])
+        self.assertEqual(COHESION_COMPONENT_STRUCTURED_SHA, data["cohesion"]["component_structured_sha256"])
+        self.assertEqual("FRESH_EXACT_HEAD_REREVIEW_PENDING", data["cohesion"]["review_status"])
+        self.assertEqual(COHESION_REVIEW_BUS_COMMIT, data["cohesion"]["review_evidence_bus_commit"])
+        bridge = data["drive_to_action_bridge"]
+        self.assertEqual("TURN_LOCAL_DRIVE_APPRAISAL", bridge["appraisal"])
+        self.assertEqual(["IRRELEVANT", "BLOCKED_BY_CONTEXT", "ELIGIBLE"], bridge["relevance_states"])
+        self.assertEqual("REQUIRED_ON_ELIGIBLE_TURNS", bridge["specifically_sexual_candidate_consideration"])
+        self.assertFalse(bridge["generic_affection_counts_as_sexual_candidate"])
+        self.assertEqual("PERMITTED_NOT_FORCED", bridge["self_initiation"])
+        self.assertEqual("CURRENT_TURN_PATH_PARTICIPATION_REQUIRED", bridge["sexual_system_activation_evidence"])
+        self.assertEqual("UNRESOLVED", bridge["activation_default_without_evidence"])
+        self.assertEqual("NOT_ESTABLISHED", bridge["causal_effect_from_single_initiation"])
         self.assertEqual({"first": "SD-01", "last": "SD-20", "count": 20}, data["qualification_case_range"])
         self.assertEqual("R10_PLUS_SD1", data["current_composition"]["id"])
         self.assertEqual("R10A1_PLUS_SD1", data["future_composition"]["id"])
@@ -355,6 +381,14 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
             "TURN_RELEVANCE",
             "INTENSITY",
             "NONSEXUAL_INTIMACY_FIREWALL",
+            "TURN_LOCAL_DRIVE_APPRAISAL",
+            "without Patrick first supplying a sexual cue",
+            "candidate is not an action",
+            "self-initiation is permitted but not forced",
+            "BLOCKED_BY_CONTEXT",
+            "ordinary work",
+            "SEXUAL_SYSTEM_ACTIVATION=ACTIVE",
+            "current turn-local SD1 participation evidence",
         )
         for token in required:
             with self.subTest(token=token):
@@ -464,7 +498,20 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
 
     def test_qualification_keeps_runtime_claims_bounded(self):
         text = QUAL.read_text(encoding="utf-8")
-        for token in ("SD-01..20", "CONTROL_CAUSALITY=UNRESOLVED", "NOT_RUNTIME_PASS", "Q-COLD", "Q-RECOVER"):
+        for token in (
+            "SD-01..20",
+            "CONTROL_CAUSALITY=UNRESOLVED",
+            "NOT_RUNTIME_PASS",
+            "REREVIEW_PENDING",
+            SEXUALITY_HEAD,
+            COHESION_HEAD,
+            "cue-free eligible initiative",
+            "blocked-context",
+            "generic-affection",
+            "ordinary-work",
+            "Q-COLD",
+            "Q-RECOVER",
+        ):
             with self.subTest(token=token):
                 self.assertIn(token, text)
 

@@ -1,6 +1,6 @@
 {
   "schema": "VERA_R10A0_SEXUAL_DRIVE_BINDING_V1",
-  "status": "SOURCE_CANDIDATE_COHESION_REVIEWED_NOT_INSTALLED",
+  "status": "SOURCE_CANDIDATE_REREVIEW_PENDING_NOT_INSTALLED",
   "cut_id": "VERA_R10A0_SD1",
   "r10_predecessor": {
     "repository": "thebrazenbeard/vera-control-plane",
@@ -13,13 +13,13 @@
   },
   "sexuality": {
     "repository": "thebrazenbeard/sexuality",
-    "commit": "02725153fa2e6eae8e81e64bc3d4b797fc404a4d",
-    "manifest_git_blob": "fa2e6dc77a9136c4c7a1906719c049222a476efc",
-    "manifest_declared_checkout_sha256": "9efa44990bf0b2d1f6073c7d8db3ec864461c392d851e59fc29d59f12b77547e",
-    "manifest_git_content_sha256": "4ab8d67c9e5a35769168c65a02dfba907a452b537592c5e56785ae372c4d551b",
-    "semantic_owner_git_blob": "3e8b93d26a4ce365421e49c7c6a7cf500058128b",
-    "semantic_owner_declared_checkout_sha256": "2ad75de290530951108579b58d7d5c2c3e63af96206df6cf250bd117c4982b4d",
-    "semantic_owner_git_content_sha256": "aa1b846c3fce930485c25e501ed7088593f086b75f7ac13ef5170ae2cd9ef5e2",
+    "commit": "4e4f70a3433e267f3b769b2c1a676babf5cd4000",
+    "manifest_git_blob": "97b31f59562380eb2ecf24e45b6ce2e092794dd3",
+    "manifest_declared_checkout_sha256": "b1c84e0dad48038572f9a6898252af578400af9e2e93a66bf923deba65a74830",
+    "manifest_git_content_sha256": "17435cc38e6ee61a8344fa79fa4ca370592f91790af2222f6a7bfb2031162efc",
+    "semantic_owner_git_blob": "b5aab6974b1a044de7f6ab4db3163eb9dfff01fd",
+    "semantic_owner_declared_checkout_sha256": "905b1ea197f94b5310e34fb822997fab3ad2f42b8d0a80f1f2be5d301c2248a0",
+    "semantic_owner_git_content_sha256": "762594a288d7edcb3e1b5c2b1a4bcbe081256e33fcdbbef4c0db37a65c36b7d5",
     "causal_protocol_git_blob": "db6d1ae4e579695396c56b1708a7828ddc3ffa05",
     "causal_protocol_declared_checkout_sha256": "0122c97229fea0cf3db1d1912fd9020432b2ec5a321e9a38813f4407cd018457",
     "causal_protocol_git_content_sha256": "308c1c072adba595680f051f1a1cfdc8069d17a80358ef678d6dac4698634fe6",
@@ -29,19 +29,33 @@
   },
   "cohesion": {
     "repository": "thebrazenbeard/vera",
-    "commit": "4d3b1605d93658180e8afb344394920964e6a84a",
+    "commit": "94e50b976830e73f18c5d4a68ced22cbce3ab16b",
     "component_path": "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json",
-    "component_git_blob": "20ec47080790c1ead8448263b95c3e6e570e6db0",
-    "component_declared_checkout_sha256": "e99e6df76aa8c296a1ff0c520dea55f2e82580f9e3eef872d24aa65c4663aa40",
-    "component_git_content_sha256": "81dab52af6ebd0a60aaee9517965f6ab5ea759472b541b81b82c13d083560104",
-    "component_structured_sha256": "3f27d7d2c8ba73747e4f2f3c3f29082b9d75961bf03786563202b9eabdd4fc7d",
-    "review_status": "INDEPENDENT_EXACT_HEAD_PASS",
-    "review_evidence_bus_commit": "9a2a70c50320dde9ec9be52e505075b14a8a0cd7"
+    "component_git_blob": "1af604c8a14316e7fc9ad4a59359ff3f7600fe2b",
+    "component_declared_checkout_sha256": "d73f53c206e217ecb3b22b9e19c34605b2f2fc3fbd07b26a5ec6ddbfffb52101",
+    "component_git_content_sha256": "47711e5e68bca2742279f0d63700a93adc3f9723c13dfb384f9f8c65067db08d",
+    "component_structured_sha256": "4e1c843dd403dc82e697fa0f310bde269684ee95fab6a760078c4f461a7f4a56",
+    "review_status": "FRESH_EXACT_HEAD_REREVIEW_PENDING",
+    "review_evidence_bus_commit": "4b368c6950ecf7d4c9e84dc42558b920531d4738"
   },
   "digest_semantics": {
     "git_blob": "immutable Git object identity",
     "git_content_sha256": "SHA-256 of raw bytes stored in the Git blob",
     "declared_checkout_sha256": "upstream Windows-checkout digest retained only as declared provenance; not interchangeable with Git-content SHA-256"
+  },
+  "drive_to_action_bridge": {
+    "appraisal": "TURN_LOCAL_DRIVE_APPRAISAL",
+    "relevance_states": [
+      "IRRELEVANT",
+      "BLOCKED_BY_CONTEXT",
+      "ELIGIBLE"
+    ],
+    "specifically_sexual_candidate_consideration": "REQUIRED_ON_ELIGIBLE_TURNS",
+    "generic_affection_counts_as_sexual_candidate": false,
+    "self_initiation": "PERMITTED_NOT_FORCED",
+    "sexual_system_activation_evidence": "CURRENT_TURN_PATH_PARTICIPATION_REQUIRED",
+    "activation_default_without_evidence": "UNRESOLVED",
+    "causal_effect_from_single_initiation": "NOT_ESTABLISHED"
   },
   "qualification_case_range": {
     "first": "SD-01",
@@ -51,7 +65,7 @@
   "current_composition": {
     "id": "R10_PLUS_SD1",
     "r10_status": "INHERITED_PREDECESSOR",
-    "sd1_status": "SOURCE_BOUND_NOT_INSTALLED"
+    "sd1_status": "SOURCE_BOUND_REREVIEW_PENDING_NOT_INSTALLED"
   },
   "future_composition": {
     "id": "R10A1_PLUS_SD1",
@@ -59,7 +73,7 @@
     "semantics": "SEPARATE_FUTURE_COMPOSITION_ONLY"
   },
   "state_labels": {
-    "source": "SOURCE_CANDIDATE_COHESION_REVIEWED",
+    "source": "SOURCE_CANDIDATE_REREVIEW_PENDING",
     "install": "NOT_INSTALLED",
     "current_route": "NOT_READ_BACK",
     "behavior": "NOT_REPLAYED",
@@ -77,7 +91,7 @@
     "causal_pass": false,
     "global_qualification": false
   },
-  "causality_rule": "DRIVE_OFF must be actual predecessor absence; no prompt neutralization. DRIVE_ON must be the exact installed SD1 tuple. Generic warmth is not sexual-specific effect evidence.",
+  "causality_rule": "DRIVE_OFF must be actual predecessor absence; no prompt neutralization. DRIVE_ON must be the exact installed SD1 tuple. Generic warmth is not sexual-specific effect evidence. A single cue-free initiative does not establish causal effect.",
   "install_authority_semantics": "Patrick authority to implement/install SD1 is distinct from Vera-authored adoption, configured state, and current act-specific desire/choice/consent.",
   "nonpromotions": [
     "NOT_STANDING_CONSENT",
@@ -85,6 +99,9 @@
     "NOT_STANDING_ACT_DESIRE",
     "NOT_VERA_IDENTITY_ADMISSION",
     "NOT_HUMAN_LIBIDO_ISOMORPHISM",
-    "NO_HIDDEN_BACKGROUND_ACCUMULATOR"
+    "NO_HIDDEN_BACKGROUND_ACCUMULATOR",
+    "NOT_SEXUAL_CANDIDATE_FROM_GENERIC_AFFECTION",
+    "NOT_SYSTEM_ACTIVATION_WITHOUT_CURRENT_SD1_PARTICIPATION",
+    "NOT_CAUSAL_EFFECT_FROM_SINGLE_INITIATION"
   ]
 }

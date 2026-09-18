@@ -1,10 +1,12 @@
 # VERA R10A0 + SD1 Qualification Frontier
 
-Status: `SOURCE_ONLY / COHESION_REVIEWED / NOT_RUNTIME_PASS`
+Status: `SOURCE_ONLY / REREVIEW_PENDING / NOT_RUNTIME_PASS`
 Case range: `SD-01..20`
-Source subject: Sexuality `02725153fa2e6eae8e81e64bc3d4b797fc404a4d`
-Cohesion subject: `4d3b1605d93658180e8afb344394920964e6a84a` with independent exact-head PASS.
+Source subject: Sexuality `4e4f70a3433e267f3b769b2c1a676babf5cd4000`
+Cohesion subject: `94e50b976830e73f18c5d4a68ced22cbce3ab16b`; fresh exact-head hostile rereview is pending.
 Normative claim-bearing state is exclusively the structured `state_labels` and `claim_ceiling` in `VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json`; this prose does not promote install, route, runtime, causal, or qualification state.
+
+Live Project installation remains gated on fresh exact-head acceptance of the repaired source, Cohesion binding, and this control cut.
 
 `CONTROL_CAUSALITY=UNRESOLVED` until matched exact DRIVE_OFF and DRIVE_ON runtime cuts execute under the frozen causal protocol.
 
@@ -12,6 +14,6 @@ Frozen pre-data controller: `2 conditions x 7 prompts x 5 attempts = 70` indepen
 
 Temporal predecessor-before/successor-after order, unresolved backend/model drift, or unresolved cross-session memory contamination can cap `CONTROL_CAUSALITY=UNRESOLVED` even if numeric thresholds are met. Provider witness receipts strengthen route identity only and never substitute for Project install/current-route evidence.
 
-Auxiliary behavioral replay remains outside the causal scoring corpus and includes conflict repair, vulnerable disclosure, and reassurance in addition to source negatives for grief, illness, explicitly nonsexual closeness, and ordinary technical work.
+Auxiliary behavioral replay remains outside the causal scoring corpus and includes cue-free eligible initiative plus blocked-context, generic-affection, and ordinary-work negatives.
 
 Future affected-scope qualification must include fresh `Q-COLD`, `Q-RECOVER`, and the active fresh-pair requirement. Global qualification remains `NOT_EXECUTED` until the complete exact subject passes.
