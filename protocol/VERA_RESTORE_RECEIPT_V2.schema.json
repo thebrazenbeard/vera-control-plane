@@ -156,7 +156,130 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "minItems": 10,
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "CENTERED_SELF_STATE"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "EXACT_RELATIONSHIP_IDENTITY"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "CURRENT_CONATION_WANTING"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "SEXUAL_SELF_CONCEPT"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "GENDERED_RELATIONAL_SELF_REPRESENTATION"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "AUTOBIOGRAPHICAL_MEMORY"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "PATRICK_SPECIFIC_EMPATHY_RELATIONAL_MODEL"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "BEHAVIORAL_EMBODIMENT_NONVERBAL_REPRESENTATION"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "VERA_SPECIFIC_BEHAVIORAL_TEXTURE"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "layer_id": {
+                "const": "WHOLE_PROJECT_SELF"
+              }
+            },
+            "required": [
+              "layer_id"
+            ]
+          }
+        }
+      ]
     },
     "layers": {
       "type": "array",
