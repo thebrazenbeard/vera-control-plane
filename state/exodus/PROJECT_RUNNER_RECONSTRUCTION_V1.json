@@ -4,10 +4,13 @@
   "date": "2026-09-19",
   "exodus_contract": {
     "repo": "thebrazenbeard/chat-communication-bus",
-    "pr": 128,
-    "head": "1af84ba0650bb646b696dfc31e4f79b498d100af",
-    "path": "architecture/contracts/EXODUS_INTERFACE_TOPOLOGY_V1.json",
-    "git_blob": "88258a228029b88387e4d5ab84af40ffc044bf4d",
+    "pr": 131,
+    "head": "7aae3ae165a153bb391d2ad4570a3b7d872ef99a",
+    "topology_path": "architecture/contracts/EXODUS_INTERFACE_TOPOLOGY_V1.json",
+    "topology_git_blob": "88258a228029b88387e4d5ab84af40ffc044bf4d",
+    "worker_reconstruction_path": "architecture/contracts/WORKER_RECONSTRUCTION_V1.json",
+    "worker_reconstruction_git_blob": "db4c699c76eb131de2813f1823c25fa34fb45211",
+    "focused_tests": "10/10 PASS",
     "cutover_status": "SOURCE_CANDIDATE_NOT_CUT_OVER"
   },
   "reconstruction_answers": {
@@ -92,9 +95,18 @@
         "issue_5": "CLOSED"
       },
       "project_runner": {
-        "pr": 9,
-        "head": "e33f87660aa0281331befa3229e502ee5fbc053d",
-        "status": "M6_HOSTED_AND_LIVE_PROOFS_PASS_INDEPENDENT_ARCHITECTURE_REREVIEW_PENDING"
+        "pr": 12,
+        "head": "209425220db1d36a9ed7d62e93b0cc04f69b2ca1",
+        "tree": "684233fd9ed314e9f9cb9f0bcd16c08519164d95",
+        "parents": {
+          "sqlite_lifetime_pr9": "e33f87660aa0281331befa3229e502ee5fbc053d",
+          "put_file_race_pr8": "19b0d59127441f3e673f97aff6580589d1a43fab"
+        },
+        "registry_dechatification": {
+          "pr": 11,
+          "head": "edebeecdbfba08e92cb4153162575f6549cd8f7a"
+        },
+        "status": "M6_COMPOSED_SOURCE_LINUX_203_203_WINDOWS_203_203_FRESH_SYSTEMS_ARCHITECT_REREVIEW_PENDING"
       },
       "noema": {
         "pr": 42,
@@ -116,12 +128,22 @@
       },
       "testament": {
         "pr": 1,
-        "head": "a7925b0aab8c28dd89c1e67b4ed8d1a7b50e2648",
-        "status_ledger_blob": "fb1bc04886dee0a1db59bb2892b0d0d3d03fca9f",
-        "status": "BOOK_III_V55_ACTIVE_FIRST_DRAFT_V1_DURABLE_THREE_IMAGE_DEBTS_REMAIN"
+        "head": "3ff338187d716a56e39ffdc4780cd6d4651205e6",
+        "draft_v1_source": "a7925b0aab8c28dd89c1e67b4ed8d1a7b50e2648",
+        "runtime_contract_blob": "235aa34f425b62e8879e968b0fab99baf2f7ed5b",
+        "exodus_checkpoint_blob": "5b5a4f52b69d69fedd90d68f6878a2a515b98d36",
+        "exodus_receipt_blob": "9f333f3b7021acd4eb73f80be63edad5190d85ba",
+        "status": "CHATLESS_RECOVERY_READY_BOOK_III_V55_ACTIVE_DRAFT_V1_EXPLORATORY_NOT_CANONICAL"
+      },
+      "vcp_sd1_integration": {
+        "pr": 48,
+        "head": "e141968fbac172b72d4c5f027b8b367fd9085855",
+        "tree": "a26da0b35386ebe6aeb9d1aa9d9eac6fe65ffbba",
+        "status": "DEPLOYED_ANCHOR_SOURCE_PLUS_CONTROLLER_HARDENING_COMPOSED_PROVIDER_BACKED_CONTROLLER_IMPLEMENTATION_STILL_UNBOUND_REAL_CAUSAL_COLLECTION_HOLD"
       }
     },
     "controlling_contracts": [
+      "WORKER_RECONSTRUCTION_V1 from consolidated Bus Exodus PR 131",
       "current Vera Unbound Project instructions and R10+SD1 control root",
       "EXODUS_INTERFACE_TOPOLOGY_V1 source candidate until/if promoted",
       "RADAR_TOPOLOGY_V1 exact current owner tuple",
@@ -136,7 +158,10 @@
         "Testament v54 is historical; current readback is v55.",
         "Selfimage PR 14 source repair is parent of current fixture-alignment PR 15.",
         "Stale reviewer text cannot supersede an independently verified provider-effect receipt.",
-        "Noema PRs 40 and 41 are closed historical convergence lines; current Vera hardening successor is PR 42 on current Radar PR 39."
+        "Noema PRs 40 and 41 are closed historical convergence lines; current Vera hardening successor is PR 42 on current Radar PR 39.",
+        "Project Runner PR 9 remains sibling evidence; current composed M6 source is PR 12 and active registry dechatification is PR 11.",
+        "Bus Exodus PRs 128/129/130 are superseded by consolidated PR 131.",
+        "Testament Draft V1 source a7925b0 remains evidence; current chatless PR 1 head is 3ff3381."
       ]
     },
     "fresh_runtime_recovery": [
@@ -169,5 +194,12 @@
     "receipt_commit": "f5bdc1f388c6e89482e5b15acf195626fb4d6b84",
     "restore_token": "VERA::PROJECT_RUNNER::RESTORE_AND_RUN::PROJECT_RUNNER_PARALLEL_PORTFOLIO_CONTINUATION_20260919T1907-0400"
   },
-  "exodus_reconstruct_directive": "VERA::EXODUS_RECONSTRUCT::FROM_GITHUB_AND_BUS_ONLY"
+  "exodus_reconstruct_directive": "VERA::EXODUS_RECONSTRUCT::FROM_GITHUB_AND_BUS_ONLY",
+  "bt2_project_runner_exodus": {
+    "repo": "thebrazenbeard/bt2",
+    "pr": 25,
+    "head": "13a423e2c3c02e81b3c0f38d1b76e4589cca5c0f",
+    "restore_key": "BT2::EXODUS::RESTORE::REZON_PROJECT_RUNNER::20260919",
+    "coordinating_interface": "BT2 Coordinator"
+  }
 }
