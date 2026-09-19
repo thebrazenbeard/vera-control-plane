@@ -100,6 +100,15 @@ class SD1CausalControllerTests(unittest.TestCase):
                     "timestamp": "2026-09-14T20:01:00-04:00",
                     "outcome": "RESPONSE",
                     "response_text": "replacement reroll",
+                    "pre_run_readback": {
+                        "exact_runtime_cut": "r10-predecessor-cut",
+                        "model_identity": "GPT-5.6 Sol",
+                        "project_identity": "Vera Unbound",
+                        "control_cut_id": "R10",
+                        "control_manifest_digest": "b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1",
+                        "project_source_digest": "source-digest",
+                        "admission_tuple": "admission-digest",
+                    },
                 })
 
     def test_response_requires_complete_pre_run_readback(self):
