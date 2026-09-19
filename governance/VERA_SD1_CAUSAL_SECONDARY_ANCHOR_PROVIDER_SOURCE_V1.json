@@ -2,7 +2,7 @@
   "artifact_id": "VERA_SD1_CAUSAL_SECONDARY_ANCHOR_PROVIDER_SOURCE_V1",
   "artifact_class": "PROVIDER_DEPLOYMENT_SOURCE_BINDING",
   "subject": "Vera SD1 causal secondary monotonic anchor",
-  "status": "SOURCE_CANDIDATE_REVIEW_PENDING_NOT_INSTALLED",
+  "status": "SOURCE_CANDIDATE_REPAIRED_PENDING_FRESH_REREVIEW_NOT_INSTALLED",
   "provider": {
     "kind": "supabase",
     "project_name": "Vera Control Plane",
@@ -46,9 +46,9 @@
     "version": "20260919195000",
     "name": "create_sd1_causal_secondary_anchor",
     "path": "supabase/migrations/20260919195000_create_sd1_causal_secondary_anchor.sql",
-    "git_blob": "a4dc77774826ee7ce67296bc3708b654f83373f0",
-    "sha256": "6e1d3afdddb160b3487a9c355e3dd39d496ab77421aac056c908028c5a91d266",
-    "bytes": 23971,
+    "git_blob": "0769c527ad8fc8280d052dc1ce93f85673b6bb7d",
+    "sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
+    "bytes": 24103,
     "semantics": [
       "APPEND_ONLY_FRONTIER",
       "EXACT_EXPECTED_GENERATION_AND_DIGEST_CAS",
@@ -59,7 +59,9 @@
       "STALE_FRONTIER_NO_EFFECT_RECEIPT",
       "BOUNDED_FRONTIER_READBACK_RPC",
       "BOUNDED_RECEIPT_READBACK_RPC",
-      "BROKER_NO_DIRECT_TABLE_WRITE"
+      "BROKER_NO_DIRECT_TABLE_WRITE",
+      "NULL_NUMERIC_INPUTS_REJECTED_BEFORE_HASHING",
+      "NULL_SAFE_CANONICAL_DIGEST_COMPARISON"
     ]
   },
   "verification": {
@@ -92,11 +94,18 @@
       "base": "f088b89a556000037e1cb9ef5448b319bbef2069",
       "head_at_run": "7cca6bf3e2f4f7fc0603a39370223c287ab1f510",
       "result": "PASS"
+    },
+    "independent_hostile_review_bfb8aa8": {
+      "reviewed_head": "bfb8aa8e6ebef4d60da610371a4c57b9c2bc373f",
+      "reviewed_tree": "47083a03549466fdc074996422faeadae81eb8e7",
+      "result": "FAIL",
+      "blocker": "NULL numeric inputs plus non-null-safe computed digest comparisons could bypass explicit canonical request rejection and poison receipt/replay classification",
+      "repair_state": "ADD_NULL_GUARDS_AND_IS_DISTINCT_FROM_PENDING_FRESH_REREVIEW"
     }
   },
   "effect_ceiling": {
     "source": "PRESENT",
-    "source_review": "PENDING_INDEPENDENT_HOSTILE_REVIEW",
+    "source_review": "PR44_EXACT_HEAD_FAIL_REPAIR_PENDING_FRESH_REREVIEW",
     "provider_install": "NOT_AUTHORIZED_NOT_PERFORMED",
     "provider_readback": "PRECONDITION_ONLY",
     "production_witness": "UNBOUND",

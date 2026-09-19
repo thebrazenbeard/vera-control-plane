@@ -480,7 +480,10 @@ BEGIN
           USING ERRCODE = '22023';
     END IF;
 
-    IF p_expected_generation < 0
+    IF p_expected_generation IS NULL
+       OR p_generation IS NULL
+       OR p_record_count IS NULL
+       OR p_expected_generation < 0
        OR p_generation <> p_expected_generation + 1
        OR p_record_count <> p_generation
        OR p_predecessor_frontier_digest <> p_expected_frontier_digest
@@ -503,7 +506,7 @@ BEGIN
         'github:thebrazenbeard/vera-control-plane:state/sd1-causal-witness-v1'
       );
 
-    IF v_computed_frontier_digest <> p_frontier_digest THEN
+    IF v_computed_frontier_digest IS DISTINCT FROM p_frontier_digest THEN
         RAISE EXCEPTION 'successor frontier digest mismatch'
           USING ERRCODE = '22023';
     END IF;
@@ -522,7 +525,7 @@ BEGIN
         p_request_id
       );
 
-    IF v_computed_request_digest <> p_request_digest THEN
+    IF v_computed_request_digest IS DISTINCT FROM p_request_digest THEN
         RAISE EXCEPTION 'canonical request digest mismatch'
           USING ERRCODE = '22023';
     END IF;

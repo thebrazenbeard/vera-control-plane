@@ -85,8 +85,13 @@ def test_broker_has_only_bounded_rpc_surface():
 def test_advance_rpc_is_serialized_exact_cas_and_idempotent():
     text = source()
     assert "pg_advisory_xact_lock" in text
+    assert "p_expected_generation IS NULL" in text
+    assert "p_generation IS NULL" in text
+    assert "p_record_count IS NULL" in text
     assert "p_generation <> p_expected_generation + 1" in text
     assert "p_predecessor_frontier_digest <> p_expected_frontier_digest" in text
+    assert "v_computed_frontier_digest IS DISTINCT FROM p_frontier_digest" in text
+    assert "v_computed_request_digest IS DISTINCT FROM p_request_digest" in text
     assert "'REJECTED_STALE'::text" in text
     assert "'IDEMPOTENT_REPLAY'::text" in text
     assert "'REQUEST_ID_COLLISION'::text" in text
@@ -155,7 +160,7 @@ def test_provider_binding_matches_exact_migration_bytes():
     assert migration["path"] == str(MIGRATION.relative_to(ROOT)).replace("\\", "/")
     assert migration["bytes"] == len(source_bytes)
     assert migration["sha256"] == hashlib.sha256(source_bytes).hexdigest()
-    assert migration["git_blob"] == "a4dc77774826ee7ce67296bc3708b654f83373f0"
+    assert migration["git_blob"] == "0769c527ad8fc8280d052dc1ce93f85673b6bb7d"
 
 
 def test_provider_binding_cross_binds_exact_causal_contract():
