@@ -311,15 +311,46 @@ class GitFrontierTransport:
         latest = max(by_generation)
         if set(by_generation) != set(range(latest + 1)):
             raise WitnessIntegrityError("witness frontier generation gap")
-        raw = self._git("show", f"{head}:{by_generation[latest]}").stdout
-        try:
-            frontier = json.loads(raw.decode("utf-8"))
-        except Exception as exc:
-            raise WitnessIntegrityError("latest witness frontier is not valid JSON") from exc
-        validate_frontier(frontier, expected_store_id=self.store_id)
-        if frontier["generation"] != latest:
-            raise WitnessIntegrityError("frontier path generation disagrees with content")
-        return ObservedFrontier(head, by_generation[latest], frontier)
+
+        previous_digest: str | None = None
+        latest_frontier: dict[str, Any] | None = None
+        for generation in range(latest + 1):
+            path = by_generation[generation]
+            raw = self._git("show", f"{head}:{path}").stdout
+            try:
+                frontier = json.loads(raw.decode("utf-8"))
+            except Exception as exc:
+                raise WitnessIntegrityError(
+                    f"witness frontier generation {generation} is not valid JSON"
+                ) from exc
+            validate_frontier(frontier, expected_store_id=self.store_id)
+            if frontier["generation"] != generation:
+                raise WitnessIntegrityError(
+                    "frontier path generation disagrees with content"
+                )
+            basename = path[len(self.prefix):]
+            suffix = _FRONTIER_PATH_RE.match(basename).group("suffix")
+            if generation == 0:
+                if suffix != "genesis":
+                    raise WitnessIntegrityError("generation-zero frontier must be genesis")
+                if frontier["predecessor_frontier_digest"] is not None:
+                    raise WitnessIntegrityError(
+                        "genesis frontier may not name a predecessor"
+                    )
+            else:
+                if suffix != frontier["frontier_digest"][:16]:
+                    raise WitnessIntegrityError(
+                        "frontier path digest suffix disagrees with content"
+                    )
+                if frontier["predecessor_frontier_digest"] != previous_digest:
+                    raise WitnessIntegrityError(
+                        "frontier predecessor digest chain mismatch"
+                    )
+            previous_digest = frontier["frontier_digest"]
+            latest_frontier = frontier
+
+        assert latest_frontier is not None
+        return ObservedFrontier(head, by_generation[latest], latest_frontier)
 
     def compare_and_swap(
         self,
