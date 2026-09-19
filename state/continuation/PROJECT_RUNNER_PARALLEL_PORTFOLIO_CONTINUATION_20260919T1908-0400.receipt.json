@@ -1,0 +1,16 @@
+{
+  "schema_version": "PROJECT_RUNNER_CONTINUATION_RECEIPT_V1",
+  "recorded_at": "2026-09-19T19:08:57-04:00",
+  "repo": "thebrazenbeard/vera-control-plane",
+  "branch": "state/project-runner-parallel-portfolio-continuation-20260919-1908",
+  "checkpoint": {
+    "path": "state/continuation/PROJECT_RUNNER_PARALLEL_PORTFOLIO_CONTINUATION_20260919T1908-0400.md",
+    "commit": "ec5aff80bc6bcd799326f0695cd02bef969af096",
+    "git_blob": "71db7c0063b418c8a300234cc54fba5aa7d8b19d",
+    "sha256": "be664683bed562741d814ae2336c219d05f2db35984a429d1c389a3856c8cc8f",
+    "bytes": 20599
+  },
+  "base_main": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+  "protected_effects_performed": false,
+  "resume_rule": "fresh-check every recorded head before write/review carry-forward; preserve failed review heads; continue independent runnable frontiers"
+}
