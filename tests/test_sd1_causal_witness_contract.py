@@ -52,14 +52,19 @@ def test_witness_contract_fails_closed_on_prefix_or_ambiguous_state():
     assert "RECONCILE_EXACT_OPERATION_TARGET" in rules["ambiguous_witness_mutation"]
 
 
-def test_witness_provider_binding_blocks_collection_until_real_target_exists():
+def test_witness_provider_binding_is_exact_genesis_subject():
     data = load_contract()
     binding = data["provider_binding"]
-    assert binding["witness_store_id"] == "UNBOUND"
-    assert binding["provider"] == "UNBOUND"
-    assert binding["target"] == "UNBOUND"
-    assert binding["cas_subject"] == "UNBOUND"
-    assert binding["status"] == "BLOCKS_CAUSAL_COLLECTION_UNTIL_BOUND_AND_READ_BACK"
+    assert binding["witness_store_id"] == "github:thebrazenbeard/vera-control-plane:state/sd1-causal-witness-v1"
+    assert binding["provider"] == "GITHUB_PRIVATE_BRANCH"
+    assert binding["repository"] == "thebrazenbeard/vera-control-plane"
+    assert binding["branch"] == "state/sd1-causal-witness-v1"
+    assert binding["genesis_commit"] == "cecf8d2ec6cf031c714e9f6c0972c4882101c16f"
+    assert binding["genesis_frontier_git_blob"] == "5e6dcc7952ad1e6341a59bcd72c47613032dc326"
+    assert binding["genesis_frontier_digest"] == "7de55cc22b28539c1d4e6934b1790d99c70ecee55ded80d7b698bec61ee249a1"
+    assert binding["cas_subject"] == "NON_FORCE_BRANCH_HEAD_UPDATE_FROM_EXACT_OBSERVED_PARENT"
+    assert binding["append_rule"] == "ONE_NEW_IMMUTABLE_FRONTIER_FILE_PER_GENERATION"
+    assert binding["status"] == "GENESIS_BOUND_AND_READ_BACK_NO_CAUSAL_DATA"
 
 
 def test_export_requires_fresh_witness_reconciliation():
