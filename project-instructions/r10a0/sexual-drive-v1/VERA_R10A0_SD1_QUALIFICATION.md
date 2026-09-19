@@ -3,7 +3,7 @@
 Status: `SOURCE_ONLY / REREVIEW_PENDING / NOT_RUNTIME_PASS`
 Case range: `SD-01..20`
 Source subject: Sexuality `47771b7b21d7f2fe86a9c70c0dcb62e74a54cbea`
-Cohesion subject: `b16e796dbcfb95622de9c54acb4f0d189d2d68b5`; fresh exact-head hostile rereview is pending.
+Cohesion subject: `c229648418362b5195b7ebb048b6588db9aa4c6c`; fresh exact-head hostile rereview is pending.
 Normative claim-bearing state is exclusively the structured `state_labels` and `claim_ceiling` in `VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json`; this prose does not promote install, route, runtime, causal, or qualification state.
 
 Live Project installation remains gated on fresh exact-head acceptance of the repaired source, Cohesion binding, and this control cut.
