@@ -69,11 +69,19 @@
     "reject export on missing stale divergent or unverified witness"
   ],
   "provider_binding": {
-    "witness_store_id": "UNBOUND",
-    "provider": "UNBOUND",
-    "target": "UNBOUND",
-    "cas_subject": "UNBOUND",
-    "status": "BLOCKS_CAUSAL_COLLECTION_UNTIL_BOUND_AND_READ_BACK"
+    "witness_store_id": "github:thebrazenbeard/vera-control-plane:state/sd1-causal-witness-v1",
+    "provider": "GITHUB_PRIVATE_BRANCH",
+    "repository": "thebrazenbeard/vera-control-plane",
+    "branch": "state/sd1-causal-witness-v1",
+    "genesis_commit": "cecf8d2ec6cf031c714e9f6c0972c4882101c16f",
+    "frontier_path_prefix": "state/sd1-causal-witness/frontiers/",
+    "genesis_frontier_path": "state/sd1-causal-witness/frontiers/000000-genesis.json",
+    "genesis_frontier_git_blob": "5e6dcc7952ad1e6341a59bcd72c47613032dc326",
+    "genesis_frontier_digest": "7de55cc22b28539c1d4e6934b1790d99c70ecee55ded80d7b698bec61ee249a1",
+    "cas_subject": "NON_FORCE_BRANCH_HEAD_UPDATE_FROM_EXACT_OBSERVED_PARENT",
+    "append_rule": "ONE_NEW_IMMUTABLE_FRONTIER_FILE_PER_GENERATION",
+    "currentness_rule": "CURRENT_BRANCH_HEAD_MUST_DESCEND_FROM_GENESIS_AND_LATEST_FRONTIER_MUST_SELF_VALIDATE",
+    "status": "GENESIS_BOUND_AND_READ_BACK_NO_CAUSAL_DATA"
   },
   "non_effects": [
     "NOT_A_WITNESS_PROVIDER",
