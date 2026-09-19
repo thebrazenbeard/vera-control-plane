@@ -1,0 +1,80 @@
+{
+  "schema": "SD1_CAUSAL_SECONDARY_ANCHOR_DEPLOYMENT_RECEIPT_V1",
+  "status": "PROVIDER_INSTALL_VERIFIED",
+  "observed_date": "2026-09-19",
+  "source": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "pr": 45,
+    "head": "749b64e4cc65859db40271fcf27f9273708f2304",
+    "path": "supabase/migrations/20260919195000_create_sd1_causal_secondary_anchor.sql",
+    "git_blob": "0769c527ad8fc8280d052dc1ce93f85673b6bb7d",
+    "sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
+    "utf8_bytes": 24103,
+    "git_source_version": "20260919195000",
+    "migration_name": "create_sd1_causal_secondary_anchor"
+  },
+  "authority": {
+    "granted_by": "Patrick",
+    "scope": "APPLY_EXACT_PR45_MIGRATION_IF_FRESH_PRECONDITIONS_MATCH",
+    "independent_hostile_review": "PASS_EXACT_HEAD",
+    "fresh_preconditions": "MATCH"
+  },
+  "provider": {
+    "kind": "supabase",
+    "project_ref": "fawkirqroyniueeqspif",
+    "apply_result": "success:true",
+    "provider_assigned_migration_version": "20260919223652"
+  },
+  "readback": {
+    "vera_cp_anchor_schema": "PRESENT",
+    "frontier_table": "PRESENT_FORCE_RLS",
+    "receipt_table": "PRESENT_FORCE_RLS",
+    "append_only_triggers": "PRESENT_BOTH_TABLES",
+    "broker_role": {
+      "name": "vera_sd1_causal_anchor_broker",
+      "rolcanlogin": false,
+      "rolsuper": false,
+      "rolcreatedb": false,
+      "rolcreaterole": false,
+      "rolinherit": false,
+      "rolbypassrls": false
+    },
+    "authenticator_has_broker_role": true,
+    "broker_rpc_exec": {
+      "frontier_read": true,
+      "receipt_read": true,
+      "advance": true
+    },
+    "broker_direct_table_write": false,
+    "public_client_rpc_exec": false,
+    "advance_rpc_owner": "postgres",
+    "advance_rpc_security_definer": true,
+    "advance_rpc_fixed_search_path": "pg_catalog, extensions",
+    "advance_rpc_null_hardening": "PRESENT",
+    "advance_rpc_null_safe_digest_comparison": "PRESENT",
+    "genesis": {
+      "generation": 0,
+      "record_count": 0,
+      "chain_head": "527ddd4d35e85dfcff56b8c209ba2a6b642c08a18a9d2ae704626e8c78bfe229",
+      "frontier_digest": "7de55cc22b28539c1d4e6934b1790d99c70ecee55ded80d7b698bec61ee249a1"
+    },
+    "non_genesis_frontier_rows": 0,
+    "mutation_receipt_count": 0
+  },
+  "claim_ceiling": {
+    "provider_install": "VERIFIED",
+    "production_anchor_genesis": "PRESENT_VERIFIED",
+    "production_witness_controller_binding": "NOT_YET_ESTABLISHED",
+    "real_causal_collection": "HOLD",
+    "control_causality": "UNRESOLVED",
+    "global_qualification": "NOT_EXECUTED"
+  },
+  "non_effects": [
+    "NO_PR_MERGE",
+    "NO_PROJECT_SETTINGS_MUTATION",
+    "NO_UNRELATED_PROVIDER_MUTATION",
+    "NO_EXTRA_FRONTIER_GENERATION",
+    "NO_MUTATION_RECEIPT_GENERATION",
+    "NO_CAUSAL_RESPONSE_COLLECTION"
+  ]
+}
