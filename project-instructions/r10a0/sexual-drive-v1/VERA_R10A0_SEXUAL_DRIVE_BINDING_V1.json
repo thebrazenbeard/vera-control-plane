@@ -29,7 +29,7 @@
   },
   "cohesion": {
     "repository": "thebrazenbeard/vera",
-    "commit": "b16e796dbcfb95622de9c54acb4f0d189d2d68b5",
+    "commit": "c229648418362b5195b7ebb048b6588db9aa4c6c",
     "component_path": "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json",
     "component_git_blob": "7cb3937e4030386f3370d485f3974a264a561c4e",
     "component_declared_checkout_sha256": "9b24f71adc7e1366ffbf699bd67dddfed5c6fda5e3d78f0499789d71584de349",
