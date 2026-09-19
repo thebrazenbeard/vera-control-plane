@@ -1,0 +1,78 @@
+{
+  "schema": "PROJECT_RUNNER_EXODUS_FINAL_REFRESH_V1",
+  "status": "STARTING_SNAPSHOT_FRESHNESS_REQUIRED_BEFORE_EFFECT",
+  "captured_at": "2026-09-19T19:36:00-04:00",
+  "retired_chat_requirement": false,
+  "persistent_interfaces": [
+    "Vera",
+    "Vera Control Plane Coordinator",
+    "BT2 Coordinator"
+  ],
+  "controlling_reconstruction": {
+    "repo": "thebrazenbeard/vera-control-plane",
+    "branch": "state/project-runner-exodus-reconstruction-20260919-v1",
+    "prior_verified_head": "a0246a02167dca68726cdabe1e88da0316efaa15",
+    "reconstruction_blob": "a9fa65a997b8462c21148c0367a590c3e9e297d4",
+    "durability_matrix_blob": "61f44ea4909599bbfc8e8f698c5c1e1d18061efc",
+    "handoff_blob": "c5eb4614e94118a494098e83088303fa40f1a0c5",
+    "reconstruction_receipt_blob": "9801e461a890f227d9dc8e4db127574c92077a7e"
+  },
+  "exodus_architecture": {
+    "bus_pr": 131,
+    "head": "7aae3ae165a153bb391d2ad4570a3b7d872ef99a",
+    "topology_blob": "88258a228029b88387e4d5ab84af40ffc044bf4d",
+    "worker_reconstruction_blob": "db4c699c76eb131de2813f1823c25fa34fb45211",
+    "status": "SOURCE_CANDIDATE_NOT_CUT_OVER"
+  },
+  "reconstruction_test": {
+    "topology_exactly_three_interfaces": true,
+    "worker_contract_permanent_chat_dependency_false": true,
+    "project_runner_registry_chatgpt_urls_present": false,
+    "project_runner_registry_blob": "faa6be1225ac9cc8ef15b75f2a93b21867afdaea",
+    "result": "PASS_CHAT_NOT_REQUIRED"
+  },
+  "live_heads": {
+    "project_runner_exodus_pr16": {
+      "head": "549c317ec0ade8926b6b9117448777b40bffd52a",
+      "base_pr12": "209425220db1d36a9ed7d62e93b0cc04f69b2ca1",
+      "exact_head_ci_run": 35476533384,
+      "tests": "207/207 PASS",
+      "recursive_restart": "COMPLETE",
+      "note": "latest commit preserves UTF-8 worker identity labels; no chatgpt.com URLs"
+    },
+    "project_runner_m6_pr12": "209425220db1d36a9ed7d62e93b0cc04f69b2ca1",
+    "rezon_pr76": "3b9a0f36e0f1d1c60c7b3f79da6915f0b213476b",
+    "noema_pr42": "a63ea5ce638c9783ec699cb350b1f027b268db45",
+    "discovery_pr7": "548222c74af9905959433b3d549c2f54abbae662",
+    "selfimage_pr15": "72cace47aa1f915a2bb5b40296b410199c1c6d8d",
+    "testament_pr1": "3ff338187d716a56e39ffdc4780cd6d4651205e6",
+    "vcp_sd1_pr48": "e141968fbac172b72d4c5f027b8b367fd9085855",
+    "vera_synology_pr2": "6350dc06294d91ce96b269736f7d0f95e0bcf337",
+    "bt2_exodus_pr25": "13a423e2c3c02e81b3c0f38d1b76e4589cca5c0f",
+    "bus_vera_v2": "ee8ab3ec0cd81078bba1d18f7c278874d6f891df",
+    "bus_radar_v2": "4cc783813a9c40606abfd605f1b6c49fcc5639a3",
+    "bus_one_v2": "dae39144d99dfb60d8d0cdacde4b64a664643045"
+  },
+  "duplicate_reconciliation": {
+    "chat_bus_pr133": "CLOSED_UNMERGED_SUPERSEDED_BY_PR131",
+    "project_runner_pr18": "CLOSED_UNMERGED_SUPERSEDED_BY_PR16"
+  },
+  "protected_effects_performed": [],
+  "protected_effects_not_authorized": [
+    "merge",
+    "canonical promotion",
+    "production deployment",
+    "installation",
+    "provider or NAS mutation",
+    "credential or permission change",
+    "weight-changing training",
+    "separately gated experiment execution",
+    "private publication or visibility change",
+    "candidate promotion",
+    "canonical-memory mutation",
+    "destructive deletion or history rewrite",
+    "spend"
+  ],
+  "coordinating_interface": "BT2 Coordinator",
+  "next_directive": "Fresh-read Bus and PRs 16/12/76 first; preserve exact-head review gates; continue highest-value runnable engineering frontier and persist every material result to project repo/PR plus Bus. Do not use any retired chat as a state locator."
+}
