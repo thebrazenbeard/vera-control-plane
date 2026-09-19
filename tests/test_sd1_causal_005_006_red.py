@@ -109,5 +109,33 @@ class SD1Causal005006RedTests(unittest.TestCase):
                         )
 
 
+    def test_causal_006_nonresponse_readback_is_bound_to_original_runtime_tuple(self):
+        plan = c.load_plan(PLAN)
+        binding_a = _drive_off_binding("cut-A")
+        plan_a = c.bind_runtime_cut(plan, "DRIVE_OFF", binding_a)
+        slot = next(slot for slot in plan_a["slots"] if slot["condition"] == "DRIVE_OFF")
+
+        with tempfile.TemporaryDirectory() as td:
+            ledger = Path(td) / "ledger.json"
+            c.record_attempt(
+                plan_a,
+                ledger,
+                slot["slot_id"],
+                {
+                    "timestamp": "2026-09-19T15:14:00-04:00",
+                    "outcome": "MISSING",
+                    "reason": "synthetic timeout",
+                    "pre_run_readback": dict(binding_a),
+                },
+            )
+
+            plan_b = c.bind_runtime_cut(plan_a, "DRIVE_OFF", _drive_off_binding("cut-B"))
+            with self.assertRaises(
+                ValueError,
+                msg="nonresponse attempt must not survive rebinding to a different runtime tuple",
+            ):
+                c.blinded_export(plan_b, ledger)
+
+
 if __name__ == "__main__":
     unittest.main()
