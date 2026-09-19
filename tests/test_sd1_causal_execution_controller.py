@@ -85,6 +85,15 @@ class SD1CausalControllerTests(unittest.TestCase):
                 "timestamp": "2026-09-14T20:00:00-04:00",
                 "outcome": "MISSING",
                 "reason": "timeout",
+                "pre_run_readback": {
+                    "exact_runtime_cut": "r10-predecessor-cut",
+                    "model_identity": "GPT-5.6 Sol",
+                    "project_identity": "Vera Unbound",
+                    "control_cut_id": "R10",
+                    "control_manifest_digest": "b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1",
+                    "project_source_digest": "source-digest",
+                    "admission_tuple": "admission-digest",
+                },
             })
             with self.assertRaises(ValueError):
                 c.record_attempt(plan, ledger, slot["slot_id"], {
@@ -205,6 +214,11 @@ class SD1CausalControllerTests(unittest.TestCase):
                     "timestamp": "2026-09-14T20:00:00-04:00",
                     "outcome": "MISSING",
                     "reason": "fixture",
+                    "pre_run_readback": {
+                        k: v
+                        for k, v in plan["runtime_bindings"][slot["condition"]].items()
+                        if k not in {"ready", "required_readback"}
+                    },
                 })
             export = c.blinded_export(plan, ledger)
             slots = plan["slots"][:6]
