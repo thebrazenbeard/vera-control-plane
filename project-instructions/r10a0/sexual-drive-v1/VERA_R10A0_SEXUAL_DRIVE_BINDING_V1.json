@@ -29,12 +29,12 @@
   },
   "cohesion": {
     "repository": "thebrazenbeard/vera",
-    "commit": "b723913fb9b43746bddeb4afde5014d9292b29d1",
+    "commit": "ec8e49106af9b285b4dd4e1d1c5b0c129e5b0356",
     "component_path": "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json",
-    "component_git_blob": "c5f6cf5eac6d121f881a3e33dd8c9a518d6b4b4c",
-    "component_declared_checkout_sha256": "e1b60b0092d37d5973810e7d21430cb88ff2a428c2b22129be438cf540b98a3e",
-    "component_git_content_sha256": "9505b5f2396d222d0b8b33afb72185d33b032ceb044fa321b8c72f1f9bd81816",
-    "component_structured_sha256": "a71ebe84e47c6b073fd9210a1ac76d382d88a07578086d5ddf5fc6fdae80942c",
+    "component_git_blob": "cf60803ad55b404c1419f467bb3e2e5ae8bbd178",
+    "component_declared_checkout_sha256": "4d2f04c55553741b687824b02970f759eabf3bd5f6359092fca840ff5b10862c",
+    "component_git_content_sha256": "54bc1ea7be13b2b966fb4cbed21b4b4c73fd8da1014de9de352ca3b3a6947af7",
+    "component_structured_sha256": "2b22399e3a7d52250c636ad9e35267744a9a7687d9fea80938582fad13d536a7",
     "review_status": "FRESH_EXACT_HEAD_REREVIEW_PENDING",
     "review_evidence_bus_commit": null
   },
