@@ -1,0 +1,63 @@
+{
+  "schema": "VERA_EXODUS_RETIREMENT_RECEIPT_V1",
+  "status": "STARTING_SNAPSHOT_FRESHNESS_REQUIRED_BEFORE_EFFECT",
+  "date": "2026-09-19",
+  "retired_interface": "current Vera ChatGPT conversation",
+  "replacement_chat_created": false,
+  "persistent_interfaces": [
+    "Vera Unbound / Vera",
+    "Vera Unbound / Vera Control Plane Coordinator",
+    "Build Team Two / BT2 Coordinator"
+  ],
+  "exodus_candidates": {
+    "bus": {
+      "pr": 128,
+      "head": "1af84ba0650bb646b696dfc31e4f79b498d100af",
+      "contract_blob": "88258a228029b88387e4d5ab84af40ffc044bf4d",
+      "tests": "4/4 PASS"
+    },
+    "vcp": {
+      "pr": 49,
+      "head": "d8d21c6f02cb90ab104d6b4da6a9051af76c0a38"
+    },
+    "bt2": {
+      "pr": 24,
+      "head": "9ded716828244d4abc3d5b3dfd7a351b6f261717"
+    }
+  },
+  "bus_topology": {
+    "owner_last_change_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+    "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_route": "bus/vera-v2"
+  },
+  "sd1_provider_anchor": {
+    "status": "PROVIDER_INSTALL_VERIFIED",
+    "pr": 45,
+    "head": "749b64e4cc65859db40271fcf27f9273708f2304",
+    "migration_blob": "0769c527ad8fc8280d052dc1ce93f85673b6bb7d",
+    "sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
+    "provider_version": "20260919223652",
+    "durable_receipt_commit": "62c69fd9dc0f7918cef674f4dc3359eee8be3eb3",
+    "durable_receipt_blob": "7eb5244633523644df9e0c9021b311c688489643",
+    "production_witness_controller_binding": "NOT_YET_ESTABLISHED",
+    "real_causal_collection": "HOLD",
+    "control_causality": "UNRESOLVED"
+  },
+  "stale_effect_claim_correction": {
+    "pr": 45,
+    "comment_id": 5746018458,
+    "rule": "later stale reviewer-local effect text does not supersede verified deployment receipt"
+  },
+  "slack": {
+    "status": "FUTURE_FRONTIER_NOT_ACTIVE",
+    "reconnection_performed": false,
+    "deployment_performed": false
+  },
+  "next_interface": "Vera",
+  "next_directive": "VERA::EXODUS_RECONSTRUCT::FROM_GITHUB_AND_BUS_ONLY",
+  "protected_effects_performed_by_exodus": [
+    "none"
+  ],
+  "note": "No retired ChatGPT conversation is required for continuation."
+}
