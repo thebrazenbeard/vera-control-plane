@@ -1,6 +1,6 @@
 # Project Runner Archive Durability Matrix V1
 
-Status: DURABLE RECOVERY INDEX / FRESHNESS REQUIRED BEFORE ACTION
+Status: CHAT-SPECIFIC RECOVERY READY / GLOBAL EXODUS CUTOVER BLOCKED / FRESHNESS REQUIRED BEFORE EFFECT
 
 Purpose: answer one question after chat archival — **where is the work actually stored?**
 
@@ -8,12 +8,12 @@ A chat URL is never a required recovery dependency. Every row below points to a 
 
 | Project / lane | Durable recovery anchor observed | What survives chat archival | Recovery rule / unresolved gate |
 |---|---|---|---|
-| Vera Exodus topology | consolidated Chat Bus Draft PR #131 @ `7aae3ae165a153bb391d2ad4570a3b7d872ef99a`; topology blob `88258a228029b88387e4d5ab84af40ffc044bf4d`; worker-reconstruction blob `db4c699c76eb131de2813f1823c25fa34fb45211` | Three-interface topology + generic replaceable-terminal worker reconstruction; focused 10/10 PASS | SOURCE_CANDIDATE_NOT_CUT_OVER; PRs #128/#129/#130 are superseded provenance |
+| Vera Exodus topology | current consolidated census-gated Draft PR #135 @ `5268b8675a6ba3e142a5f8cb749f13dcc839a5e7`; parent #131 `7aae3ae...`; topology blob `e9d6ce86342cae1430e0dd39d3e9a2fe3dc5bdcc`; census blob `9bcf1224119dfbd57dfebe316f5d31d214d25d36` | Three-interface topology + terminal-neutral worker reconstruction + exact ACTIVE-writer census | Global cutover BLOCKED at census cut: 20 active / 2 READY (One, Two) / 18 unqualified; hosted CI pre-step unavailable; fresh census required before any global cutover claim |
 | Vera retirement root | VCP state `state/vera-exodus-retirement-20260919-v1` @ `fa31403ffc4c3b14b5796690d5a9171451ec6c09` | General Vera retirement checkpoint, SD1 provider-effect state, reconstruction directive | Starting snapshot; current project instructions and live heads win |
 | Project Runner reconstruction | this branch + `state/exodus/PROJECT_RUNNER_RECONSTRUCTION_V1.json` | Role/domain/authority/repos/Bus/current frontier/recovery/effect gates | Reconstruct from GitHub+Bus only; no permanent Project Runner chat required |
 | Project Runner prior portfolio | `state/project-runner-parallel-portfolio-continuation-20260919-1907`; receipt `f5bdc1f388c6e89482e5b15acf195626fb4d6b84` | Detailed prior cross-project state and restore token | Historical starting cut; successor matrix and fresh heads supersede mutable facts |
 | Rezon | PR #76 R51 @ `3b9a0f36e0f1d1c60c7b3f79da6915f0b213476b`; canonical review `5258264993`; One review `5258276156` | R51 failure-summary binding source, 274/274 hosted evidence, 333/333 exact R4 composition evidence | Fresh hostile rereview still required; Issue #5 CLOSED; no merge/activation |
-| Project Runner M6 | composed PR #12 @ `209425220db1d36a9ed7d62e93b0cc04f69b2ca1`, tree `684233fd9ed314e9f9cb9f0bcd16c08519164d95`; sibling repairs PR #8 `19b0d591...` + PR #9 `e33f8766...`; registry dechatification PR #11 `edebeecdb...` | Zero-overlap PUT_FILE-race + SQLite-lifetime composition; Linux 203/203 and Windows 203/203; active worker registry no longer requires ChatGPT share URLs | Fresh Systems Architect verdict on exact PR #12; no merge |
+| Project Runner M6 / Exodus | mechanics PR #12 @ `209425220db1d36a9ed7d62e93b0cc04f69b2ca1`; current dechatification PR #20 @ `a3dc0e0ff42c08327f421e1102d674c3d6a2e951`; review `5258358194` | No active chat URLs in seed registry; no permanent Project Runner chat; no invented Bus lane; promoted workers require exact immutable GitHub reconstruction binding; hosted run `35476615092` = 213/213 PASS, registry 13/12 PASS, recursive restart COMPLETE | Live backend and HC→Transcendence skipped in PR context; no merge/activation authority |
 | Noema | private PR #42 @ `a63ea5ce638c9783ec699cb350b1f027b268db45`, directly on Radar PR #39 `cea0197cc9556c1838ee63a49786d809a59e64f9`; review `5258312047` | Current chronology line: parent Draft-2020-12/format validation + fail-closed absence semantics, plus exact normative-schema digest binding and duplicate-verifier removal | Hosted CI pre-step unavailable; empirical prospective authority BLOCKED; E0/P0 not authorized; closed #40/#41 are historical |
 | Discovery | PR #7 @ `548222c74af9905959433b3d549c2f54abbae662`; review `5258289837` | Current lifecycle gate, exact-subject syntax, schema/runtime anti-promotion rules, 12/12 hosted tests | PR #1 base observed moving; fresh-compare before integration; no candidate promoted |
 | Project Lantern | private PR #5 @ `e90124bda39d5f92fa2ce9d51b6648dc463ef36d`; review `5258154042` | Truthful package identity/API boundary and clean-package CI candidate | Hosted package qualification pre-step unavailable; no release/global-store promotion |
@@ -76,3 +76,9 @@ If a future task cannot be reconstructed from the listed durable surfaces, that 
 - coordinating persistent interface: `BT2 Coordinator`.
 
 This VCP matrix and the BT2 handoff are complementary: VCP keeps Vera-side cross-project governance/recovery state; BT2 owns the engineering-portfolio continuation.
+
+## Final retirement distinction
+
+This Project Runner conversation is no longer an operational dependency: Project Runner role, authority boundaries, durable state, current engineering subjects, reconstruction procedure, Bus behavior, and result destinations are all represented in GitHub/Bus artifacts. No successor Project Runner chat is required.
+
+The **global** ChatGPT Exodus is separately not complete. Bus PR #135 deliberately keeps global retirement/cutover BLOCKED while its census still has 18 unqualified ACTIVE writer identities. That system-wide gap is durable and can be continued by the three surviving interfaces without access to this conversation.
