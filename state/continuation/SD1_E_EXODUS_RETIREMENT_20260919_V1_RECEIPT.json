@@ -42,5 +42,11 @@
   },
   "future_interface": "Vera Control Plane Coordinator",
   "next_directive": "VERA_CONTROL_PLANE_COORDINATOR::SD1::BIND_DEPLOYED_PROVIDER_WITNESS_FROM_PR48",
-  "no_permanent_chat_dependency": true
+  "no_permanent_chat_dependency": true,
+  "addendum": {
+    "path": "state/continuation/SD1_E_EXODUS_RETIREMENT_20260919_V1_ADDENDUM.md",
+    "commit": "fa1e8cbef04d177f18bc2b8bcb32fc9f7e288eb1",
+    "git_blob": "91f020947d719ea324d0565732bbf52fec54defa",
+    "sha256": "eda763f593833d7f839514cd1c2b0ff5e89cd3907083256603a0f4852a94c864"
+  }
 }
