@@ -162,6 +162,29 @@ def _reconcile_ledger_frontier(
         raise ValueError("RECOVERY_REQUIRED: witness last_record_digest diverges from ledger")
 
 
+def _recovery_artifacts(path: Path) -> list[Path]:
+    if not path.parent.exists():
+        return []
+    prefix = f".{path.name}.pending-"
+    return sorted(
+        item
+        for item in path.parent.iterdir()
+        if item.is_file()
+        and (
+            item.name.startswith(prefix)
+            or (item.name.startswith(prefix) and item.name.endswith(".recovery"))
+        )
+    )
+
+
+def _require_no_recovery_artifacts(path: Path) -> None:
+    artifacts = _recovery_artifacts(path)
+    if artifacts:
+        raise ValueError(
+            "RECOVERY_REQUIRED: unresolved pending causal ledger artifact exists"
+        )
+
+
 def _candidate_ledger_with_record(
     ledger: dict[str, Any],
     slot_id: str,
@@ -226,6 +249,7 @@ def record_attempt(
         stored["reason"] = record["reason"]
 
     path = Path(ledger_path)
+    _require_no_recovery_artifacts(path)
     ledger = _load_ledger(path)
     _validate_ledger_integrity(plan, ledger)
     current_frontier = _read_witness_frontier(witness)
@@ -365,7 +389,9 @@ def blinded_export(
     witness: Any,
 ) -> list[dict[str, Any]]:
     _validate_immutable_plan(plan)
-    ledger = _load_ledger(Path(ledger_path))
+    path = Path(ledger_path)
+    _require_no_recovery_artifacts(path)
+    ledger = _load_ledger(path)
     _validate_ledger_integrity(plan, ledger)
     frontier = _read_witness_frontier(witness)
     _reconcile_ledger_frontier(ledger, frontier)
