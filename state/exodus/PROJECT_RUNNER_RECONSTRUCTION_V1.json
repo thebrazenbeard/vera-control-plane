@@ -97,9 +97,11 @@
         "status": "M6_HOSTED_AND_LIVE_PROOFS_PASS_INDEPENDENT_ARCHITECTURE_REREVIEW_PENDING"
       },
       "noema": {
-        "pr": 41,
-        "head": "6d4947b5ae651ee4f2f6ef30880d287cf33d278b",
-        "status": "INTEGRATED_CHRONOLOGY_SOURCE_PASS_HOSTED_PRESTEP_UNAVAILABLE_EMPIRICAL_PROSPECTIVE_AUTHORITY_BLOCKED_E0_P0_NOT_AUTHORIZED"
+        "pr": 42,
+        "head": "a63ea5ce638c9783ec699cb350b1f027b268db45",
+        "parent_radar_pr": 39,
+        "parent_radar_head": "cea0197cc9556c1838ee63a49786d809a59e64f9",
+        "status": "CURRENT_EXACT_SCHEMA_HARDENING_SOURCE_PASS_HOSTED_PRESTEP_UNAVAILABLE_EMPIRICAL_PROSPECTIVE_AUTHORITY_BLOCKED_E0_P0_NOT_AUTHORIZED"
       },
       "discovery": {
         "pr": 7,
@@ -133,7 +135,8 @@
         "Discovery PRs 4 and 5 are closed stale predecessors of current PR 7.",
         "Testament v54 is historical; current readback is v55.",
         "Selfimage PR 14 source repair is parent of current fixture-alignment PR 15.",
-        "Stale reviewer text cannot supersede an independently verified provider-effect receipt."
+        "Stale reviewer text cannot supersede an independently verified provider-effect receipt.",
+        "Noema PRs 40 and 41 are closed historical convergence lines; current Vera hardening successor is PR 42 on current Radar PR 39."
       ]
     },
     "fresh_runtime_recovery": [
