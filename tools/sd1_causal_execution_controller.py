@@ -11,6 +11,7 @@ from tools.sd1_causal_frontier_witness import (
     build_successor_frontier,
     validate_frontier,
 )
+from tools.sd1_causal_witness_testing import MemoryFrontierWitness
 
 _ALLOWED_OUTCOMES = {"RESPONSE", "MISSING", "UNKNOWN"}
 _FROZEN_IMMUTABLE_PLAN_SHA256 = "526f35438c2521d40e7a2bfa145da363e0c5063d2affef27131f9370e08564ba"
@@ -126,6 +127,8 @@ def _expected_readback(binding: dict[str, Any], condition: str) -> dict[str, str
 def _read_witness_frontier(witness: Any) -> dict[str, Any]:
     if witness is None:
         raise ValueError("causal frontier witness is required")
+    if type(witness) is not MemoryFrontierWitness:
+        raise ValueError("causal frontier witness is not an exact reviewed witness")
     if getattr(witness, "monotonicity_qualified", False) is not True:
         raise ValueError("causal frontier witness is not monotonicity-qualified")
     store_id = getattr(witness, "store_id", None)

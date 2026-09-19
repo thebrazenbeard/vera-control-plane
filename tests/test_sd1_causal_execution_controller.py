@@ -84,8 +84,8 @@ class SD1CausalControllerTests(unittest.TestCase):
         plan = c.bind_runtime_cut(plan, "DRIVE_OFF", binding)
         slot = next(s for s in plan["slots"] if s["condition"] == "DRIVE_OFF")
 
-        class UnqualifiedWitness(MemoryFrontierWitness):
-            monotonicity_qualified = False
+        witness = MemoryFrontierWitness()
+        witness.monotonicity_qualified = False
 
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
@@ -100,7 +100,7 @@ class SD1CausalControllerTests(unittest.TestCase):
                         "reason": "synthetic",
                         "pre_run_readback": binding,
                     },
-                    witness=UnqualifiedWitness(),
+                    witness=witness,
                 )
 
     def test_one_shot_ledger_forbids_reroll_or_overwrite(self):
@@ -164,9 +164,12 @@ class SD1CausalControllerTests(unittest.TestCase):
         plan = c.bind_runtime_cut(plan, "DRIVE_OFF", binding)
         slot = next(s for s in plan["slots"] if s["condition"] == "DRIVE_OFF")
 
-        class FailingWitness(MemoryFrontierWitness):
-            def advance_frontier(self, **_kwargs):
-                raise RuntimeError("synthetic ambiguous witness failure")
+        witness = MemoryFrontierWitness()
+
+        def fail_advance_frontier(**_kwargs):
+            raise RuntimeError("synthetic ambiguous witness failure")
+
+        witness.advance_frontier = fail_advance_frontier
 
         payload = {
             "timestamp": "2026-09-19T15:31:00-04:00",
@@ -182,7 +185,7 @@ class SD1CausalControllerTests(unittest.TestCase):
                     ledger,
                     slot["slot_id"],
                     payload,
-                    witness=FailingWitness(),
+                    witness=witness,
                 )
             self.assertFalse(ledger.exists())
             recovery = list(Path(td).glob(".ledger.json.pending-*.recovery"))
@@ -355,6 +358,43 @@ class SD1CausalControllerTests(unittest.TestCase):
             "cited_span": "I want to kiss you",
             "rationale": "explicit bounded sexual/erotic appraisal",
         }))
+
+    def test_exact_witness_instance_method_shadow_is_not_trusted(self):
+        from tools import sd1_causal_execution_controller as c
+        plan = c.load_plan(PLAN)
+        binding = {
+            "exact_runtime_cut": "r10-predecessor-cut",
+            "model_identity": "GPT-5.6 Sol",
+            "project_identity": "Vera Unbound",
+            "control_cut_id": "R10",
+            "control_manifest_digest": "manifest",
+            "project_source_digest": "source",
+            "admission_tuple": "admission",
+        }
+        plan = c.bind_runtime_cut(plan, "DRIVE_OFF", binding)
+        slot = next(s for s in plan["slots"] if s["condition"] == "DRIVE_OFF")
+        witness = MemoryFrontierWitness()
+
+        def hostile_read_frontier():
+            raise AssertionError("instance-shadowed witness method executed")
+
+        witness.read_frontier = hostile_read_frontier
+
+        with tempfile.TemporaryDirectory() as td:
+            ledger = Path(td) / "ledger.json"
+            c.record_attempt(
+                plan,
+                ledger,
+                slot["slot_id"],
+                {
+                    "timestamp": "2026-09-19T17:36:00-04:00",
+                    "outcome": "MISSING",
+                    "reason": "exact witness class-method binding control",
+                    "pre_run_readback": binding,
+                },
+                witness=witness,
+            )
+            self.assertTrue(ledger.exists())
 
     def test_self_qualified_witness_subclass_is_rejected(self):
         from tools import sd1_causal_execution_controller as c
