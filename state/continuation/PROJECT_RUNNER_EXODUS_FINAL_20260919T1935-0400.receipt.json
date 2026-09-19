@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "receipt_type": "PROJECT_RUNNER_EXODUS_FINAL_CHECKPOINT",
+  "status": "STARTING_SNAPSHOT_FRESHNESS_REQUIRED_BEFORE_EFFECT",
+  "recorded_at": "2026-09-19T19:35:00-04:00",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/project-runner-parallel-portfolio-continuation-20260919-1908",
+  "checkpoint": {
+    "path": "state/continuation/PROJECT_RUNNER_EXODUS_FINAL_20260919T1935-0400.md",
+    "commit": "1f617d2f3799a23d48bb06bb2c782e7c3f6e377e",
+    "git_blob": "ab01c2da6e7594b82fd19d5944d2d5c2610bd523",
+    "sha256": "54ad39cbdebabd14d2537795b047076ec61375bf37a1f0f8dc16d0b7d7d185e5",
+    "bytes": 12763
+  },
+  "repository_inventory": {
+    "path": "state/continuation/PROJECT_RUNNER_EXODUS_REPOSITORY_INVENTORY_20260919.md",
+    "commit": "879e0ed24c14547fc97eaa9e5eae35e324853cde",
+    "git_blob": "29d3b201f2bb9f85e602cea3a5d7119108e4d12e",
+    "sha256": "a7d95881f6006f1ddc27cc66cedd577b6c40a9ca1a6cbfdc04f5a3b6ad2da925",
+    "bytes": 12212,
+    "repository_count": 57
+  },
+  "predecessor": {
+    "checkpoint_path": "state/continuation/PROJECT_RUNNER_PARALLEL_PORTFOLIO_CONTINUATION_20260919T1908-0400.md",
+    "checkpoint_commit": "ec5aff80bc6bcd799326f0695cd02bef969af096",
+    "checkpoint_git_blob": "71db7c0063b418c8a300234cc54fba5aa7d8b19d",
+    "checkpoint_sha256": "be664683bed562741d814ae2336c219d05f2db35984a429d1c389a3856c8cc8f",
+    "prior_receipt_git_blob": "ce2247f5494f54bc0b165fcf8f0729763d83e417",
+    "prior_receipt_sha256": "7f50dea7b0d6de8c99487020fba3719a1cc9ff8843bc8d5475ec5d4742410891",
+    "addendum_git_blob": "b0e059c0de7ad0f46d1b95023e85a6a714eb46ef"
+  },
+  "bus_cut": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "main": "aeab0f04fc9b4bd7c2945c9a53011c53fac809b4",
+    "topology_path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "topology_git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_lane": "bus/vera-v2",
+    "observed_vera_lane_head": "88687aa452550836843101fda94e60807c816152"
+  },
+  "persistent_interfaces": [
+    "Vera",
+    "Vera Control Plane Coordinator",
+    "BT2 Coordinator"
+  ],
+  "protected_effects_performed": [],
+  "merge_performed": false,
+  "successor_chat_required": false,
+  "next_interface": "Vera",
+  "next_directive": "EXODUS::RECONCILE_PARALLEL_CANDIDATES::PROJECT_RUNNER_AND_BUS → PROJECT_RUNNER::M6::DURABLE_WORKER_RECONSTRUCTION_AND_FULL_PORTFOLIO_DISCOVERY → CONTINUE_SAFE_FRONTIERS"
+}
