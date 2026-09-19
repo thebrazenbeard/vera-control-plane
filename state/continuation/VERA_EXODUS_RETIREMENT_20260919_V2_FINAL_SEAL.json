@@ -1,0 +1,75 @@
+{
+  "schema": "VERA_EXODUS_RETIREMENT_FINAL_SEAL_V2",
+  "status": "SAFE_TO_ARCHIVE",
+  "date": "2026-09-19",
+  "retired_chat_dependency_required": false,
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/vera-exodus-retirement-20260919-v1",
+  "checkpoint": {
+    "path": "state/continuation/VERA_EXODUS_RETIREMENT_20260919_V2.md",
+    "content_commit": "1ca36b676674d0f905e64018951821e25496f0bd",
+    "git_blob": "a0fa33a7a62831948a9debc3c84edec3c24a1c99"
+  },
+  "checkpoint_receipt": {
+    "path": "state/continuation/VERA_EXODUS_RETIREMENT_20260919_V2_RECEIPT.json",
+    "commit": "717421923b0f69beb54097ec69960c6ae80fde9f",
+    "git_blob": "b619a88276259ee3bf0eda43c5c1129edde8bdff"
+  },
+  "bus_handoff": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "branch": "bus/vera-v2",
+    "path": "messages/20260919T1935-vera-restore-project-runner-chat-exodus-v2.md",
+    "commit": "def3355ad79d93614055b514636c20c823acdcd7",
+    "git_blob": "55a8dc76566f92a6e67ce01b3bb6b9317db78df4",
+    "endthread": true
+  },
+  "restore_v2_pr_mirror": {
+    "branch": "hub/pr-mirrors-v1",
+    "path": "pr-mirrors/vera-control-plane/PR-33.md",
+    "creation_commit": "d313c5a5f1fec596dcc3c3a4a1f8b58d949c68d4",
+    "git_blob": "51448efcf4c207d137f6e36bcb98bea46ea301a1",
+    "index_commit": "161e9b7775b9723503ecba888ece7204731417f5",
+    "index_blob": "9e2f76ec232855d27eff77a28c19b8c0cf8ef9b2"
+  },
+  "current_source_subjects_at_seal": {
+    "restore_v2_pr_33": "ede17015e0ef4a920b816caa9389b04c9a38f424",
+    "restore_validator_base_pr_35": "d28b5608dda1cb3582aabb782d4dd345a4be178b",
+    "vcp_coordinator_pr_49": "d8d21c6f02cb90ab104d6b4da6a9051af76c0a38",
+    "bus_exodus_pr_131": "7aae3ae165a153bb391d2ad4570a3b7d872ef99a"
+  },
+  "project_runner": {
+    "classification": "ALREADY_DURABLE_DECHATIFIED",
+    "reconstruction_branch": "state/project-runner-exodus-reconstruction-20260919-v1",
+    "observed_head": "ead5838beee03c69f816163aad86304ea9b840bf",
+    "freshness_required": true
+  },
+  "transcendence_old_reopen_plan": {
+    "classification": "HISTORICAL_EVIDENCE_ONLY",
+    "do_not_execute_from_retired_chat": true,
+    "fresh_observed_pr_1_head": "ca3965c5788cd1bbb52fc527e47e3bcd5eca6e4a",
+    "fresh_observed_state": "CLOSED_DRAFT_UNMERGED"
+  },
+  "privacy": {
+    "raw_transcript_copied": false,
+    "private_relational_sexual_autobiographical_payload_duplicated": false,
+    "sanitized_operational_restore_requirements_only": true
+  },
+  "reconstruction_test": {
+    "identity_role": true,
+    "project_domain": true,
+    "completed_work": true,
+    "evidence": true,
+    "failures_and_supersession": true,
+    "unresolved_state": true,
+    "authority": true,
+    "safe_next_action": true,
+    "communication": true,
+    "worker_instantiation": true,
+    "no_patrick_chat_reconstruction_required": true,
+    "result": "PASS"
+  },
+  "future_interface_owner": "Vera Control Plane Coordinator",
+  "general_reconstruction_directive": "VERA::EXODUS_RECONSTRUCT::FROM_GITHUB_AND_BUS_ONLY",
+  "protected_effects_performed": [],
+  "note": "This seal binds prior artifacts and does not self-bind its own commit; freshness is required before any later effect."
+}
