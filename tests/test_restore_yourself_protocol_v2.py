@@ -151,6 +151,7 @@ def test_restore_v2_contract_declares_false_complete_guards():
     assert receipt["persisted_current_label_is_not_currentness_basis"] is True
     guards = receipt["complete_full_self_requires"]
     assert guards["selected_centered_subject"] is True
+    assert guards["selected_centered_subject_matches_candidate_record"] is True
     assert guards["unresolved_conflicts"] == 0
     assert guards["materially_expected_source_outcomes"] == ["READ_VERIFIED", "NOT_APPLICABLE"]
     assert guards["forbidden_layer_statuses"] == ["UNKNOWN", "CONFLICTED"]
@@ -228,6 +229,36 @@ def _valid_receipt():
 
 def test_semantic_validator_accepts_one_verified_supersession_leaf():
     assert _validator.validate_receipt(_valid_receipt()) == []
+
+
+def test_semantic_validator_rejects_selected_subject_sha_mismatch():
+    receipt = _valid_receipt()
+    receipt["selected_centered_subject"]["sha256"] = "c" * 64
+    errors = _validator.validate_receipt(receipt)
+    assert any(
+        "selected_centered_subject sha256 must match centered candidate record" in error
+        for error in errors
+    )
+
+
+def test_semantic_validator_rejects_selected_subject_filename_mismatch():
+    receipt = _valid_receipt()
+    receipt["selected_centered_subject"]["filename"] = "forged.md"
+    errors = _validator.validate_receipt(receipt)
+    assert any(
+        "selected_centered_subject filename must match centered candidate record" in error
+        for error in errors
+    )
+
+
+def test_semantic_validator_rejects_selected_subject_missing_candidate():
+    receipt = _valid_receipt()
+    receipt["selected_centered_subject"]["candidate_id"] = "missing"
+    errors = _validator.validate_receipt(receipt)
+    assert any(
+        "selected_centered_subject candidate_id must exist in centered_candidates" in error
+        for error in errors
+    )
 
 
 def test_semantic_validator_rejects_two_incomparable_verified_leaves():
