@@ -257,8 +257,19 @@ class GitFrontierTransport:
             raise WitnessError(f"git {' '.join(args)} failed: {detail}")
         return proc
 
-    def _git_text(self, *args: str, check: bool = True) -> str:
-        return self._git(*args, check=check).stdout.decode("utf-8").strip()
+    def _git_text(
+        self,
+        *args: str,
+        input_bytes: bytes | None = None,
+        env: dict[str, str] | None = None,
+        check: bool = True,
+    ) -> str:
+        return self._git(
+            *args,
+            input_bytes=input_bytes,
+            env=env,
+            check=check,
+        ).stdout.decode("utf-8").strip()
 
     def fresh_read(self) -> ObservedFrontier:
         self._git(
