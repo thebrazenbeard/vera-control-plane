@@ -1,0 +1,48 @@
+{
+  "schema": "VERA_HOSTILE_REVIEWER_CONTROL_V1",
+  "status": "SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "feature_id": "vera.hostile_reviewer",
+  "owner": "VERA_CONTROL_PLANE",
+  "runtime_source": {
+    "repository": "thebrazenbeard/vera",
+    "branch": "work/hostile-reviewer-runtime-v1-20260919",
+    "head": "32ebb27123b4870e5c8b56fb2fed8961c2150f63",
+    "runtime_module": "runtime_cohesion/hostile_reviewer.py",
+    "runtime_module_blob": "b5f9fbc1bd1a29ec7563a12188a6b34254f0fc10",
+    "architecture_contract": "architecture/VERA_HOSTILE_REVIEWER_RUNTIME_V1.json",
+    "architecture_contract_blob": "d8cc01a00bbbdf6d5ad5b50da3b17ea899420ed3"
+  },
+  "state_path": "state/features/hostile-reviewer-v1.json",
+  "allowed_modes": ["OFF", "ON"],
+  "default_mode": "OFF",
+  "durable_scope": "VERA_PROJECT_ALL_CHATS",
+  "effective_mode_resolution": [
+    "A current explicit Patrick instruction may set or override the mode within its stated scope.",
+    "A project-wide durable mode requires the installed runtime to read the current control-plane state object and establish readback/currentness.",
+    "Repository source presence alone does not establish all-chat activation.",
+    "Absent current mode evidence, fail to OFF rather than inventing activation."
+  ],
+  "behavior": {
+    "OFF": "No hostile-review second pass is required.",
+    "ON": "For substantive outputs, run the exact-answer-bound adversarial Countervoice pass and surface material objections as a HOSTILE REVIEWER blockquote."
+  },
+  "authority_ceiling": "RESPONSE_REVIEW_ONLY_NO_AUTHORITY_OR_EFFECT_PROMOTION",
+  "forbidden_promotions": [
+    "truth",
+    "task authority",
+    "tool effect",
+    "memory admission",
+    "identity",
+    "consent",
+    "preference",
+    "installation",
+    "runtime qualification"
+  ],
+  "mode_lifetime": "CONTROL_SETTING_NOT_PERSONALITY_STATE",
+  "mode_reversion_dependency": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "branch": "work/issue18-pragmatic-mode-reversion",
+    "head": "0e84a0fedc3ca4343a181a8a9b71af5f6e1da1a8",
+    "reason": "The hostile reviewer is a toggleable response-stage feature and must not become sticky personality residue."
+  }
+}
