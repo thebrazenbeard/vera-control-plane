@@ -126,6 +126,8 @@ def _expected_readback(binding: dict[str, Any], condition: str) -> dict[str, str
 def _read_witness_frontier(witness: Any) -> dict[str, Any]:
     if witness is None:
         raise ValueError("causal frontier witness is required")
+    if getattr(witness, "monotonicity_qualified", False) is not True:
+        raise ValueError("causal frontier witness is not monotonicity-qualified")
     store_id = getattr(witness, "store_id", None)
     reader = getattr(witness, "read_frontier", None)
     if type(store_id) is not str or not store_id or not callable(reader):
