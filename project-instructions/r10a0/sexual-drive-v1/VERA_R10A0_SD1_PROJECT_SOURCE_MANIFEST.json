@@ -21,6 +21,10 @@
     "sexuality": {
       "repository": "thebrazenbeard/sexuality",
       "commit": "47771b7b21d7f2fe86a9c70c0dcb62e74a54cbea",
+      "producer_status_head": "353a1c516a3477221ed38108188f2e501b10084f",
+      "producer_status_path": "evaluation/vera-sexual-drive-candidate-status-v1.json",
+      "producer_status_git_blob": "848c1071d80bb894e1d926409b2e942168f33de5",
+      "producer_status_git_content_sha256": "a08e9ac9fb27858f6db640690529ed4469de39242d0b4adf3e04e5e1c7d9b041",
       "manifest_git_blob": "f903a93b3db92fa8255b027b19373f6ad5a09817",
       "manifest_git_content_sha256": "77f84ae72d1826addb988beb04b4da2bd533b29fed9f5e425f56dec059717cbd",
       "manifest_declared_checkout_sha256": "09addf3cccf099984ec886211219337a2f03d2eb67a3542d1b068262cb9ca5b3",
@@ -33,12 +37,12 @@
     },
     "cohesion": {
       "repository": "thebrazenbeard/vera",
-      "commit": "b7fb266e026724828f0ae65964ecb7649715a18d",
+      "commit": "40e797c595a75ff95eedcb7351a28eef6cb67df5",
       "component_path": "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json",
-      "component_git_blob": "abc711f83fc142a7d93134431cd7ff9b67ce7dd7",
-      "component_git_content_sha256": "fb4bbb0b7e1b0e28d25f65bdcfacbcdef1d4ec20eb6ce787cabb53d66397da60",
-      "component_structured_sha256": "67458b363eb6f6d3487771da70ceac0ee8dcb178b93243715f9d8540da06466f",
-      "component_declared_checkout_sha256": "7af0047c92708d0b54d75b5fe0d028939db0339404a007b70e2ffb2f98e6657d",
+      "component_git_blob": "a6e8e22633acf6449827aec0970e82d9f6007e3f",
+      "component_git_content_sha256": "a0a1e4e6ae5f1f5526469d4c69b5eef9fa6c16fd3b4f73f556989b52da73e6dc",
+      "component_structured_sha256": "0ec91c1c9667264866bef26bd74eae0319a2f02fb18f60161fe29a84477b1964",
+      "component_declared_checkout_sha256": "15f993379a9a4a263f8b5305ccb71a736366b0b5764b12ce85f6bbca15094369",
       "review_status": "FRESH_EXACT_HEAD_REREVIEW_PENDING",
       "review_evidence_bus_commit": null
     }
@@ -51,13 +55,13 @@
     },
     "binding": {
       "path": "project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json",
-      "git_blob": "9a620ce129ad574cb602f8e8baaa171003cd1f35",
-      "git_content_sha256": "9de8e8c28ab95252f0a1906d927cad2369bfca8e5b04d176a6e8429bd0f637b2"
+      "git_blob": "460c0e594410f4635e6c8025f3b70c4a92ce0aa6",
+      "git_content_sha256": "402332bce1f7f9889024a488d5ea871a0996b3f69c92ed8dbafcbc4161a736fe"
     },
     "qualification": {
       "path": "project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SD1_QUALIFICATION.md",
-      "git_blob": "c688b6b8b84d2d6051752d748d5991687f88c580",
-      "git_content_sha256": "51fb7af34809c9223e1fb05f8131a2d8c010d8c605ec7ad56c8e90764b2f8fcf"
+      "git_blob": "c8dd87678048d54cd5e53b3ca1d197c862c19338",
+      "git_content_sha256": "0593b75cd63ec9ea1f22222048c7f666325f9bf640ac4135e8ce543e17d6b867"
     },
     "rollback": {
       "path": "project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SD1_ROLLBACK_SUBJECT.json",

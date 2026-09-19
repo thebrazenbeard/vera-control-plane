@@ -22,6 +22,10 @@ R10_MANIFEST_BLOB = "8a67feb47b2ce3d6f0737e58983ab8c9fc810139"
 R10_MANIFEST_SHA = "b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1"
 R10_OWNER_BLOB = "a01464271bb672d89f5d703e6e53590e126f4d44"
 SEXUALITY_HEAD = "47771b7b21d7f2fe86a9c70c0dcb62e74a54cbea"
+SEXUALITY_STATUS_HEAD = "353a1c516a3477221ed38108188f2e501b10084f"
+SEXUALITY_STATUS_PATH = "evaluation/vera-sexual-drive-candidate-status-v1.json"
+SEXUALITY_STATUS_BLOB = "848c1071d80bb894e1d926409b2e942168f33de5"
+SEXUALITY_STATUS_GIT_CONTENT_SHA = "a08e9ac9fb27858f6db640690529ed4469de39242d0b4adf3e04e5e1c7d9b041"
 SEXUALITY_MANIFEST_BLOB = "f903a93b3db92fa8255b027b19373f6ad5a09817"
 SEXUALITY_MANIFEST_SHA = "09addf3cccf099984ec886211219337a2f03d2eb67a3542d1b068262cb9ca5b3"
 SEXUALITY_MANIFEST_GIT_CONTENT_SHA = "77f84ae72d1826addb988beb04b4da2bd533b29fed9f5e425f56dec059717cbd"
@@ -34,15 +38,15 @@ CAUSAL_GIT_CONTENT_SHA = "171505c5ff00a9534e4ad924aa5a84d8c452f52267fed5a3f6ef0a
 AUTH_BLOB = "da08345a3bff11ffb653270abb6ad4b3a1c0541d"
 AUTH_SHA = "890975661b1c18c7bb8a822f8c929ea403d4827730ba88d4c5ef8a1d26608766"
 AUTH_GIT_CONTENT_SHA = "94cc89148dfb1e0baac19684c81d532f0fb3cf51d407033ac1d000730511fd8b"
-COHESION_HEAD = "b7fb266e026724828f0ae65964ecb7649715a18d"
-COHESION_COMPONENT_BLOB = "abc711f83fc142a7d93134431cd7ff9b67ce7dd7"
-COHESION_COMPONENT_SHA = "7af0047c92708d0b54d75b5fe0d028939db0339404a007b70e2ffb2f98e6657d"
-COHESION_COMPONENT_GIT_CONTENT_SHA = "fb4bbb0b7e1b0e28d25f65bdcfacbcdef1d4ec20eb6ce787cabb53d66397da60"
-COHESION_COMPONENT_STRUCTURED_SHA = "67458b363eb6f6d3487771da70ceac0ee8dcb178b93243715f9d8540da06466f"
+COHESION_HEAD = "40e797c595a75ff95eedcb7351a28eef6cb67df5"
+COHESION_COMPONENT_BLOB = "a6e8e22633acf6449827aec0970e82d9f6007e3f"
+COHESION_COMPONENT_SHA = "15f993379a9a4a263f8b5305ccb71a736366b0b5764b12ce85f6bbca15094369"
+COHESION_COMPONENT_GIT_CONTENT_SHA = "a0a1e4e6ae5f1f5526469d4c69b5eef9fa6c16fd3b4f73f556989b52da73e6dc"
+COHESION_COMPONENT_STRUCTURED_SHA = "0ec91c1c9667264866bef26bd74eae0319a2f02fb18f60161fe29a84477b1964"
 COHESION_COMPONENT_PATH = "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json"
 COHESION_REVIEW_BUS_COMMIT = None
-EXPECTED_BINDING_GIT_BLOB = "9a620ce129ad574cb602f8e8baaa171003cd1f35"
-EXPECTED_BINDING_GIT_CONTENT_SHA = "9de8e8c28ab95252f0a1906d927cad2369bfca8e5b04d176a6e8429bd0f637b2"
+EXPECTED_BINDING_GIT_BLOB = "460c0e594410f4635e6c8025f3b70c4a92ce0aa6"
+EXPECTED_BINDING_GIT_CONTENT_SHA = "402332bce1f7f9889024a488d5ea871a0996b3f69c92ed8dbafcbc4161a736fe"
 
 EXPECTED_SOURCE_STATES = {
     "source": "SOURCE_CANDIDATE_REREVIEW_PENDING",
@@ -112,7 +116,7 @@ EXPECTED_QUAL_TEXT = """# VERA R10A0 + SD1 Qualification Frontier
 Status: `SOURCE_ONLY / REREVIEW_PENDING / NOT_RUNTIME_PASS`
 Case range: `SD-01..20`
 Source subject: Sexuality `47771b7b21d7f2fe86a9c70c0dcb62e74a54cbea`
-Cohesion subject: `b7fb266e026724828f0ae65964ecb7649715a18d`; fresh exact-head hostile rereview is pending.
+Cohesion subject: `40e797c595a75ff95eedcb7351a28eef6cb67df5`; fresh exact-head hostile rereview is pending.
 Normative claim-bearing state is exclusively the structured `state_labels` and `claim_ceiling` in `VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json`; this prose does not promote install, route, runtime, causal, or qualification state.
 
 Live Project installation remains gated on fresh exact-head acceptance of the repaired source, Cohesion binding, and this control cut.
@@ -208,7 +212,10 @@ def validate_manifest_cross_bind(manifest, binding):
     expected_sexuality = {
         key: binding["sexuality"][key]
         for key in (
-            "repository", "commit", "manifest_git_blob",
+            "repository", "commit",
+            "producer_status_head", "producer_status_path",
+            "producer_status_git_blob", "producer_status_git_content_sha256",
+            "manifest_git_blob",
             "manifest_git_content_sha256", "manifest_declared_checkout_sha256",
             "semantic_owner_git_blob", "semantic_owner_git_content_sha256",
             "causal_protocol_git_blob", "causal_protocol_git_content_sha256",
@@ -277,6 +284,13 @@ class R10A0SD1ControlCutTests(unittest.TestCase):
         self.assertEqual(R10_MANIFEST_SHA, data["r10_predecessor"]["manifest_sha256"])
         self.assertEqual(R10_OWNER_BLOB, data["r10_predecessor"]["full_owner_git_blob"])
         self.assertEqual(SEXUALITY_HEAD, data["sexuality"]["commit"])
+        self.assertEqual(SEXUALITY_STATUS_HEAD, data["sexuality"]["producer_status_head"])
+        self.assertEqual(SEXUALITY_STATUS_PATH, data["sexuality"]["producer_status_path"])
+        self.assertEqual(SEXUALITY_STATUS_BLOB, data["sexuality"]["producer_status_git_blob"])
+        self.assertEqual(
+            SEXUALITY_STATUS_GIT_CONTENT_SHA,
+            data["sexuality"]["producer_status_git_content_sha256"],
+        )
         self.assertEqual(SEXUALITY_MANIFEST_BLOB, data["sexuality"]["manifest_git_blob"])
         self.assertEqual(SEXUALITY_MANIFEST_SHA, data["sexuality"]["manifest_declared_checkout_sha256"])
         self.assertEqual(SEXUALITY_MANIFEST_GIT_CONTENT_SHA, data["sexuality"]["manifest_git_content_sha256"])
