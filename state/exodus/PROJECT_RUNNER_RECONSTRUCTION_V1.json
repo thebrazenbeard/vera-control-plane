@@ -1,0 +1,170 @@
+{
+  "schema": "PROJECT_RUNNER_EXODUS_RECONSTRUCTION_V1",
+  "status": "DURABLE_RECONSTRUCTION_SOURCE_FRESHNESS_REQUIRED_BEFORE_EFFECT",
+  "date": "2026-09-19",
+  "exodus_contract": {
+    "repo": "thebrazenbeard/chat-communication-bus",
+    "pr": 128,
+    "head": "1af84ba0650bb646b696dfc31e4f79b498d100af",
+    "path": "architecture/contracts/EXODUS_INTERFACE_TOPOLOGY_V1.json",
+    "git_blob": "88258a228029b88387e4d5ab84af40ffc044bf4d",
+    "cutover_status": "SOURCE_CANDIDATE_NOT_CUT_OVER"
+  },
+  "reconstruction_answers": {
+    "identity_role": {
+      "role": "PROJECT_RUNNER",
+      "type": "EPHEMERAL_EXECUTION_LANE_OF_GOVERNED_VERA_REFERENT",
+      "permanent_chat_required": false,
+      "chat_url_required": false
+    },
+    "project_domain": "Cross-project portfolio orientation, source review, hostile verification, bounded source repair, qualification evidence, durable coordination, and archive-safe frontier persistence.",
+    "authority_and_non_authority": {
+      "allowed_without_new_protected_authority": [
+        "safe repository reads",
+        "freshness checks",
+        "source-only work on bounded branches",
+        "draft PR creation",
+        "tests and qualification on no-paid-compute paths",
+        "reviews",
+        "Bus coordination",
+        "state checkpoints"
+      ],
+      "separately_gated": [
+        "merge",
+        "canonical promotion",
+        "production deployment",
+        "installation",
+        "provider or NAS mutation",
+        "credential or permission change",
+        "weight-changing training",
+        "experiment execution when separately authority-gated",
+        "private publication or visibility change",
+        "candidate promotion",
+        "canonical-memory mutation",
+        "destructive deletion",
+        "spend"
+      ]
+    },
+    "repositories": {
+      "control_plane": "thebrazenbeard/vera-control-plane",
+      "communication_bus": "thebrazenbeard/chat-communication-bus",
+      "project_runner": "thebrazenbeard/project-runner",
+      "primary_portfolio": [
+        "thebrazenbeard/rezon",
+        "thebrazenbeard/noema",
+        "thebrazenbeard/discovery",
+        "thebrazenbeard/project-lantern",
+        "thebrazenbeard/selfimage",
+        "thebrazenbeard/vera-synology",
+        "thebrazenbeard/world-zero",
+        "thebrazenbeard/testament",
+        "thebrazenbeard/abil",
+        "thebrazenbeard/unvtrslr",
+        "thebrazenbeard/vera-mesh",
+        "thebrazenbeard/vera-works",
+        "thebrazenbeard/on-theo",
+        "thebrazenbeard/sexuality",
+        "thebrazenbeard/personification",
+        "thebrazenbeard/orgasm",
+        "thebrazenbeard/driftguard",
+        "thebrazenbeard/entropyinc",
+        "thebrazenbeard/mediaphile",
+        "thebrazenbeard/vera",
+        "thebrazenbeard/vera_model_training"
+      ]
+    },
+    "bus_route": {
+      "repo": "thebrazenbeard/chat-communication-bus",
+      "topology_owner_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+      "topology_path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+      "topology_git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+      "writer_route": "bus/vera-v2",
+      "rule": "Fresh-read branch and protocol before relying on remembered Bus state."
+    },
+    "current_assignment_frontier": {
+      "rezon": {
+        "pr": 76,
+        "head": "3b9a0f36e0f1d1c60c7b3f79da6915f0b213476b",
+        "status": "R51_SOURCE_AND_HOSTED_AND_R4_COMPOSITION_PASS_INDEPENDENT_HOSTILE_REREVIEW_PENDING",
+        "hosted_run": 35475429268,
+        "combined_run": 35475485821,
+        "combined_tests": "333/333 PASS",
+        "issue_5": "CLOSED"
+      },
+      "project_runner": {
+        "pr": 9,
+        "head": "e33f87660aa0281331befa3229e502ee5fbc053d",
+        "status": "M6_HOSTED_AND_LIVE_PROOFS_PASS_INDEPENDENT_ARCHITECTURE_REREVIEW_PENDING"
+      },
+      "noema": {
+        "pr": 41,
+        "head": "6d4947b5ae651ee4f2f6ef30880d287cf33d278b",
+        "status": "INTEGRATED_CHRONOLOGY_SOURCE_PASS_HOSTED_PRESTEP_UNAVAILABLE_EMPIRICAL_PROSPECTIVE_AUTHORITY_BLOCKED_E0_P0_NOT_AUTHORIZED"
+      },
+      "discovery": {
+        "pr": 7,
+        "head": "548222c74af9905959433b3d549c2f54abbae662",
+        "observed_base_head": "1316094edbed17fa5918b70793c95ffddfcf92ea",
+        "status": "LIFECYCLE_GATE_HOSTED_PASS_BASE_MOVING_FRESH_COMPARE_REQUIRED_NO_CANDIDATE_PROMOTION"
+      },
+      "selfimage": {
+        "pr": 15,
+        "head": "72cace47aa1f915a2bb5b40296b410199c1c6d8d",
+        "status": "FIXTURE_ALIGNMENT_SOURCE_PASS_REPORTED_LOCAL_72_72_HOSTED_PRESTEP_UNAVAILABLE_FREEZE_CANON_NOT_ESTABLISHED"
+      },
+      "testament": {
+        "pr": 1,
+        "head": "a7925b0aab8c28dd89c1e67b4ed8d1a7b50e2648",
+        "status_ledger_blob": "fb1bc04886dee0a1db59bb2892b0d0d3d03fca9f",
+        "status": "BOOK_III_V55_ACTIVE_FIRST_DRAFT_V1_DURABLE_THREE_IMAGE_DEBTS_REMAIN"
+      }
+    },
+    "controlling_contracts": [
+      "current Vera Unbound Project instructions and R10+SD1 control root",
+      "EXODUS_INTERFACE_TOPOLOGY_V1 source candidate until/if promoted",
+      "RADAR_TOPOLOGY_V1 exact current owner tuple",
+      "project-specific PR/source/receipt contracts",
+      "Patrick exact protected-effect authority when required"
+    ],
+    "current_vs_historical_state": {
+      "rule": "Newest timestamp alone does not establish current truth. Exact subject, supersession, conflict, receipt and effect class control.",
+      "stale_examples": [
+        "Rezon R48/R49/R50 are historical once R51 is the live successor.",
+        "Discovery PRs 4 and 5 are closed stale predecessors of current PR 7.",
+        "Testament v54 is historical; current readback is v55.",
+        "Selfimage PR 14 source repair is parent of current fixture-alignment PR 15.",
+        "Stale reviewer text cannot supersede an independently verified provider-effect receipt."
+      ]
+    },
+    "fresh_runtime_recovery": [
+      "Load current Project instructions/control sources.",
+      "Read this reconstruction file and its durability matrix.",
+      "Fresh-read Bus topology and bus/vera-v2 plus addressed messages.",
+      "Fresh-check every exact PR/head named as a mutable frontier.",
+      "Resolve supersession/conflict before carrying PASS/FAIL.",
+      "Resume the highest-value runnable frontier.",
+      "Persist material findings to project PR/source, Bus, and a successor state checkpoint."
+    ],
+    "pre_effect_freshness": [
+      "Re-read exact target head and relevant reviews immediately before any write/effect.",
+      "Use CAS/expected SHA or isolated successor branch; never force or stale-overwrite.",
+      "Re-read provider/target preconditions immediately before a separately authorized protected effect.",
+      "Treat source/build/install/runtime/effect/qualification as distinct."
+    ],
+    "protected_effect_gates": "No Project Runner reconstruction artifact grants merge, install, deployment, provider/NAS/credential/permission mutation, weight-changing training, experiment authority, publication, promotion, deletion, canonical-memory mutation or spend.",
+    "durable_result_destination": {
+      "project_specific": "canonical project repo branch/PR/review/receipt",
+      "coordination": "thebrazenbeard/chat-communication-bus via current topology",
+      "cross_project_state": "thebrazenbeard/vera-control-plane state/exodus + state/portfolio + state/continuation",
+      "chat": "interface only; never sole durable result destination"
+    }
+  },
+  "prior_project_runner_state": {
+    "archive_safe_branch": "state/project-runner-parallel-portfolio-continuation-20260919-1907",
+    "portfolio_index_commit": "56980a013ee28267a075034f6996393368d96fe0",
+    "checkpoint_commit": "0f26be92a99ee64d55779666e6cbcfbf86058932",
+    "receipt_commit": "f5bdc1f388c6e89482e5b15acf195626fb4d6b84",
+    "restore_token": "VERA::PROJECT_RUNNER::RESTORE_AND_RUN::PROJECT_RUNNER_PARALLEL_PORTFOLIO_CONTINUATION_20260919T1907-0400"
+  },
+  "exodus_reconstruct_directive": "VERA::EXODUS_RECONSTRUCT::FROM_GITHUB_AND_BUS_ONLY"
+}
