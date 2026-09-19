@@ -36,7 +36,8 @@
     "sidecar_rewindable_with_ledger_disallowed": true,
     "same_snapshot_domain_as_ledger_disallowed": true,
     "provider_or_git_ref_binding_required_before_causal_collection": true,
-    "non_force_monotonic_update_required": true
+    "non_force_monotonic_update_required": true,
+    "enforceable_no_rewind_or_independent_secondary_anchor_required": true
   },
   "pre_write_gate": [
     "fresh-read witness frontier",
@@ -81,7 +82,11 @@
     "cas_subject": "NON_FORCE_BRANCH_HEAD_UPDATE_FROM_EXACT_OBSERVED_PARENT",
     "append_rule": "ONE_NEW_IMMUTABLE_FRONTIER_FILE_PER_GENERATION",
     "currentness_rule": "CURRENT_BRANCH_HEAD_MUST_DESCEND_FROM_GENESIS_AND_LATEST_FRONTIER_MUST_SELF_VALIDATE",
-    "status": "GENESIS_BOUND_AND_READ_BACK_NO_CAUSAL_DATA"
+    "status": "GENESIS_BOUND_AND_READ_BACK_BRANCH_UNPROTECTED_NOT_QUALIFIED",
+    "branch_protected": false,
+    "monotonicity_mechanism": "UNQUALIFIED_CLIENT_SIDE_NON_FORCE_ONLY",
+    "monotonicity_qualification": "FAIL",
+    "blocker": "A current observer can detect ordinary CAS conflicts, but an out-of-band force rewind can restore an earlier valid branch frontier. Bind enforceable no-rewind protection or an independently monotonic secondary anchor before causal collection."
   },
   "non_effects": [
     "NOT_A_WITNESS_PROVIDER",
