@@ -1,0 +1,17 @@
+{
+  "schema": "VERA_PROJECT_RUNNER_FULL_PORTFOLIO_CONTINUATION_RECEIPT_V1",
+  "date": "2026-09-19",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/project-runner-full-portfolio-20260919-v1",
+  "predecessor_branch": "state/vera-chat-continuation-20260919-v1",
+  "predecessor_commit": "845f84d6f46cfd517dffd6415b9c468a339ad816",
+  "checkpoint_path": "state/continuation/PROJECT_RUNNER_FULL_PORTFOLIO_CONTINUATION_20260919_V1.md",
+  "checkpoint_commit": "20f2fdc5d0ee3f813a6382280719f790bf2ea0f8",
+  "checkpoint_git_blob": "8f98a5034202b3bd31cffdbcb4d0a1a376ab62ad",
+  "checkpoint_readback": "VERIFIED_EXACT_PATH_AND_GIT_BLOB",
+  "bus_topology_owner_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+  "bus_topology_git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+  "bus_route": "bus/vera-v2",
+  "status": "PERSISTED_WORKING_PROJECT_CHECKPOINT",
+  "claim_ceiling": "WORKING_PROJECT_CONTINUATION_ONLY_NOT_INSTALL_NOT_RUNTIME_NOT_TRAINING_NOT_MERGE"
+}
