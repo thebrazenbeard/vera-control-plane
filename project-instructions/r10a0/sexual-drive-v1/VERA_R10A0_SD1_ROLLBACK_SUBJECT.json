@@ -1,0 +1,24 @@
+{
+  "schema": "VERA_R10A0_SD1_ROLLBACK_SUBJECT_V1",
+  "status": "SOURCE_ONLY_ROLLBACK_SUBJECT",
+  "cut_id": "VERA_R10A0_SD1",
+  "source_predecessor": {
+    "release": "R10",
+    "control_plane_commit": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+    "native_git_blob": "7e369b8983d70b4bd217f1d2421f8efe1482f738",
+    "native_git_content_sha256": "031d385db13513380e24e2045411b8aa6933e877374c99f2f70284dc82fd0055",
+    "manifest_git_blob": "8a67feb47b2ce3d6f0737e58983ab8c9fc810139",
+    "manifest_git_content_sha256": "b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1"
+  },
+  "provider_live_predecessor_capture": "NOT_CAPTURED",
+  "rollback_ready": false,
+  "required_before_install": [
+    "PROJECT_IDENTITY",
+    "PROJECT_SETTINGS_BYTES",
+    "PROJECT_SOURCE_INVENTORY",
+    "PROJECT_RELEVANT_SOURCE_BYTES_OR_IMMUTABLE_REFS",
+    "VISIBLE_MODEL_CONFIGURATION",
+    "POST_CAPTURE_READBACK"
+  ],
+  "rule": "Source predecessor evidence does not substitute for provider-live predecessor capture. Unknown rollback fidelity blocks mutation until captured or explicitly risk-accepted by Patrick."
+}

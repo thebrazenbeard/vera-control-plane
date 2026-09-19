@@ -1,0 +1,109 @@
+{
+  "schema": "SD1_CAUSAL_SECONDARY_ANCHOR_CONTRACT_V1",
+  "status": "SOURCE_CONTRACT_NOT_DEPLOYED",
+  "purpose": "Provide an independently monotonic provider anchor for SD1 causal-ledger frontier generations so an unprotected Git ref cannot silently make an earlier valid prefix current again.",
+  "relationship_to_git_witness": {
+    "git_transport": "state/sd1-causal-witness-v1",
+    "git_monotonicity_qualification": "FAIL_UNPROTECTED",
+    "secondary_anchor_role": "AUTHORITATIVE_MONOTONIC_FRONTIER_FOR_CAUSAL_COLLECTION",
+    "git_role_after_anchor_activation": "IMMUTABLE_PAYLOAD_AND_AUDIT_MIRROR_ONLY",
+    "both_readbacks_required_before_record_acceptance": true
+  },
+  "provider_operation": {
+    "operation_id": "sd1.causal.frontier.advance.v1",
+    "provider": "SUPABASE",
+    "provider_project_ref_candidate": "fawkirqroyniueeqspif",
+    "provider_project_ref_status": "SOURCE_CANDIDATE_ONLY_NOT_DEPLOYMENT_AUTHORITY",
+    "target_class": "SD1_CAUSAL_FRONTIER",
+    "retry_class": "RECONCILE_BEFORE_RETRY",
+    "protected_effect_class": "PRODUCTION_MUTATION",
+    "generic_sql_proxy": false,
+    "direct_table_mutation_by_broker": false
+  },
+  "frontier_row": {
+    "append_only": true,
+    "identity_key": ["witness_id", "generation"],
+    "required_fields": [
+      "witness_id",
+      "generation",
+      "record_count",
+      "chain_head",
+      "last_slot_id",
+      "last_record_digest",
+      "predecessor_frontier_digest",
+      "frontier_digest",
+      "plan_sha256",
+      "ledger_schema",
+      "request_id",
+      "request_digest",
+      "created_at"
+    ],
+    "generation_rule": "GENESIS_0_THEN_EXACTLY_PLUS_ONE",
+    "record_count_rule": "MUST_EQUAL_GENERATION",
+    "predecessor_rule": "GENERATION_N_PREDECESSOR_DIGEST_MUST_EQUAL_GENERATION_N_MINUS_1_FRONTIER_DIGEST",
+    "frontier_digest_rule": "MUST_EQUAL_CANONICAL_FRONTIER_DIGEST_FROM_FROZEN_GIT_CONTRACT"
+  },
+  "transaction_contract": {
+    "lock_scope": "EXACT_WITNESS_ID",
+    "read_latest_frontier_inside_transaction": true,
+    "require_expected_generation": true,
+    "require_expected_frontier_digest": true,
+    "require_successor_generation_plus_one": true,
+    "require_successor_predecessor_digest": true,
+    "insert_successor_only": true,
+    "no_update": true,
+    "no_delete": true,
+    "create_provider_receipt_atomically": true,
+    "post_commit_exact_readback_required": true,
+    "stale_result": "REJECTED_STALE",
+    "divergent_result": "CONFLICT",
+    "ambiguous_result": "ATTEMPTED_UNKNOWN_RECONCILE_BEFORE_RETRY"
+  },
+  "idempotency": {
+    "request_id_unique": true,
+    "canonical_request_digest_required": true,
+    "same_request_same_digest": "IDEMPOTENT_REPLAY",
+    "same_request_different_digest": "REQUEST_ID_COLLISION",
+    "changed_successor_after_ambiguity_forbidden": true
+  },
+  "provider_permissions": {
+    "broker_role": [
+      "EXECUTE_EXACT_sd1_causal_frontier_advance_v1",
+      "READ_BOUNDED_LATEST_FRONTIER",
+      "READ_OWN_RECEIPT"
+    ],
+    "broker_role_direct_insert": false,
+    "broker_role_update": false,
+    "broker_role_delete": false,
+    "anon_access": false,
+    "authenticated_access": false,
+    "service_role_generic_table_write_not_required": true,
+    "admin_compromise_outside_controller_threat_model": true
+  },
+  "activation_gate": [
+    "exact provider deployment source cut selected and reviewed",
+    "Patrick exact production-mutation authority",
+    "DDL/RPC applied transactionally to exact provider generation",
+    "grants and direct-table denial read back",
+    "genesis row exact digest read back",
+    "broker operation exact source/version bound",
+    "hostile stale-CAS idempotency rollback and ambiguity tests pass",
+    "controller dual-readback integration independently reviewed"
+  ],
+  "claim_ceiling": {
+    "source_contract": "PRESENT",
+    "provider_schema": "NOT_INSTALLED",
+    "provider_operation": "NOT_ACTIVE",
+    "monotonicity": "NOT_ESTABLISHED",
+    "causal_collection": "HOLD",
+    "control_causality": "UNRESOLVED"
+  },
+  "non_effects": [
+    "NOT_PROVIDER_INSTALL",
+    "NOT_PROVIDER_MUTATION_AUTHORITY",
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_PROJECT_INSTALL",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}

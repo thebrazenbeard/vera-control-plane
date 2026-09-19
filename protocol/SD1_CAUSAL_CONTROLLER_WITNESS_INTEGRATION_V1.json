@@ -1,0 +1,67 @@
+{
+  "schema": "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1",
+  "status": "SOURCE_IMPLEMENTATION_NOT_RUNTIME_QUALIFIED",
+  "repairs": [
+    "SD1-V-CAUSAL-005",
+    "SD1-V-CAUSAL-006"
+  ],
+  "controller_rules": {
+    "witness_required_for_record_attempt": true,
+    "witness_required_for_blinded_export": true,
+    "witness_monotonicity_qualified_capability_required": true,
+    "ledger_witness_reconcile_before_write": true,
+    "ledger_witness_reconcile_before_export": true,
+    "exact_pre_run_readback_required_for_all_outcomes": true,
+    "candidate_ledger_written_to_pending_recovery_file_before_witness_cas": true,
+    "witness_cas_before_active_ledger_replace": true,
+    "witness_post_cas_readback_required": true,
+    "active_ledger_replace_atomic": true,
+    "post_replace_ledger_witness_reconcile_required": true,
+    "orphan_pending_or_recovery_artifact_blocks_new_write": true,
+    "orphan_pending_or_recovery_artifact_blocks_export": true,
+    "exact_reviewed_witness_type_required": true,
+    "instance_method_shadowing_forbidden": true
+  },
+  "rollback_attack_rule": {
+    "valid_prefix_ledger_rollback": "REJECT_RECOVERY_REQUIRED_WHEN_WITNESS_REMAINS_AHEAD",
+    "valid_prefix_witness_rewind": "OUTSIDE_CONTROLLER_ONLY_WITNESS_MUST_BE_MONOTONICITY_QUALIFIED",
+    "unprotected_git_witness": "REJECT_AS_UNQUALIFIED",
+    "synthetic_memory_witness": "TEST_ONLY"
+  },
+  "transaction_failure_rules": {
+    "witness_cas_conflict": "NO_REROLL_RECOVERY_REQUIRED",
+    "witness_outcome_ambiguous": "NO_REROLL_RECOVERY_REQUIRED_RECONCILE",
+    "witness_advanced_local_ledger_not_replaced": "WITNESS_AHEAD_RECOVERY_REQUIRED",
+    "ledger_ahead_witness": "RECOVERY_REQUIRED",
+    "leftover_pending_candidate": "RECOVERY_REQUIRED"
+  },
+  "test_binding": {
+    "implementation": "tools.sd1_causal_witness_testing.MemoryFrontierWitness",
+    "monotonicity_qualified": true,
+    "classification": "TEST_ONLY_NOT_PROVIDER_EVIDENCE",
+    "exact_runtime_type_required": true
+  },
+  "production_binding": {
+    "implementation": "UNBOUND",
+    "required_contract": "protocol/SD1_CAUSAL_SECONDARY_ANCHOR_V1.json",
+    "git_transport_alone_allowed": false,
+    "status": "BLOCKS_CAUSAL_COLLECTION",
+    "exact_reviewed_implementation_required": true
+  },
+  "claim_ceiling": {
+    "source_repair": "PRESENT",
+    "source_tests": "PRESENT_NOT_EXECUTED_BY_THIS_CONNECTOR_LANE",
+    "production_witness": "NOT_BOUND",
+    "causal_data_collection": "HOLD",
+    "control_causality": "UNRESOLVED",
+    "global_qualification": "NOT_EXECUTED"
+  },
+  "non_effects": [
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_PROVIDER_INSTALL",
+    "NOT_PROJECT_INSTALL",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_GLOBAL_QUALIFICATION",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}

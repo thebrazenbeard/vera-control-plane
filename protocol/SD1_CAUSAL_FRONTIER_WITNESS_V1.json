@@ -1,0 +1,99 @@
+{
+  "schema": "SD1_CAUSAL_FRONTIER_WITNESS_CONTRACT_V1",
+  "status": "SOURCE_CONTRACT_NOT_BOUND_TO_DURABLE_PROVIDER",
+  "purpose": "Prevent valid-prefix rollback of the SD1 causal ledger from reopening an already accepted slot.",
+  "ledger_subject": {
+    "schema": "SD1_CAUSAL_ATTEMPT_LEDGER_V1",
+    "frozen_plan_sha256": "526f35438c2521d40e7a2bfa145da363e0c5063d2affef27131f9370e08564ba",
+    "genesis_chain_head_source": "SHA256(UTF8('SD1_CAUSAL_ATTEMPT_LEDGER_V1_GENESIS'))"
+  },
+  "frontier": {
+    "schema": "SD1_CAUSAL_LEDGER_FRONTIER_V1",
+    "required_fields": [
+      "schema",
+      "witness_store_id",
+      "plan_sha256",
+      "ledger_schema",
+      "generation",
+      "record_count",
+      "chain_head",
+      "last_slot_id",
+      "last_record_digest",
+      "predecessor_frontier_digest",
+      "frontier_digest"
+    ],
+    "generation_rule": "GENESIS_IS_0_THEN_EXACTLY_PLUS_ONE_PER_ACCEPTED_RECORD",
+    "record_count_rule": "MUST_EQUAL_LEDGER_RECORD_ORDER_LENGTH",
+    "chain_head_rule": "MUST_EQUAL_LEDGER_CHAIN_HEAD",
+    "last_record_rule": "FOR_NONZERO_COUNT_LAST_SLOT_AND_DIGEST_MUST_MATCH_FINAL_LEDGER_RECORD",
+    "frontier_digest_rule": "SHA256_OF_CANONICAL_JSON_OVER_ALL_FRONTIER_FIELDS_EXCEPT_frontier_digest"
+  },
+  "storage_requirements": {
+    "independently_durable_from_ledger": true,
+    "compare_and_swap_required": true,
+    "fresh_readback_after_successful_cas": true,
+    "same_ledger_file_disallowed": true,
+    "sidecar_rewindable_with_ledger_disallowed": true,
+    "same_snapshot_domain_as_ledger_disallowed": true,
+    "provider_or_git_ref_binding_required_before_causal_collection": true,
+    "non_force_monotonic_update_required": true,
+    "enforceable_no_rewind_or_independent_secondary_anchor_required": true
+  },
+  "pre_write_gate": [
+    "fresh-read witness frontier",
+    "validate ledger hash chain and frozen slot metadata",
+    "require witness plan_sha256 and ledger_schema match frozen subjects",
+    "require witness generation record_count and chain_head exactly match presented ledger",
+    "require witness frontier_digest self-validates",
+    "on any mismatch stop RECOVERY_REQUIRED and do not write"
+  ],
+  "record_commit_protocol": [
+    "construct exactly one candidate record for one frozen slot",
+    "derive candidate successor ledger and successor frontier",
+    "persist candidate ledger",
+    "CAS witness from exact predecessor frontier_digest to exact successor frontier",
+    "fresh-read witness and require exact successor readback",
+    "reload ledger and require exact equality to witnessed generation record_count chain_head and last record",
+    "only then return accepted record"
+  ],
+  "ambiguity_and_conflict_rules": {
+    "witness_behind_ledger": "RECOVERY_REQUIRED_NO_NEW_WRITE_OR_EXPORT",
+    "witness_ahead_of_ledger": "RECOVERY_REQUIRED_NO_NEW_WRITE_OR_EXPORT",
+    "cas_conflict": "CONFLICT_NO_REROLL_NO_CHANGED_RECORD_RETRY",
+    "ambiguous_witness_mutation": "RECONCILE_EXACT_OPERATION_TARGET_BEFORE_ANY_RETRY",
+    "readback_mismatch": "OUTCOME_UNKNOWN_OR_CONFLICT_AS_EVIDENCE_REQUIRES_NO_FURTHER_COLLECTION"
+  },
+  "export_gate": [
+    "fresh-read witness frontier",
+    "validate complete ledger",
+    "require exact witness-to-ledger frontier equality",
+    "reject export on missing stale divergent or unverified witness"
+  ],
+  "provider_binding": {
+    "witness_store_id": "github:thebrazenbeard/vera-control-plane:state/sd1-causal-witness-v1",
+    "provider": "GITHUB_PRIVATE_BRANCH",
+    "repository": "thebrazenbeard/vera-control-plane",
+    "branch": "state/sd1-causal-witness-v1",
+    "genesis_commit": "cecf8d2ec6cf031c714e9f6c0972c4882101c16f",
+    "frontier_path_prefix": "state/sd1-causal-witness/frontiers/",
+    "genesis_frontier_path": "state/sd1-causal-witness/frontiers/000000-genesis.json",
+    "genesis_frontier_git_blob": "5e6dcc7952ad1e6341a59bcd72c47613032dc326",
+    "genesis_frontier_digest": "7de55cc22b28539c1d4e6934b1790d99c70ecee55ded80d7b698bec61ee249a1",
+    "cas_subject": "NON_FORCE_BRANCH_HEAD_UPDATE_FROM_EXACT_OBSERVED_PARENT",
+    "append_rule": "ONE_NEW_IMMUTABLE_FRONTIER_FILE_PER_GENERATION",
+    "currentness_rule": "CURRENT_BRANCH_HEAD_MUST_DESCEND_FROM_GENESIS_AND_LATEST_FRONTIER_MUST_SELF_VALIDATE",
+    "status": "GENESIS_BOUND_AND_READ_BACK_BRANCH_UNPROTECTED_NOT_QUALIFIED",
+    "branch_protected": false,
+    "monotonicity_mechanism": "UNQUALIFIED_CLIENT_SIDE_NON_FORCE_ONLY",
+    "monotonicity_qualification": "FAIL",
+    "blocker": "A current observer can detect ordinary CAS conflicts, but an out-of-band force rewind can restore an earlier valid branch frontier. Bind enforceable no-rewind protection or an independently monotonic secondary anchor before causal collection."
+  },
+  "non_effects": [
+    "NOT_A_WITNESS_PROVIDER",
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_PROJECT_INSTALL",
+    "NOT_PROVIDER_MUTATION_AUTHORITY",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}
