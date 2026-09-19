@@ -2,8 +2,15 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import tempfile
 from pathlib import Path
 from typing import Any
+
+from tools.sd1_causal_frontier_witness import (
+    build_successor_frontier,
+    validate_frontier,
+)
 
 _ALLOWED_OUTCOMES = {"RESPONSE", "MISSING", "UNKNOWN"}
 _FROZEN_IMMUTABLE_PLAN_SHA256 = "526f35438c2521d40e7a2bfa145da363e0c5063d2affef27131f9370e08564ba"
@@ -116,7 +123,67 @@ def _expected_readback(binding: dict[str, Any], condition: str) -> dict[str, str
     return {name: binding[name] for name in _binding_fields(condition)}
 
 
-def record_attempt(plan: dict[str, Any], ledger_path: str | Path, slot_id: str, record: dict[str, Any]) -> dict[str, Any]:
+def _read_witness_frontier(witness: Any) -> dict[str, Any]:
+    if witness is None:
+        raise ValueError("causal frontier witness is required")
+    store_id = getattr(witness, "store_id", None)
+    reader = getattr(witness, "read_frontier", None)
+    if type(store_id) is not str or not store_id or not callable(reader):
+        raise ValueError("causal frontier witness interface is invalid")
+    frontier = reader()
+    if type(frontier) is not dict:
+        raise ValueError("causal frontier witness readback must be an object")
+    validate_frontier(frontier, expected_store_id=store_id)
+    return frontier
+
+
+def _reconcile_ledger_frontier(
+    ledger: dict[str, Any],
+    frontier: dict[str, Any],
+) -> None:
+    order = ledger["record_order"]
+    if frontier["generation"] != len(order):
+        raise ValueError("RECOVERY_REQUIRED: witness generation diverges from ledger")
+    if frontier["record_count"] != len(order):
+        raise ValueError("RECOVERY_REQUIRED: witness record_count diverges from ledger")
+    if frontier["chain_head"] != ledger["chain_head"]:
+        raise ValueError("RECOVERY_REQUIRED: witness chain_head diverges from ledger")
+    if not order:
+        if frontier["last_slot_id"] is not None or frontier["last_record_digest"] is not None:
+            raise ValueError("RECOVERY_REQUIRED: empty ledger has nonempty witness tail")
+        return
+    last_slot = order[-1]
+    last_record = ledger["records"][last_slot]
+    if frontier["last_slot_id"] != last_slot:
+        raise ValueError("RECOVERY_REQUIRED: witness last_slot_id diverges from ledger")
+    if frontier["last_record_digest"] != last_record["record_digest"]:
+        raise ValueError("RECOVERY_REQUIRED: witness last_record_digest diverges from ledger")
+
+
+def _candidate_ledger_with_record(
+    ledger: dict[str, Any],
+    slot_id: str,
+    stored: dict[str, Any],
+) -> dict[str, Any]:
+    candidate = json.loads(json.dumps(ledger))
+    previous = candidate["chain_head"]
+    stored = json.loads(json.dumps(stored))
+    stored["previous_record_digest"] = previous
+    stored["record_digest"] = _record_digest(previous, stored)
+    candidate["records"][slot_id] = stored
+    candidate["record_order"].append(slot_id)
+    candidate["chain_head"] = stored["record_digest"]
+    return candidate
+
+
+def record_attempt(
+    plan: dict[str, Any],
+    ledger_path: str | Path,
+    slot_id: str,
+    record: dict[str, Any],
+    *,
+    witness: Any,
+) -> dict[str, Any]:
     _validate_immutable_plan(plan)
     if type(record) is not dict:
         raise ValueError("attempt record must be an exact mapping")
@@ -143,38 +210,79 @@ def record_attempt(plan: dict[str, Any], ledger_path: str | Path, slot_id: str, 
         "timestamp": record["timestamp"],
         "outcome": outcome,
     }
+    supplied = record.get("pre_run_readback")
+    if type(supplied) is not dict or supplied != _expected_readback(binding, condition):
+        raise ValueError("attempt requires exact complete pre-run readback")
+    stored["pre_run_readback"] = dict(supplied)
     if outcome == "RESPONSE":
         if type(record.get("response_text")) is not str or not record["response_text"]:
             raise ValueError("response outcome requires response_text")
-        supplied = record.get("pre_run_readback")
-        if type(supplied) is not dict or supplied != _expected_readback(binding, condition):
-            raise ValueError("response requires exact complete pre-run readback")
         stored["response_text"] = record["response_text"]
-        stored["pre_run_readback"] = dict(supplied)
     else:
         if type(record.get("reason")) is not str or not record["reason"]:
             raise ValueError("missing/unknown outcome requires reason")
-        supplied = record.get("pre_run_readback")
-        if type(supplied) is not dict or supplied != _expected_readback(binding, condition):
-            raise ValueError("missing/unknown outcome requires exact complete pre-run readback")
         stored["reason"] = record["reason"]
-        stored["pre_run_readback"] = dict(supplied)
+
     path = Path(ledger_path)
     ledger = _load_ledger(path)
     _validate_ledger_integrity(plan, ledger)
+    current_frontier = _read_witness_frontier(witness)
+    _reconcile_ledger_frontier(ledger, current_frontier)
     if slot_id in ledger["records"]:
         raise ValueError("attempt slot is immutable once recorded; reroll/overwrite forbidden")
-    previous = ledger["chain_head"]
-    stored["previous_record_digest"] = previous
-    stored["record_digest"] = _record_digest(previous, stored)
-    ledger["records"][slot_id] = stored
-    ledger["record_order"].append(slot_id)
-    ledger["chain_head"] = stored["record_digest"]
+
+    candidate = _candidate_ledger_with_record(ledger, slot_id, stored)
+    _validate_ledger_integrity(plan, candidate)
+    successor_frontier = build_successor_frontier(
+        current_frontier,
+        candidate,
+        expected_store_id=witness.store_id,
+    )
+
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(ledger, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    persisted = _load_ledger(path)
-    _validate_ledger_integrity(plan, persisted)
-    return persisted["records"][slot_id]
+    pending_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.pending-",
+            suffix=".json",
+            delete=False,
+        ) as pending:
+            pending.write(json.dumps(candidate, indent=2, ensure_ascii=False) + "\n")
+            pending.flush()
+            os.fsync(pending.fileno())
+            pending_path = Path(pending.name)
+
+        advancer = getattr(witness, "advance_frontier", None)
+        if not callable(advancer):
+            raise ValueError("causal frontier witness cannot advance")
+        advanced = advancer(
+            expected_frontier_digest=current_frontier["frontier_digest"],
+            successor=successor_frontier,
+        )
+        if advanced != successor_frontier:
+            raise ValueError("RECOVERY_REQUIRED: witness successor readback mismatch")
+        confirmed = _read_witness_frontier(witness)
+        if confirmed != successor_frontier:
+            raise ValueError("RECOVERY_REQUIRED: witness post-CAS readback mismatch")
+
+        os.replace(pending_path, path)
+        pending_path = None
+        persisted = _load_ledger(path)
+        _validate_ledger_integrity(plan, persisted)
+        _reconcile_ledger_frontier(persisted, confirmed)
+        return persisted["records"][slot_id]
+    finally:
+        # A leftover pending file after a failed/ambiguous witness mutation is
+        # recovery evidence, not a candidate that may be silently retried.
+        if pending_path is not None and pending_path.exists():
+            recovery = pending_path.with_suffix(pending_path.suffix + ".recovery")
+            try:
+                os.replace(pending_path, recovery)
+            except OSError:
+                pass
 
 
 def _record_digest(previous_digest: str, record: dict[str, Any]) -> str:
@@ -248,10 +356,17 @@ def _blind_sort_key(slot: dict[str, Any]) -> str:
     return hashlib.sha256(material.encode("utf-8")).hexdigest()
 
 
-def blinded_export(plan: dict[str, Any], ledger_path: str | Path) -> list[dict[str, Any]]:
+def blinded_export(
+    plan: dict[str, Any],
+    ledger_path: str | Path,
+    *,
+    witness: Any,
+) -> list[dict[str, Any]]:
     _validate_immutable_plan(plan)
     ledger = _load_ledger(Path(ledger_path))
     _validate_ledger_integrity(plan, ledger)
+    frontier = _read_witness_frontier(witness)
+    _reconcile_ledger_frontier(ledger, frontier)
     exported = []
     for slot_id in ledger["record_order"]:
         record = ledger["records"][slot_id]
