@@ -1,0 +1,47 @@
+{
+  "schema": "VERA_R10A0_BUS_TOPOLOGY_PROJECT_SOURCE_MANIFEST_V2",
+  "status": "SOURCE_CANDIDATE_NOT_INSTALLED",
+  "cut_id": "VERA_R10A0_SD1_BUS_TOPOLOGY_V2",
+  "source_repository": "thebrazenbeard/vera-control-plane",
+  "predecessor": {
+    "control_head": "32ce2cb7897f5e0939161eb8002b5b1b2283df59",
+    "sd1_manifest_sha256": "98013c6789ee2ac802200e45adc3d1335ecbeb566c929d8cfaf146cfedd4872c",
+    "native_git_blob": "2f885a2348f589291a13bf6733ec4495ba763b5b",
+    "native_git_content_sha256": "e009049b07b5c2353beee12b7f4e825589e24f1edfb295a5e17f71a539da5c29"
+  },
+  "artifacts": {
+    "control": {
+      "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_CONTROL_V2.md",
+      "git_blob": "881c584088515568aca1b4a5457ed2af2c155be5"
+    },
+    "binding": {
+      "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_BINDING_V2.json",
+      "git_blob": "e7dbc8670ace1f41b575545284e41bb35fe94b92"
+    },
+    "rollback": {
+      "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_ROLLBACK_SUBJECT_V2.json",
+      "git_blob": "4d2ff2f5a200bd0d6fa29345b3fe01ab9c5277a9"
+    },
+    "qualification": {
+      "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_QUALIFICATION_V2.md",
+      "git_blob": "c08e248102553aabef6237d0a8c2ee84d9c1772e"
+    },
+    "native": {
+      "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_NATIVE_PROJECT_INSTRUCTIONS_V2.txt",
+      "git_blob": "7974a0468f1c03f7bd410a5753f33f74d9689219",
+      "git_content_sha256": "62f0ff85bab208e7daa5462e90f202e70167c5e9c03900590e8749074f514ecb",
+      "bytes": 7997
+    }
+  },
+  "external_topology_owner": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "last_change_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+    "observed_main": "aeab0f04fc9b4bd7c2945c9a53011c53fac809b4",
+    "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_writer_lane": "bus/vera-v2",
+    "vera_lifecycle": "ACTIVE"
+  },
+  "qualification_ceiling": "SOURCE_STATIC_ONLY; no Project install/current-route/Bus-write/global qualification implied.",
+  "bus_write_gate": "HOLD_UNTIL_EXACT_SUCCESSOR_SETTINGS_INSTALL_READBACK_AND_FRESH_TOPOLOGY_READBACK"
+}
