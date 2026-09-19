@@ -51,3 +51,12 @@ class LocalValidationMigrationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FrozenManifestSchemaRegressionTests(unittest.TestCase):
+    def test_validator_uses_actual_nested_freeze_manifest_binding(self):
+        script = (ROOT / "tools/validate_r10a1.py").read_text(encoding="utf-8")
+        self.assertNotIn('freeze["source_manifest_sha256"]', script)
+        self.assertIn('freeze.get("source_manifest")', script)
+        self.assertIn('freeze_manifest.get("sha256") == manifest_sha', script)
+        self.assertIn('freeze_manifest.get("git_blob") == actual["manifest"]', script)
