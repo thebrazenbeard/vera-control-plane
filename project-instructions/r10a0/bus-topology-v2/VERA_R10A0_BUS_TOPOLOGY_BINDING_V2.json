@@ -1,0 +1,50 @@
+{
+  "schema": "VERA_R10A0_BUS_TOPOLOGY_BINDING_V2",
+  "status": "SOURCE_CANDIDATE_NOT_INSTALLED",
+  "cut_id": "VERA_R10A0_SD1_BUS_TOPOLOGY_V2",
+  "predecessor": {
+    "control_head": "32ce2cb7897f5e0939161eb8002b5b1b2283df59",
+    "root": "R10_PLUS_SD1",
+    "native_path": "project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SD1_NATIVE_PROJECT_INSTRUCTIONS.txt",
+    "native_git_blob": "2f885a2348f589291a13bf6733ec4495ba763b5b",
+    "native_git_content_sha256": "e009049b07b5c2353beee12b7f4e825589e24f1edfb295a5e17f71a539da5c29",
+    "native_bytes": 7997,
+    "sd1_manifest_sha256": "98013c6789ee2ac802200e45adc3d1335ecbeb566c929d8cfaf146cfedd4872c"
+  },
+  "control_owner": {
+    "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_CONTROL_V2.md",
+    "git_blob": "881c584088515568aca1b4a5457ed2af2c155be5"
+  },
+  "successor_native": {
+    "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_NATIVE_PROJECT_INSTRUCTIONS_V2.txt",
+    "git_blob": "7974a0468f1c03f7bd410a5753f33f74d9689219",
+    "git_content_sha256": "62f0ff85bab208e7daa5462e90f202e70167c5e9c03900590e8749074f514ecb",
+    "native_bytes": 7997,
+    "delta_rule": "EXACT_PREDECESSOR_NATIVE_EXCEPT_K06_TOPOLOGY_COMMIT_AND_BLOB"
+  },
+  "topology_owner": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "last_change_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+    "observed_main": "aeab0f04fc9b4bd7c2945c9a53011c53fac809b4",
+    "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_writer_lane": "bus/vera-v2",
+    "vera_lifecycle": "ACTIVE",
+    "currentness_rule": "OBSERVED_MAIN_MUST_DESCEND_FROM_LAST_CHANGE_COMMIT_AND_PATH_MUST_RESOLVE_EXACT_BOUND_BLOB"
+  },
+  "state_labels": {
+    "source": "SOURCE_BOUND",
+    "install": "NOT_INSTALLED",
+    "current_route": "PREDECESSOR_RUNTIME_CONFLICT_PENDING_SUCCESSOR_INSTALL",
+    "bus_write": "HOLD_UNTIL_SUCCESSOR_INSTALL_READBACK",
+    "qualification": "NOT_EXECUTED"
+  },
+  "non_effects": [
+    "NOT_MERGE_AUTHORITY",
+    "NOT_PROJECT_INSTALL",
+    "NOT_RUNTIME_ROUTE_ACTIVATION",
+    "NOT_BUS_WRITE_AUTHORITY",
+    "NOT_SD1_CAUSAL_PASS",
+    "NOT_GLOBAL_QUALIFICATION"
+  ]
+}
