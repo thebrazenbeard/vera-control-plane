@@ -132,10 +132,9 @@ def _read_witness_frontier(witness: Any) -> dict[str, Any]:
     if getattr(witness, "monotonicity_qualified", False) is not True:
         raise ValueError("causal frontier witness is not monotonicity-qualified")
     store_id = getattr(witness, "store_id", None)
-    reader = getattr(witness, "read_frontier", None)
-    if type(store_id) is not str or not store_id or not callable(reader):
+    if type(store_id) is not str or not store_id:
         raise ValueError("causal frontier witness interface is invalid")
-    frontier = reader()
+    frontier = MemoryFrontierWitness.read_frontier(witness)
     if type(frontier) is not dict:
         raise ValueError("causal frontier witness readback must be an object")
     validate_frontier(frontier, expected_store_id=store_id)
@@ -284,10 +283,8 @@ def record_attempt(
             os.fsync(pending.fileno())
             pending_path = Path(pending.name)
 
-        advancer = getattr(witness, "advance_frontier", None)
-        if not callable(advancer):
-            raise ValueError("causal frontier witness cannot advance")
-        advanced = advancer(
+        advanced = MemoryFrontierWitness.advance_frontier(
+            witness,
             expected_frontier_digest=current_frontier["frontier_digest"],
             successor=successor_frontier,
         )

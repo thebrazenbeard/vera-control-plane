@@ -18,7 +18,9 @@
     "active_ledger_replace_atomic": true,
     "post_replace_ledger_witness_reconcile_required": true,
     "orphan_pending_or_recovery_artifact_blocks_new_write": true,
-    "orphan_pending_or_recovery_artifact_blocks_export": true
+    "orphan_pending_or_recovery_artifact_blocks_export": true,
+    "exact_reviewed_witness_type_required": true,
+    "instance_method_shadowing_forbidden": true
   },
   "rollback_attack_rule": {
     "valid_prefix_ledger_rollback": "REJECT_RECOVERY_REQUIRED_WHEN_WITNESS_REMAINS_AHEAD",
@@ -36,13 +38,15 @@
   "test_binding": {
     "implementation": "tools.sd1_causal_witness_testing.MemoryFrontierWitness",
     "monotonicity_qualified": true,
-    "classification": "TEST_ONLY_NOT_PROVIDER_EVIDENCE"
+    "classification": "TEST_ONLY_NOT_PROVIDER_EVIDENCE",
+    "exact_runtime_type_required": true
   },
   "production_binding": {
     "implementation": "UNBOUND",
     "required_contract": "protocol/SD1_CAUSAL_SECONDARY_ANCHOR_V1.json",
     "git_transport_alone_allowed": false,
-    "status": "BLOCKS_CAUSAL_COLLECTION"
+    "status": "BLOCKS_CAUSAL_COLLECTION",
+    "exact_reviewed_implementation_required": true
   },
   "claim_ceiling": {
     "source_repair": "PRESENT",

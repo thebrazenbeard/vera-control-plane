@@ -32,6 +32,8 @@ def test_controller_contract_blocks_crash_reroll_paths():
     assert rules["post_replace_ledger_witness_reconcile_required"] is True
     assert rules["orphan_pending_or_recovery_artifact_blocks_new_write"] is True
     assert rules["orphan_pending_or_recovery_artifact_blocks_export"] is True
+    assert rules["exact_reviewed_witness_type_required"] is True
+    assert rules["instance_method_shadowing_forbidden"] is True
 
 
 def test_valid_prefix_rollback_fails_closed_but_unprotected_witness_is_not_accepted():
@@ -45,6 +47,7 @@ def test_production_binding_still_blocks_real_collection():
     binding = load_contract()["production_binding"]
     ceiling = load_contract()["claim_ceiling"]
     assert binding["implementation"] == "UNBOUND"
+    assert binding["exact_reviewed_implementation_required"] is True
     assert binding["git_transport_alone_allowed"] is False
     assert binding["status"] == "BLOCKS_CAUSAL_COLLECTION"
     assert ceiling["production_witness"] == "NOT_BOUND"

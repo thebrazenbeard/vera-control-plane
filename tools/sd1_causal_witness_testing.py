@@ -60,7 +60,7 @@ class MemoryFrontierWitness:
         if successor["predecessor_frontier_digest"] != current["frontier_digest"]:
             raise ValueError("synthetic witness predecessor mismatch")
         self._frontier = json.loads(json.dumps(successor))
-        return self.read_frontier()
+        return MemoryFrontierWitness.read_frontier(self)
 
     def force_set_for_hostile_test(self, frontier: dict[str, Any]) -> None:
         validate_frontier(frontier, expected_store_id=self.store_id)

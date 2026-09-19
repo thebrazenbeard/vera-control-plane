@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from tools.sd1_causal_witness_testing import MemoryFrontierWitness
@@ -166,11 +167,6 @@ class SD1CausalControllerTests(unittest.TestCase):
 
         witness = MemoryFrontierWitness()
 
-        def fail_advance_frontier(**_kwargs):
-            raise RuntimeError("synthetic ambiguous witness failure")
-
-        witness.advance_frontier = fail_advance_frontier
-
         payload = {
             "timestamp": "2026-09-19T15:31:00-04:00",
             "outcome": "MISSING",
@@ -179,14 +175,19 @@ class SD1CausalControllerTests(unittest.TestCase):
         }
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
-            with self.assertRaises(RuntimeError):
-                c.record_attempt(
-                    plan,
-                    ledger,
-                    slot["slot_id"],
-                    payload,
-                    witness=witness,
-                )
+            with patch.object(
+                MemoryFrontierWitness,
+                "advance_frontier",
+                side_effect=RuntimeError("synthetic ambiguous witness failure"),
+            ):
+                with self.assertRaises(RuntimeError):
+                    c.record_attempt(
+                        plan,
+                        ledger,
+                        slot["slot_id"],
+                        payload,
+                        witness=witness,
+                    )
             self.assertFalse(ledger.exists())
             recovery = list(Path(td).glob(".ledger.json.pending-*.recovery"))
             self.assertEqual(1, len(recovery))
