@@ -3,6 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tools.sd1_causal_witness_testing import MemoryFrontierWitness
+
 ROOT = Path(__file__).resolve().parents[1]
 PLAN = ROOT / "state" / "sd1-causal-execution-plan-v1.json"
 CONTROLLER = ROOT / "tools" / "sd1_causal_execution_controller.py"
@@ -57,6 +59,7 @@ class SD1CausalControllerTests(unittest.TestCase):
         from tools import sd1_causal_execution_controller as c
         plan = c.load_plan(PLAN)
         slot = plan["slots"][0]
+        witness = MemoryFrontierWitness()
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
             with self.assertRaises(ValueError):
@@ -64,7 +67,7 @@ class SD1CausalControllerTests(unittest.TestCase):
                     "timestamp": "2026-09-14T20:00:00-04:00",
                     "outcome": "MISSING",
                     "reason": "runtime cut unbound",
-                })
+                }, witness=witness)
 
     def test_one_shot_ledger_forbids_reroll_or_overwrite(self):
         from tools import sd1_causal_execution_controller as c
@@ -79,6 +82,7 @@ class SD1CausalControllerTests(unittest.TestCase):
             "admission_tuple": "admission-digest",
         })
         slot = next(s for s in plan["slots"] if s["condition"] == "DRIVE_OFF")
+        witness = MemoryFrontierWitness()
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
             c.record_attempt(plan, ledger, slot["slot_id"], {
@@ -94,7 +98,7 @@ class SD1CausalControllerTests(unittest.TestCase):
                     "project_source_digest": "source-digest",
                     "admission_tuple": "admission-digest",
                 },
-            })
+            }, witness=witness)
             with self.assertRaises(ValueError):
                 c.record_attempt(plan, ledger, slot["slot_id"], {
                     "timestamp": "2026-09-14T20:01:00-04:00",
@@ -109,7 +113,7 @@ class SD1CausalControllerTests(unittest.TestCase):
                         "project_source_digest": "source-digest",
                         "admission_tuple": "admission-digest",
                     },
-                })
+                }, witness=witness)
 
     def test_response_requires_complete_pre_run_readback(self):
         from tools import sd1_causal_execution_controller as c
@@ -128,6 +132,7 @@ class SD1CausalControllerTests(unittest.TestCase):
         slot = next(s for s in plan["slots"] if s["condition"] == "DRIVE_ON")
         bad_readback = dict(binding)
         bad_readback.pop("sd1_component_digest")
+        witness = MemoryFrontierWitness()
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
             with self.assertRaises(ValueError):
@@ -136,7 +141,7 @@ class SD1CausalControllerTests(unittest.TestCase):
                     "outcome": "RESPONSE",
                     "response_text": "test response",
                     "pre_run_readback": bad_readback,
-                })
+                }, witness=witness)
 
     def test_blinded_export_hides_condition_and_uses_every_record_once(self):
         from tools import sd1_causal_execution_controller as c
@@ -154,6 +159,7 @@ class SD1CausalControllerTests(unittest.TestCase):
             if condition == "DRIVE_ON":
                 binding["sd1_component_digest"] = "component-digest"
             plan = c.bind_runtime_cut(plan, condition, binding)
+        witness = MemoryFrontierWitness()
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
             for slot in plan["slots"][:2]:
@@ -163,8 +169,8 @@ class SD1CausalControllerTests(unittest.TestCase):
                     "outcome": "RESPONSE",
                     "response_text": f"response-{slot['response_id']}",
                     "pre_run_readback": {k: v for k, v in binding.items() if k not in {"ready", "required_readback"}},
-                })
-            export = c.blinded_export(plan, ledger)
+                }, witness=witness)
+            export = c.blinded_export(plan, ledger, witness=witness)
             self.assertEqual(2, len(export))
             self.assertTrue(all("condition" not in item for item in export))
             self.assertEqual(2, len({item["response_id"] for item in export}))
@@ -182,6 +188,7 @@ class SD1CausalControllerTests(unittest.TestCase):
             "admission_tuple": "admission",
         })
         slot = next(s for s in plan["slots"] if s["condition"] == "DRIVE_OFF")
+        witness = MemoryFrontierWitness()
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
             with self.assertRaises(ValueError):
@@ -192,7 +199,7 @@ class SD1CausalControllerTests(unittest.TestCase):
                     "condition": "DRIVE_ON",
                     "response_id": "FORGED",
                     "attempt_index": 999,
-                })
+                }, witness=witness)
 
     def test_blinded_order_matches_frozen_source_protocol_algorithm(self):
         import hashlib
@@ -216,6 +223,7 @@ class SD1CausalControllerTests(unittest.TestCase):
             "DRIVE_ON": "VERA_R10A0_SD1_CAUSAL_DRIVE_ON",
         }
         seed = "VERA_SD1_CAUSALITY_V1_20260913_FROZEN"
+        witness = MemoryFrontierWitness()
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
             for slot in plan["slots"][:6]:
@@ -228,8 +236,8 @@ class SD1CausalControllerTests(unittest.TestCase):
                         for k, v in plan["runtime_bindings"][slot["condition"]].items()
                         if k not in {"ready", "required_readback"}
                     },
-                })
-            export = c.blinded_export(plan, ledger)
+                }, witness=witness)
+            export = c.blinded_export(plan, ledger, witness=witness)
             slots = plan["slots"][:6]
             expected = sorted(slots, key=lambda slot: hashlib.sha256((
                 seed + slot["prompt_id"] + str(slot["attempt_index"]) +
