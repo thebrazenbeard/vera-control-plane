@@ -8,19 +8,19 @@ A chat URL is never a required recovery dependency. Every row below points to a 
 
 | Project / lane | Durable recovery anchor observed | What survives chat archival | Recovery rule / unresolved gate |
 |---|---|---|---|
-| Vera Exodus topology | Chat Bus Draft PR #128 @ `1af84ba0650bb646b696dfc31e4f79b498d100af`; `EXODUS_INTERFACE_TOPOLOGY_V1.json` blob `88258a228029b88387e4d5ab84af40ffc044bf4d` | Three-interface topology and chatless-worker reconstruction contract | SOURCE_CANDIDATE_NOT_CUT_OVER; fresh-check before treating as promoted topology |
+| Vera Exodus topology | consolidated Chat Bus Draft PR #131 @ `7aae3ae165a153bb391d2ad4570a3b7d872ef99a`; topology blob `88258a228029b88387e4d5ab84af40ffc044bf4d`; worker-reconstruction blob `db4c699c76eb131de2813f1823c25fa34fb45211` | Three-interface topology + generic replaceable-terminal worker reconstruction; focused 10/10 PASS | SOURCE_CANDIDATE_NOT_CUT_OVER; PRs #128/#129/#130 are superseded provenance |
 | Vera retirement root | VCP state `state/vera-exodus-retirement-20260919-v1` @ `fa31403ffc4c3b14b5796690d5a9171451ec6c09` | General Vera retirement checkpoint, SD1 provider-effect state, reconstruction directive | Starting snapshot; current project instructions and live heads win |
 | Project Runner reconstruction | this branch + `state/exodus/PROJECT_RUNNER_RECONSTRUCTION_V1.json` | Role/domain/authority/repos/Bus/current frontier/recovery/effect gates | Reconstruct from GitHub+Bus only; no permanent Project Runner chat required |
 | Project Runner prior portfolio | `state/project-runner-parallel-portfolio-continuation-20260919-1907`; receipt `f5bdc1f388c6e89482e5b15acf195626fb4d6b84` | Detailed prior cross-project state and restore token | Historical starting cut; successor matrix and fresh heads supersede mutable facts |
 | Rezon | PR #76 R51 @ `3b9a0f36e0f1d1c60c7b3f79da6915f0b213476b`; canonical review `5258264993`; One review `5258276156` | R51 failure-summary binding source, 274/274 hosted evidence, 333/333 exact R4 composition evidence | Fresh hostile rereview still required; Issue #5 CLOSED; no merge/activation |
-| Project Runner M6 | PR #9 @ `e33f87660aa0281331befa3229e502ee5fbc053d` | SQLite-lifetime successor, Windows/Linux 200/200, registry/live/restart/HC→Transcendence evidence | Independent architecture rereview remains; do not fall back to stale PR #8 |
+| Project Runner M6 | composed PR #12 @ `209425220db1d36a9ed7d62e93b0cc04f69b2ca1`, tree `684233fd9ed314e9f9cb9f0bcd16c08519164d95`; sibling repairs PR #8 `19b0d591...` + PR #9 `e33f8766...`; registry dechatification PR #11 `edebeecdb...` | Zero-overlap PUT_FILE-race + SQLite-lifetime composition; Linux 203/203 and Windows 203/203; active worker registry no longer requires ChatGPT share URLs | Fresh Systems Architect verdict on exact PR #12; no merge |
 | Noema | private PR #42 @ `a63ea5ce638c9783ec699cb350b1f027b268db45`, directly on Radar PR #39 `cea0197cc9556c1838ee63a49786d809a59e64f9`; review `5258312047` | Current chronology line: parent Draft-2020-12/format validation + fail-closed absence semantics, plus exact normative-schema digest binding and duplicate-verifier removal | Hosted CI pre-step unavailable; empirical prospective authority BLOCKED; E0/P0 not authorized; closed #40/#41 are historical |
 | Discovery | PR #7 @ `548222c74af9905959433b3d549c2f54abbae662`; review `5258289837` | Current lifecycle gate, exact-subject syntax, schema/runtime anti-promotion rules, 12/12 hosted tests | PR #1 base observed moving; fresh-compare before integration; no candidate promoted |
 | Project Lantern | private PR #5 @ `e90124bda39d5f92fa2ce9d51b6648dc463ef36d`; review `5258154042` | Truthful package identity/API boundary and clean-package CI candidate | Hosted package qualification pre-step unavailable; no release/global-store promotion |
 | Selfimage | PR #15 @ `72cace47aa1f915a2bb5b40296b410199c1c6d8d`; review `5258291898` | #14 morphology contract hardening plus #15 current-structure valid fixture | Reported local 72/72; hosted pre-step unavailable; anatomy/scale/occupancy/Blender/freeze/canon gates remain |
 | Vera-Synology | PR #2 @ `6350dc06294d91ce96b269736f7d0f95e0bcf337`; deterministic R7 SPK SHA-256 `ced1e0f8cc61668bc06a8230b969327c0ab2487da2c737b20248659118efe50c` | Exact repaired source, package digest, structural/shell/target-independent verification | R7 NOT installed; production remains separately verified R6; target POSIX recovery still needs target qualification |
 | World Zero | PR #35 @ `9be13e8e34772a90a812815b074bf21bb89e972a` | Frozen negative 2018→2019 mass-normalized historical result and scientific claim ceiling | Next result-bearing science needs separately frozen untouched target; no post-result target invention |
-| Testament | PR #1 @ `a7925b0aab8c28dd89c1e67b4ed8d1a7b50e2648`; Book III status blob `fb1bc04886dee0a1db59bb2892b0d0d3d03fca9f`; Bus first-draft receipt | Complete 13,743-word exploratory Draft V1 plus Book III v55 hostile-review ledger | Remaining debt: Luke11 162/700 direct glyph collation; image-autoptic verification; P46 1Cor7:10–11 visual pixel collation. Draft is not canon |
+| Testament | current PR #1 @ `3ff338187d716a56e39ffdc4780cd6d4651205e6`; Draft V1 source `a7925b0a...`; runtime-contract blob `235aa34f425b62e8879e968b0fab99baf2f7ed5b`; Exodus checkpoint blob `5b5a4f52b69d69fedd90d68f6878a2a515b98d36`; receipt blob `9f333f3b7021acd4eb73f80be63edad5190d85ba` | Complete 13,743-word exploratory Draft V1 + chatless reconstruction + Book III v55 ledger | Remaining debt unchanged: Luke11 162/700 direct glyph collation; image-autoptic verification; P46 1Cor7:10–11 visual pixel collation. Draft is not canon |
 | ABIL | PR #15 `7e92fc4dcef6bf5e658ddf80119a8a26f02a5037`; PR #19 `7583807ef1b0900c336bdff1b52824ec72791056`; PR #25 `7e760c0f1bd4384a079948a20dba1cdef188f0dc` | Current research facets and exact source subjects | THIRTEEN/SIX/NINE/FOUR exact-head facets still required; Patrick final written-design acceptance before implementation planning |
 | UNVTRSLR | PR #4 @ `13b6c490138809c705294b196d2984a2666b81b9` | Integrated staged human/nonhuman communication research source | Fresh-check reviews/current task before source work; no chat dependency |
 | VeraMesh | PR #7 @ `1d5d2893e2119135ea26660abc73a708d0261a2e` | VeraPort parallel workstation bridge foundation and existing protocol evidence | Fresh-check executable subject/reviews; no deployment/install implied |
@@ -37,7 +37,7 @@ A chat URL is never a required recovery dependency. Every row below points to a 
 | VCP Exodus coordinator | PR #49 @ `d8d21c6f02cb90ab104d6b4da6a9051af76c0a38` | Surviving VCP Coordinator interface definition | Draft/unmerged; does not itself cut over interface |
 | BT2 Exodus coordinator | BT2 PR #24 @ `9ded716828244d4abc3d5b3dfd7a351b6f261717` | Surviving engineering portfolio coordinator interface definition | Draft/unmerged |
 | Vera model successor | PR #35 @ `039ba0b9c04ec512b7ec40aafd230db5f6e93641`, based on trained/source PR #34 `48e0f2d5f79388c199c09e38e749c47ad0f32070` | Task-8/9/10 evidence, exact training/smoke state, chatless execution handoff | Task 11 separate; candidate not independently behaviorally qualified/promoted/installed/activated |
-| SD1 provider anchor | VCP PR #45 `749b64e4cc65859db40271fcf27f9273708f2304`; deployment receipt commit `62c69fd9dc0f7918cef674f4dc3359eee8be3eb3` / blob `7eb5244633523644df9e0c9021b311c688489643` | Verified provider install/genesis | Witness-controller binding NOT_YET_ESTABLISHED; real causal collection HOLD; causality unresolved |
+| SD1 provider anchor / controller integration | deployed source PR #45 `749b64e...`; controller hardening PR #46 `93002de...`; current integration PR #48 `e141968fbac172b72d4c5f027b8b367fd9085855`; deployment receipt `62c69fd...` / blob `7eb524...` | Verified provider install/genesis plus composed source cut | Provider-backed controller implementation still UNBOUND; real causal collection HOLD; causality unresolved |
 
 ## Archive survival rule
 
@@ -66,3 +66,13 @@ No row may require:
 - a permanently open worker chat.
 
 If a future task cannot be reconstructed from the listed durable surfaces, that is an Exodus defect and should be repaired by populating GitHub/Bus state rather than preserving the old chat.
+
+
+## BT2 Project Runner Exodus handoff
+
+- repo: `thebrazenbeard/bt2`
+- Draft PR #25 @ `13a423e2c3c02e81b3c0f38d1b76e4589cca5c0f`
+- restore key: `BT2::EXODUS::RESTORE::REZON_PROJECT_RUNNER::20260919`
+- coordinating persistent interface: `BT2 Coordinator`.
+
+This VCP matrix and the BT2 handoff are complementary: VCP keeps Vera-side cross-project governance/recovery state; BT2 owns the engineering-portfolio continuation.
