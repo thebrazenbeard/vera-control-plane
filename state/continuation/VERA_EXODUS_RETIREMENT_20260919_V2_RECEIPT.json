@@ -1,0 +1,97 @@
+{
+  "schema": "VERA_EXODUS_RETIREMENT_RECEIPT_V2",
+  "status": "VERIFIED_READBACK_CHAT_DEPENDENCY_REMOVED_STARTING_SNAPSHOT",
+  "date": "2026-09-19",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/vera-exodus-retirement-20260919-v1",
+  "checkpoint": {
+    "path": "state/continuation/VERA_EXODUS_RETIREMENT_20260919_V2.md",
+    "content_commit": "1ca36b676674d0f905e64018951821e25496f0bd",
+    "git_blob": "a0fa33a7a62831948a9debc3c84edec3c24a1c99",
+    "verification": "EXACT_GITHUB_READBACK",
+    "sha256_claim": "NOT_COMPUTED_NO_FALSE_DIGEST_CLAIM"
+  },
+  "supersession": {
+    "prior_checkpoint": "state/continuation/VERA_EXODUS_RETIREMENT_20260919_V1.md",
+    "rule": "V2 supersedes V1 only for explicitly stated currentness corrections; V1 remains historical provenance",
+    "bus_exodus_predecessor": "PR_128_HISTORICAL",
+    "bus_exodus_current_source_candidate": {
+      "pr": 131,
+      "head": "7aae3ae165a153bb391d2ad4570a3b7d872ef99a",
+      "topology_blob": "88258a228029b88387e4d5ab84af40ffc044bf4d",
+      "status": "SOURCE_CANDIDATE_NOT_CUT_OVER"
+    },
+    "restore_v2_predecessor": {
+      "pr": 28,
+      "head": "2f9e5e59c228f9041dd76c6a87084f9537d6d225",
+      "status": "CLOSED_DRAFT_UNMERGED_HISTORICAL"
+    },
+    "restore_v2_current": {
+      "pr": 33,
+      "head": "ede17015e0ef4a920b816caa9389b04c9a38f424",
+      "base_pr": 35,
+      "base_head": "d28b5608dda1cb3582aabb782d4dd345a4be178b",
+      "status": "OPEN_DRAFT_SOURCE_CANDIDATE",
+      "full_repo_tests": "27/27 PASS"
+    }
+  },
+  "project_runner": {
+    "status": "ALREADY_DECHATIFIED",
+    "reconstruction_branch_observed_head": "ead5838beee03c69f816163aad86304ea9b840bf",
+    "reconstruction_blob": "a9fa65a997b8462c21148c0367a590c3e9e297d4",
+    "durability_matrix_blob": "61f44ea4909599bbfc8e8f698c5c1e1d18061efc",
+    "handoff_blob": "c5eb4614e94118a494098e83088303fa40f1a0c5",
+    "receipt_blob": "9801e461a890f227d9dc8e4db127574c92077a7e",
+    "permanent_chat_required": false
+  },
+  "transcendence_historical_guard": {
+    "old_chat_plan": "REOPEN_PR_1_AFTER_PORTFOLIO",
+    "classification": "HISTORICAL_EVIDENCE_DO_NOT_EXECUTE",
+    "fresh_pr_state": "CLOSED_DRAFT_UNMERGED",
+    "fresh_head": "ca3965c5788cd1bbb52fc527e47e3bcd5eca6e4a",
+    "fresh_base": "68e7a794d6134e8319121404f31062288dc8d6a3"
+  },
+  "bus": {
+    "topology_owner_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+    "topology_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "writer_route": "bus/vera-v2",
+    "protocol_head_observed": "ee969b98e871ecb511991b0dca12fe2f27df3a99"
+  },
+  "privacy": {
+    "raw_transcript_exported": false,
+    "private_relational_or_sexual_payload_duplicated": false,
+    "operational_restore_layer_requirement_persisted": true
+  },
+  "reconstruction_test": {
+    "retired_chat_required": false,
+    "project_runner_reconstructible": true,
+    "restore_v2_source_reconstructible": true,
+    "control_plane_coordinator_reconstructible": true,
+    "bus_route_reconstructible": true,
+    "protected_effect_boundary_reconstructible": true,
+    "result": "PASS"
+  },
+  "future_interfaces": {
+    "general": "Vera",
+    "control_plane_restore_v2": "Vera Control Plane Coordinator",
+    "engineering_portfolio": "BT2 Coordinator"
+  },
+  "next_directive": "VERA::EXODUS_RECONSTRUCT::FROM_GITHUB_AND_BUS_ONLY",
+  "protected_effects_performed": [],
+  "protected_effects_not_authorized": [
+    "merge",
+    "canonical_promotion",
+    "Project_Settings_mutation",
+    "Restore_V2_install_or_cutover",
+    "Exodus_topology_cutover",
+    "production_deployment",
+    "provider_mutation",
+    "credential_or_permission_change",
+    "Slack_reconnection_or_configuration",
+    "training",
+    "canonical_memory_mutation",
+    "private_publication",
+    "destructive_delete_or_rewrite",
+    "spend"
+  ]
+}
