@@ -1,0 +1,70 @@
+{
+  "schema": "PROJECT_RUNNER_EXODUS_RETIREMENT_RECEIPT_V1",
+  "status": "CHAT_SPECIFIC_SAFE_TO_ARCHIVE_GLOBAL_EXODUS_CUTOVER_BLOCKED",
+  "date": "2026-09-19",
+  "branch": "state/project-runner-exodus-reconstruction-20260919-v1",
+  "checkpoint": {
+    "path": "state/exodus/PROJECT_RUNNER_EXODUS_RETIREMENT_20260919_V1.md",
+    "commit": "14a6b67c4376a06d91fea9aa582d59b86f3bf91a",
+    "git_blob": "356fe3546875cb6225a21d27df3cce0274d42b6e",
+    "readback_checks": {
+      "starts_snapshot": true,
+      "runner20": true,
+      "bus135": true,
+      "no_successor_chat": true,
+      "next_directive": true,
+      "global_block": true
+    }
+  },
+  "reconstruction": {
+    "path": "state/exodus/PROJECT_RUNNER_RECONSTRUCTION_V1.json",
+    "commit": "9ba1af1afbd927c89457be72bae369e13495865f",
+    "git_blob": "0174dee40b77183525ebcda91b256fb7e654c679"
+  },
+  "durability_matrix": {
+    "path": "state/exodus/PROJECT_RUNNER_ARCHIVE_DURABILITY_MATRIX_V1.md",
+    "commit": "213fbc1a572bf51cabbfc9348c79f2dba819fd0e",
+    "git_blob": "98a6fb592e34226cf33d87ef62b41e51d7cce562"
+  },
+  "project_runner": {
+    "mechanics_pr": 12,
+    "mechanics_head": "209425220db1d36a9ed7d62e93b0cc04f69b2ca1",
+    "dechatification_pr": 20,
+    "dechatification_head": "a3dc0e0ff42c08327f421e1102d674c3d6a2e951",
+    "review": 5258358194,
+    "hosted_run": 35476615092,
+    "hosted_job": 105986836677,
+    "hosted_tests": "213/213 PASS"
+  },
+  "bus_exodus": {
+    "pr": 135,
+    "head": "5268b8675a6ba3e142a5f8cb749f13dcc839a5e7",
+    "topology_git_blob": "e9d6ce86342cae1430e0dd39d3e9a2fe3dc5bdcc",
+    "census_git_blob": "9bcf1224119dfbd57dfebe316f5d31d214d25d36",
+    "source_review": 5258360766,
+    "global_cutover": "BLOCKED",
+    "active_writers": 20,
+    "ready_writers": [
+      "one",
+      "two"
+    ],
+    "unqualified_writer_count": 18,
+    "hosted_ci": "PRE_STEP_UNAVAILABLE"
+  },
+  "bt2_handoff": {
+    "pr": 25,
+    "head": "13a423e2c3c02e81b3c0f38d1b76e4589cca5c0f",
+    "restore_key": "BT2::EXODUS::RESTORE::REZON_PROJECT_RUNNER::20260919"
+  },
+  "persistent_interfaces": [
+    "Vera",
+    "Vera Control Plane Coordinator",
+    "BT2 Coordinator"
+  ],
+  "primary_next_interface": "BT2 Coordinator",
+  "next_directive": "BT2::EXODUS_CONTINUE::FRESH_CHECK_PROJECT_RUNNER_PR20_REZON_PR76_BUS_PR135",
+  "retired_chat_required": false,
+  "replacement_chat_required": false,
+  "protected_effects_performed": [],
+  "note": "No SHA-256 is claimed for this checkpoint/receipt pair; Git blob identity is not relabeled as SHA-256. Freshness is required before any effect."
+}
