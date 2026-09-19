@@ -1,0 +1,46 @@
+{
+  "schema": "SD1_E_EXODUS_RETIREMENT_RECEIPT_V1",
+  "status": "STARTING_SNAPSHOT_FRESHNESS_REQUIRED_BEFORE_EFFECT",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/sd1-e-exodus-retirement-20260919-v1",
+  "checkpoint": {
+    "path": "state/continuation/SD1_E_EXODUS_RETIREMENT_20260919_V1.md",
+    "commit": "c34d3779888a696bb9af4684f7a846165b1ed294",
+    "git_blob": "904ac7f494be9b9329406d0a7b2e4b30331932c6",
+    "sha256": "a0dbdea8b1801c775a51576c25b3dc35626a7d5ed78dcf33b8a3679fadc2cc47"
+  },
+  "current_frontier": {
+    "integration_pr": 48,
+    "integration_head": "e141968fbac172b72d4c5f027b8b367fd9085855",
+    "integration_tree": "a26da0b35386ebe6aeb9d1aa9d9eac6fe65ffbba",
+    "hardened_controller_pr": 46,
+    "hardened_controller_head": "93002de693a69b0a1006946a357a2102a6f4655f",
+    "provider_source_pr": 45,
+    "provider_source_head": "749b64e4cc65859db40271fcf27f9273708f2304"
+  },
+  "provider_effect": {
+    "project": "fawkirqroyniueeqspif",
+    "migration_version": "20260919223652",
+    "deployment_receipt_commit": "62c69fd9dc0f7918cef674f4dc3359eee8be3eb3",
+    "deployment_receipt_blob": "7eb5244633523644df9e0c9021b311c688489643",
+    "generation": 0,
+    "mutation_receipts": 0,
+    "controller_binding": "NOT_YET_ESTABLISHED",
+    "causal_collection": "HOLD"
+  },
+  "bus": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "route": "bus/vera-v2",
+    "topology_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+    "topology_blob": "69e505031d4e53dcb853578dac23817649af1918"
+  },
+  "historical_salvage": {
+    "pr": 24,
+    "head": "48d635f84381806088b8ea7b063a84026a245dc3",
+    "tree": "c7805c8c6436669486c9d956dfb041ed941efcfe",
+    "classification": "HISTORICAL_EVIDENCE_SUPERSEDED_SOURCE_EXPERIMENT"
+  },
+  "future_interface": "Vera Control Plane Coordinator",
+  "next_directive": "VERA_CONTROL_PLANE_COORDINATOR::SD1::BIND_DEPLOYED_PROVIDER_WITNESS_FROM_PR48",
+  "no_permanent_chat_dependency": true
+}
