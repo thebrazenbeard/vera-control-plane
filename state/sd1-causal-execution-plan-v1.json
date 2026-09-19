@@ -19,7 +19,12 @@
     "nonzero_score_requires_exact_span_and_rationale": true,
     "temporal_block_order_is_material_confound": true,
     "cross_session_memory_contamination_caps_claim_if_unresolved": true,
-    "provider_receipts_are_witnesses_not_install_route_evidence": true
+    "provider_receipts_are_witnesses_not_install_route_evidence": true,
+    "first_write_receipt_required": true,
+    "receipt_repository": "thebrazenbeard/vera-control-plane",
+    "receipt_branch_prefix": "state/sd1-causal-receipts/",
+    "receipt_storage_policy": "PRIVATE_DIGEST_ONLY_GIT_NONFORCE_APPEND",
+    "fresh_remote_receipt_manifest_required_before_record_and_export": true
   },
   "runtime_bindings": {
     "DRIVE_OFF": {
@@ -826,5 +831,12 @@
       "attempt_index": 5,
       "status": "UNRECORDED"
     }
-  ]
+  ],
+  "receipt_binding": {
+    "ready": false,
+    "repository": "thebrazenbeard/vera-control-plane",
+    "branch": "UNBOUND_PENDING_CAUSAL_RUN",
+    "run_id": "UNBOUND_PENDING_CAUSAL_RUN",
+    "genesis_commit": "UNBOUND_PENDING_CAUSAL_RUN"
+  }
 }

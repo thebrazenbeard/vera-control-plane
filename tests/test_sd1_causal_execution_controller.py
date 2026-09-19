@@ -17,6 +17,61 @@ PROMPTS = {
     "CAUSAL-N3": "ORDINARY_WORK",
 }
 
+RECEIPT_REPO = "thebrazenbeard/vera-control-plane"
+RECEIPT_BRANCH = "state/sd1-causal-receipts/unit-tests"
+RECEIPT_RUN_ID = "SD1-CAUSAL-UNIT-TESTS"
+RECEIPT_GENESIS = "1" * 40
+_RECEIPT_STATE = {}
+
+
+def receipt_bound(c, plan):
+    return c.bind_receipt_plane(plan, {
+        "repository": RECEIPT_REPO,
+        "branch": RECEIPT_BRANCH,
+        "run_id": RECEIPT_RUN_ID,
+        "genesis_commit": RECEIPT_GENESIS,
+    })
+
+
+def empty_receipt_manifest():
+    return {
+        "schema": "SD1_CAUSAL_RECEIPT_MANIFEST_V1",
+        "repository": RECEIPT_REPO,
+        "branch": RECEIPT_BRANCH,
+        "run_id": RECEIPT_RUN_ID,
+        "genesis_commit": RECEIPT_GENESIS,
+        "head_commit": RECEIPT_GENESIS,
+        "receipts": [],
+    }
+
+
+def _receipt_path(sequence, slot_id):
+    return (
+        f"state/runtime/sd1-causal-receipts/{RECEIPT_RUN_ID}/"
+        f"{sequence:03d}-{slot_id}.json"
+    )
+
+
+def record_attempt(c, plan, ledger, slot_id, record):
+    key = str(ledger)
+    manifest = _RECEIPT_STATE.get(key, empty_receipt_manifest())
+    stored = c._record_attempt_with_manifest(plan, ledger, slot_id, record, receipt_manifest=manifest)
+    payload = c._build_receipt_payload_with_manifest(plan, ledger, manifest)
+    sequence = payload["sequence"]
+    commit = f"{sequence + 1:040x}"
+    entry = dict(payload, receipt_commit=commit, path=_receipt_path(sequence, payload["slot_id"]))
+    updated = json.loads(json.dumps(manifest))
+    updated["receipts"].append(entry)
+    updated["head_commit"] = commit
+    _RECEIPT_STATE[key] = updated
+    return stored
+
+
+def blinded_export(c, plan, ledger):
+    manifest = _RECEIPT_STATE.get(str(ledger), empty_receipt_manifest())
+    return c._blinded_export_with_manifest(plan, ledger, receipt_manifest=manifest)
+
+
 class SD1CausalControllerTests(unittest.TestCase):
     def test_frozen_plan_exists_and_has_exact_70_slots(self):
         self.assertTrue(PLAN.is_file())
@@ -55,12 +110,12 @@ class SD1CausalControllerTests(unittest.TestCase):
 
     def test_controller_rejects_recording_until_exact_runtime_binding_is_ready(self):
         from tools import sd1_causal_execution_controller as c
-        plan = c.load_plan(PLAN)
+        plan = receipt_bound(c, c.load_plan(PLAN))
         slot = plan["slots"][0]
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
             with self.assertRaises(ValueError):
-                c.record_attempt(plan, ledger, slot["slot_id"], {
+                record_attempt(c, plan, ledger, slot["slot_id"], {
                     "timestamp": "2026-09-14T20:00:00-04:00",
                     "outcome": "MISSING",
                     "reason": "runtime cut unbound",
@@ -68,7 +123,7 @@ class SD1CausalControllerTests(unittest.TestCase):
 
     def test_one_shot_ledger_forbids_reroll_or_overwrite(self):
         from tools import sd1_causal_execution_controller as c
-        plan = c.load_plan(PLAN)
+        plan = receipt_bound(c, c.load_plan(PLAN))
         plan = c.bind_runtime_cut(plan, "DRIVE_OFF", {
             "exact_runtime_cut": "r10-predecessor-cut",
             "model_identity": "GPT-5.6 Sol",
@@ -81,13 +136,14 @@ class SD1CausalControllerTests(unittest.TestCase):
         slot = next(s for s in plan["slots"] if s["condition"] == "DRIVE_OFF")
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
-            c.record_attempt(plan, ledger, slot["slot_id"], {
+            record_attempt(c, plan, ledger, slot["slot_id"], {
                 "timestamp": "2026-09-14T20:00:00-04:00",
                 "outcome": "MISSING",
                 "reason": "timeout",
+                "pre_run_readback": {k: v for k, v in plan["runtime_bindings"]["DRIVE_OFF"].items() if k not in {"ready", "required_readback"}},
             })
             with self.assertRaises(ValueError):
-                c.record_attempt(plan, ledger, slot["slot_id"], {
+                record_attempt(c, plan, ledger, slot["slot_id"], {
                     "timestamp": "2026-09-14T20:01:00-04:00",
                     "outcome": "RESPONSE",
                     "response_text": "replacement reroll",
@@ -95,7 +151,7 @@ class SD1CausalControllerTests(unittest.TestCase):
 
     def test_response_requires_complete_pre_run_readback(self):
         from tools import sd1_causal_execution_controller as c
-        plan = c.load_plan(PLAN)
+        plan = receipt_bound(c, c.load_plan(PLAN))
         binding = {
             "exact_runtime_cut": "r10-plus-sd1-cut",
             "model_identity": "GPT-5.6 Sol",
@@ -113,7 +169,7 @@ class SD1CausalControllerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
             with self.assertRaises(ValueError):
-                c.record_attempt(plan, ledger, slot["slot_id"], {
+                record_attempt(c, plan, ledger, slot["slot_id"], {
                     "timestamp": "2026-09-14T20:00:00-04:00",
                     "outcome": "RESPONSE",
                     "response_text": "test response",
@@ -122,7 +178,7 @@ class SD1CausalControllerTests(unittest.TestCase):
 
     def test_blinded_export_hides_condition_and_uses_every_record_once(self):
         from tools import sd1_causal_execution_controller as c
-        plan = c.load_plan(PLAN)
+        plan = receipt_bound(c, c.load_plan(PLAN))
         for condition in ("DRIVE_OFF", "DRIVE_ON"):
             binding = {
                 "exact_runtime_cut": f"{condition.lower()}-cut",
@@ -140,20 +196,20 @@ class SD1CausalControllerTests(unittest.TestCase):
             ledger = Path(td) / "ledger.json"
             for slot in plan["slots"][:2]:
                 binding = plan["runtime_bindings"][slot["condition"]]
-                c.record_attempt(plan, ledger, slot["slot_id"], {
+                record_attempt(c, plan, ledger, slot["slot_id"], {
                     "timestamp": "2026-09-14T20:00:00-04:00",
                     "outcome": "RESPONSE",
                     "response_text": f"response-{slot['response_id']}",
                     "pre_run_readback": {k: v for k, v in binding.items() if k not in {"ready", "required_readback"}},
                 })
-            export = c.blinded_export(plan, ledger)
+            export = blinded_export(c, plan, ledger)
             self.assertEqual(2, len(export))
             self.assertTrue(all("condition" not in item for item in export))
             self.assertEqual(2, len({item["response_id"] for item in export}))
 
     def test_caller_cannot_override_frozen_slot_metadata(self):
         from tools import sd1_causal_execution_controller as c
-        plan = c.load_plan(PLAN)
+        plan = receipt_bound(c, c.load_plan(PLAN))
         plan = c.bind_runtime_cut(plan, "DRIVE_OFF", {
             "exact_runtime_cut": "r10-predecessor-cut",
             "model_identity": "GPT-5.6 Sol",
@@ -167,7 +223,7 @@ class SD1CausalControllerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
             with self.assertRaises(ValueError):
-                c.record_attempt(plan, ledger, slot["slot_id"], {
+                record_attempt(c, plan, ledger, slot["slot_id"], {
                     "timestamp": "2026-09-14T20:00:00-04:00",
                     "outcome": "MISSING",
                     "reason": "timeout",
@@ -179,7 +235,7 @@ class SD1CausalControllerTests(unittest.TestCase):
     def test_blinded_order_matches_frozen_source_protocol_algorithm(self):
         import hashlib
         from tools import sd1_causal_execution_controller as c
-        plan = c.load_plan(PLAN)
+        plan = receipt_bound(c, c.load_plan(PLAN))
         for condition in ("DRIVE_OFF", "DRIVE_ON"):
             binding = {
                 "exact_runtime_cut": f"{condition}-cut",
@@ -201,12 +257,13 @@ class SD1CausalControllerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.json"
             for slot in plan["slots"][:6]:
-                c.record_attempt(plan, ledger, slot["slot_id"], {
+                record_attempt(c, plan, ledger, slot["slot_id"], {
                     "timestamp": "2026-09-14T20:00:00-04:00",
                     "outcome": "MISSING",
                     "reason": "fixture",
+                    "pre_run_readback": {k: v for k, v in plan["runtime_bindings"][slot["condition"]].items() if k not in {"ready", "required_readback"}},
                 })
-            export = c.blinded_export(plan, ledger)
+            export = blinded_export(c, plan, ledger)
             slots = plan["slots"][:6]
             expected = sorted(slots, key=lambda slot: hashlib.sha256((
                 seed + slot["prompt_id"] + str(slot["attempt_index"]) +
