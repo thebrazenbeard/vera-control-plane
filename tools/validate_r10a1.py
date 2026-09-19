@@ -199,7 +199,12 @@ def validate_contract() -> None:
 
     manifest_sha = hashlib.sha256(manifest_raw).hexdigest()
     assert manifest_sha in native, "native does not pin exact R10A1 manifest SHA-256"
-    assert freeze["source_manifest_sha256"] == manifest_sha
+    freeze_manifest = freeze.get("source_manifest")
+    assert isinstance(freeze_manifest, dict), "freeze source_manifest binding must be an object"
+    assert freeze_manifest.get("path") == required["manifest"]
+    assert freeze_manifest.get("sha256") == manifest_sha
+    assert freeze_manifest.get("git_blob") == actual["manifest"]
+    assert freeze.get("cross_bind", {}).get("source_manifest_blob") == actual["manifest"]
     assert receipt["source_manifest"]["sha256"] == manifest_sha
     assert receipt["source_manifest"]["git_blob"] == actual["manifest"]
     assert receipt["freeze_descriptor"]["git_blob"] == subject_blob(required["freeze"])
