@@ -1,0 +1,13 @@
+{
+  "schema": "SD1_CAUSAL_LEDGER_FRONTIER_V1",
+  "witness_store_id": "github:thebrazenbeard/vera-control-plane:state/sd1-causal-witness-v1",
+  "plan_sha256": "526f35438c2521d40e7a2bfa145da363e0c5063d2affef27131f9370e08564ba",
+  "ledger_schema": "SD1_CAUSAL_ATTEMPT_LEDGER_V1",
+  "generation": 0,
+  "record_count": 0,
+  "chain_head": "527ddd4d35e85dfcff56b8c209ba2a6b642c08a18a9d2ae704626e8c78bfe229",
+  "last_slot_id": null,
+  "last_record_digest": null,
+  "predecessor_frontier_digest": null,
+  "frontier_digest": "7de55cc22b28539c1d4e6934b1790d99c70ecee55ded80d7b698bec61ee249a1"
+}
