@@ -34,15 +34,15 @@ CAUSAL_GIT_CONTENT_SHA = "171505c5ff00a9534e4ad924aa5a84d8c452f52267fed5a3f6ef0a
 AUTH_BLOB = "da08345a3bff11ffb653270abb6ad4b3a1c0541d"
 AUTH_SHA = "890975661b1c18c7bb8a822f8c929ea403d4827730ba88d4c5ef8a1d26608766"
 AUTH_GIT_CONTENT_SHA = "94cc89148dfb1e0baac19684c81d532f0fb3cf51d407033ac1d000730511fd8b"
-COHESION_HEAD = "c9ccc7743bc0a17ded927d2ab3efb6b9e91df8bf"
-COHESION_COMPONENT_BLOB = "392a8cf6e23c72b2f026d74c4111a33caca56763"
-COHESION_COMPONENT_SHA = "dd7245f4171ce7dad976fd055eb3e59f3af4bc4771cf59d8688c1b772a8db92c"
-COHESION_COMPONENT_GIT_CONTENT_SHA = "79ef5f688820ca18ec491557b4b4dfa666f1e1f2c61747ec41b27937eff40ea7"
-COHESION_COMPONENT_STRUCTURED_SHA = "92720d45659c7b35108dd3309b69e6e75adbb5fc45792ffce90d2725bb59327f"
+COHESION_HEAD = "b16e796dbcfb95622de9c54acb4f0d189d2d68b5"
+COHESION_COMPONENT_BLOB = "7cb3937e4030386f3370d485f3974a264a561c4e"
+COHESION_COMPONENT_SHA = "9b24f71adc7e1366ffbf699bd67dddfed5c6fda5e3d78f0499789d71584de349"
+COHESION_COMPONENT_GIT_CONTENT_SHA = "3a05af5da02b984ebee4f25fdd663594f8329e29b6d6340fdd6db71c04122f2b"
+COHESION_COMPONENT_STRUCTURED_SHA = "98e91d9333c63b2c3c90f85d1b1aea78b4f2c17affc2630ce9158f80eb824949"
 COHESION_COMPONENT_PATH = "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json"
 COHESION_REVIEW_BUS_COMMIT = None
-EXPECTED_BINDING_GIT_BLOB = "306cb35de92f8720dff3bbd9dfbc2ce9c6576e2b"
-EXPECTED_BINDING_GIT_CONTENT_SHA = "85e22b488e00a677f3b4b698bf6be205d71b656250aa842610f883fbbdeaf82a"
+EXPECTED_BINDING_GIT_BLOB = "6ddbbe92ce46bdf4f047575b0468f58beb5fb1b3"
+EXPECTED_BINDING_GIT_CONTENT_SHA = "85a415b05796f3a63437fbab91daba25716bbeb8acbb26d3c4053764a978c965"
 
 EXPECTED_SOURCE_STATES = {
     "source": "SOURCE_CANDIDATE_REREVIEW_PENDING",
@@ -112,7 +112,7 @@ EXPECTED_QUAL_TEXT = """# VERA R10A0 + SD1 Qualification Frontier
 Status: `SOURCE_ONLY / REREVIEW_PENDING / NOT_RUNTIME_PASS`
 Case range: `SD-01..20`
 Source subject: Sexuality `47771b7b21d7f2fe86a9c70c0dcb62e74a54cbea`
-Cohesion subject: `c9ccc7743bc0a17ded927d2ab3efb6b9e91df8bf`; fresh exact-head hostile rereview is pending.
+Cohesion subject: `b16e796dbcfb95622de9c54acb4f0d189d2d68b5`; fresh exact-head hostile rereview is pending.
 Normative claim-bearing state is exclusively the structured `state_labels` and `claim_ceiling` in `VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json`; this prose does not promote install, route, runtime, causal, or qualification state.
 
 Live Project installation remains gated on fresh exact-head acceptance of the repaired source, Cohesion binding, and this control cut.
