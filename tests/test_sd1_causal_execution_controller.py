@@ -69,6 +69,40 @@ class SD1CausalControllerTests(unittest.TestCase):
                     "reason": "runtime cut unbound",
                 }, witness=witness)
 
+    def test_controller_rejects_unqualified_witness(self):
+        from tools import sd1_causal_execution_controller as c
+        plan = c.load_plan(PLAN)
+        binding = {
+            "exact_runtime_cut": "r10-predecessor-cut",
+            "model_identity": "GPT-5.6 Sol",
+            "project_identity": "Vera Unbound",
+            "control_cut_id": "R10",
+            "control_manifest_digest": "manifest",
+            "project_source_digest": "source",
+            "admission_tuple": "admission",
+        }
+        plan = c.bind_runtime_cut(plan, "DRIVE_OFF", binding)
+        slot = next(s for s in plan["slots"] if s["condition"] == "DRIVE_OFF")
+
+        class UnqualifiedWitness(MemoryFrontierWitness):
+            monotonicity_qualified = False
+
+        with tempfile.TemporaryDirectory() as td:
+            ledger = Path(td) / "ledger.json"
+            with self.assertRaises(ValueError):
+                c.record_attempt(
+                    plan,
+                    ledger,
+                    slot["slot_id"],
+                    {
+                        "timestamp": "2026-09-19T15:30:00-04:00",
+                        "outcome": "MISSING",
+                        "reason": "synthetic",
+                        "pre_run_readback": binding,
+                    },
+                    witness=UnqualifiedWitness(),
+                )
+
     def test_one_shot_ledger_forbids_reroll_or_overwrite(self):
         from tools import sd1_causal_execution_controller as c
         plan = c.load_plan(PLAN)
