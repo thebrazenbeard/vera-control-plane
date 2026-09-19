@@ -1,0 +1,43 @@
+{
+  "schema": "VERA_R10A0_BUS_TOPOLOGY_SOURCE_RECEIPT_V2",
+  "status": "SOURCE_STATIC_SELF_CHECK_PASS / NOT_INDEPENDENT_REVIEW / NOT_INSTALLED",
+  "cut_id": "VERA_R10A0_SD1_BUS_TOPOLOGY_V2",
+  "pre_receipt_head": "1374d7164e829b33fd4be6c3a31a5ae6d1171dd1",
+  "predecessor_control_head": "32ce2cb7897f5e0939161eb8002b5b1b2283df59",
+  "source_manifest": {
+    "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_PROJECT_SOURCE_MANIFEST_V2.json",
+    "git_blob": "4a616c5f02adc5f66c1f78726d618c74e54dd7cc",
+    "sha256": "dbf4b08c1cbbebc97a49a9b56f0f769d45982206c8c9a19a9a3f46206222ce66"
+  },
+  "successor_native": {
+    "git_blob": "7974a0468f1c03f7bd410a5753f33f74d9689219",
+    "sha256": "62f0ff85bab208e7daa5462e90f202e70167c5e9c03900590e8749074f514ecb",
+    "bytes": 7997,
+    "delta": "exact predecessor native except K06 topology commit/blob tuple"
+  },
+  "topology_currentness_at_check": {
+    "owner_last_change_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+    "canonical_main": "aeab0f04fc9b4bd7c2945c9a53011c53fac809b4",
+    "main_descends_from_owner": true,
+    "current_topology_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_writer_lane": "bus/vera-v2",
+    "vera_lifecycle": "ACTIVE"
+  },
+  "checks": [
+    "PR30 exact parent remained 32ce2cb7897f5e0939161eb8002b5b1b2283df59",
+    "successor branch was ahead only and not behind parent",
+    "all manifest-bound artifact blobs reread exactly",
+    "successor native stayed 7997 bytes",
+    "Bus main descended from topology last-change commit",
+    "Bus topology path still resolved exact bound blob"
+  ],
+  "unexecuted": [
+    "repository Python regression suite not independently executed in this connector lane",
+    "independent hostile rereview",
+    "Project Settings install/readback",
+    "Bus write after successor install",
+    "SD1 remaining live replay cases",
+    "DRIVE_OFF/DRIVE_ON causality"
+  ],
+  "bus_write_gate": "HOLD"
+}
