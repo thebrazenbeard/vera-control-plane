@@ -1,0 +1,54 @@
+{
+  "schema": "PROJECT_RUNNER_EXODUS_RETIREMENT_POSTSCRIPT_RECEIPT_V1",
+  "status": "CHAT_SPECIFIC_SAFE_TO_ARCHIVE_GLOBAL_EXODUS_CUTOVER_BLOCKED",
+  "date": "2026-09-19",
+  "branch": "state/project-runner-exodus-reconstruction-20260919-v1",
+  "prior_retirement": {
+    "checkpoint_path": "state/exodus/PROJECT_RUNNER_EXODUS_RETIREMENT_20260919_V1.md",
+    "checkpoint_commit": "14a6b67c4376a06d91fea9aa582d59b86f3bf91a",
+    "checkpoint_git_blob": "356fe3546875cb6225a21d27df3cce0274d42b6e",
+    "receipt_commit": "25f2445bf96be5aa2737d5a68f16db4f2b65addc",
+    "receipt_git_blob": "ac3baf47abfa9ee237f78c2e9598cb482a4f3030"
+  },
+  "postscript": {
+    "path": "state/exodus/PROJECT_RUNNER_EXODUS_RETIREMENT_POSTSCRIPT_20260919_V1.md",
+    "commit": "e8be3a8550f8ec31aa8ec8095ac6345b5c7dc1ef",
+    "git_blob": "bf09212d27d70f1105fda9f1f4509dea2be7dbdf",
+    "readback": "VERIFIED_EXACT"
+  },
+  "bus_handoff": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "branch": "bus/vera-v2",
+    "path": "messages/20260919T1942-0400-vera-project-runner-exodus-retirement-postscript-v1.md",
+    "commit": "1f7a6e5e9a6b3789165dcb70521dd26ed40b2b68",
+    "git_blob": "816c859ebfad72940402e57446061b3e39f37dd9",
+    "readback": "VERIFIED_EXACT"
+  },
+  "concurrent_subjects": {
+    "project_runner_pr_20": "a3dc0e0ff42c08327f421e1102d674c3d6a2e951",
+    "project_runner_pr_21": "e53dd3907af6686cbbe0937ba726803fe3640d23",
+    "bus_pr_135": "5268b8675a6ba3e142a5f8cb749f13dcc839a5e7",
+    "bus_pr_136": "bde34be27c90821c5d4068e3a5d02cfea0b2ec6b",
+    "rezon_pr_76": "3b9a0f36e0f1d1c60c7b3f79da6915f0b213476b"
+  },
+  "sibling_reviews": {
+    "project_runner_pr_21": 5258386033,
+    "bus_pr_136": 5258386151
+  },
+  "scratch_branches": {
+    "thebrazenbeard/chat-communication-bus@exodus/persistent-interface-terminal-topology-v1": {
+      "head": "7e7a99ed4429645ed63f05613b13c667938f34cc",
+      "disposition": "HISTORICAL_EVIDENCE_DUPLICATE_SCRATCH_DO_NOT_PROMOTE_BY_RECENCY"
+    },
+    "thebrazenbeard/project-runner@exodus/project-runner-dechatification-v1": {
+      "head": "8ccf1173168e155c25ddbf780fdc01687a224ff2",
+      "disposition": "HISTORICAL_EVIDENCE_DUPLICATE_SCRATCH_DO_NOT_PROMOTE_BY_RECENCY"
+    }
+  },
+  "retired_chat_required": false,
+  "replacement_chat_required": false,
+  "primary_next_interface": "BT2 Coordinator",
+  "next_directive": "BT2::EXODUS_CONTINUE::FRESH_CHECK_PROJECT_RUNNER_PR20_PR21_REZON_PR76_BUS_PR135_PR136",
+  "protected_effects_performed": [],
+  "sha256_claim": "NONE"
+}
