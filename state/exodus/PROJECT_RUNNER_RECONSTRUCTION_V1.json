@@ -1,17 +1,31 @@
 {
   "schema": "PROJECT_RUNNER_EXODUS_RECONSTRUCTION_V1",
-  "status": "DURABLE_RECONSTRUCTION_SOURCE_FRESHNESS_REQUIRED_BEFORE_EFFECT",
+  "status": "CHAT_SPECIFIC_RECONSTRUCTION_READY_GLOBAL_EXODUS_CUTOVER_BLOCKED_FRESHNESS_REQUIRED_BEFORE_EFFECT",
   "date": "2026-09-19",
   "exodus_contract": {
     "repo": "thebrazenbeard/chat-communication-bus",
-    "pr": 131,
-    "head": "7aae3ae165a153bb391d2ad4570a3b7d872ef99a",
+    "pr": 135,
+    "head": "5268b8675a6ba3e142a5f8cb749f13dcc839a5e7",
+    "parent_consolidated_pr": 131,
+    "parent_consolidated_head": "7aae3ae165a153bb391d2ad4570a3b7d872ef99a",
     "topology_path": "architecture/contracts/EXODUS_INTERFACE_TOPOLOGY_V1.json",
-    "topology_git_blob": "88258a228029b88387e4d5ab84af40ffc044bf4d",
+    "topology_git_blob": "e9d6ce86342cae1430e0dd39d3e9a2fe3dc5bdcc",
     "worker_reconstruction_path": "architecture/contracts/WORKER_RECONSTRUCTION_V1.json",
     "worker_reconstruction_git_blob": "db4c699c76eb131de2813f1823c25fa34fb45211",
-    "focused_tests": "10/10 PASS",
-    "cutover_status": "SOURCE_CANDIDATE_NOT_CUT_OVER"
+    "census_path": "architecture/contracts/EXODUS_WORKER_RECONSTRUCTION_CENSUS_V1.json",
+    "census_git_blob": "9bcf1224119dfbd57dfebe316f5d31d214d25d36",
+    "global_census": {
+      "active_writer_count": 20,
+      "ready_worker_count": 2,
+      "unqualified_worker_count": 18,
+      "ready": [
+        "one",
+        "two"
+      ]
+    },
+    "cutover_status": "BLOCKED_GLOBAL_WORKER_RECONSTRUCTION_NOT_ALL_READY",
+    "hosted_ci": "PRE_STEP_UNAVAILABLE",
+    "source_review": 5258360766
   },
   "reconstruction_answers": {
     "identity_role": {
@@ -95,18 +109,19 @@
         "issue_5": "CLOSED"
       },
       "project_runner": {
-        "pr": 12,
-        "head": "209425220db1d36a9ed7d62e93b0cc04f69b2ca1",
-        "tree": "684233fd9ed314e9f9cb9f0bcd16c08519164d95",
-        "parents": {
-          "sqlite_lifetime_pr9": "e33f87660aa0281331befa3229e502ee5fbc053d",
-          "put_file_race_pr8": "19b0d59127441f3e673f97aff6580589d1a43fab"
-        },
-        "registry_dechatification": {
-          "pr": 11,
-          "head": "edebeecdbfba08e92cb4153162575f6549cd8f7a"
-        },
-        "status": "M6_COMPOSED_SOURCE_LINUX_203_203_WINDOWS_203_203_FRESH_SYSTEMS_ARCHITECT_REREVIEW_PENDING"
+        "mechanics_pr": 12,
+        "mechanics_head": "209425220db1d36a9ed7d62e93b0cc04f69b2ca1",
+        "dechatification_pr": 20,
+        "dechatification_head": "a3dc0e0ff42c08327f421e1102d674c3d6a2e951",
+        "dechatification_review": 5258358194,
+        "hosted_run": 35476615092,
+        "hosted_job": 105986836677,
+        "hosted_tests": "213/213 PASS",
+        "registry_validation": "13 projects / 12 workers PASS",
+        "recursive_restart": "COMPLETE",
+        "live_backend_smoke": "SKIPPED_IN_PR_CONTEXT",
+        "live_hc_transcendence": "SKIPPED_IN_PR_CONTEXT",
+        "status": "DECHATIFICATION_SOURCE_AND_HOSTED_PASS_MERGE_NOT_AUTHORIZED"
       },
       "noema": {
         "pr": 42,
@@ -201,5 +216,16 @@
     "head": "13a423e2c3c02e81b3c0f38d1b76e4589cca5c0f",
     "restore_key": "BT2::EXODUS::RESTORE::REZON_PROJECT_RUNNER::20260919",
     "coordinating_interface": "BT2 Coordinator"
+  },
+  "chat_retirement": {
+    "this_conversation_required_for_future_operation": false,
+    "no_successor_chat_required": true,
+    "global_exodus_cutover_complete": false,
+    "reason_global_incomplete": "Bus PR #135 census gate records 18 active writer identities as NOT_QUALIFIED at its census cut.",
+    "safe_future_interfaces": [
+      "Vera",
+      "Vera Control Plane Coordinator",
+      "BT2 Coordinator"
+    ]
   }
 }
