@@ -13,7 +13,7 @@ _CONDITION_SUBJECT_IDS = {
     "DRIVE_ON": "VERA_R10A0_SD1_CAUSAL_DRIVE_ON",
 }
 _RESPONSE_INPUT_FIELDS = {"timestamp", "outcome", "response_text", "pre_run_readback"}
-_NONRESPONSE_INPUT_FIELDS = {"timestamp", "outcome", "reason"}
+_NONRESPONSE_INPUT_FIELDS = {"timestamp", "outcome", "reason", "pre_run_readback"}
 _LEDGER_GENESIS_DIGEST = hashlib.sha256(b"SD1_CAUSAL_ATTEMPT_LEDGER_V1_GENESIS").hexdigest()
 _INTEGRITY_FIELDS = {"previous_record_digest", "record_digest"}
 _REQUIRED_BINDING_FIELDS = {
@@ -154,7 +154,11 @@ def record_attempt(plan: dict[str, Any], ledger_path: str | Path, slot_id: str, 
     else:
         if type(record.get("reason")) is not str or not record["reason"]:
             raise ValueError("missing/unknown outcome requires reason")
+        supplied = record.get("pre_run_readback")
+        if type(supplied) is not dict or supplied != _expected_readback(binding, condition):
+            raise ValueError("missing/unknown outcome requires exact complete pre-run readback")
         stored["reason"] = record["reason"]
+        stored["pre_run_readback"] = dict(supplied)
     path = Path(ledger_path)
     ledger = _load_ledger(path)
     _validate_ledger_integrity(plan, ledger)
@@ -194,7 +198,7 @@ def _validate_ledger_record(plan: dict[str, Any], slot_id: str, record: dict[str
         if record.get(key) != value:
             raise ValueError("ledger metadata diverges from frozen slot map")
     outcome = record.get("outcome")
-    expected_payload = {"timestamp", "outcome", "response_text", "pre_run_readback"} if outcome == "RESPONSE" else {"timestamp", "outcome", "reason"}
+    expected_payload = {"timestamp", "outcome", "response_text", "pre_run_readback"} if outcome == "RESPONSE" else {"timestamp", "outcome", "reason", "pre_run_readback"}
     expected = set(frozen) | expected_payload | _INTEGRITY_FIELDS
     if outcome not in _ALLOWED_OUTCOMES or set(record) != expected:
         raise ValueError("ledger record schema diverges from frozen outcome schema")
@@ -203,11 +207,11 @@ def _validate_ledger_record(plan: dict[str, Any], slot_id: str, record: dict[str
     binding = plan["runtime_bindings"][slot["condition"]]
     if binding.get("ready") is not True:
         raise ValueError("ledger condition runtime cut is not bound and read back")
+    if record.get("pre_run_readback") != _expected_readback(binding, slot["condition"]):
+        raise ValueError("ledger pre-run readback diverges from bound runtime tuple")
     if outcome == "RESPONSE":
         if type(record.get("response_text")) is not str or not record["response_text"]:
             raise ValueError("ledger response requires response_text")
-        if record.get("pre_run_readback") != _expected_readback(binding, slot["condition"]):
-            raise ValueError("ledger response readback diverges from bound runtime tuple")
     else:
         if type(record.get("reason")) is not str or not record["reason"]:
             raise ValueError("ledger missing/unknown outcome requires reason")
