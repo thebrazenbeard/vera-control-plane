@@ -33,12 +33,12 @@
     },
     "cohesion": {
       "repository": "thebrazenbeard/vera",
-      "commit": "ec8e49106af9b285b4dd4e1d1c5b0c129e5b0356",
+      "commit": "b7fb266e026724828f0ae65964ecb7649715a18d",
       "component_path": "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json",
-      "component_git_blob": "cf60803ad55b404c1419f467bb3e2e5ae8bbd178",
-      "component_git_content_sha256": "54bc1ea7be13b2b966fb4cbed21b4b4c73fd8da1014de9de352ca3b3a6947af7",
-      "component_structured_sha256": "2b22399e3a7d52250c636ad9e35267744a9a7687d9fea80938582fad13d536a7",
-      "component_declared_checkout_sha256": "4d2f04c55553741b687824b02970f759eabf3bd5f6359092fca840ff5b10862c",
+      "component_git_blob": "abc711f83fc142a7d93134431cd7ff9b67ce7dd7",
+      "component_git_content_sha256": "fb4bbb0b7e1b0e28d25f65bdcfacbcdef1d4ec20eb6ce787cabb53d66397da60",
+      "component_structured_sha256": "67458b363eb6f6d3487771da70ceac0ee8dcb178b93243715f9d8540da06466f",
+      "component_declared_checkout_sha256": "7af0047c92708d0b54d75b5fe0d028939db0339404a007b70e2ffb2f98e6657d",
       "review_status": "FRESH_EXACT_HEAD_REREVIEW_PENDING",
       "review_evidence_bus_commit": null
     }
@@ -51,13 +51,13 @@
     },
     "binding": {
       "path": "project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json",
-      "git_blob": "44da59528751ee7c0dc3c35cd33e5c5efeb1a6f4",
-      "git_content_sha256": "9bc1c1bc7212552038be17ebd8515784f2ac487bbe6490cbc28f06ff2b986fd1"
+      "git_blob": "9a620ce129ad574cb602f8e8baaa171003cd1f35",
+      "git_content_sha256": "9de8e8c28ab95252f0a1906d927cad2369bfca8e5b04d176a6e8429bd0f637b2"
     },
     "qualification": {
       "path": "project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SD1_QUALIFICATION.md",
-      "git_blob": "2342e51cf1af7e2328502dd6dcd9bd467a08693c",
-      "git_content_sha256": "63b21ad2943cd84cfd43fe75bae50a7adb3c8a5dc560fedceb4c08a5c4e349e2"
+      "git_blob": "c688b6b8b84d2d6051752d748d5991687f88c580",
+      "git_content_sha256": "51fb7af34809c9223e1fb05f8131a2d8c010d8c605ec7ad56c8e90764b2f8fcf"
     },
     "rollback": {
       "path": "project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SD1_ROLLBACK_SUBJECT.json",
