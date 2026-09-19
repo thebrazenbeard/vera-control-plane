@@ -21,7 +21,8 @@ def git(*args: str) -> bytes:
 class BusTopologyRebindV2Tests(unittest.TestCase):
     def test_structured_cut_cross_binds_exact_subject(self):
         binding = json.loads((DIR / "VERA_R10A0_BUS_TOPOLOGY_BINDING_V2.json").read_text())
-        manifest_raw = (DIR / "VERA_R10A0_BUS_TOPOLOGY_PROJECT_SOURCE_MANIFEST_V2.json").read_bytes()
+        manifest_path = "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_PROJECT_SOURCE_MANIFEST_V2.json"
+        manifest_raw = git("show", f"HEAD:{manifest_path}")
         manifest = json.loads(manifest_raw)
         rollback = json.loads((DIR / "VERA_R10A0_BUS_TOPOLOGY_ROLLBACK_SUBJECT_V2.json").read_text())
         self.assertEqual("VERA_R10A0_SD1_BUS_TOPOLOGY_V2", binding["cut_id"])
@@ -37,7 +38,8 @@ class BusTopologyRebindV2Tests(unittest.TestCase):
 
     def test_native_delta_is_only_k06_owner_tuple(self):
         predecessor = git("show", f"{BASE}:project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SD1_NATIVE_PROJECT_INSTRUCTIONS.txt")
-        successor = (DIR / "VERA_R10A0_BUS_TOPOLOGY_NATIVE_PROJECT_INSTRUCTIONS_V2.txt").read_bytes()
+        successor_path = "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_NATIVE_PROJECT_INSTRUCTIONS_V2.txt"
+        successor = git("show", f"HEAD:{successor_path}")
         self.assertEqual(7997, len(predecessor))
         self.assertEqual(7997, len(successor))
         expected = predecessor.decode("utf-8").replace(OLD, NEW).encode("utf-8")
