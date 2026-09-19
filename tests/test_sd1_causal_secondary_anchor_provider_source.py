@@ -128,7 +128,7 @@ def test_sql_frontier_canonicalization_uses_same_sorted_key_order_as_python():
         ',"witness_store_id":',
     ]
     start = text.index("CREATE FUNCTION vera_cp_anchor.sd1_causal_frontier_digest_v1")
-    end = text.index("$$;", start)
+    end = text.index("$fn$;", start)
     helper = text[start:end]
     positions = [helper.index(fragment) for fragment in ordered_fragments]
     assert positions == sorted(positions)
