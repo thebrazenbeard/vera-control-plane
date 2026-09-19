@@ -382,6 +382,45 @@ AS $$
     LIMIT 1;
 $$;
 
+CREATE FUNCTION vera_cp_api.sd1_causal_receipt_read_v1(
+    p_request_id text
+)
+RETURNS TABLE (
+    receipt_id text,
+    request_id text,
+    request_digest text,
+    result_status text,
+    expected_generation bigint,
+    expected_frontier_digest text,
+    observed_generation bigint,
+    observed_frontier_digest text,
+    successor_generation bigint,
+    successor_frontier_digest text,
+    created_at timestamptz
+)
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = pg_catalog
+AS $
+    SELECT
+      r.receipt_id,
+      r.request_id,
+      r.request_digest,
+      r.result_status,
+      r.expected_generation,
+      r.expected_frontier_digest,
+      r.observed_generation,
+      r.observed_frontier_digest,
+      r.successor_generation,
+      r.successor_frontier_digest,
+      r.created_at
+    FROM vera_cp_anchor.sd1_causal_mutation_receipts AS r
+    WHERE r.witness_id = 'VERA_SD1_CAUSAL_V1'
+      AND r.request_id = p_request_id
+    LIMIT 1;
+$;
+
 CREATE FUNCTION vera_cp_api.sd1_causal_frontier_advance_v1(
     p_request_id text,
     p_request_digest text,
@@ -645,6 +684,9 @@ $$;
 REVOKE ALL ON FUNCTION vera_cp_api.sd1_causal_frontier_read_v1()
   FROM PUBLIC, anon, authenticated, service_role;
 
+REVOKE ALL ON FUNCTION vera_cp_api.sd1_causal_receipt_read_v1(text)
+  FROM PUBLIC, anon, authenticated, service_role;
+
 REVOKE ALL ON FUNCTION vera_cp_api.sd1_causal_frontier_advance_v1(
   text,text,bigint,text,bigint,bigint,text,text,text,text,text
 ) FROM PUBLIC, anon, authenticated, service_role;
@@ -653,6 +695,9 @@ GRANT USAGE ON SCHEMA vera_cp_api
   TO vera_sd1_causal_anchor_broker;
 
 GRANT EXECUTE ON FUNCTION vera_cp_api.sd1_causal_frontier_read_v1()
+  TO vera_sd1_causal_anchor_broker;
+
+GRANT EXECUTE ON FUNCTION vera_cp_api.sd1_causal_receipt_read_v1(text)
   TO vera_sd1_causal_anchor_broker;
 
 GRANT EXECUTE ON FUNCTION vera_cp_api.sd1_causal_frontier_advance_v1(
