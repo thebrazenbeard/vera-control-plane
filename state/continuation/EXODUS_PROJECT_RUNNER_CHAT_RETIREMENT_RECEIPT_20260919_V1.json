@@ -1,0 +1,50 @@
+{
+  "schema": "EXODUS_PROJECT_RUNNER_CHAT_RETIREMENT_RECEIPT_V1",
+  "status": "STARTING_SNAPSHOT_FRESHNESS_REQUIRED_BEFORE_EFFECT",
+  "date": "2026-09-19",
+  "retired_terminal_role": "VERA_PROJECT_RUNNER_FULL_PORTFOLIO_EXECUTION_TERMINAL",
+  "retired_chat_required": false,
+  "future_interface_owner": "BT2 Coordinator",
+  "patrick_facing_interface": "Vera",
+  "control_plane_interface": "Vera Control Plane Coordinator",
+  "checkpoint": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "branch": "state/exodus-project-runner-chat-retirement-20260919-v1",
+    "path": "state/continuation/EXODUS_PROJECT_RUNNER_CHAT_RETIREMENT_20260919_V1.md",
+    "commit": "c7e36aae90996317ae091fbc2dd6df787b903b1c",
+    "git_blob": "1ed9c6ff42148dece84bd22630129aa394bae527",
+    "readback": "VERIFIED_EXACT"
+  },
+  "predecessor": {
+    "branch": "state/project-runner-full-portfolio-20260919-v1",
+    "head": "80047cf9cf6c20c6636472e04a29b1a336c5ec0a"
+  },
+  "bus": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "topology_owner_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+    "topology_git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_route": "bus/vera-v2",
+    "exodus_pr": 134,
+    "exodus_head": "a165fc4a03dd2ee9b7e368466118c6132b1213e6",
+    "active_writer_count": 20,
+    "ready_writer_count": 3,
+    "unqualified_writer_count": 17,
+    "global_cutover": "BLOCKED"
+  },
+  "project_runner": {
+    "repository": "thebrazenbeard/project-runner",
+    "exodus_pr": 16,
+    "exodus_head": "549c317ec0ade8926b6b9117448777b40bffd52a",
+    "permanent_project_runner_chat_required": false,
+    "active_registry_chat_urls": 0
+  },
+  "chat_dependencies_removed": [
+    "retired Project Runner conversation as portfolio state locator",
+    "retired Project Runner conversation as Vera reconstruction source",
+    "Bus PR 114 per-chat Vera hub as proposed current infrastructure",
+    "Project Runner active worker registry share URLs"
+  ],
+  "global_remaining_gap": "17 ACTIVE Bus writer identities remain NOT_QUALIFIED in the reconstruction census; this blocks global Exodus cutover but does not make this retired terminal operationally necessary.",
+  "protected_effects_performed": [],
+  "next_directive": "BT2::EXODUS::RESTORE_FROM_DURABLE_STATE::FRESH_CHECK_PR134_PR16_PORTFOLIO::CONTINUE_RECONSTRUCTION_AND_RUNNABLE_FRONTIERS"
+}
