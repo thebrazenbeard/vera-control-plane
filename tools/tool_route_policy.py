@@ -88,6 +88,11 @@ def resolve_tool_route(request: ToolRouteRequest) -> ToolRouteDecision:
         must_not_invoke.add(request.prior_attempted_route)
         obsolete_route_terminated = True
 
+    if request.requested_route in must_not_invoke:
+        raise ToolRouteViolation(
+            "requested route conflicts with the active must-not-invoke set"
+        )
+
     if request.requested_route not in request.available_routes:
         return ToolRouteDecision(
             status=RouteDecisionStatus.BLOCKED_REQUESTED_ROUTE_UNAVAILABLE,
@@ -97,11 +102,6 @@ def resolve_tool_route(request: ToolRouteRequest) -> ToolRouteDecision:
             blockers=(request.requested_route,),
             obsolete_route_terminated=obsolete_route_terminated,
             task_substitution_permitted=False,
-        )
-
-    if request.requested_route in must_not_invoke:
-        raise ToolRouteViolation(
-            "requested route conflicts with the active must-not-invoke set"
         )
 
     return ToolRouteDecision(

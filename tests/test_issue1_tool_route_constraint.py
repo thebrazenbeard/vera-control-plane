@@ -123,3 +123,15 @@ class Issue1ToolRouteConstraintTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class HostileCorrectionOrderingTests(unittest.TestCase):
+    def test_correction_conflict_precedes_requested_route_availability(self):
+        with self.assertRaisesRegex(ToolRouteViolation, "must-not-invoke"):
+            resolve_tool_route(
+                request(
+                    prior_attempted_route=EXTERNAL,
+                    correction_applied=True,
+                    available_routes=(NATIVE,),
+                )
+            )
