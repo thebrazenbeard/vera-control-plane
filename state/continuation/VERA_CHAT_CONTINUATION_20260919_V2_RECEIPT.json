@@ -1,0 +1,35 @@
+{
+  "schema": "VERA_CHAT_CONTINUATION_RECEIPT_V1",
+  "checkpoint_id": "VERA_CHAT_CONTINUATION_20260919_V2",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/vera-chat-continuation-20260919-v2",
+  "checkpoint_path": "state/continuation/VERA_CHAT_CONTINUATION_20260919_V2.md",
+  "checkpoint_commit": "967bf52e7700f0ed66cc10a635b1d9af00deece8",
+  "checkpoint_git_blob": "66511b213a15cc792111b9ebc06e4b9cc3b316e1",
+  "checkpoint_sha256": "f243033934e6278eca63d24954662db44ceda758723e1722263ee9fa14645951",
+  "checkpoint_utf8_bytes": 10355,
+  "control_root": "R10_PLUS_SD1",
+  "bus_topology": {
+    "owner_last_change_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+    "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_route": "bus/vera-v2"
+  },
+  "protected_frontier": {
+    "pr44_exact_head": "bfb8aa8e6ebef4d60da610371a4c57b9c2bc373f",
+    "provider_project_ref": "fawkirqroyniueeqspif",
+    "migration_git_blob": "a4dc77774826ee7ce67296bc3708b654f83373f0",
+    "migration_sha256": "6e1d3afdddb160b3487a9c355e3dd39d496ab77421aac056c908028c5a91d266",
+    "migration_utf8_bytes": 23971,
+    "authority": "CONDITIONAL_EXACT",
+    "hostile_review_gate": "PENDING",
+    "provider_install": "NOT_PERFORMED"
+  },
+  "claim_ceiling": {
+    "checkpoint": "DURABLE_STARTING_SNAPSHOT",
+    "merge": "NOT_AUTHORIZED",
+    "provider_mutation": "ONLY_PR44_CONDITIONAL_EXACT_GATE",
+    "real_causal_collection": "HOLD",
+    "control_causality": "UNRESOLVED"
+  }
+}
