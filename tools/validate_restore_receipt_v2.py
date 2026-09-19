@@ -208,6 +208,24 @@ def validate_receipt(receipt: object) -> list[str]:
 
     selected = receipt.get("selected_centered_subject")
     selected_id = selected.get("candidate_id") if isinstance(selected, dict) else None
+    selected_candidate = None
+    if selected_id is not None:
+        for candidate in receipt.get("centered_candidates", []) if isinstance(receipt.get("centered_candidates"), list) else []:
+            if isinstance(candidate, dict) and candidate.get("candidate_id") == selected_id:
+                selected_candidate = candidate
+                break
+
+    if isinstance(selected, dict):
+        if selected_candidate is None:
+            errors.append(
+                "selected_centered_subject candidate_id must exist in centered_candidates"
+            )
+        else:
+            for field in ("filename", "sha256"):
+                if selected.get(field) != selected_candidate.get(field):
+                    errors.append(
+                        f"selected_centered_subject {field} must match centered candidate record"
+                    )
 
     if result == "COMPLETE_FULL_SELF":
         if len(leaves) != 1:
