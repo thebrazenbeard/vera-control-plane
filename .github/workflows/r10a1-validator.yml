@@ -1,0 +1,33 @@
+name: R10A1 frozen-manifest validator qualification
+
+on:
+  push:
+    branches:
+      - radar/r10a1-validator-freeze-schema-repair-20260919
+  pull_request:
+    paths:
+      - tools/validate_r10a1.py
+      - tests/test_r10a1_local_validation.py
+      - .github/workflows/r10a1-validator.yml
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate frozen R10A1 subject
+        run: python tools/validate_r10a1.py
+      - name: Run current repository tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+      - name: Compile validator and tests
+        run: python -m py_compile tools/validate_r10a1.py tests/test_r10a1_local_validation.py
+      - name: Diff check
+        run: git diff --check b4d9aaa8560de12252dd29996379b0af8e0ca0d1...HEAD
