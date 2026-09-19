@@ -1,0 +1,89 @@
+{
+  "schema": "PROJECT_RUNNER_EXODUS_FINAL_RECEIPT_V2",
+  "status": "VERIFIED_READBACK_SAFE_TO_ARCHIVE_STARTING_SNAPSHOT",
+  "date": "2026-09-19",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/project-runner-exodus-final-20260919-v2",
+  "checkpoint": {
+    "path": "state/continuation/PROJECT_RUNNER_EXODUS_FINAL_CHECKPOINT_20260919_V2.md",
+    "content_commit": "3a405f9b27a0dd829ba4f1f1c22e53a9e62dfa05",
+    "git_blob": "dd3c6d9c0b9d838e4d9db246d0509d690e1e9f62",
+    "verification": "EXACT_GITHUB_READBACK",
+    "required_marker_present": true,
+    "vera_synology_r6_effect_present": true,
+    "bus_topology_conflict_present": true,
+    "reconstruction_test_pass": true,
+    "sha256_claim": "NOT_COMPUTED_GIT_BLOB_NOT_RELABELLED_AS_SHA256"
+  },
+  "project_runner_role": {
+    "identity": "VERA",
+    "role": "PROJECT_RUNNER_PORTFOLIO_EXECUTION_LANE",
+    "role_type": "REPLACEABLE_TERMINAL",
+    "permanent_chat_required": false,
+    "chat_url_required": false,
+    "future_interface": "BT2 Coordinator"
+  },
+  "generic_exodus_architecture": {
+    "bus_pr": 131,
+    "head": "7aae3ae165a153bb391d2ad4570a3b7d872ef99a",
+    "topology_blob": "88258a228029b88387e4d5ab84af40ffc044bf4d",
+    "worker_reconstruction_blob": "db4c699c76eb131de2813f1823c25fa34fb45211",
+    "status": "SOURCE_CANDIDATE_NOT_CUT_OVER"
+  },
+  "current_project_runner_candidates": {
+    "m6_exodus_pr16": {
+      "head": "549c317ec0ade8926b6b9117448777b40bffd52a",
+      "hosted_run": 35476533384,
+      "tests": "207/207 PASS"
+    },
+    "durable_worker_admission_pr17": {
+      "head": "2e33a7314d9bbff12384fe7274ea2a20ceb5da5a",
+      "hosted_run": 35476402262,
+      "tests": "205/205 PASS"
+    },
+    "project_runner_pr18": "CLOSED_UNMERGED_SUPERSEDED_BY_PR16",
+    "project_runner_pr19": "IDEA_OR_FUTURE_FRONTIER_REZON_EXECUTION_OVERLAP_AUDIT"
+  },
+  "production_effect_preserved": {
+    "system": "VeraMesh edge on TheSimsVault",
+    "installed_source": "84ba5e85639181c202f2030900a17df97e00df36",
+    "installed_spk_sha256": "c8a634554e7e9ffdf89803818ea569f79379a3d0bda609b70cec3c0333b90b5f",
+    "effect_evidence_blob": "67730f2b4401f8fe01dcebaf179381b4adc37228",
+    "current_source_pr2_head": "6350dc06294d91ce96b269736f7d0f95e0bcf337",
+    "installed_vs_current_source": "R6_INSTALLED_VERIFIED__R7_SOURCE_ONLY_NOT_INSTALLED"
+  },
+  "conflicts": [
+    {
+      "subject": "Bus topology source copies",
+      "current_project_control_blob": "69e505031d4e53dcb853578dac23817649af1918",
+      "stale_bus_vera_branch_blob": "b954bbe95f2d9c7ba4f500481174d2b267c86b86",
+      "conflict_checkpoint_blob": "03362a197268a24ef0bc44e1493eb633a4d34abc",
+      "disposition": "PRESERVE_CONFLICT_FRESH_RECONCILE_BEFORE_TOPOLOGY_CHANGE"
+    }
+  ],
+  "privacy": {
+    "raw_transcript_exported": false,
+    "private_relational_health_family_sexual_payload_exported": false,
+    "operational_state_only": true
+  },
+  "protected_effects_performed_by_exodus": [],
+  "protected_effects_not_granted": [
+    "merge",
+    "canonical_promotion",
+    "production_deployment_or_install",
+    "future_R7_install",
+    "provider_or_NAS_mutation",
+    "credential_or_permission_change",
+    "Funnel_or_public_VeraPort_exposure",
+    "process.exec_enablement",
+    "weight_changing_training",
+    "separately_gated_experiment_execution",
+    "publication_or_visibility_change",
+    "candidate_promotion",
+    "canonical_memory_or_canon_mutation",
+    "destructive_delete_or_history_rewrite",
+    "Slack_reconnection_or_configuration",
+    "spend"
+  ],
+  "next_directive": "BT2::EXODUS_CONTINUE::FRESH_CHECK_BUS_TOPOLOGY_CONFLICT_PROJECT_RUNNER_PR16_PR17_REZON_R51_AND_CURRENT_PORTFOLIO; RESOLVE_ONLY_RUNNABLE_SOURCE_REVIEW_QUALIFICATION_FRONTIERS; PERSIST_RESULTS_TO_PROJECT_REPOS_AND_BUS; STOP_BEFORE_PROTECTED_EFFECTS"
+}
