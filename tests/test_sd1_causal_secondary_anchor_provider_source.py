@@ -139,3 +139,35 @@ def test_migration_fails_if_genesis_or_direct_write_ceiling_is_wrong():
     assert "SD1 causal genesis exact readback failed" in text
     assert "SD1 causal broker unexpectedly has direct table write privilege" in text
     assert "has_table_privilege(" in text
+
+
+BINDING = ROOT / "governance" / "VERA_SD1_CAUSAL_SECONDARY_ANCHOR_PROVIDER_SOURCE_V1.json"
+
+
+def binding() -> dict:
+    return json.loads(BINDING.read_text(encoding="utf-8"))
+
+
+def test_provider_binding_matches_exact_migration_bytes():
+    data = binding()
+    source_bytes = MIGRATION.read_bytes()
+    migration = data["migration_source"]
+    assert migration["path"] == str(MIGRATION.relative_to(ROOT)).replace("\\", "/")
+    assert migration["bytes"] == len(source_bytes)
+    assert migration["sha256"] == hashlib.sha256(source_bytes).hexdigest()
+    assert migration["git_blob"] == "a4dc77774826ee7ce67296bc3708b654f83373f0"
+
+
+def test_provider_binding_cross_binds_exact_causal_contract():
+    contract = binding()["causal_contract_source"]
+    assert contract["commit"] == "3f7011febe37f61cb9caa2f66e01a7064b760f8c"
+    assert contract["git_blob"] == "5c3e66462d572cf0eaf2f2d1693e3abf0cd26b00"
+    assert contract["sha256"] == "024733793835d074425306e4e3e1b7332027554d186c3e1ff2c949c3a5687cf7"
+
+
+def test_provider_binding_keeps_install_and_causality_unpromoted():
+    ceiling = binding()["effect_ceiling"]
+    assert ceiling["provider_install"] == "NOT_AUTHORIZED_NOT_PERFORMED"
+    assert ceiling["production_witness"] == "UNBOUND"
+    assert ceiling["causal_data_collection"] == "HOLD"
+    assert ceiling["control_causality"] == "UNRESOLVED"
