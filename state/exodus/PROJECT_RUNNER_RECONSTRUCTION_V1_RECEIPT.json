@@ -1,0 +1,83 @@
+{
+  "schema": "PROJECT_RUNNER_RECONSTRUCTION_RECEIPT_V1",
+  "status": "VERIFIED_READBACK_CHATLESS_RECOVERY_PACKAGE",
+  "date": "2026-09-19",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/project-runner-exodus-reconstruction-20260919-v1",
+  "package_subjects": {
+    "reconstruction": {
+      "path": "state/exodus/PROJECT_RUNNER_RECONSTRUCTION_V1.json",
+      "latest_content_commit": "f7ef3848175ea53bc2432dd0384f380fcde1e422",
+      "git_blob": "a9fa65a997b8462c21148c0367a590c3e9e297d4",
+      "predicates": {
+        "json_parse": true,
+        "exodus_pr_131_present": true,
+        "project_runner_pr_12_present": true,
+        "rezon_r51_present": true,
+        "noema_pr_42_present": true,
+        "testament_chatless_head_present": true,
+        "permanent_chat_not_required": true
+      }
+    },
+    "durability_matrix": {
+      "path": "state/exodus/PROJECT_RUNNER_ARCHIVE_DURABILITY_MATRIX_V1.md",
+      "latest_content_commit": "65d651d60f77efa9ccf6c380300634e327c98109",
+      "git_blob": "61f44ea4909599bbfc8e8f698c5c1e1d18061efc",
+      "predicates": {
+        "exodus_pr_131_present": true,
+        "project_runner_pr_12_present": true,
+        "rezon_r51_present": true,
+        "noema_pr_42_present": true,
+        "testament_chatless_head_present": true,
+        "synology_source_vs_target_qualification_distinguished": true,
+        "no_chat_url_dependency": true
+      }
+    },
+    "handoff": {
+      "path": "state/continuation/PROJECT_RUNNER_EXODUS_HANDOFF_20260919_V1.md",
+      "commit": "8c5df6d3c55d78fbc77b6b5e06a6b22868366703",
+      "git_blob": "c5eb4614e94118a494098e83088303fa40f1a0c5",
+      "predicates": {
+        "exodus_reconstruct_directive_present": true,
+        "bt2_restore_key_present": true,
+        "protected_effect_boundary_present": true,
+        "fresh_runtime_startup_present": true,
+        "no_retired_project_runner_chat_required": true
+      }
+    }
+  },
+  "controlling_exodus_candidate": {
+    "bus_pr": 131,
+    "head": "7aae3ae165a153bb391d2ad4570a3b7d872ef99a",
+    "topology_blob": "88258a228029b88387e4d5ab84af40ffc044bf4d",
+    "worker_reconstruction_blob": "db4c699c76eb131de2813f1823c25fa34fb45211",
+    "status": "SOURCE_CANDIDATE_NOT_CUT_OVER"
+  },
+  "engineering_recovery": {
+    "bt2_pr": 25,
+    "observed_head": "13a423e2c3c02e81b3c0f38d1b76e4589cca5c0f",
+    "restore_key": "BT2::EXODUS::RESTORE::REZON_PROJECT_RUNNER::20260919",
+    "persistent_interface": "BT2 Coordinator"
+  },
+  "general_recovery_directive": "VERA::EXODUS_RECONSTRUCT::FROM_GITHUB_AND_BUS_ONLY",
+  "verification_method": "exact repository + branch + path + Git blob + semantic readback predicates",
+  "sha256_claim": "NONE_FOR_THESE_THREE_PROJECT_RUNNER_FILES",
+  "note": "Git-blob identity is not relabeled as SHA-256 coverage.",
+  "protected_effect_authority": false,
+  "protected_effects_not_granted": [
+    "merge",
+    "canonical promotion",
+    "production deployment",
+    "installation",
+    "provider mutation",
+    "NAS mutation",
+    "credential or permission change",
+    "weight-changing training",
+    "separately gated experiment execution",
+    "private publication or visibility change",
+    "candidate promotion",
+    "canonical-memory mutation",
+    "destructive deletion or history rewrite",
+    "spend"
+  ]
+}
