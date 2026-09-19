@@ -1,0 +1,118 @@
+{
+  "artifact_id": "VERA_SD1_CAUSAL_SECONDARY_ANCHOR_PROVIDER_SOURCE_V1",
+  "artifact_class": "PROVIDER_DEPLOYMENT_SOURCE_BINDING",
+  "subject": "Vera SD1 causal secondary monotonic anchor",
+  "status": "SOURCE_CANDIDATE_REVIEW_PENDING_NOT_INSTALLED",
+  "provider": {
+    "kind": "supabase",
+    "project_name": "Vera Control Plane",
+    "project_ref": "fawkirqroyniueeqspif",
+    "region": "us-east-2",
+    "observed_status": "ACTIVE_HEALTHY",
+    "postgres_version": "17.6.1.166",
+    "authority_semantics": "PROVIDER_NOT_CONTROL_AUTHORITY"
+  },
+  "provider_precondition_readback": {
+    "installed_migrations": [
+      "20260912170153_harden_public_default_privileges",
+      "20260912170345_enforce_rls_on_exposed_schemas",
+      "20260912170408_reserve_locked_api_schema"
+    ],
+    "vera_cp_api_exists": true,
+    "vera_cp_anchor_exists": false,
+    "sd1_causal_frontiers_exists": false,
+    "sd1_causal_mutation_receipts_exists": false,
+    "vera_sd1_causal_anchor_broker_role_exists": false,
+    "pgcrypto_installed_schema": "extensions",
+    "postgres_rolcreaterole": true,
+    "authenticator_rolinherit": false,
+    "readback_semantics": "READ_ONLY_PRECONDITION_NOT_INSTALLATION"
+  },
+  "causal_contract_source": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "commit": "3f7011febe37f61cb9caa2f66e01a7064b760f8c",
+    "path": "protocol/SD1_CAUSAL_SECONDARY_ANCHOR_V1.json",
+    "git_blob": "5c3e66462d572cf0eaf2f2d1693e3abf0cd26b00",
+    "sha256": "024733793835d074425306e4e3e1b7332027554d186c3e1ff2c949c3a5687cf7",
+    "bytes": 4218
+  },
+  "deployment_lineage": {
+    "parent_pr": 20,
+    "parent_branch": "work/supabase-control-plane-binding-20260912",
+    "parent_head": "f088b89a556000037e1cb9ef5448b319bbef2069",
+    "candidate_branch": "work/sd1-causal-secondary-anchor-provider-source-20260919"
+  },
+  "migration_source": {
+    "version": "20260919195000",
+    "name": "create_sd1_causal_secondary_anchor",
+    "path": "supabase/migrations/20260919195000_create_sd1_causal_secondary_anchor.sql",
+    "git_blob": "a4dc77774826ee7ce67296bc3708b654f83373f0",
+    "sha256": "6e1d3afdddb160b3487a9c355e3dd39d496ab77421aac056c908028c5a91d266",
+    "bytes": 23971,
+    "semantics": [
+      "APPEND_ONLY_FRONTIER",
+      "EXACT_EXPECTED_GENERATION_AND_DIGEST_CAS",
+      "CANONICAL_FRONTIER_DIGEST_RECOMPUTED_IN_PROVIDER",
+      "CANONICAL_REQUEST_DIGEST_RECOMPUTED_IN_PROVIDER",
+      "REQUEST_ID_IDEMPOTENCY",
+      "REQUEST_ID_COLLISION_REJECTION",
+      "STALE_FRONTIER_NO_EFFECT_RECEIPT",
+      "BOUNDED_FRONTIER_READBACK_RPC",
+      "BOUNDED_RECEIPT_READBACK_RPC",
+      "BROKER_NO_DIRECT_TABLE_WRITE"
+    ]
+  },
+  "verification": {
+    "exact_pr43_controller_suite": {
+      "head": "b31dfdb882321911274a96ea9cc9ae910f6020b7",
+      "result": "PASS",
+      "tests": "42/42",
+      "elapsed": "8.21s"
+    },
+    "provider_source_tests": {
+      "head_at_run": "4093de6454310f06091e75023f174ba3ab3464f7",
+      "result": "PASS",
+      "tests": "8/8"
+    },
+    "postgres_grammar_parse": {
+      "head_at_run": "4093de6454310f06091e75023f174ba3ab3464f7",
+      "parser": "pglast",
+      "result": "PASS",
+      "statement_count": 36
+    },
+    "live_read_only_genesis_digest_probe": {
+      "provider_project_ref": "fawkirqroyniueeqspif",
+      "result": "PASS",
+      "computed_digest": "7de55cc22b28539c1d4e6934b1790d99c70ecee55ded80d7b698bec61ee249a1",
+      "effect": "READ_ONLY_SELECT"
+    },
+    "disposable_postgres_semantic_execution": "NOT_EXECUTED_DOCKER_ENGINE_UNAVAILABLE",
+    "production_install": "NOT_PERFORMED"
+  },
+  "effect_ceiling": {
+    "source": "PRESENT",
+    "source_review": "PENDING_INDEPENDENT_HOSTILE_REVIEW",
+    "provider_install": "NOT_AUTHORIZED_NOT_PERFORMED",
+    "provider_readback": "PRECONDITION_ONLY",
+    "production_witness": "UNBOUND",
+    "causal_data_collection": "HOLD",
+    "control_causality": "UNRESOLVED"
+  },
+  "required_before_provider_install": [
+    "fresh exact-head hostile source review",
+    "semantic PostgreSQL execution against a disposable/non-production database if technically available",
+    "Patrick exact authority for this migration on provider fawkirqroyniueeqspif",
+    "fresh provider precondition and migration-list readback",
+    "apply exact migration source bytes transactionally",
+    "read back schema functions roles grants genesis and migration version",
+    "hostile stale-CAS idempotency collision append-only and direct-write-denial probes",
+    "bind verified provider witness into controller before any causal collection"
+  ],
+  "non_effects": [
+    "NOT_PROVIDER_INSTALL",
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_PROJECT_INSTALL",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}
