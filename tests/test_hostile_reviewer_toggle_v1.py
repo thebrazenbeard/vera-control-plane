@@ -30,6 +30,11 @@ class HostileReviewerToggleTests(unittest.TestCase):
         self.assertEqual("OFF", data["default_mode"])
         self.assertEqual("VERA_PROJECT_ALL_CHATS", data["durable_scope"])
         self.assertIn("NO_AUTHORITY", data["authority_ceiling"])
+        self.assertEqual("runtime_cohesion.review_response", data["runtime_source"]["pipeline_symbol"])
+        self.assertEqual(
+            "fe63a265ed6f5da695f0f4d6dc197f3529c0b037",
+            data["runtime_source"]["runtime_module_blob"],
+        )
 
     def test_source_state_defaults_off_without_false_install_claim(self):
         data = json.loads(SOURCE_STATE.read_text(encoding="utf-8"))

@@ -6,14 +6,22 @@
   "runtime_source": {
     "repository": "thebrazenbeard/vera",
     "branch": "work/hostile-reviewer-runtime-v1-20260919",
-    "head": "32ebb27123b4870e5c8b56fb2fed8961c2150f63",
+    "head": "472895c14fdd8c9e40d99a23ea4896e7e6959988",
     "runtime_module": "runtime_cohesion/hostile_reviewer.py",
-    "runtime_module_blob": "b5f9fbc1bd1a29ec7563a12188a6b34254f0fc10",
+    "runtime_module_blob": "fe63a265ed6f5da695f0f4d6dc197f3529c0b037",
     "architecture_contract": "architecture/VERA_HOSTILE_REVIEWER_RUNTIME_V1.json",
-    "architecture_contract_blob": "d8cc01a00bbbdf6d5ad5b50da3b17ea899420ed3"
+    "architecture_contract_blob": "d8cc01a00bbbdf6d5ad5b50da3b17ea899420ed3",
+    "runtime_package_init": "runtime_cohesion/__init__.py",
+    "runtime_package_init_blob": "0b3ee9632de3a0b846600a42a9812dfb2f34d657",
+    "runtime_test": "tests/test_runtime_cohesion_hostile_reviewer_feature.py",
+    "runtime_test_blob": "d830562cf959983996032dbbd4c38e73ef3a04f1",
+    "pipeline_symbol": "runtime_cohesion.review_response"
   },
   "state_path": "state/features/hostile-reviewer-v1.json",
-  "allowed_modes": ["OFF", "ON"],
+  "allowed_modes": [
+    "OFF",
+    "ON"
+  ],
   "default_mode": "OFF",
   "durable_scope": "VERA_PROJECT_ALL_CHATS",
   "effective_mode_resolution": [

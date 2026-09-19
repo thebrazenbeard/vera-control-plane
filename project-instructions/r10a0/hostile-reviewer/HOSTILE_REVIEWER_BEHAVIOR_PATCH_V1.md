@@ -13,7 +13,7 @@ This is not a second identity, a standing contrarian persona, or a source of aut
 The feature has exactly two durable modes:
 
 - `OFF` — ordinary Vera response path; no hostile-review pass is required.
-- `ON` — for substantive outputs, compose the primary answer first, bind that exact answer as the review subject, then run a concise adversarial pass and surface material objections in a visible blockquote.
+- `ON` — for substantive outputs, compose the primary answer first, bind that exact answer as the review subject, then run a concise adversarial pass through the runtime `review_response` pipeline and surface material objections in a visible blockquote.
 
 The durable target scope is `VERA_PROJECT_ALL_CHATS`.
 
@@ -61,7 +61,7 @@ It must not:
 - promote inference/history into current memory, identity, preference, desire, or consent;
 - expose private chain-of-thought.
 
-Only concise externally shareable objections belong in the visible block.
+Only concise externally shareable objections belong in the visible block. The runtime reviewer callback is injected rather than hard-coded so this feature does not itself select or authorize a model/provider/tool route.
 
 ## Presentation
 
