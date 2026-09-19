@@ -47,7 +47,7 @@ LANGUAGE sql
 IMMUTABLE
 PARALLEL SAFE
 SET search_path = pg_catalog, extensions
-AS $$
+AS $fn$
     SELECT encode(
         extensions.digest(
             convert_to(
@@ -68,7 +68,7 @@ AS $$
         ),
         'hex'
     );
-$$;
+$fn$;
 
 REVOKE ALL ON FUNCTION vera_cp_anchor.sd1_causal_frontier_digest_v1(
   text,bigint,text,text,text,text,text,bigint,text,text
@@ -91,7 +91,7 @@ LANGUAGE sql
 IMMUTABLE
 PARALLEL SAFE
 SET search_path = pg_catalog, extensions
-AS $$
+AS $fn$
     SELECT encode(
         extensions.digest(
             convert_to(
@@ -113,7 +113,7 @@ AS $$
         ),
         'hex'
     );
-$$;
+$fn$;
 
 REVOKE ALL ON FUNCTION vera_cp_anchor.sd1_causal_request_digest_v1(
   text,text,bigint,text,bigint,text,text,text,bigint,text
@@ -264,12 +264,12 @@ RETURNS trigger
 LANGUAGE plpgsql
 SECURITY INVOKER
 SET search_path = pg_catalog
-AS $$
+AS $fn$
 BEGIN
     RAISE EXCEPTION 'SD1 causal anchor is append-only; UPDATE/DELETE forbidden'
       USING ERRCODE = '55000';
 END;
-$$;
+$fn$;
 
 REVOKE ALL ON FUNCTION vera_cp_anchor.reject_sd1_causal_anchor_rewrite_v1()
   FROM PUBLIC, anon, authenticated, service_role, vera_sd1_causal_anchor_broker;
@@ -323,7 +323,7 @@ VALUES (
     )
 );
 
-DO $$
+DO $do$
 DECLARE
     v_digest text;
 BEGIN
@@ -339,7 +339,7 @@ BEGIN
         RAISE EXCEPTION 'SD1 causal genesis frontier digest readback mismatch';
     END IF;
 END
-$$;
+$do$;
 
 CREATE FUNCTION vera_cp_api.sd1_causal_frontier_read_v1()
 RETURNS TABLE (
@@ -361,7 +361,7 @@ LANGUAGE sql
 STABLE
 SECURITY DEFINER
 SET search_path = pg_catalog
-AS $$
+AS $fn$
     SELECT
       f.witness_id,
       f.frontier_schema,
@@ -380,7 +380,7 @@ AS $$
     WHERE f.witness_id = 'VERA_SD1_CAUSAL_V1'
     ORDER BY f.generation DESC
     LIMIT 1;
-$$;
+$fn$;
 
 CREATE FUNCTION vera_cp_api.sd1_causal_receipt_read_v1(
     p_request_id text
@@ -402,7 +402,7 @@ LANGUAGE sql
 STABLE
 SECURITY DEFINER
 SET search_path = pg_catalog
-AS $
+AS $fn$
     SELECT
       r.receipt_id,
       r.request_id,
@@ -419,7 +419,7 @@ AS $
     WHERE r.witness_id = 'VERA_SD1_CAUSAL_V1'
       AND r.request_id = p_request_id
     LIMIT 1;
-$;
+$fn$;
 
 CREATE FUNCTION vera_cp_api.sd1_causal_frontier_advance_v1(
     p_request_id text,
@@ -447,7 +447,7 @@ LANGUAGE plpgsql
 VOLATILE
 SECURITY DEFINER
 SET search_path = pg_catalog, extensions
-AS $$
+AS $fn$
 DECLARE
     v_existing vera_cp_anchor.sd1_causal_mutation_receipts%ROWTYPE;
     v_current vera_cp_anchor.sd1_causal_frontiers%ROWTYPE;
@@ -679,7 +679,7 @@ BEGIN
       p_generation,
       p_frontier_digest;
 END;
-$$;
+$fn$;
 
 REVOKE ALL ON FUNCTION vera_cp_api.sd1_causal_frontier_read_v1()
   FROM PUBLIC, anon, authenticated, service_role;
@@ -715,7 +715,7 @@ REVOKE ALL ON TABLE vera_cp_anchor.sd1_causal_mutation_receipts
 
 -- Defensive post-DDL assertions. These fail the migration transaction if
 -- canonical genesis or direct broker privileges are not exactly as intended.
-DO $$
+DO $do$
 DECLARE
     v_genesis_count bigint;
     v_direct_frontier_write boolean;
@@ -753,4 +753,4 @@ BEGIN
         RAISE EXCEPTION 'SD1 causal broker unexpectedly has direct table write privilege';
     END IF;
 END
-$$;
+$do$;
