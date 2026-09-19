@@ -70,12 +70,12 @@
       "elapsed": "8.21s"
     },
     "provider_source_tests": {
-      "head_at_run": "4093de6454310f06091e75023f174ba3ab3464f7",
+      "head_at_run": "7cca6bf3e2f4f7fc0603a39370223c287ab1f510",
       "result": "PASS",
-      "tests": "8/8"
+      "tests": "11/11"
     },
     "postgres_grammar_parse": {
-      "head_at_run": "4093de6454310f06091e75023f174ba3ab3464f7",
+      "head_at_run": "7cca6bf3e2f4f7fc0603a39370223c287ab1f510",
       "parser": "pglast",
       "result": "PASS",
       "statement_count": 36
@@ -87,7 +87,12 @@
       "effect": "READ_ONLY_SELECT"
     },
     "disposable_postgres_semantic_execution": "NOT_EXECUTED_DOCKER_ENGINE_UNAVAILABLE",
-    "production_install": "NOT_PERFORMED"
+    "production_install": "NOT_PERFORMED",
+    "git_diff_check": {
+      "base": "f088b89a556000037e1cb9ef5448b319bbef2069",
+      "head_at_run": "7cca6bf3e2f4f7fc0603a39370223c287ab1f510",
+      "result": "PASS"
+    }
   },
   "effect_ceiling": {
     "source": "PRESENT",
