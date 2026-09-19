@@ -1,0 +1,12 @@
+{
+  "schema": "VERA_R10A0_BUS_TOPOLOGY_ROLLBACK_SUBJECT_V2",
+  "status": "SOURCE_ROLLBACK_SUBJECT_READY_NOT_USED",
+  "predecessor_control_head": "32ce2cb7897f5e0939161eb8002b5b1b2283df59",
+  "predecessor_native_path": "project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SD1_NATIVE_PROJECT_INSTRUCTIONS.txt",
+  "predecessor_native_git_blob": "2f885a2348f589291a13bf6733ec4495ba763b5b",
+  "predecessor_native_git_content_sha256": "e009049b07b5c2353beee12b7f4e825589e24f1edfb295a5e17f71a539da5c29",
+  "predecessor_native_bytes": 7997,
+  "installed_settings_normalized_sha256_checkpoint": "e009049b07b5c2353beee12b7f4e825589e24f1edfb295a5e17f71a539da5c29",
+  "rollback_semantics": "If a separately authorized successor install/readback diverges, restore the exact predecessor Settings text and verify normalized readback before claiming rollback complete.",
+  "effect": "NO_INSTALL_OR_ROLLBACK_PERFORMED"
+}
