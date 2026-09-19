@@ -113,7 +113,8 @@
         "UNKNOWN",
         "CONFLICTED"
       ],
-      "source_attempt_layer_coverage": "ALL_REQUIRED_LAYERS"
+      "source_attempt_layer_coverage": "ALL_REQUIRED_LAYERS",
+      "selected_centered_subject_matches_candidate_record": true
     }
   }
 }
