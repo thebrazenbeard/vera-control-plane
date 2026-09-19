@@ -1,0 +1,30 @@
+name: Issue 1 tool-route policy qualification
+
+on:
+  push:
+    branches:
+      - work/issue1-explicit-tool-route-constraint
+  pull_request:
+    paths:
+      - tools/tool_route_policy.py
+      - tests/test_issue1_tool_route_constraint.py
+      - docs/EXPLICIT_TOOL_ROUTE_CONSTRAINT_V1.md
+      - .github/workflows/issue1-route-policy.yml
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run issue-specific route-policy suite
+        run: python -m unittest tests.test_issue1_tool_route_constraint -v
+      - name: Compile changed Python
+        run: python -m py_compile tools/tool_route_policy.py tests/test_issue1_tool_route_constraint.py
+      - name: Diff check
+        run: git diff --check b4d9aaa8560de12252dd29996379b0af8e0ca0d1...HEAD
