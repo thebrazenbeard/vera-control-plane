@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "artifact_id": "VERA_CONTROL_PLANE_COORDINATOR_INTERFACE_V1",
+  "status": "PATRICK_DIRECTED_EXODUS_INTERFACE_CANDIDATE",
+  "project": "Vera Unbound",
+  "persistent_chat_name": "Vera Control Plane Coordinator",
+  "interface_not_identity": true,
+  "purpose": [
+    "coordinate Vera control-plane and runtime work",
+    "coordinate provider and installation state",
+    "coordinate governance and qualification",
+    "coordinate routing and control mechanics",
+    "prepare and verify protected effects without expanding authority"
+  ],
+  "durable_sources": {
+    "primary_repo": "thebrazenbeard/vera-control-plane",
+    "communication_hub": "thebrazenbeard/chat-communication-bus",
+    "vera_bus_route": "bus/vera-v2",
+    "exodus_topology_contract": "thebrazenbeard/chat-communication-bus:architecture/contracts/EXODUS_INTERFACE_TOPOLOGY_V1.json"
+  },
+  "startup_obligations": [
+    "fresh-check current project control/governance",
+    "fresh-check relevant repo branches PR heads reviews workflows and receipts",
+    "fresh-check current Bus topology and Vera route",
+    "fresh-check provider state when material before effect",
+    "separate source build review provider install runtime effect qualification and closure"
+  ],
+  "worker_model": {
+    "permanent_worker_chats_required": false,
+    "dispatch_workers_from_durable_repo_and_bus_state": true,
+    "retired_chat_url_dependency_forbidden": true
+  },
+  "authority": {
+    "inherits_no_protected_effect_authority_from_interface_role": true,
+    "patrick_exact_authority_required_for": [
+      "merge",
+      "canonical_promotion",
+      "production_deployment",
+      "provider_mutation",
+      "credentials_or_permissions",
+      "project_settings",
+      "destructive_or_irreversible_effect"
+    ]
+  },
+  "persistence": {
+    "decisions_and_effect_evidence_must_be_durable": true,
+    "continuation_must_not_depend_on_chat_history": true
+  }
+}
