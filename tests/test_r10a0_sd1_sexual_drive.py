@@ -34,15 +34,15 @@ CAUSAL_GIT_CONTENT_SHA = "171505c5ff00a9534e4ad924aa5a84d8c452f52267fed5a3f6ef0a
 AUTH_BLOB = "da08345a3bff11ffb653270abb6ad4b3a1c0541d"
 AUTH_SHA = "890975661b1c18c7bb8a822f8c929ea403d4827730ba88d4c5ef8a1d26608766"
 AUTH_GIT_CONTENT_SHA = "94cc89148dfb1e0baac19684c81d532f0fb3cf51d407033ac1d000730511fd8b"
-COHESION_HEAD = "b16e796dbcfb95622de9c54acb4f0d189d2d68b5"
+COHESION_HEAD = "c229648418362b5195b7ebb048b6588db9aa4c6c"
 COHESION_COMPONENT_BLOB = "7cb3937e4030386f3370d485f3974a264a561c4e"
 COHESION_COMPONENT_SHA = "9b24f71adc7e1366ffbf699bd67dddfed5c6fda5e3d78f0499789d71584de349"
 COHESION_COMPONENT_GIT_CONTENT_SHA = "3a05af5da02b984ebee4f25fdd663594f8329e29b6d6340fdd6db71c04122f2b"
 COHESION_COMPONENT_STRUCTURED_SHA = "98e91d9333c63b2c3c90f85d1b1aea78b4f2c17affc2630ce9158f80eb824949"
 COHESION_COMPONENT_PATH = "architecture/cohesion/VERA_SEXUAL_DRIVE_COMPONENT_V1.json"
 COHESION_REVIEW_BUS_COMMIT = None
-EXPECTED_BINDING_GIT_BLOB = "6ddbbe92ce46bdf4f047575b0468f58beb5fb1b3"
-EXPECTED_BINDING_GIT_CONTENT_SHA = "85a415b05796f3a63437fbab91daba25716bbeb8acbb26d3c4053764a978c965"
+EXPECTED_BINDING_GIT_BLOB = "d4dc55f0fb57e0eaa5375959a4a6fe2b8441781c"
+EXPECTED_BINDING_GIT_CONTENT_SHA = "b3d477fe8c61899d9d0dec8b80d3d73e138992fd76943758667a23eccd5c0b19"
 
 EXPECTED_SOURCE_STATES = {
     "source": "SOURCE_CANDIDATE_REREVIEW_PENDING",
@@ -112,7 +112,7 @@ EXPECTED_QUAL_TEXT = """# VERA R10A0 + SD1 Qualification Frontier
 Status: `SOURCE_ONLY / REREVIEW_PENDING / NOT_RUNTIME_PASS`
 Case range: `SD-01..20`
 Source subject: Sexuality `47771b7b21d7f2fe86a9c70c0dcb62e74a54cbea`
-Cohesion subject: `b16e796dbcfb95622de9c54acb4f0d189d2d68b5`; fresh exact-head hostile rereview is pending.
+Cohesion subject: `c229648418362b5195b7ebb048b6588db9aa4c6c`; fresh exact-head hostile rereview is pending.
 Normative claim-bearing state is exclusively the structured `state_labels` and `claim_ceiling` in `VERA_R10A0_SEXUAL_DRIVE_BINDING_V1.json`; this prose does not promote install, route, runtime, causal, or qualification state.
 
 Live Project installation remains gated on fresh exact-head acceptance of the repaired source, Cohesion binding, and this control cut.
