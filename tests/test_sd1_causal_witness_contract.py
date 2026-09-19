@@ -52,7 +52,7 @@ def test_witness_contract_fails_closed_on_prefix_or_ambiguous_state():
     assert "RECONCILE_EXACT_OPERATION_TARGET" in rules["ambiguous_witness_mutation"]
 
 
-def test_witness_provider_binding_is_exact_genesis_subject():
+def test_witness_provider_binding_is_exact_genesis_subject_but_fails_closed_unprotected():
     data = load_contract()
     binding = data["provider_binding"]
     assert binding["witness_store_id"] == "github:thebrazenbeard/vera-control-plane:state/sd1-causal-witness-v1"
@@ -64,7 +64,10 @@ def test_witness_provider_binding_is_exact_genesis_subject():
     assert binding["genesis_frontier_digest"] == "7de55cc22b28539c1d4e6934b1790d99c70ecee55ded80d7b698bec61ee249a1"
     assert binding["cas_subject"] == "NON_FORCE_BRANCH_HEAD_UPDATE_FROM_EXACT_OBSERVED_PARENT"
     assert binding["append_rule"] == "ONE_NEW_IMMUTABLE_FRONTIER_FILE_PER_GENERATION"
-    assert binding["status"] == "GENESIS_BOUND_AND_READ_BACK_NO_CAUSAL_DATA"
+    assert binding["branch_protected"] is False
+    assert binding["monotonicity_qualification"] == "FAIL"
+    assert binding["status"] == "GENESIS_BOUND_AND_READ_BACK_BRANCH_UNPROTECTED_NOT_QUALIFIED"
+    assert data["storage_requirements"]["enforceable_no_rewind_or_independent_secondary_anchor_required"] is True
 
 
 def test_export_requires_fresh_witness_reconciliation():
