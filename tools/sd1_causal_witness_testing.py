@@ -19,6 +19,8 @@ class MemoryFrontierWitness:
     provider deployment or qualification.
     """
 
+    monotonicity_qualified = True
+
     def __init__(self, store_id: str = "test:sd1-causal-frontier") -> None:
         self.store_id = store_id
         genesis = {
