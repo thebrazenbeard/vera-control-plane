@@ -1,0 +1,48 @@
+{
+  "schema": "VERAPORT_MCP_PR12_VCP_REREVIEW_V2",
+  "reviewed_repository": "thebrazenbeard/vera-mesh",
+  "reviewed_pull_request": 12,
+  "reviewed_head": "87f9be76d3fff35ba1bae7674d4af8957153ac6a",
+  "reviewer": "VCP_PARALLEL_COORDINATOR",
+  "prior_evidence": "evidence/veraport_mcp_pr12_vcp_review_20260920.json",
+  "prior_disposition": "PASS_AT_INITIAL_RDC_EQUIVALENCE_SOURCE_SCOPE",
+  "prior_disposition_status": "SUPERSEDED_BY_DEEPER_HOSTILE_REVIEW",
+  "disposition": "CHANGES_REQUIRED",
+  "github_comment_id": 5753625457,
+  "blocking_findings": [
+    {
+      "id": "LOGICAL_READ_CLOSE_RACE",
+      "severity": "AUTHORITY_FENCING",
+      "finding": "read_text can pass _require, await mirror or read I/O, race with close, and then materialize/execute after close has returned because no per-lane serialization or post-await closed/generation check exists",
+      "required_regression": "block mirror-open or read, race close to completion, release blocked operation, and prove no post-close mirror materialization or content return"
+    },
+    {
+      "id": "LOGICAL_FENCE_REUSE_ACROSS_CONTROLLER_RESTART",
+      "severity": "AUTHORITY_FENCING",
+      "finding": "MirroredReadLaneRouter initializes _last_fence to zero on every controller lifetime, allowing stale lane_id/fence pairs to collide with newly reopened same-ID lanes after controller restart",
+      "required_regression": "fresh router/controller generation must not accept a stale prior-lifetime fence for the same lane_id"
+    }
+  ],
+  "nonblocking_hardening": [
+    "verify localhost resolves only to loopback or accept literal loopback addresses only",
+    "replace logical protocol responses carrying request_id null with a bound logical request identity if external request identity is normative"
+  ],
+  "unchanged_positive_findings": [
+    "WORKSTATION_BOUNDED_FILE_READ",
+    "PER_SESSION_READ_ONLY_MIRRORING",
+    "WRITE_AND_PROCESS_NOT_CROSS_SESSION_MIRRORED",
+    "ACTUAL_GRANTED_CAPABILITY_READBACK"
+  ],
+  "live_state_ceiling": {
+    "SOURCE_CREATED": true,
+    "BUILD_PASS": "AUTHOR_EVIDENCE_EXISTS_BUT_EXACT_HEAD_REVIEW_FAILS",
+    "MCP_SERVER_RUNNING": false,
+    "PLUGIN_REGISTERED": false,
+    "CURRENT_ROUTE": false,
+    "LIVE_READ_PASS": false,
+    "LIVE_WRITE_PASS": false,
+    "PROCESS_EXEC_PASS": false,
+    "RDC_EQUIVALENCE_BOUNDARY_PASS": false
+  },
+  "protected_effects_performed": []
+}
