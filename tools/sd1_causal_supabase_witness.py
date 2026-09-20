@@ -66,6 +66,76 @@ _CONTROLLER_CONTRACT_CURRENTNESS_PATHS = (
 )
 
 
+def _validate_qualification_contract_shape(
+    value: dict[str, Any],
+    *,
+    expected_schema: str,
+    currentness_paths: tuple[tuple[str, ...], ...],
+) -> None:
+    if expected_schema == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1":
+        expected_top = {
+            "schema", "status", "provider", "source", "allowed_rpc_surface",
+            "denied_capabilities", "idempotency", "read_only_hash_vector",
+            "qualification_gate", "controller_binding", "claim_ceiling",
+            "non_effects",
+        }
+        dict_fields = {
+            "provider", "source", "idempotency", "read_only_hash_vector",
+            "qualification_gate", "controller_binding", "claim_ceiling",
+        }
+        list_fields = {
+            "allowed_rpc_surface", "denied_capabilities", "non_effects",
+        }
+        binding = value.get("qualification_gate", {}).get(
+            "implementation_subject_binding"
+        )
+    elif expected_schema == "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1":
+        expected_top = {
+            "schema", "status", "repairs", "controller_rules",
+            "rollback_attack_rule", "transaction_failure_rules",
+            "test_binding", "production_binding", "claim_ceiling",
+            "non_effects",
+        }
+        dict_fields = {
+            "controller_rules", "rollback_attack_rule",
+            "transaction_failure_rules", "test_binding",
+            "production_binding", "claim_ceiling",
+        }
+        list_fields = {"repairs", "non_effects"}
+        binding = value.get("production_binding", {}).get(
+            "implementation_subject_binding"
+        )
+    else:
+        raise WitnessIntegrityError(
+            f"unsupported qualification subject schema {expected_schema}"
+        )
+    if set(value) != expected_top:
+        raise WitnessIntegrityError(
+            f"qualification subject {expected_schema} envelope mismatch"
+        )
+    if any(type(value.get(field)) is not dict for field in dict_fields):
+        raise WitnessIntegrityError(
+            f"qualification subject {expected_schema} object shape mismatch"
+        )
+    if any(type(value.get(field)) is not list for field in list_fields):
+        raise WitnessIntegrityError(
+            f"qualification subject {expected_schema} list shape mismatch"
+        )
+    expected_excludes = [".".join(parts) for parts in currentness_paths]
+    if type(binding) is not dict:
+        raise WitnessIntegrityError(
+            f"qualification subject {expected_schema} binding metadata missing"
+        )
+    if (
+        binding.get("digest_algorithm")
+        != "SHA256_CANONICAL_JSON_SEMANTIC_PROJECTION_V1"
+        or binding.get("subject_projection_excludes") != expected_excludes
+    ):
+        raise WitnessIntegrityError(
+            f"qualification subject {expected_schema} projection metadata mismatch"
+        )
+
+
 def _canonical_json_subject_sha256(
     path: Path,
     *,
@@ -82,6 +152,11 @@ def _canonical_json_subject_sha256(
         raise WitnessIntegrityError(
             f"qualification subject {path.name} schema mismatch"
         )
+    _validate_qualification_contract_shape(
+        value,
+        expected_schema=expected_schema,
+        currentness_paths=currentness_paths,
+    )
     projected = json.loads(json.dumps(value))
     for key_path in currentness_paths:
         cursor = projected
