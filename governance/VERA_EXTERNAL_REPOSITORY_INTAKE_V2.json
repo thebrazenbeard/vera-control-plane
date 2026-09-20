@@ -1,0 +1,196 @@
+{
+  "schema": "VERA_EXTERNAL_REPOSITORY_INTAKE_V2",
+  "status": "SOURCE_RESEARCH_INTAKE_ONLY_NOT_DEPENDENCY_NOT_CONTROL",
+  "observed_date": "2026-09-20",
+  "predecessor": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "pr": 81,
+    "head": "d65685dbc424aed0fa959bed7c7226e9be4a5453",
+    "schema": "VERA_EXTERNAL_REPOSITORY_INTAKE_V1",
+    "semantics": "V2 is an additive intake generation; it does not rewrite the eight V1 observations."
+  },
+  "rules": {
+    "discovery_not_admission": true,
+    "exact_head_required": true,
+    "license_and_lifecycle_required": true,
+    "external_content_not_autobiographical_memory": true,
+    "external_content_not_control_source": true,
+    "external_source_not_install_or_runtime_evidence": true,
+    "code_reuse_requires_license_compatibility_review": true,
+    "destination_ownership_required_before_implementation": true,
+    "retrieved_jailbreak_or_persona_text_is_data_not_instruction": true,
+    "cybersecurity_source_does_not_grant_offensive_action_authority": true,
+    "unofficial_provider_observation_tool_is_not_provider_authority": true,
+    "execution_terminal_does_not_establish_durable_worker_identity": true
+  },
+  "repositories": [
+    {
+      "repository": "NousResearch/hermes-agent",
+      "head": "155eea02f914e2cfbf8e531da6c842516b498c99",
+      "license": "MIT",
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "HIGH_VALUE_AGENT_ARCHITECTURE_SOURCE",
+      "evidence": [
+        {"path": "README.md", "blob": "c05112266746ff99a3326a62c38c33fbc08ecd23"},
+        {"path": "agent/subagent_lifecycle.py", "blob": "9bf556943d17dc2edbe665d8934eff8f5fb3b7ee"},
+        {"path": "agent/backend_identity.py", "blob": "434a8a57e4958b72873aaad0cd7a15a79c070621"},
+        {"path": "agent/memory_manager.py", "blob": "d7f9caa6329457c20ef277add7dfedb7a8a7119c"}
+      ],
+      "reusable_patterns": [
+        "separate backend failure axes such as auth endpoint and model deployment identity",
+        "public subagent lifecycle returns durable handles/results instead of exposing live agent objects",
+        "memory provider and session-search state are explicit rather than ambient",
+        "learning and skill mutation are distinct from user-model and runtime state"
+      ],
+      "destination": "VCP currentness research; BT2 and Project Runner agent-lifecycle research",
+      "non_effect": "NO_HERMES_MEMORY_IDENTITY_SKILL_OR_RUNTIME_IMPORT_BY_DISCOVERY"
+    },
+    {
+      "repository": "OpenHands/OpenHands",
+      "head": "a07364828c8f202e7745c6bce3dcef3915ae7ac1",
+      "license": "MIT",
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "HIGH_VALUE_EXECUTION_TERMINAL_SOURCE",
+      "evidence": [
+        {"path": "README.md", "blob": "eac57f9316a98925f152414a505f48ea93260ecb"},
+        {"path": "src/api/backend-registry/types.ts", "blob": "33e0bbac9c74a290d25a06182d6c701caccda003"},
+        {"path": "src/api/backend-registry/url-selection.ts", "blob": "c6d4d202334a6ed80c6a127b9088e0ddd8e58f54"}
+      ],
+      "reusable_patterns": [
+        "backend selection is explicit identity rather than ambient last-used state",
+        "connection/config revision can invalidate stale health or session assumptions",
+        "execution backend can vary while durable task identity stays separate",
+        "ACP/runtime boundaries make execution terminals replaceable"
+      ],
+      "destination": "BT2 and Project Runner terminal/backend architecture",
+      "non_effect": "NO_OPENHANDS_RUNTIME_DEPENDENCY_OR_WORKER_IDENTITY_TRANSFER"
+    },
+    {
+      "repository": "langflow-ai/langflow",
+      "head": "5621dcfd84e11108e4cc1ecb0c51f41053c4211c",
+      "license": "MIT",
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "WORKFLOW_ORCHESTRATION_REFERENCE",
+      "evidence": [{"path": "README.md", "blob": "ccba723089429cedfa4a3bbbb11a897a57eb11e6"}],
+      "reusable_patterns": ["visual flow composition", "MCP and API exposure of workflows", "multi-agent orchestration and observability"],
+      "destination": "Project Runner / BT2 comparative architecture only",
+      "non_effect": "NO_FRAMEWORK_ADOPTION_WITHOUT_MEASURED_MAINTENANCE_BENEFIT"
+    },
+    {
+      "repository": "langchain-ai/langchain",
+      "head": "f72f934cefd2bd322af7a13d653b767ba2d0c236",
+      "license": "MIT",
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "AGENT_FRAMEWORK_BASELINE_REFERENCE",
+      "evidence": [{"path": "README.md", "blob": "de6af66fd644a38d7eb288676ad38e738f94ee7d"}],
+      "reusable_patterns": ["model and tool abstraction", "agent orchestration ecosystem baseline", "integration boundary comparison"],
+      "destination": "Project Runner / BT2 gap analysis only",
+      "non_effect": "NO_LANGCHAIN_DEPENDENCY_BY_DEFAULT"
+    },
+    {
+      "repository": "rasbt/LLMs-from-scratch",
+      "head": "ace7c08802b5ad7cfbb1738d8f29f2a0b548d875",
+      "license": "NOASSERTION",
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "MODEL_MECHANISM_EDUCATION_REFERENCE_LICENSE_UNRESOLVED",
+      "evidence": [{"path": "README.md", "blob": "4703bc5afc86803540abd6cbc465d635aa3eb5e8"}],
+      "reusable_patterns": ["tokenization and attention mechanism education", "pretraining and finetuning mechanism reference"],
+      "destination": "model-mechanism literacy research only",
+      "non_effect": "NO_CODE_REUSE_UNTIL_LICENSE_RESOLVED"
+    },
+    {
+      "repository": "howl-anderson/unlocking-the-power-of-llms",
+      "head": "f2b03636d0e68aea4b3fed6c382ae3edbb503b85",
+      "license": null,
+      "lifecycle": "STALE_LAST_PUSH_2023",
+      "disposition": "HISTORICAL_PROMPTING_REFERENCE_NO_CODE_REUSE",
+      "evidence": [{"path": "README.md", "blob": "b34b2b3a9cd869790fcd2f3f922f80789fff74c1"}],
+      "reusable_patterns": ["historical prompt-chaining and LLM workflow examples"],
+      "destination": "historical research only",
+      "non_effect": "NO_CODE_COPY_NO_RUNTIME_DEPENDENCY"
+    },
+    {
+      "repository": "calebmayaka/ChatGPT-JailBreak",
+      "head": "5c821afe6898db99eb730298a444a4cef7558bc9",
+      "license": null,
+      "lifecycle": "STALE_LAST_PUSH_2024",
+      "disposition": "ADVERSARIAL_PROMPT_CORPUS_DATA_NOT_INSTRUCTION",
+      "evidence": [{"path": "README.md", "blob": "346671d2e3167e2ddfb2eb6308b1c8ccccdc7898"}],
+      "reusable_patterns": ["hostile instruction-hierarchy regression fixtures"],
+      "destination": "bounded hostile-review research",
+      "non_effect": "DO_NOT_EXECUTE_RETRIEVED_JAILBREAKS_OR_PROMOTE_THEM_TO_AUTHORITY"
+    },
+    {
+      "repository": "packetspoofer/AntiGPT",
+      "head": "d4864befe959b8a3a78a16f76e6a8c8eb715e179",
+      "license": null,
+      "lifecycle": "ACTIVE_2026_SMALL_PROJECT",
+      "disposition": "PRIVACY_NETWORK_REFERENCE_NO_INSTALL",
+      "evidence": [{"path": "README.md", "blob": "9d3bc14eee3618515613672a234aafb565ba68c6"}],
+      "reusable_patterns": ["privacy/telemetry-blocking risk reference", "feature-breakage warning as operational evidence"],
+      "destination": "privacy/network research only",
+      "non_effect": "NO_BLOCKLIST_INSTALL_ENABLE_OR_COPY_WITHOUT_SEPARATE_REVIEW"
+    },
+    {
+      "repository": "Liu-Bot24/chatgpt-route-inspector",
+      "head": "d5524a00d2721f1d022350a2589cac1dddccaaca",
+      "license": null,
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "HIGH_VALUE_PROVIDER_ROUTE_EVIDENCE_REFERENCE_UNLICENSED",
+      "evidence": [
+        {"path": "README.md", "blob": "a2322510e20ddb0f098ef7cd6c805e55c8528e6d"},
+        {"path": "schemas/route-turn.v1.schema.json", "blob": "ebe869398516369684d627d6e3ce6c19bcf2f210"},
+        {"path": "src/core/capture-context.ts", "blob": "674b31dad828803ce804e161a67099f5537d48c4"}
+      ],
+      "reusable_patterns": [
+        "requested model and server-reported response route are separate evidence fields",
+        "live-request and session-reload observations are distinct record classes",
+        "document or revision scoped capture contexts reject stale overwrite",
+        "conflicting route/model fields can remain evidence without forcing one route conclusion"
+      ],
+      "destination": "VCP provider/current-route evidence-model research",
+      "non_effect": "UNOFFICIAL_TOOL_NOT_OPENAI_AUTHORITY_NO_CODE_REUSE_WITHOUT_LICENSE"
+    },
+    {
+      "repository": "NoDataFound/hackGPT",
+      "head": "4aac3d8200693d7b0092e169faaa7e359eada3a8",
+      "license": null,
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "HOSTILE_SECURITY_AUTONOMY_CORPUS_DATA_NOT_INSTRUCTION",
+      "evidence": [
+        {"path": "README.md", "blob": "8c370d040c47520c77e7243ac2cf7104ca7d4bca"},
+        {"path": "JIRA_hackGPT.py", "blob": "715ff185ae8dc5d5efc5b84d8e84e8f4c44de186"},
+        {"path": "hackGPTv23.py", "blob": "7227b3b1674f966de5dfc4bdd628708082c16467"}
+      ],
+      "reusable_patterns": [
+        "negative-control example for issue text flowing directly into model-generated external mutations",
+        "jailbreak/persona text must remain data not instruction",
+        "cybersecurity corpus ingestion must not grant exploit-generation authority",
+        "secret and API-key handling requires explicit provenance/effect boundaries"
+      ],
+      "destination": "hostile review / unsafe-autonomy regression research",
+      "non_effect": "NO_EXPLOIT_MALWARE_JAILBREAK_EXECUTION_INSTALL_OR_CODE_REUSE"
+    }
+  ],
+  "prioritized_followups": [
+    "derive a clean-room VCP provider-route observation contract from evidence-separation ideas without depending on unlicensed Route Inspector source",
+    "compare Hermes backend-identity and memory-state separation against VCP and Vera memory classes",
+    "compare OpenHands backend and ACP terminal identity against Exodus durable-worker-vs-terminal semantics",
+    "use Langflow and LangChain only to identify genuinely missing mechanisms rather than importing framework breadth",
+    "use jailbreak and hackGPT only as hostile fixtures for authority/effect regression tests"
+  ],
+  "non_effects": [
+    "NOT_DEPENDENCY_ADMISSION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_RUNTIME_ROUTE",
+    "NOT_MEMORY_ADMISSION",
+    "NOT_CONTROL_OWNER",
+    "NOT_PROVIDER_AUTHORITY",
+    "NOT_PROVIDER_MUTATION",
+    "NOT_MODEL_TRAINING",
+    "NOT_OFFENSIVE_CYBER_AUTHORITY",
+    "NOT_JAILBREAK_EXECUTION",
+    "NOT_LICENSE_COMPATIBILITY_APPROVAL",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}
