@@ -1,0 +1,76 @@
+{
+  "schema": "VERA_HOSTILE_REVIEWER_BINDING_V1",
+  "status": "SOURCE_BOUND_FOCUSED_TESTED_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "frozen_at": "2026-09-19",
+  "runtime": {
+    "repository": "thebrazenbeard/vera",
+    "branch": "work/hostile-reviewer-runtime-v1-20260919",
+    "source_commit": "472895c14fdd8c9e40d99a23ea4896e7e6959988",
+    "runtime_module": {
+      "path": "runtime_cohesion/hostile_reviewer.py",
+      "blob": "fe63a265ed6f5da695f0f4d6dc197f3529c0b037"
+    },
+    "package_init": {
+      "path": "runtime_cohesion/__init__.py",
+      "blob": "0b3ee9632de3a0b846600a42a9812dfb2f34d657"
+    },
+    "focused_test": {
+      "path": "tests/test_runtime_cohesion_hostile_reviewer_feature.py",
+      "blob": "d830562cf959983996032dbbd4c38e73ef3a04f1"
+    }
+  },
+  "control_plane": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "branch": "work/hostile-reviewer-toggle-v1-20260919",
+    "source_commit": "bb403563464622e276305ccedc0ad6eb7ccc627e",
+    "control_contract": {
+      "path": "governance/VERA_HOSTILE_REVIEWER_CONTROL_V1.json",
+      "blob": "71fa08d2221744a139eb854af549ace2997b58b0"
+    },
+    "source_state": {
+      "path": "state/features/hostile-reviewer-v1.json",
+      "blob": "ec052f7629acd3bdbdfe579f17dbe40cc75a7280"
+    },
+    "toggle_tool": {
+      "path": "tools/hostile_reviewer_toggle.py",
+      "blob": "bb39caed65b809340c4b984694285a2cc7f193f8"
+    },
+    "behavior_patch": {
+      "path": "project-instructions/r10a0/hostile-reviewer/HOSTILE_REVIEWER_BEHAVIOR_PATCH_V1.md",
+      "blob": "2b726f07bb6220b7ff6ea9409062e3278309098a"
+    },
+    "focused_test": {
+      "path": "tests/test_hostile_reviewer_toggle_v1.py",
+      "blob": "595c0016583d077fd1169dddfca31af6febfe0af"
+    }
+  },
+  "focused_validation": {
+    "runtime": {
+      "result": "PASS",
+      "assertions": "8/8",
+      "method": "Exact fetched runtime module blob hash verified, then response-review behavior re-executed in isolated Python."
+    },
+    "control_plane": {
+      "result": "PASS",
+      "assertions": "6/6",
+      "method": "Exact fetched control/tool/state/patch blob hashes verified, then toggle/CAS/readback behavior re-executed in isolated Python."
+    }
+  },
+  "hosted_ci": {
+    "status": "BRANCH_WIDE_RED",
+    "interpretation": "Existing PR-triggered workflows are red and do not execute the focused Hostile Reviewer feature suites. This binding does not claim branch-wide CI green.",
+    "observed_runs": [
+      "thebrazenbeard/vera workflow runs 35474269320, 35474269330, 35474269317 = failure",
+      "thebrazenbeard/vera-control-plane workflow run 35474334258 = failure"
+    ]
+  },
+  "lifecycle": {
+    "source": "IMPLEMENTED_AND_EXACT_BOUND",
+    "install": "NOT_ESTABLISHED",
+    "current_route": "NOT_ESTABLISHED",
+    "runtime_consumption": "NOT_ESTABLISHED",
+    "behavioral_qualification": "NOT_ESTABLISHED",
+    "project_wide_mode": "OFF_SOURCE_DEFAULT_NOT_LIVE_ACTIVATION"
+  },
+  "authority_ceiling": "NO_MERGE_NO_INSTALL_NO_GLOBAL_ACTIVATION_NO_PROVIDER_EFFECT"
+}

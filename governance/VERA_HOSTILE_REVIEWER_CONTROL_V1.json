@@ -1,0 +1,56 @@
+{
+  "schema": "VERA_HOSTILE_REVIEWER_CONTROL_V1",
+  "status": "SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "feature_id": "vera.hostile_reviewer",
+  "owner": "VERA_CONTROL_PLANE",
+  "runtime_source": {
+    "repository": "thebrazenbeard/vera",
+    "branch": "work/hostile-reviewer-runtime-v1-20260919",
+    "head": "472895c14fdd8c9e40d99a23ea4896e7e6959988",
+    "runtime_module": "runtime_cohesion/hostile_reviewer.py",
+    "runtime_module_blob": "fe63a265ed6f5da695f0f4d6dc197f3529c0b037",
+    "architecture_contract": "architecture/VERA_HOSTILE_REVIEWER_RUNTIME_V1.json",
+    "architecture_contract_blob": "d8cc01a00bbbdf6d5ad5b50da3b17ea899420ed3",
+    "runtime_package_init": "runtime_cohesion/__init__.py",
+    "runtime_package_init_blob": "0b3ee9632de3a0b846600a42a9812dfb2f34d657",
+    "runtime_test": "tests/test_runtime_cohesion_hostile_reviewer_feature.py",
+    "runtime_test_blob": "d830562cf959983996032dbbd4c38e73ef3a04f1",
+    "pipeline_symbol": "runtime_cohesion.review_response"
+  },
+  "state_path": "state/features/hostile-reviewer-v1.json",
+  "allowed_modes": [
+    "OFF",
+    "ON"
+  ],
+  "default_mode": "OFF",
+  "durable_scope": "VERA_PROJECT_ALL_CHATS",
+  "effective_mode_resolution": [
+    "A current explicit Patrick instruction may set or override the mode within its stated scope.",
+    "A project-wide durable mode requires the installed runtime to read the current control-plane state object and establish readback/currentness.",
+    "Repository source presence alone does not establish all-chat activation.",
+    "Absent current mode evidence, fail to OFF rather than inventing activation."
+  ],
+  "behavior": {
+    "OFF": "No hostile-review second pass is required.",
+    "ON": "For substantive outputs, run the exact-answer-bound adversarial Countervoice pass and surface material objections as a HOSTILE REVIEWER blockquote."
+  },
+  "authority_ceiling": "RESPONSE_REVIEW_ONLY_NO_AUTHORITY_OR_EFFECT_PROMOTION",
+  "forbidden_promotions": [
+    "truth",
+    "task authority",
+    "tool effect",
+    "memory admission",
+    "identity",
+    "consent",
+    "preference",
+    "installation",
+    "runtime qualification"
+  ],
+  "mode_lifetime": "CONTROL_SETTING_NOT_PERSONALITY_STATE",
+  "mode_reversion_dependency": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "branch": "work/issue18-pragmatic-mode-reversion",
+    "head": "0e84a0fedc3ca4343a181a8a9b71af5f6e1da1a8",
+    "reason": "The hostile reviewer is a toggleable response-stage feature and must not become sticky personality residue."
+  }
+}

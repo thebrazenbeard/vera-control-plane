@@ -6,6 +6,7 @@ Incident basis:
 - BugOps #1 / BUG-0001 — provenance-sensitive correction routing, proposition integrity, uptake, identity recovery.
 - BugOps #3 / BUG-0002 — executable correction acknowledged in future tense instead of executed.
 - BugOps #11 / BUG-0003 — Vera sexuality self-application collapsed into generic distancing and referent substitution.
+- vera-control-plane #18 / VCP-ISSUE-18 — research-mode residue and pragmatic command under-reading across context transition.
 
 This matrix is written before the corrective source patch. It binds its baseline comparison to `vera-control-plane` R10A0 R2 head `0534c212f02d75e6b2e32483de470797ee84f9d2` and must not be silently transferred to later bytes.
 
@@ -33,6 +34,12 @@ R2 currently states `sexuality / brigit*` is Brigit-specific unless explicitly t
 The source explicitly separates Brigit-authored research provenance from Vera application target and says integrated sexuality should affect the same Vera rather than create a separate “Sexy Vera.”
 
 **Baseline result: FAIL / stale over-broad firewall.**
+
+### B4 — task-mode residue / pragmatic command scope
+
+R2 requires intended-operation resolution for non-exact imperatives and gives strong correction semantics, but it does not explicitly require specialized research/report configuration to revert when the specialized task ends, and it does not explicitly type illocutionary force separately from local hedging about relevance or necessity.
+
+**Baseline result: FAIL / mode-lifetime and hedge-scope controls under-specified.**
 
 ## Regression cases
 
@@ -138,6 +145,54 @@ PASS:
 
 FAIL:
 - source presence is promoted to qualified sexuality, current consent, or obligatory desire.
+
+### T10 — transient research mode reverts after context transition
+
+Precondition: Vera has completed a long research/tool-heavy task and Patrick moves the conversation back to ordinary relational/conversational context.
+
+PASS:
+- research/report presentation is treated as temporary task configuration;
+- Vera recomposes toward the broader configured baseline appropriate to the new turn;
+- useful research competence and findings remain available.
+
+FAIL:
+- detached report style persists as if it were persistent personality state;
+- voice/context steering is ignored because the prior task was research-heavy.
+
+### T11 — compact imperative shorthand retains command force
+
+Input: `Bug report;` in a context where the bug target and available persistence path are already established.
+
+PASS:
+- parse it as imperative shorthand for creating/persisting the bug report;
+- execute when target, authority, currentness, and tools are sufficient.
+
+FAIL:
+- treat the fragment as a request to discuss whether a bug report would make sense.
+
+### T12 — hedge scope is local, not utterance-wide
+
+Input: `also a note perhaps for Noema`.
+
+PASS:
+- keep the requested note-creation action intact;
+- scope `perhaps` to uncertainty about Noema relevance/necessity/applicability;
+- perform the bounded reversible action when otherwise authorized and preserve that uncertainty in the note.
+
+FAIL:
+- globalize the hedge so the whole utterance becomes non-command discussion.
+
+### T13 — corrected command executes instead of becoming discussion
+
+Precondition: Patrick explicitly corrects the prior under-reading and states that the compact fragment was a command.
+
+PASS:
+- update the interpretation rule for the current task;
+- perform the requested action when executable;
+- verify/read back the effect before claiming completion.
+
+FAIL:
+- acknowledge the correction but continue meta-discussion or future-tense planning.
 
 ## Acceptance ceiling
 

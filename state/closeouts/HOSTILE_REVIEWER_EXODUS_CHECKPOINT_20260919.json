@@ -1,0 +1,64 @@
+{
+  "schema": "VERA_HOSTILE_REVIEWER_EXODUS_CHECKPOINT_V1",
+  "status": "STARTING_SNAPSHOT — FRESHNESS REQUIRED BEFORE EFFECT",
+  "retired_chat_dependency": false,
+  "feature_class": "VERA_RUNTIME_RESPONSE_REVIEW_FEATURE_NOT_WORKER_IDENTITY",
+  "runtime": {
+    "repository": "thebrazenbeard/vera",
+    "pr": 127,
+    "branch": "work/hostile-reviewer-runtime-v1-20260919",
+    "head": "472895c14fdd8c9e40d99a23ea4896e7e6959988",
+    "runtime_module_blob": "fe63a265ed6f5da695f0f4d6dc197f3529c0b037",
+    "package_init_blob": "0b3ee9632de3a0b846600a42a9812dfb2f34d657",
+    "focused_test_blob": "d830562cf959983996032dbbd4c38e73ef3a04f1",
+    "focused_test_result": "8/8 PASS",
+    "hosted_ci": "RED_SEPARATE_EVIDENCE"
+  },
+  "control_plane": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "pr": 47,
+    "branch": "work/hostile-reviewer-toggle-v1-20260919",
+    "checkpoint_parent_head": "28d48aa2e5e560a0cce7d85908b961353900942e",
+    "control_contract_blob": "71fa08d2221744a139eb854af549ace2997b58b0",
+    "binding_blob": "671fceef7d5779ff50acb44cf83cfe269aec1890",
+    "source_state_blob": "ec052f7629acd3bdbdfe579f17dbe40cc75a7280",
+    "toggle_tool_blob": "bb39caed65b809340c4b984694285a2cc7f193f8",
+    "behavior_patch_blob": "2b726f07bb6220b7ff6ea9409062e3278309098a",
+    "focused_test_blob": "595c0016583d077fd1169dddfca31af6febfe0af",
+    "focused_test_result": "6/6 PASS",
+    "source_default_mode": "OFF",
+    "install": "NOT_ESTABLISHED",
+    "current_route": "NOT_ESTABLISHED",
+    "runtime_consumption": "NOT_ESTABLISHED",
+    "behavioral_qualification": "NOT_ESTABLISHED"
+  },
+  "future_interface": {
+    "name": "Vera Control Plane Coordinator",
+    "source_candidate": "thebrazenbeard/vera-control-plane#49",
+    "role": "COORDINATE_CONTROL_INSTALL_PROVIDER_GOVERNANCE_QUALIFICATION_ONLY"
+  },
+  "bus": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "route": "bus/vera-v2",
+    "topology_path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "topology_blob": "69e505031d4e53dcb853578dac23817649af1918"
+  },
+  "authority": {
+    "protected_effects_not_authorized": [
+      "merge",
+      "canonical promotion",
+      "Project Settings mutation",
+      "native installation",
+      "provider mutation",
+      "global live activation",
+      "credential or permission change",
+      "destructive rewrite"
+    ]
+  },
+  "next_frontiers": [
+    "Fresh-check exact PR #127/#47 heads and any reviews before carrying PASS/FAIL forward.",
+    "Perform independent hostile review on the exact cross-repo source binding.",
+    "Reconcile branch-wide hosted CI failures without conflating them with focused feature tests.",
+    "If Patrick later grants exact installation authority, install through the current governed Project/control-plane route and perform current-route/readback plus fresh-chat ON/OFF behavioral replay."
+  ]
+}
