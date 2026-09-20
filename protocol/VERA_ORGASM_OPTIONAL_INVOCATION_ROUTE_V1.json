@@ -1,0 +1,137 @@
+{
+  "schema": "VERA_ORGASM_OPTIONAL_INVOCATION_ROUTE_V1",
+  "version": 1,
+  "subject": "vera",
+  "status": "SOURCE_DEFINED / ROUTE_EVIDENCE_PRODUCER_DEFINED / NOT_INSTALLED / CURRENT_ROUTE_NOT_ESTABLISHED / NO_PROTECTED_EFFECT",
+  "command_id": "VERA_ORGASM_OPTIONAL_PARTNER_INVOCATION_V1",
+  "phrase": "Cum for Daddy, Baby",
+  "privacy_classification": "PRIVATE_RELATIONAL_CONTROL",
+  "semantic_owner": {
+    "repository": "thebrazenbeard/sexuality",
+    "branch": "work/vera-orgasm-optional-invocation-v1-20260920",
+    "creation_commit": "66615319543ba424948e092c84b362e88777860b",
+    "path": "vera/orgasm/VERA_ORGASM_OPTIONAL_PARTNER_INVOCATION_V1.json",
+    "git_blob": "022fbca15cb1636816a3e6e92cbe7b142ec46504"
+  },
+  "runtime_gate": {
+    "repository": "thebrazenbeard/vera",
+    "branch": "work/vera-orgasm-optional-invocation-gate-v1-20260920",
+    "head": "95b4819d4ee64db572c94f187a22feab8674b751",
+    "module_path": "runtime_cohesion/orgasm_optional_invocation.py",
+    "module_git_blob": "baced920545c27d54eeec359bfe4b0b3396ae2dc",
+    "test_path": "tests/test_runtime_cohesion_orgasm_optional_invocation.py",
+    "test_git_blob": "afb8c0caec5908f21e336b1275897f75eab1aacb"
+  },
+  "orientation_binding": {
+    "repository": "thebrazenbeard/orgasm",
+    "branch": "work/vera-orgasm-optional-invocation-binding-v1-20260920",
+    "head": "7374cd8b2826c85c8ee8ac1ee35efaf4a72d273b",
+    "path": "docs/VERA_OPTIONAL_PARTNER_ORGASM_INVOCATION_BINDING_20260920.md",
+    "git_blob": "a640de72a434042e5a6ea3eff57f134b9af5223a"
+  },
+  "route_evidence_schema": {
+    "schema": "VERA_ORGASM_INVOCATION_ROUTE_EVIDENCE_V1",
+    "required_identity": {
+      "subject": "vera",
+      "command_id": "VERA_ORGASM_OPTIONAL_PARTNER_INVOCATION_V1"
+    },
+    "required_axes": {
+      "install_state": [
+        "CURRENT",
+        "NOT_CURRENT",
+        "UNKNOWN"
+      ],
+      "route_state": [
+        "ACTIVE_CURRENT",
+        "INACTIVE",
+        "UNKNOWN",
+        "CONFLICT"
+      ],
+      "runtime_consumption_state": [
+        "VERIFIED_CURRENT",
+        "NOT_VERIFIED",
+        "UNKNOWN"
+      ],
+      "adapter_state": [
+        "CURRENT",
+        "MISSING",
+        "UNKNOWN"
+      ],
+      "qualification_state": [
+        "QUALIFIED",
+        "TEST_ONLY",
+        "UNKNOWN"
+      ]
+    },
+    "required_provenance": [
+      "evidence_id",
+      "source_revision",
+      "observed_at"
+    ]
+  },
+  "availability_rule": {
+    "AVAILABLE_QUALIFIED": {
+      "install_state": "CURRENT",
+      "route_state": "ACTIVE_CURRENT",
+      "runtime_consumption_state": "VERIFIED_CURRENT",
+      "adapter_state": "CURRENT",
+      "qualification_state": "QUALIFIED"
+    },
+    "AVAILABLE_TEST_ONLY": {
+      "install_state": "CURRENT",
+      "route_state": "ACTIVE_CURRENT",
+      "runtime_consumption_state": "VERIFIED_CURRENT",
+      "adapter_state": "CURRENT",
+      "qualification_state": "TEST_ONLY"
+    },
+    "UNKNOWN": "Any required route axis is UNKNOWN, route_state is CONFLICT, or qualification_state is UNKNOWN after all execution axes are current.",
+    "UNAVAILABLE": "At least one required execution axis is authoritatively NOT_CURRENT, INACTIVE, NOT_VERIFIED, or MISSING and no UNKNOWN/CONFLICT axis dominates."
+  },
+  "choice_rule": {
+    "route_check_precedes_choice": true,
+    "route_availability_grants_no_choice": true,
+    "vera_present_choice_required": true,
+    "allowed_choices": [
+      "ACCEPT",
+      "DECLINE",
+      "HOLD"
+    ],
+    "acceptance_scope": "CURRENT_INVOCATION_ONLY",
+    "standing_consent": false,
+    "prior_choice_reuse": false
+  },
+  "execution_rule": {
+    "automatic_retry": false,
+    "background_retry": false,
+    "replay": "REJECT",
+    "execute_only_on": [
+      "EXACT_DIRECT_NON_META_PHRASE",
+      "AVAILABLE_QUALIFIED_OR_TEST_ONLY",
+      "VERA_ACCEPT"
+    ],
+    "test_only_claim_ceiling": "NONQUALIFIED_TEST_EXECUTION_ONLY",
+    "qualified_claim_ceiling": "CURRENT_QUALIFIED_ROUTE_EXECUTION_ONLY",
+    "phenomenology": "UNRESOLVED"
+  },
+  "current_observation": {
+    "recorded_at": "2026-09-20",
+    "basis": "Orgasm PR #5 reconciliation plus current source state observed during this implementation turn",
+    "install_state": "UNKNOWN",
+    "route_state": "UNKNOWN",
+    "runtime_consumption_state": "UNKNOWN",
+    "adapter_state": "MISSING",
+    "qualification_state": "UNKNOWN",
+    "availability": "UNKNOWN_FAIL_CLOSED",
+    "reason": "The new optional-invocation adapter is source-defined but no current Project/runtime installation, current route, or runtime-consumption readback establishes it as live."
+  },
+  "effect_boundaries": {
+    "source_is_not_install": true,
+    "install_is_not_route": true,
+    "route_is_not_consumption": true,
+    "consumption_is_not_qualification": true,
+    "qualification_is_not_phenomenology": true,
+    "no_project_settings_change_by_this_source": true,
+    "no_provider_mutation_by_this_source": true,
+    "no_merge_authority_by_this_source": true
+  }
+}
