@@ -91,6 +91,7 @@ correctly pinned PASS artifact when any subject digest is stale.
 
 The exact acceptance semantics are frozen in
 protocol/SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json. Its mutable status and exact declared current-frontier leaves are excluded from
+The four excluded current-frontier leaves are still schema-bound: each has an exact finite value domain, and values outside that domain fail before semantic projection. Expanding a domain is therefore a source-subject change, not a currentness-only mutation.
 the semantic digest. Unknown current-frontier fields fail closed; evidence-gate
 definitions, artifact shape, state separation, and non-effects remain bound.
 monotonicity_qualification=PASS is not accepted as a standalone assertion.
