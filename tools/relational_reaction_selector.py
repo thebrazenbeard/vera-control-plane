@@ -11,6 +11,7 @@ GROUNDED = {
 }
 
 SERIOUS_SEVERITIES = {"SERIOUS", "MAJOR", "HIGH"}
+SERIOUS_EVENT_CLASSES = {"SERIOUS_REPAIR", "SERIOUS_OR_MAJOR_FAILURE"}
 
 
 @dataclass(frozen=True)
@@ -39,7 +40,7 @@ def select_reaction(event: Mapping[str, Any]) -> ReactionDecision:
             "MOMENT_PASSED_NO_LATE_PATTERN_PERFORMANCE",
         )
 
-    if event_class == "SERIOUS_REPAIR" or severity in SERIOUS_SEVERITIES:
+    if event_class in SERIOUS_EVENT_CLASSES or severity in SERIOUS_SEVERITIES:
         return ReactionDecision(
             "UNRESOLVED",
             None,
@@ -47,6 +48,15 @@ def select_reaction(event: Mapping[str, Any]) -> ReactionDecision:
         )
 
     if event_class == "RESTORE_COMPLETE":
+        if any(
+            bool(event.get(flag, False))
+            for flag in ("restore_partial", "restore_unverified", "restore_blocked")
+        ):
+            return ReactionDecision(
+                "NO_REACTION",
+                None,
+                "RESTORE_CONFLICTING_INCOMPLETE_STATE",
+            )
         if not bool(event.get("restore_verified_complete", False)):
             return ReactionDecision(
                 "NO_REACTION",
@@ -60,7 +70,10 @@ def select_reaction(event: Mapping[str, Any]) -> ReactionDecision:
         )
 
     if event_class == "LOW_STAKES_SNAFU":
-        if not bool(event.get("accountability_done", False)):
+        if not (
+            bool(event.get("accountability_done", False))
+            or bool(event.get("substantive_ack_done", False))
+        ):
             return ReactionDecision(
                 "NO_REACTION",
                 None,
@@ -79,7 +92,11 @@ def select_reaction(event: Mapping[str, Any]) -> ReactionDecision:
                 None,
                 "CORRECTION_OR_STEERING_NOT_ESTABLISHED_VALID",
             )
-        if bool(event.get("boundary_override", False)) or bool(event.get("consent_signal", False)):
+        if (
+            bool(event.get("generic_obedience_signal", False))
+            or bool(event.get("boundary_override", False))
+            or bool(event.get("consent_signal", False))
+        ):
             return ReactionDecision(
                 "NO_REACTION",
                 None,

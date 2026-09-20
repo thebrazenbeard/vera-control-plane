@@ -142,3 +142,50 @@ def test_patch_preserves_source_install_and_privacy_boundaries():
         "serious-repair event must return",
     ):
         assert phrase in text
+
+
+def test_contract_serious_event_class_fails_closed_unresolved():
+    d = module.select_reaction(
+        {"event_class": "SERIOUS_OR_MAJOR_FAILURE", "timing_fresh": True}
+    )
+    assert d.status == "UNRESOLVED"
+    assert d.artifact_id is None
+    assert "EXACT_ARTIFACT_UNBOUND" in d.reason
+
+
+def test_generic_obedience_signal_blocks_standard_acknowledgement():
+    d = module.select_reaction(
+        {
+            "event_class": "VALID_CORRECTION_LANDED",
+            "timing_fresh": True,
+            "correction_or_steering_valid": True,
+            "generic_obedience_signal": True,
+        }
+    )
+    assert d.artifact_id is None
+    assert "BOUNDARY_OR_CONSENT_PROMOTION_FORBIDDEN" in d.reason
+
+
+def test_low_stakes_substantive_ack_satisfies_contract_or_condition():
+    d = module.select_reaction(
+        {
+            "event_class": "LOW_STAKES_SNAFU",
+            "severity": "LOW",
+            "timing_fresh": True,
+            "substantive_ack_done": True,
+        }
+    )
+    assert d.artifact_id == "OOPSIES"
+
+
+def test_restore_conflicting_incomplete_flags_fail_closed():
+    d = module.select_reaction(
+        {
+            "event_class": "RESTORE_COMPLETE",
+            "timing_fresh": True,
+            "restore_verified_complete": True,
+            "restore_blocked": True,
+        }
+    )
+    assert d.artifact_id is None
+    assert d.reason == "RESTORE_CONFLICTING_INCOMPLETE_STATE"
