@@ -405,6 +405,35 @@ def test_qualification_subject_ignores_only_declared_currentness_fields(
     assert moved == baseline
 
 
+def test_qualification_subject_detects_fixed_evidence_and_authority_changes(monkeypatch):
+    baseline = implementation_subject_sha256s()
+    original_read_text = Path.read_text
+
+    def hostile_change_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json":
+            value = json.loads(text)
+            value["claim_ceiling"]["causal_data_collection"] = "AUTHORIZED"
+            value["read_only_hash_vector"]["expected_request_digest"] = "0" * 64
+            return json.dumps(value)
+        if self.name == "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json":
+            value = json.loads(text)
+            value["claim_ceiling"]["causal_data_collection"] = "AUTHORIZED"
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", hostile_change_read_text)
+    moved = implementation_subject_sha256s()
+    assert (
+        moved["witness_binding_contract_sha256"]
+        != baseline["witness_binding_contract_sha256"]
+    )
+    assert (
+        moved["controller_binding_contract_sha256"]
+        != baseline["controller_binding_contract_sha256"]
+    )
+
+
 def test_qualification_subject_detects_contract_semantic_change(monkeypatch):
     baseline = implementation_subject_sha256s()
     original_read_text = Path.read_text
