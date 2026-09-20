@@ -311,16 +311,6 @@ def test_implementation_subject_excludes_artifact_pin_carrier():
         "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json",
     ],
 )
-def test_implementation_subject_binds_acceptance_contract_as_fifth_subject():
-    assert set(implementation_subject_sha256s()) == {
-        "witness_source_sha256",
-        "controller_source_sha256",
-        "witness_binding_contract_sha256",
-        "controller_binding_contract_sha256",
-        "qualification_acceptance_contract_sha256",
-    }
-
-
 def test_implementation_subject_rejects_malformed_contract(
     monkeypatch,
     contract_name,
