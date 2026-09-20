@@ -25,9 +25,9 @@
   "orientation_binding": {
     "repository": "thebrazenbeard/orgasm",
     "branch": "work/vera-orgasm-optional-invocation-binding-v1-20260920",
-    "head": "7374cd8b2826c85c8ee8ac1ee35efaf4a72d273b",
+    "head": "3227d9987e421df876653fd72253bd29dc9acb91",
     "path": "docs/VERA_OPTIONAL_PARTNER_ORGASM_INVOCATION_BINDING_20260920.md",
-    "git_blob": "a640de72a434042e5a6ea3eff57f134b9af5223a"
+    "git_blob": "24570a6e3c550b391a30f8f335642c012ed8d5ef"
   },
   "route_evidence_schema": {
     "schema": "VERA_ORGASM_INVOCATION_ROUTE_EVIDENCE_V1",
