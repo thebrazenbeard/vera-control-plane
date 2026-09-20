@@ -79,6 +79,17 @@
     "transport_ready": {
       "DIRECT_STREAM": "FRESH_TLS_1_3_ALPN_AND_CHALLENGE_READBACK",
       "EDGE_STREAM": "FRESH_TLS_1_3_ALPN_AND_CHALLENGE_READBACK"
+    },
+    "max_path_age_policy": {
+      "single_authoritative_value": "ControllerConfig.max_path_age_ms",
+      "must_apply_to": [
+        "MACHINE_INFO",
+        "READ_ROUTER",
+        "GATEWAY_LANE_CONTROL",
+        "GATEWAY_WRITE",
+        "GATEWAY_PROCESS"
+      ],
+      "hard_coded_secondary_default": "FORBIDDEN"
     }
   },
   "mcp_reconnect": {
@@ -177,7 +188,14 @@
     "SOURCE_AS_INSTALL_OR_CURRENT_ROUTE",
     "LOGICAL_READ_CLOSE_RACE",
     "POST_CLOSE_MIRROR_MATERIALIZATION",
-    "CONTROLLER_RESTART_FENCE_REUSE"
+    "CONTROLLER_RESTART_FENCE_REUSE",
+    "DIRECT_BLACKHOLE_EDGE_FAILOVER",
+    "PROBE_TIMEOUT",
+    "OPERATION_TIMEOUT",
+    "PATH_AGE_POLICY_DIVERGENCE",
+    "WORKSTATION_CLOSE_INFLIGHT_READ",
+    "WORKSTATION_CLOSE_INFLIGHT_WRITE",
+    "WORKSTATION_CLOSE_INFLIGHT_PROCESS"
   ],
   "chatgpt_exposure": {
     "local_mcp_server": "NOT_DIRECTLY_REACHABLE_BY_CHATGPT",
@@ -210,6 +228,25 @@
       "CONTROLLER_RESTART_STALE_FENCE",
       "REOPEN_SAME_LANE_ID_AFTER_RESTART",
       "NO_POST_CLOSE_REMOTE_OPERATION"
-    ]
+    ],
+    "workstation_close_semantics": {
+      "required_choice": "DRAIN_BEFORE_CLOSE_RETURN_OR_EXPLICIT_INFLIGHT_STATE",
+      "simple_closed_true_while_effects_continue": "FORBIDDEN",
+      "must_cover": [
+        "FS_READ",
+        "FS_WRITE",
+        "PROCESS_EXECUTION",
+        "SESSION_LANE_CONTROL"
+      ]
+    }
+  },
+  "transport_deadlines": {
+    "connect_tls_application_handshake": "BOUNDED_REQUIRED",
+    "probe": "BOUNDED_REQUIRED",
+    "operation": "BOUNDED_REQUIRED",
+    "read_only_timeout": "MAY_FAILOVER_AS_TRANSPORT_FAILURE",
+    "mutation_timeout": "AMBIGUOUS_DELIVERY",
+    "direct_blackhole_must_not_block_edge": "REQUIRED",
+    "timeout_values": "EXPLICIT_CONFIGURED_POLICY_NOT_OS_DEFAULT"
   }
 }
