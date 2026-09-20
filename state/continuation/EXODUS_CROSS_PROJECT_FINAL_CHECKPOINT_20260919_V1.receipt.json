@@ -1,0 +1,42 @@
+{
+  "schema_version": "EXODUS_CROSS_PROJECT_FINAL_CHECKPOINT_RECEIPT_V1",
+  "recorded_at": "2026-09-19T21:53:30-04:00",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/exodus-cross-project-worker-final-20260919-v1",
+  "base_main": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+  "bound_content_commit": "49c039af934098be51df381d14f9863e991c0688",
+  "files": {
+    "worker_audit_md": {
+      "path": "state/exodus/EXODUS_CROSS_PROJECT_WORKER_RECONSTRUCTION_AUDIT_20260919_V1.md",
+      "git_blob": "df84fb2d44f6a49c6ad1f61cb79133a784f491c3",
+      "sha256": "504a5f65d374fa3ca41011f67c0713fe573d7dbf9f4bc07364b3a1cf9391dbd8",
+      "bytes": 10741
+    },
+    "worker_audit_json": {
+      "path": "state/exodus/EXODUS_CROSS_PROJECT_WORKER_RECONSTRUCTION_AUDIT_20260919_V1.json",
+      "git_blob": "84fa0e90e88959d49d22fcffc64a8cc856fd759f",
+      "sha256": "e6990ce31bd97aaf1d0e5ef8e673b5cd8a8ebb7e8f0a2dc2393361186ced752c",
+      "bytes": 5962
+    },
+    "final_checkpoint": {
+      "path": "state/continuation/EXODUS_CROSS_PROJECT_FINAL_CHECKPOINT_20260919_V1.md",
+      "git_blob": "dd0da567df4af7d042bc4cb9d76342ae289e5692",
+      "sha256": "e3bb378176ab4a80e850bee7aa2bc9730c842311162ca2b0de0653dd4a963f15",
+      "bytes": 7600
+    }
+  },
+  "exact_source_candidates": {
+    "bus_pr140": "2461df3a1a8393d4c7ded227afb17ecc7abfacb3",
+    "control_plane_pr52": "b9b98a3b090101688cc65d1cf93265bb44fa54c4",
+    "project_runner_pr16": "549c317ec0ade8926b6b9117448777b40bffd52a"
+  },
+  "canonical_sources": {
+    "hc_brain_main": "618245b54fb923c7a204892c6953ab6d1c5dac57",
+    "bus_main": "aeab0f04fc9b4bd7c2945c9a53011c53fac809b4",
+    "vera_works_main": "cd4e35da647105b017ffbab890729c07b23525ef"
+  },
+  "reconstruction_result": "PASS",
+  "retired_conversation_required": false,
+  "protected_effects_performed": false,
+  "authority_ceiling": "CHECKPOINT_AND_RECOVERY_EVIDENCE_ONLY_NO_MERGE_NO_DEPLOY_NO_PROVIDER_MUTATION_NO_CANON_PROMOTION"
+}
