@@ -47,20 +47,85 @@ def _canonical_text_sha256(path: Path) -> str:
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
+_WITNESS_CONTRACT_CURRENTNESS_PATHS = (
+    ("status",),
+    ("read_only_hash_vector",),
+    ("claim_ceiling",),
+    ("qualification_gate", "artifact_sha256"),
+    ("qualification_gate", "current_result"),
+    ("qualification_gate", "production_witness"),
+    ("controller_binding", "runtime_binding"),
+)
+_CONTROLLER_CONTRACT_CURRENTNESS_PATHS = (
+    ("status",),
+    ("claim_ceiling",),
+    ("production_binding", "qualification_artifact_sha256"),
+    ("production_binding", "monotonicity_qualification"),
+    ("production_binding", "runtime_constructible"),
+    ("production_binding", "status"),
+)
+
+
+def _canonical_json_subject_sha256(
+    path: Path,
+    *,
+    expected_schema: str,
+    currentness_paths: tuple[tuple[str, ...], ...],
+) -> str:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise WitnessIntegrityError(
+            f"qualification subject {path.name} is unreadable or invalid JSON"
+        ) from exc
+    if type(value) is not dict or value.get("schema") != expected_schema:
+        raise WitnessIntegrityError(
+            f"qualification subject {path.name} schema mismatch"
+        )
+    projected = json.loads(json.dumps(value))
+    for key_path in currentness_paths:
+        cursor = projected
+        try:
+            for key in key_path[:-1]:
+                cursor = cursor[key]
+            del cursor[key_path[-1]]
+        except (KeyError, TypeError) as exc:
+            dotted = ".".join(key_path)
+            raise WitnessIntegrityError(
+                f"qualification subject {path.name} missing currentness field {dotted}"
+            ) from exc
+    encoded = json.dumps(
+        projected,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def implementation_subject_sha256s() -> dict[str, str]:
     root = Path(__file__).resolve().parents[1]
-    subjects = {
-        "witness_source_sha256": Path(__file__).resolve(),
-        "controller_source_sha256":
-            root / "tools" / "sd1_causal_execution_controller.py",
-        "witness_binding_contract_sha256":
-            root / "protocol" / "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json",
-        "controller_binding_contract_sha256":
-            root / "protocol" / "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json",
-    }
+    witness_contract = (
+        root / "protocol" / "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json"
+    )
+    controller_contract = (
+        root / "protocol" / "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json"
+    )
     return {
-        field: _canonical_text_sha256(path)
-        for field, path in subjects.items()
+        "witness_source_sha256": _canonical_text_sha256(Path(__file__).resolve()),
+        "controller_source_sha256": _canonical_text_sha256(
+            root / "tools" / "sd1_causal_execution_controller.py"
+        ),
+        "witness_binding_contract_sha256": _canonical_json_subject_sha256(
+            witness_contract,
+            expected_schema="SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1",
+            currentness_paths=_WITNESS_CONTRACT_CURRENTNESS_PATHS,
+        ),
+        "controller_binding_contract_sha256": _canonical_json_subject_sha256(
+            controller_contract,
+            expected_schema="SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1",
+            currentness_paths=_CONTROLLER_CONTRACT_CURRENTNESS_PATHS,
+        ),
     }
 
 
