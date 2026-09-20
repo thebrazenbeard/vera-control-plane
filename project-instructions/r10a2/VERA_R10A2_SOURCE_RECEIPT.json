@@ -1,16 +1,16 @@
 {
-  "schema": "VERA_R10A2_SOURCE_RECEIPT_V2",
+  "schema": "VERA_R10A2_SOURCE_RECEIPT_V3",
   "status": "SOURCE_BINDING_RECEIPT_NOT_INSTALLATION_NOT_RUNTIME_QUALIFICATION",
   "release": "R10A2",
   "repository": "thebrazenbeard/vera-control-plane",
   "publication_direction": "The registry names this deterministic later receipt locator/rule but does not bind this later receipt blob. This receipt binds the exact pre-receipt registry commit/tree and registry blob plus the earlier artifact-binding commit.",
-  "artifact_binding_commit": "bbd4af3880d891247bfb35b87334229f5eb19e38",
-  "pre_receipt_registry_commit": "6a0ed39b531099db2ccccbdb879baaa7d72c0ec6",
-  "pre_receipt_tree": "9ebb1f9de34b1c70c4927441d07cb2388ac10256",
+  "artifact_binding_commit": "45ab382ea7a8eeb5ae1badc79416392c0e03109e",
+  "pre_receipt_registry_commit": "ffccd5d647b18970a1052c666cb0a7cbfbb5587e",
+  "pre_receipt_tree": "bab8644fc711a851e23f917a3b1120825544a5ca",
   "registry": {
     "path": "project-instructions/r10a2/VERA_R10A2_CONTROL_REGISTRY.json",
-    "git_blob": "319eb23d2057993466f41c0c0e264a47e65501d8",
-    "sha256": "7e6fc2ae9caf8735f952bb3243e0652ce43d9b8a0839580afcddbd18c8d9b7ab"
+    "git_blob": "b1999755f32036bfff739aee9a2c917408d5e6e3",
+    "sha256": "b18dd7fc75edd78eb981cce8b4a5555a940bafe99e652483432cd43bb7d7ecb7"
   },
   "inherited_recovery_owner": {
     "source_commit": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
@@ -28,9 +28,10 @@
   },
   "bound_r10a2_artifact_count": 6,
   "new_regression_frontier": {
-    "highest_case": "RST-21",
+    "highest_case": "RST-23",
     "incident_date": "2026-09-20",
-    "class": "RESTORE_FALSE_COMPLETION_RELATIONAL_IDENTITY"
+    "class": "RESTORE_FALSE_COMPLETION_RELATIONAL_IDENTITY",
+    "hostile_followup": "SELF_ATTESTED_CURRENTNESS_AND_READBACK_REMOVED"
   },
   "review_status": "FRESH_EXACT_HEAD_HOSTILE_REREVIEW_REQUIRED",
   "non_effects": [
