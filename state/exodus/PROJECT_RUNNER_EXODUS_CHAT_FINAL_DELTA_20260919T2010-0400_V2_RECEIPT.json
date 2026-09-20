@@ -1,0 +1,69 @@
+{
+  "schema": "PROJECT_RUNNER_EXODUS_CHAT_FINAL_DELTA_RECEIPT_V2",
+  "status": "VERIFIED_READBACK_CHAT_SPECIFIC_SAFE_TO_ARCHIVE_GLOBAL_EXODUS_STILL_SEPARATELY_GATED",
+  "captured_at": "2026-09-19T20:10:00-04:00",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/exodus-project-runner-chat-retirement-20260919-v2",
+  "checkpoint": {
+    "path": "state/exodus/PROJECT_RUNNER_EXODUS_CHAT_FINAL_DELTA_20260919T2010-0400_V2.md",
+    "commit": "878b2b7a5052dcad8fed0f37efca1eb43c620290",
+    "git_blob": "6652089ad414fbcb1406aee4259e1475b0ddc4e4",
+    "verification": "EXACT_GITHUB_READBACK",
+    "required_marker_present": true,
+    "starting_snapshot_present": true,
+    "reconstruction_test_pass": true,
+    "replacement_chat_required": false
+  },
+  "predecessor_retirement": {
+    "branch": "state/project-runner-exodus-reconstruction-20260919-v1",
+    "observed_head": "09b31b5b76084a686d3936724c6ffdb5f6a71f57",
+    "checkpoint_git_blob": "356fe3546875cb6225a21d27df3cce0274d42b6e",
+    "receipt_git_blob": "ac3baf47abfa9ee237f78c2e9598cb482a4f3030",
+    "postscript_git_blob": "bf09212d27d70f1105fda9f1f4509dea2be7dbdf",
+    "postscript_receipt_git_blob": "80379b8f2c5d4b576029ed8fafe2d0e76e5139bc"
+  },
+  "fresh_subjects": {
+    "project_runner_pr20": {
+      "head": "a3dc0e0ff42c08327f421e1102d674c3d6a2e951",
+      "workflow": 35476615092,
+      "review": 5258459129,
+      "disposition": "BOUNDED_DECHATIFICATION_SOURCE_PASS"
+    },
+    "project_runner_pr21": {
+      "head": "e53dd3907af6686cbbe0937ba726803fe3640d23",
+      "workflow": 35476848963,
+      "review": 5258459311,
+      "disposition": "COMPLEMENTARY_CHATLESS_DISCOVERY_SOURCE_PASS"
+    },
+    "bus_pr135": {
+      "head": "5268b8675a6ba3e142a5f8cb749f13dcc839a5e7",
+      "disposition": "CENSUS_GATED_GLOBAL_EXODUS_SUBJECT_GLOBAL_CUTOVER_BLOCKED_AT_PRIOR_VERIFIED_CUT"
+    },
+    "bus_pr137": {
+      "head": "cb22ffec36fc45c86fb960b7814287a742a4ced8",
+      "workflow": 35477989497,
+      "jobs": [
+        105990483552,
+        105990483614
+      ],
+      "disposition": "SOURCE_SIBLING_HOSTED_PRE_STEP_UNRESOLVED_NOT_GLOBAL_SUCCESSOR_BY_RECENCY"
+    },
+    "bus_vera_v2": "f1a1caf218406f467e99ebb09e50153ae411af1f"
+  },
+  "current_topology_owner": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+    "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_route": "bus/vera-v2"
+  },
+  "primary_next_interface": "BT2 Coordinator",
+  "next_directive": "BT2::EXODUS_CONTINUE::FRESH_CHECK_PROJECT_RUNNER_PR20_PR21_BUS_PR135_PR137_AND_CURRENT_ENGINEERING_PORTFOLIO; COMPOSE_ONLY_WHERE_EXACT_SUBJECTS_AND_AUTHORITY_PERMIT; PERSIST_TO_SOURCE_REPOS_AND_BUS; ROUTE_PROVIDER_CONTROL_PLANE_EFFECTS_TO_VERA_CONTROL_PLANE_COORDINATOR; STOP_BEFORE_PROTECTED_EFFECTS",
+  "protected_effects_performed": [],
+  "privacy": {
+    "raw_transcript_exported": false,
+    "private_personal_payload_exported": false,
+    "operational_state_only": true
+  },
+  "sha256_claim": "NONE_GIT_BLOB_NOT_RELABELLED_AS_SHA256"
+}
