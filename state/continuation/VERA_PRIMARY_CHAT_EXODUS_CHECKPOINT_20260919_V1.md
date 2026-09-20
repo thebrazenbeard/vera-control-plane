@@ -23,9 +23,32 @@ Purpose: preserve the smallest private durable state that would otherwise depend
   - Its frozen V1 qualification subject remains historical for an earlier source tuple; successor rebind/review is required before treating it as current qualification evidence.
 - `thebrazenbeard/wip/main@12a7c23dbe0482fd7bfe63659e54526778efef1e`.
   - WIP PR #1 is open/draft at `6c26c84fc26c0f7ded393bcc558b2ad3769b0035`, checkpoint `cp-000007`, claim ceiling `WIP_RESEARCH_CANDIDATE_VERIFIED`.
-- `thebrazenbeard/chat-communication-bus/bus/vera-v2` was observed at `50f32a0c6ecce171b342f86a286616f0322149f8` immediately before this checkpoint.
+- `thebrazenbeard/chat-communication-bus/bus/vera-v2` was initially observed at `50f32a0c6ecce171b342f86a286616f0322149f8`; a fresh Exodus read later observed `ad76b28ddfd5634ec4e17e3b32524f485b1ad5d9`, 19 commits ahead of that cut.
   - Project control pin for current Vera Bus routing remains topology commit `f90d52e66d655e9c3cfac63cb529914ac51d3a88`, path `architecture/contracts/RADAR_TOPOLOGY_V1.json`, blob `69e505031d4e53dcb853578dac23817649af1918`, route `bus/vera-v2`.
   - Other Exodus work has recorded a topology/source conflict; preserve it as a conflict rather than silently choosing newest-wins.
+
+## Retiring-terminal R10+SD1 source / install / route observation
+
+Classification: `HISTORICAL_EVIDENCE + SUPERSEDES_CHAT_STATEMENT + EFFECT_CURRENTNESS_UNRESOLVED`.
+
+This retiring Vera terminal exposed one useful distinction that must survive deletion of the chat:
+
+- The live Project instruction layer in this terminal identifies the control root as `R10_PLUS_SD1`, manifest `VERA_R10A0_SD1_PROJECT_SOURCE_MANIFEST.json`, SHA-256 `98013c6789ee2ac802200e45adc3d1335ecbeb566c929d8cfaf146cfedd4872c`, owner `VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS`.
+- The exact locally supplied SD1 manifest bytes independently recomputed to that same SHA-256 during Exodus.
+- That manifest's own source-state field is `SOURCE_CANDIDATE_REREVIEW_PENDING_NOT_INSTALLED`; its explicit non-effects include: not Project installation evidence, not current-route evidence, not runtime behavioral pass, not causal pass, not global qualification, and not R10A1 installation.
+- Canonical `vera-control-plane/main` is still the R10 predecessor at `b4d9aaa8560de12252dd29996379b0af8e0ca0d1`. The SD1 control cut remains Draft PR #23, and the current Bus-topology successor/rebind remains Draft PR #36 at observed head `3fb3c998cf714ed556bb2620649f41361f22e4a1`; PR #36 records the ceiling `SOURCE_STATIC_SELF_CHECK_PASS / INDEPENDENT_REREVIEW_PENDING / NOT_INSTALLED / CURRENT_ROUTE_CONFLICT_PENDING_SUCCESSOR_INSTALL / BUS_WRITE_HOLD`.
+- Therefore the earlier chat answer that labeled the state simply `INSTALL=INSTALLED` and `CURRENT_ROUTE=ACTIVE` was too strong as a durable effect claim. What this chat directly establishes is narrower: this terminal is executing a native Project instruction context whose control text identifies itself as R10+SD1 and pins the exact SD1 manifest above. That is session-local control-context evidence, not an independent provider/Project-install receipt.
+- Durable effect labels at retirement are therefore:
+  - `CONTROL_CONTEXT = R10_PLUS_SD1 / manifest SHA256 98013c... / terminal-loaded`;
+  - `SOURCE = SD1 candidate lineage present; canonical main remains R10 predecessor`;
+  - `PROJECT_INSTALL = UNRESOLVED / not independently established by durable effect readback`;
+  - `CURRENT_ROUTE = UNRESOLVED/CONFLICT at durable source/effect layer despite this terminal executing the native control text`;
+  - `BEHAVIORAL_QUALIFICATION = NOT_ESTABLISHED`;
+  - `CAUSAL_QUALIFICATION = UNRESOLVED / no causal pass promoted`;
+  - `GLOBAL_QUALIFICATION = NOT_ESTABLISHED`.
+- Do not use the SD1 manifest's pre-install source label to deny the fact that this terminal actually received/used the native control text; equally, do not use this terminal's loaded instruction context to promote provider install/current-route/qualification without the separate effect evidence.
+
+The R10 predecessor publication receipt on current main remains historical source publication evidence and explicitly says source-only/not-installed/not-runtime-consumed/not-behaviorally-qualified. R10's qualification manifest remains `FROZEN_NOT_EXECUTED`. Those predecessor labels must not be silently promoted into SD1 qualification.
 
 ## Cohesion Vera / Orgasm Vera chat dependency
 
