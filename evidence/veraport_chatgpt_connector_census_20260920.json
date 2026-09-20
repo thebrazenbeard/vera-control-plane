@@ -1,0 +1,104 @@
+{
+  "schema": "VERAPORT_CHATGPT_CONNECTOR_CENSUS_V1",
+  "observed_date": "2026-09-20",
+  "connectors": [
+    {
+      "name": "GitHub",
+      "availability": "CONNECTED",
+      "role": "SOURCE_BRANCH_PR_AND_REVIEW_STATE",
+      "authority_class": "AUTHORITATIVE_FOR_GITHUB_OBJECTS_ONLY",
+      "cannot_prove": [
+        "WORKSTATION_INSTALL",
+        "MCP_SERVER_RUNNING",
+        "CHATGPT_PLUGIN_CURRENT_ROUTE",
+        "VERAPORT_LIVE_OPERATION"
+      ],
+      "final_runtime_dependency": false
+    },
+    {
+      "name": "Remote Desktop Commander",
+      "availability": "CONNECTED",
+      "role": "BOOTSTRAP_AND_MACHINE_VERIFICATION",
+      "authority_class": "OBSERVATIONAL_AND_BOOTSTRAP",
+      "cannot_prove": [
+        "VERAPORT_OPERATION_WHEN_RDC_ITSELF_PERFORMS_THE_WORK",
+        "CHATGPT_PLUGIN_REGISTRATION",
+        "VERAPORT_APPLICATION_CURRENTNESS_FROM_TCP_ONLY"
+      ],
+      "final_runtime_dependency": false
+    },
+    {
+      "name": "Plugin Management",
+      "availability": "AVAILABLE",
+      "role": "PLUGIN_DISCOVERY_AND_CONNECTION_CONTROL",
+      "authority_class": "BOOTSTRAP_ONLY",
+      "cannot_prove": [
+        "MACHINE_RUNTIME",
+        "VERAPORT_ROUTE_CURRENTNESS",
+        "TOOL_EFFECT"
+      ],
+      "final_runtime_dependency": false
+    },
+    {
+      "name": "Supabase",
+      "availability": "CONNECTED_READBACK_PASS",
+      "role": "OPTIONAL_PROVIDER_OR_EVIDENCE_SURFACE",
+      "authority_class": "AUTHORITATIVE_ONLY_FOR_ITS_OWN_PROVIDER_STATE",
+      "cannot_prove": [
+        "LAPPY_RUNTIME",
+        "VERAPORT_CURRENT_ROUTE",
+        "MCP_PLUGIN_INSTALL"
+      ],
+      "final_runtime_dependency": false
+    },
+    {
+      "name": "WoWSQL",
+      "availability": "TOOL_SURFACE_PRESENT_READBACK_FAILED_INTERNAL",
+      "role": "OPTIONAL_DATABASE_OBSERVATION",
+      "authority_class": "UNKNOWN_CURRENT_CONNECTION",
+      "cannot_prove": [
+        "VERAPORT_RUNTIME",
+        "CHATGPT_MCP_ROUTE"
+      ],
+      "final_runtime_dependency": false
+    },
+    {
+      "name": "Google Drive",
+      "availability": "CONNECTED_SEARCH_PASS",
+      "role": "OPTIONAL_PRIVATE_RESEARCH_ARTIFACT_LOOKUP",
+      "authority_class": "AUTHORITATIVE_ONLY_FOR_DRIVE_CONTENT_READBACK",
+      "cannot_prove": [
+        "GITHUB_CURRENTNESS",
+        "MACHINE_INSTALL",
+        "VERAPORT_CURRENT_ROUTE"
+      ],
+      "final_runtime_dependency": false
+    },
+    {
+      "name": "OpenAI Developers",
+      "availability": "INSTALLED",
+      "role": "CHATGPT_APP_API_REFERENCE_OR_BOOTSTRAP",
+      "authority_class": "IMPLEMENTATION_SUPPORT_ONLY",
+      "cannot_prove": [
+        "CUSTOM_MCP_PLUGIN_REGISTERED",
+        "LAPPY_OPERATION"
+      ],
+      "final_runtime_dependency": false
+    },
+    {
+      "name": "VeraPort MCP",
+      "availability": "NOT_REGISTERED",
+      "role": "TARGET_CHATGPT_MACHINE_CONTROL_SURFACE",
+      "authority_class": "TARGET_RUNTIME",
+      "cannot_prove": [
+        "ANY_EFFECT_UNTIL_SOURCE_BUILD_SERVER_REGISTRATION_ROUTE_AND_LIVE_READBACK_ARE_SEPARATELY_ESTABLISHED"
+      ],
+      "final_runtime_dependency": true
+    }
+  ],
+  "plugin_directory_search": {
+    "remote_machine_mcp_alternative_found": false,
+    "remote_desktop_commander_directory_entry_found": false,
+    "note": "RDC remains available as a native connected tool despite no Plugin Management directory result."
+  }
+}
