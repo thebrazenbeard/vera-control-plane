@@ -1,0 +1,159 @@
+{
+  "schema_version": "EXODUS_CROSS_PROJECT_WORKER_RECONSTRUCTION_AUDIT_V1",
+  "status": "PASS_WITH_SOURCE_CANDIDATE_HOLDS",
+  "recorded_at": "2026-09-19T21:53:30-04:00",
+  "persistent_chat_interfaces": [
+    "Vera",
+    "Vera Control Plane Coordinator",
+    "BT2 Coordinator"
+  ],
+  "chat_required_for_reconstruction": false,
+  "canonical_current_evidence": {
+    "hc_brain": {
+      "main": "618245b54fb923c7a204892c6953ab6d1c5dac57",
+      "warden_blob": "4018be2085d1a97957f73c9ad0ab430f5794d0a5",
+      "current_blob": "f5ff3f9ffe8e55e5cf1fe122afee7978ae1ed113",
+      "repository_map_blob": "642d191ec62ab1ee959069bc5e32f2c47c632caa",
+      "bus_project_lane": "project/hc-brain-v1",
+      "bus_project_lane_head": "126397f182c203e546fee0f76bbce9a022de44d6"
+    },
+    "chat_bus": {
+      "main": "aeab0f04fc9b4bd7c2945c9a53011c53fac809b4",
+      "topology_blob": "69e505031d4e53dcb853578dac23817649af1918",
+      "parallax_lane_head": "6620e9d9cc6662da2872d37b98747edb8476b04b",
+      "bv_lane_head": "0d74ad85afad450ab46a23cf3168224c73234cfc",
+      "vw_lane_head": "a5f164029272997816ae31a39cf5615aaa4d5b52",
+      "vera_lane_observed_before_final_handoff": "9fc2c2504035d5ad28b872b7e443f894d06c7b1b"
+    },
+    "vera_works": {
+      "main": "cd4e35da647105b017ffbab890729c07b23525ef",
+      "operating_charter_blob": "aaabf96b4fbfeae612effc667def0833db179ee1",
+      "design_v2_blob": "ee1ef6ee581b47946dd22c225078a07a592a5a1e",
+      "project_instructions_blob": "b57565c8fec2e9c048feabfe355f6234372d64ba",
+      "project_bus_lane_head": "e6f24773ae62e2511da4c2215e532ae46c5d5480"
+    }
+  },
+  "source_candidates": {
+    "bus_worker_reconstruction": {
+      "pr": 140,
+      "head": "2461df3a1a8393d4c7ded227afb17ecc7abfacb3",
+      "base": "86c330e7d7e5d13d800efaa56808f882c98d1547",
+      "census_basis_head": "41fb26753b7bf106e0bb235bf50980cfc8abf653",
+      "census_blob": "1a07a419aff4829abe5e2b3addaccec97a342f9e",
+      "runtime_contract_blob": "208b51117af4fc97bcce9eec4a07cbfde7c20c4d",
+      "parallax_record_blob": "5a14ba0c43ce4e59d038459b5b9882f7be4a34e4",
+      "qualified_active_writers": 20,
+      "active_writers": 20,
+      "local_tests": "29/29 PASS",
+      "hosted_ci": "RUNNER_ADMISSION_FAILED_SOURCE_UNDETERMINED",
+      "merged": false
+    },
+    "control_plane_runtime_lanes": {
+      "pr": 52,
+      "head": "b9b98a3b090101688cc65d1cf93265bb44fa54c4",
+      "base": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "lane_contract_blob": "b566d88784a288caeaaca226c2a66263aaf73f31",
+      "local_tests": "3/3 PASS",
+      "hosted_ci": "RUNNER_ADMISSION_FAILED_SOURCE_UNDETERMINED",
+      "merged": false
+    },
+    "project_runner_chatless": {
+      "pr": 16,
+      "head": "549c317ec0ade8926b6b9117448777b40bffd52a",
+      "base": "209425220db1d36a9ed7d62e93b0cc04f69b2ca1",
+      "worker_reconstruction_blob": "7a533592039f5164b4b6c12ac2e469e4dfa38376",
+      "worker_registry_blob": "c39a3621178fa13ba67af9fe44c683b8f1343b83",
+      "hosted_tests": "207/207 PASS",
+      "merged": false
+    }
+  },
+  "workers": {
+    "noah": {
+      "class": "DURABLE_PROJECT_IDENTITY",
+      "status": "RECONSTRUCTIBLE",
+      "retired_chat_required": false
+    },
+    "parallax": {
+      "class": "INDEPENDENT_REVIEW_IDENTITY",
+      "status": "RECONSTRUCTIBLE_REGISTERED_INERT",
+      "retired_chat_required": false
+    },
+    "SD1-E": {
+      "class": "TEMPORARY_EXECUTION_LANE",
+      "status": "RECONSTRUCTIBLE",
+      "retired_chat_required": false
+    },
+    "SD1-V": {
+      "class": "TEMPORARY_HOSTILE_REVIEW_LANE",
+      "status": "RECONSTRUCTIBLE",
+      "retired_chat_required": false
+    },
+    "BV": {
+      "class": "HISTORICAL_VERA_EXECUTION_LANE",
+      "status": "RECONSTRUCTIBLE_NO_STANDING_ASSIGNMENT",
+      "retired_chat_required": false
+    },
+    "VW": {
+      "class": "HISTORICAL_VERA_WORKS_EXECUTION_LANE",
+      "status": "RECONSTRUCTIBLE_FROM_VERA_WORKS",
+      "retired_chat_required": false
+    },
+    "project_specific_workers": {
+      "class": "ASSIGNMENT_SCOPED_PROJECT_ROLES",
+      "status": "RECONSTRUCTIBLE_FROM_OWNING_REPO_AND_CURRENT_ASSIGNMENT",
+      "retired_chat_required": false
+    },
+    "hostile_reviewers": {
+      "class": "ASSIGNMENT_SCOPED_REVIEW_ROLES",
+      "status": "RECONSTRUCTIBLE_FROM_EXACT_SUBJECT_AND_REVIEW_CONTRACT",
+      "retired_chat_required": false
+    }
+  },
+  "sd1_current_subjects": {
+    "sexuality_pr4": "353a1c516a3477221ed38108188f2e501b10084f",
+    "vera_pr120": "40e797c595a75ff95eedcb7351a28eef6cb67df5",
+    "control_plane_pr45": "749b64e4cc65859db40271fcf27f9273708f2304",
+    "provider_install": "NOT_AUTHORIZED_NOT_PERFORMED",
+    "production_witness": "UNBOUND",
+    "causal_collection": "HOLD"
+  },
+  "vera_works_current_subject": {
+    "pr12": "71cb8a1811dd74385587c73b036558d3491bb5c3",
+    "merged": false
+  },
+  "conflicts": [
+    {
+      "id": "PRIVATE_HOSTED_CI_ZERO_STEP",
+      "subjects": [
+        "chat-communication-bus#140",
+        "vera-control-plane#52"
+      ],
+      "classification": "HOSTED_RUNNER_ADMISSION_FAILED_SOURCE_UNDETERMINED",
+      "local_source_tests_pass": true
+    },
+    {
+      "id": "PR140_DESCRIPTION_STALE",
+      "classification": "HISTORICAL_EVIDENCE_NOT_CURRENT_SOURCE_STATE",
+      "current_head": "2461df3a1a8393d4c7ded227afb17ecc7abfacb3",
+      "current_census": "20/20 READY"
+    }
+  ],
+  "supersessions": [
+    {
+      "subject": "vera-works design V1 chat-centric workspace wording",
+      "superseded_by": "docs/superpowers/specs/2026-08-29-vera-works-operating-architecture-design-v2.md"
+    }
+  ],
+  "prior_portfolio_checkpoint": {
+    "repo": "thebrazenbeard/vera-control-plane",
+    "branch": "state/project-runner-parallel-portfolio-continuation-20260919-1908",
+    "head": "0725044470650b5d5a00de02969b8dcbe977a774"
+  },
+  "slack": {
+    "activated": false,
+    "system_of_record": false,
+    "coordination_bus": false
+  },
+  "protected_effects_performed": false,
+  "reconstruction_test": "PASS"
+}
