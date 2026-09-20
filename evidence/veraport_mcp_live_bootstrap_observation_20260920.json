@@ -24,7 +24,15 @@
       "max_lanes": 32,
       "max_inflight": 64
     },
-    "tailscale_ipv4": "100.88.50.35"
+    "tailscale_ipv4": "100.88.50.35",
+    "controller_trust": {
+      "enrolled_controller_principal": "controller:ef3814b70f0883d2fbc4a8b7bd7b4eb982ac6cf74d9fd76734827d4561bc554b",
+      "enrolled_capabilities": [
+        "fs.read",
+        "fs.write"
+      ],
+      "matching_private_key_currently_recovered": false
+    }
   },
   "direct_path": {
     "endpoint": "127.0.0.1:17444",
@@ -33,7 +41,13 @@
     "alpn": "veraport/1",
     "certificate_sha256": "5231599cb289eac7d383a32078311fa5899debe8e10b002e2e62ffabf8621e2a",
     "transport_classification": "FRESH_TRANSPORT_REACHABLE",
-    "application_currentness": "UNQUALIFIED_PENDING_VERAPORT_AUTH_AND_LIVE_READBACK"
+    "application_currentness": "UNQUALIFIED_PENDING_VERAPORT_AUTH_AND_LIVE_READBACK",
+    "application_challenge_readback": {
+      "result": "PASS",
+      "protocol_version": "veraport-v1",
+      "workstation_principal": "workstation:53bfdbede677bb792a668d8a9361febc1f3a6a53577b6715f84b20478e39a03b",
+      "workstation_key_id": "53bfdbede677bb792a668d8a9361febc1f3a6a53577b6715f84b20478e39a03b"
+    }
   },
   "synology_edge_path": {
     "tailscale_peer": "100.115.152.20",
@@ -46,23 +60,31 @@
     "certificate_sha256": "5231599cb289eac7d383a32078311fa5899debe8e10b002e2e62ffabf8621e2a",
     "same_end_to_end_veraport_certificate_as_direct": true,
     "transport_classification": "FRESH_TRANSPORT_REACHABLE",
-    "application_currentness": "UNQUALIFIED_PENDING_VERAPORT_AUTH_AND_LIVE_READBACK"
+    "application_currentness": "UNQUALIFIED_PENDING_VERAPORT_AUTH_AND_LIVE_READBACK",
+    "application_challenge_readback": {
+      "result": "PASS",
+      "protocol_version": "veraport-v1",
+      "workstation_principal": "workstation:53bfdbede677bb792a668d8a9361febc1f3a6a53577b6715f84b20478e39a03b",
+      "workstation_key_id": "53bfdbede677bb792a668d8a9361febc1f3a6a53577b6715f84b20478e39a03b"
+    }
   },
   "ds216_internal_services": {
     "veramesh_v16_local_17445": "NOT_DIRECTLY_READ_BACK_THIS_CYCLE",
     "legacy_verarelay_0_3_0_0005_local_17443": "NOT_DIRECTLY_READ_BACK_THIS_CYCLE",
-    "durable_relay": "NOT_PROMOTED_FROM_PRIOR_OBSERVATION"
+    "durable_relay": "NOT_PROMOTED_FROM_PRIOR_OBSERVATION",
+    "legacy_verarelay_tailnet_17443": "CONNECTION_REFUSED_NOT_EQUIVALENT_TO_PACKAGE_STOPPED"
   },
   "live_application_acceptance": {
     "attempted": true,
     "executed": false,
-    "result": "BOOTSTRAP_TOOL_SAFETY_BLOCKED_BEFORE_EXECUTION",
+    "result": "BLOCKED_MISSING_MATCHING_CONTROLLER_PRIVATE_KEY",
+    "enrolled_controller_principal": "controller:ef3814b70f0883d2fbc4a8b7bd7b4eb982ac6cf74d9fd76734827d4561bc554b",
     "lane_list": "NOT_OBSERVED",
     "live_fs_read": "NOT_OBSERVED"
   },
   "current_route_result": {
-    "DIRECT_STREAM": "TRANSPORT_READY_APPLICATION_CURRENTNESS_UNPROVEN",
-    "EDGE_STREAM": "TRANSPORT_READY_APPLICATION_CURRENTNESS_UNPROVEN",
+    "DIRECT_STREAM": "TRANSPORT_AND_APPLICATION_CHALLENGE_READY_AUTH_SESSION_UNPROVEN",
+    "EDGE_STREAM": "TRANSPORT_AND_APPLICATION_CHALLENGE_READY_AUTH_SESSION_UNPROVEN",
     "DURABLE_RELAY": "NOT_CURRENT",
     "selected_application_route": "NONE_QUALIFIED_YET"
   },
@@ -77,5 +99,6 @@
     "SAME_CERTIFICATE_NE_CURRENT_APPLICATION_SESSION",
     "SOURCE_CREATED_NE_MCP_SERVER_RUNNING",
     "MCP_SERVER_RUNNING_NE_PLUGIN_REGISTERED"
-  ]
+  ],
+  "observation_revision": "R2_FRESH_READBACK"
 }

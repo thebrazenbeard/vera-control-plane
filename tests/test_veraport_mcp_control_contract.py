@@ -100,3 +100,21 @@ def test_local_mcp_server_does_not_equal_chatgpt_registration():
     assert "PRODUCT_SIDE_REGISTRATION_READBACK" in (
         exposure["plugin_registered_requires"]
     )
+
+
+def test_contract_is_bound_to_current_vera_implementation_subject():
+    value = load()
+    subject = value["implementation_subject"]
+    assert subject["repository"] == "thebrazenbeard/vera-mesh"
+    assert subject["pull_request"] == 11
+    assert subject["branch"] == "vera/veraport-chatgpt-mcp-v1-20260920"
+    assert subject["head"] == "76510806a6bd832b5d0f1cdd7bc9439e068c9d03"
+    assert subject["review_state"] == "PENDING_INDEPENDENT_EXACT_HEAD_HOSTILE_REVIEW"
+
+
+def test_live_process_policy_remains_hold():
+    value = load()
+    assert value["process_activation"]["current_live_workstation_policy"] == "FALSE_READBACK_20260920"
+    assert value["routes"]["current_application_route"] == (
+        "NONE_QUALIFIED_PENDING_CONTROLLER_PRIVATE_KEY"
+    )

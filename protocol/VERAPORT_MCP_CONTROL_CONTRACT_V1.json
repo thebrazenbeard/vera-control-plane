@@ -3,9 +3,11 @@
   "status": "SOURCE_CONTROL_CONTRACT / NO_INSTALL_OR_ROUTE_EFFECT",
   "implementation_subject": {
     "repository": "thebrazenbeard/vera-mesh",
-    "branch": "vera/veraport-mcp-rdc-equivalent-v1-20260920",
+    "branch": "vera/veraport-chatgpt-mcp-v1-20260920",
     "exact_head_required_for_review": true,
-    "head": null
+    "head": "76510806a6bd832b5d0f1cdd7bc9439e068c9d03",
+    "pull_request": 11,
+    "review_state": "PENDING_INDEPENDENT_EXACT_HEAD_HOSTILE_REVIEW"
   },
   "operation_classes": {
     "READ_ONLY": [
@@ -72,7 +74,12 @@
       "OBSERVATION_WITHIN_FRESHNESS_WINDOW"
     ],
     "stale_route": "INELIGIBLE_EVEN_IF_LOWER_PRIORITY_ROUTE_IS_FRESH",
-    "edge_tls_only": "TRANSPORT_REACHABLE_NOT_CURRENT_APPLICATION_ROUTE"
+    "edge_tls_only": "TRANSPORT_REACHABLE_NOT_CURRENT_APPLICATION_ROUTE",
+    "current_application_route": "NONE_QUALIFIED_PENDING_CONTROLLER_PRIVATE_KEY",
+    "transport_ready": {
+      "DIRECT_STREAM": "FRESH_TLS_1_3_ALPN_AND_CHALLENGE_READBACK",
+      "EDGE_STREAM": "FRESH_TLS_1_3_ALPN_AND_CHALLENGE_READBACK"
+    }
   },
   "mcp_reconnect": {
     "client_transport_reconnect": "MUST_REUSE_EXISTING_CONTROLLER_RUNTIME_WHERE_RUNNING",
@@ -104,7 +111,7 @@
       "LANE_PROCESS_CAPABILITY_GRANTED",
       "LANE_CWD_RESOURCE_CLAIM_GRANTED"
     ],
-    "current_live_workstation_policy": "UNKNOWN_UNTIL_READBACK",
+    "current_live_workstation_policy": "FALSE_READBACK_20260920",
     "pid_only_termination": "FORBIDDEN",
     "managed_process_handle_required": true,
     "output_must_be_bounded": true,
