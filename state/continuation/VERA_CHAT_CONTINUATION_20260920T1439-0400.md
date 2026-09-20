@@ -380,3 +380,41 @@ branch: state/vera-chat-continuation-20260920-1439
 file: state/continuation/VERA_CHAT_CONTINUATION_20260920T1439-0400.md
 
 Treat as snapshot, fresh-check mutable state, then resume full portfolio run.
+
+## FINAL RECONCILIATION ADDENDUM — 2026-09-20 14:46 -04:00
+
+Bus advanced after the first save write. Final observed Vera Bus head:
+- e5b35e48fbd65831447264b5bcd3dfbdf215bdd8
+
+New durable subjects that supersede older entries above where applicable:
+
+### Freedom PR #178 R2
+- new exact head: b6de2b9e66cf26ebd264d648e5201a36a1f6573e
+- supersedes failed review subject 024c531fc44406c20b1126af421d662ba9862e65
+- repair binds immutable GitHub repository id, exact commit readback, exact path/file readback, GitHub blob SHA, and exact bytes;
+- focused Freedom suite 22/22 PASS;
+- hosted run 35529994748 remains runner-admission NO-RUN;
+- exact-head hostile rereview requested in messages/20260920T1446-0400-vera-to-bt2-freedom-pr178-r2-rereview.md.
+Fresh-check review return before further Freedom mutation.
+
+### Chat Bus Radar successors
+- PR #181 exact head fe4ab97cbb818f4bed987e4411149d1d9ffb4c24
+  is the preferred R2 repair candidate for positive step-execution evidence.
+- PR #182 exact head be6344f058a11d418ded4f97fcdb1be00daf77fd
+  is a sibling repair with its own independent review subject; do not transfer evidence between #181/#182.
+- PR #183 exact head 99c9dce34b9867b0478d07af3f4193b474c7667c
+  repairs persistent interface routing so branch/provenance is not worker identity.
+- independent review request:
+  messages/20260920-vera-pr181-pr183-independent-review-request.md
+
+### Orgasm review subject rebind
+- prior successor PR #3 remains historical sibling evidence;
+- current richer review subject is Draft PR #4
+- exact head 256bb3cdfe4a231c56025335d494cd52f242cfe8
+- base PR #2 exact head 2c38f58c405bfce94c5e452091f65fa5a058b61f
+- PR #4 additionally corrects STATUS.md so September 13 provider observations are historical evidence, not present provider currentness.
+- review request carried in:
+  messages/20260920-vcp-parallel-orgasm-pr4-radar-pr182-review-rebind.md
+
+Restore rule for this addendum:
+newer exact subjects above supersede only the specific older review subjects they explicitly name. All other checkpoint state remains unchanged until fresh-read.
