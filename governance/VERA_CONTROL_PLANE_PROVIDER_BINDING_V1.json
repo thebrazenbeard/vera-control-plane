@@ -65,5 +65,29 @@
   "cross_repo_coordination": {
     "vera_currentness_pr": "thebrazenbeard/vera#136",
     "relation": "Vera PR #136 consumes this provider as readback-only control-plane evidence; neither repository silently promotes the other."
+  },
+  "deployed_source_binding": {
+    "provider_migration_version": "20260919223652",
+    "provider_migration_name": "create_sd1_causal_secondary_anchor",
+    "provider_statement_count": 1,
+    "provider_statement_bytes": 24103,
+    "provider_statement_sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
+    "source_repository": "thebrazenbeard/vera-control-plane",
+    "source_pr": 45,
+    "source_head": "749b64e4cc65859db40271fcf27f9273708f2304",
+    "source_path": "supabase/migrations/20260919195000_create_sd1_causal_secondary_anchor.sql",
+    "source_git_blob": "0769c527ad8fc8280d052dc1ce93f85673b6bb7d",
+    "source_bytes": 24103,
+    "source_sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
+    "exact_byte_match": true,
+    "classification": "EXACT_DEPLOYED_SOURCE_BYTES_VERIFIED"
+  },
+  "integration_candidate": {
+    "pr": 48,
+    "exact_head": "e141968fbac172b72d4c5f027b8b367fd9085855",
+    "status": "SOURCE_INTEGRATION_CANDIDATE",
+    "controller_provider_binding": "UNESTABLISHED",
+    "real_causal_collection": "NOT_ESTABLISHED",
+    "note": "Provider deployment source and controller integration source coexist on this candidate, but source composition is not runtime/provider-client binding."
   }
 }
