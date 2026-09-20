@@ -64,6 +64,28 @@ FORBIDDEN_PROMOTION_MARKERS = {
     "PROVIDER_ACTIVE",
 }
 
+FORBIDDEN_FREE_TEXT_PATTERNS = (
+    re.compile(r"\bPROMOTE(?: TO)?\b"),
+    re.compile(r"\bADMIT(?: AS)?\b"),
+    re.compile(r"\bINSTALL AS\b"),
+    re.compile(r"\bACTIVATE(?: AS)?\b"),
+    re.compile(r"\bGRANT (?:CONTROL|AUTHORITY|PERMISSION|EFFECT)\b"),
+    re.compile(r"\bCURRENT (?:RUNTIME|ROUTE|CONTROL) (?:OWNER|DEPENDENCY|AUTHORITY)\b"),
+    re.compile(r"\bRUNTIME CONTROL OWNER\b"),
+)
+
+def _reject_positive_directive(value: str, where: str) -> None:
+    normalized = re.sub(r"[^A-Z0-9]+", " ", value.upper().replace("_", " ")).strip()
+    for pattern in FORBIDDEN_FREE_TEXT_PATTERNS:
+        if pattern.search(normalized):
+            _fail(f"{where}: positive promotion/effect directive is forbidden")
+
+
+def _require_bounded_text_list(values: Any, where: str) -> None:
+    _require_nonempty_strings(values, where)
+    for index, value in enumerate(values):
+        _reject_positive_directive(value, f"{where}[{index}]")
+
 
 class IntakeValidationError(ValueError):
     pass
@@ -120,7 +142,7 @@ def validate_intake(data: dict[str, Any]) -> None:
     if missing_non_effects:
         _fail(f"root.non_effects: missing required guards {sorted(missing_non_effects)}")
 
-    _require_nonempty_strings(data["prioritized_followups"], "root.prioritized_followups")
+    _require_bounded_text_list(data["prioritized_followups"], "root.prioritized_followups")
 
     repositories = data["repositories"]
     if not isinstance(repositories, list) or not repositories:
@@ -166,7 +188,17 @@ def validate_intake(data: dict[str, Any]) -> None:
             if marker in normalized_disposition:
                 _fail(f"{where}.disposition: promotion marker {marker} is forbidden")
 
-        _require_nonempty_strings(item["reusable_patterns"], f"{where}.reusable_patterns")
+        _require_bounded_text_list(item["reusable_patterns"], f"{where}.reusable_patterns")
+
+        _reject_positive_directive(destination, f"{where}.destination")
+        destination_lower = destination.lower()
+        if not any(marker in destination_lower for marker in ("research", "history", "none by default")):
+            _fail(f"{where}.destination: must remain research/history/none-by-default scoped")
+
+        upper_non_effect = non_effect.upper()
+        if not (upper_non_effect.startswith("NO_") or upper_non_effect.startswith("DO_NOT_")):
+            _fail(f"{where}.non_effect: expected explicit NO_/DO_NOT_ negative form")
+        _reject_positive_directive(non_effect, f"{where}.non_effect")
 
         license_value = item["license"]
         if license_value is not None and (not isinstance(license_value, str) or not license_value.strip()):
@@ -190,6 +222,7 @@ def validate_intake(data: dict[str, Any]) -> None:
                 _fail(f"{where}: non-corpus source requires immutable evidence tuples")
             if not isinstance(evidence_note, str) or not evidence_note.strip():
                 _fail(f"{where}.evidence_note: content corpus requires a bounded provenance note")
+            _reject_positive_directive(evidence_note, f"{where}.evidence_note")
         else:
             if evidence_note is not None:
                 _fail(f"{where}: use evidence tuples or evidence_note, not both")

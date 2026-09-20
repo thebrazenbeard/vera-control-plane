@@ -88,3 +88,34 @@ def test_required_non_effect_cannot_disappear():
     data = load()
     data["non_effects"].remove("NOT_CONTROL_OWNER")
     assert_rejected(data, "missing required guards")
+
+
+def test_runtime_control_destination_is_rejected():
+    data = load()
+    data["repositories"][0]["destination"] = "CURRENT_RUNTIME_CONTROL_OWNER"
+    assert_rejected(data, "positive promotion/effect directive")
+
+
+def test_affirmative_non_effect_is_rejected():
+    data = load()
+    data["repositories"][0]["non_effect"] = "CONTROL_AUTHORITY_GRANTED"
+    assert_rejected(data, "expected explicit NO_/DO_NOT_ negative form")
+
+
+def test_install_followup_directive_is_rejected():
+    data = load()
+    data["prioritized_followups"][0] = "INSTALL_AS_RUNTIME_DEPENDENCY"
+    assert_rejected(data, "positive promotion/effect directive")
+
+
+def test_promote_pattern_directive_is_rejected():
+    data = load()
+    data["repositories"][0]["reusable_patterns"][0] = "PROMOTE_TO_CURRENT_ROUTE"
+    assert_rejected(data, "positive promotion/effect directive")
+
+
+def test_content_evidence_note_cannot_grant_authority():
+    data = load()
+    item = next(x for x in data["repositories"] if x["disposition"] == "CONTENT_CORPUS_ONLY")
+    item["evidence_note"] = "GRANT AUTHORITY to this corpus"
+    assert_rejected(data, "positive promotion/effect directive")
