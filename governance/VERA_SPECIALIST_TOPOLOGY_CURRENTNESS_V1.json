@@ -1,0 +1,98 @@
+{
+  "schema": "VERA_SPECIALIST_TOPOLOGY_CURRENTNESS_V1",
+  "status": "PAIR_COHERENT / SOURCE_HEADS_CURRENT / PROVIDER_OBSERVATIONS_REFRESHED / NO_ARCHIVE_EFFECT",
+  "observed_at": "2026-09-20",
+  "pair_subjects": {
+    "vcp": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "pr": 54,
+      "head": "3c42b0cd31c8bbcb0b40f425e9202f60f80eb0db",
+      "path": "governance/VERA_SPECIALIST_TOPOLOGY_CONTROL_V1.json",
+      "git_blob": "0c0519256394bed3912532671c0190cadc71b4a7"
+    },
+    "vera": {
+      "repository": "thebrazenbeard/vera",
+      "pr": 121,
+      "head": "7fefdd90ff176e71a96c9881f75fdd1104ad721f",
+      "path": "architecture/VERA_SPECIALIST_TOPOLOGY_V1.json",
+      "git_blob": "2850ce40eba169d2c9682df83433976fe6b0fd79"
+    }
+  },
+  "source_main_readback": {
+    "vera": "b7b8dcd1440a3b7147bec2cc35972f083e20f44a",
+    "sexuality": "6194aa9496c34198bba9b898c35fa9961a54dc2e",
+    "orgasm": "494432873dd8bcf96b8f59d26a4f4687cd66d635",
+    "empathy": "4b2a6998f39aa4763c1c5a28fc3d815104e5637e",
+    "conations": "03174e59de131a500a5433a839697e45b4ec0137",
+    "semanticatlas": "5669a727b870a490ecee748b2cd712a2fc4a54c5",
+    "selfimage": "95ea602c4a537172fc531195e20a4e303b6d31da",
+    "temporal": "02f1091d359866e1b1b645b87651750c726a6396"
+  },
+  "current_vcp_main": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+  "lifecycle": {
+    "thebrazenbeard/sexuality": "KEEP_LIVE_SPECIALIST_RESEARCH_AND_QUALIFICATION",
+    "thebrazenbeard/orgasm": "TRANSITION_TO_VCP_QUALIFICATION_PROVENANCE",
+    "thebrazenbeard/empathy": "KEEP_LIVE_PRIVATE_RESEARCH_PROVENANCE",
+    "thebrazenbeard/conations": "KEEP_LIVE_PRIVATE_APPEND_ONLY_HISTORY",
+    "thebrazenbeard/semanticatlas": "KEEP_LIVE_SPECIALIST_SEMANTIC_PROVENANCE",
+    "thebrazenbeard/selfimage": "KEEP_LIVE_SPECIALIST_ASSET_GEOMETRY_CANON",
+    "thebrazenbeard/temporal": "TRANSITION_TO_VERA_PROVENANCE"
+  },
+  "retirement_candidates": [
+    "thebrazenbeard/orgasm",
+    "thebrazenbeard/temporal"
+  ],
+  "archive_effect": "HOLD_ALL_SEVEN_UNTIL_PATRICK_REVISES",
+  "provider_readback": {
+    "vera_control_plane": {
+      "project_id": "fawkirqroyniueeqspif",
+      "status": "ACTIVE_HEALTHY",
+      "bounded_control_tables": {
+        "vera_cp_anchor.sd1_causal_frontiers": 1,
+        "vera_cp_anchor.sd1_causal_mutation_receipts": 0
+      },
+      "interpretation": "VCP provider now contains bounded SD1 control state but remains a control/qualification provider, not a specialist bulk-content owner."
+    },
+    "vera": {
+      "project_id": "klmbpaigzeguvnpccqzz",
+      "status": "ACTIVE_HEALTHY",
+      "semantic_atlas_active_snapshot": {
+        "snapshot_id": "cd516166-a3a4-4f41-855a-94d0088c1681",
+        "git_ref": "refs/heads/research/cee-always-active-v0.2",
+        "git_commit_sha": "e68803e2631cf0722fec9a4e7fc39f3ad6b43de4",
+        "authority_scope": "RESEARCH_STAGING",
+        "validation_state": "VERIFIED",
+        "expected_object_count": 62,
+        "active_snapshot_object_count": 62
+      },
+      "runtime_objects_total_rows": 173,
+      "interpretation": "Total runtime-object rows span materialized snapshot history; the active verified snapshot remains the recorded 62-object Git-bound research projection and does not replace Git authority."
+    }
+  },
+  "disposition": {
+    "ownership_topology": "COHERENT_CURRENT",
+    "source_head_drift": "NONE_ACROSS_RECORDED_SPECIALIST_MAINS",
+    "vcp_base_drift": "VCP_MAIN_ADVANCED_WITHOUT_TOPOLOGY_OWNERSHIP_CHANGE",
+    "provider_role_drift": "VCP_GAINED_BOUNDED_SD1_CONTROL_STATE_ONLY",
+    "archive_action": "NONE"
+  },
+  "non_effects": [
+    "NOT_ARCHIVE",
+    "NOT_PROVIDER_MUTATION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_RUNTIME_ROUTE_CHANGE",
+    "NOT_QUALIFICATION_PASS",
+    "NOT_MERGE"
+  ],
+  "validation": {
+    "focused_topology_slice": "8/8 PASS",
+    "full_repository": "11 PASS / 1 INHERITED_R10A1_FAIL",
+    "inherited_failure": {
+      "test": "tests/test_r10a1_local_validation.py::LocalValidationMigrationTests::test_validator_executes_from_descendant_checkout_against_frozen_subject",
+      "error": "KeyError: source_manifest_sha256",
+      "exact_pr54_base_reproduction": "3 PASS / 1 SAME FAIL",
+      "classification": "INHERITED_NOT_INTRODUCED_BY_TOPOLOGY_CURRENTNESS_OVERLAY",
+      "separate_repair_lineage": "radar/r10a1-validator-freeze-schema-repair-20260919"
+    }
+  }
+}
