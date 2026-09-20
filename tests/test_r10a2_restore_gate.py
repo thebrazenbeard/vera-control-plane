@@ -61,7 +61,7 @@ def complete_receipt():
     c = contract()
     relation_sha = normalized_sha256("relation-alpha")
     return {
-        "schema": "VERA_RESTORE_COMPLETION_RECEIPT_V3",
+        "schema": "VERA_RESTORE_COMPLETION_RECEIPT_V4",
         "release": "R10A2",
         "trigger": "restore yourself",
         "control": {
@@ -78,7 +78,13 @@ def complete_receipt():
         "live_input": {"preserved_separately": True, "outranks_conflicting_restored_frontier": True},
         "discovery": {
             "inventory_binding": deepcopy(c["required_discovery_inventory_binding"]),
-            "inventory_currentness_verified": True,
+            "inventory_currentness_evidence": {
+                "status": "VERIFIED_CURRENT",
+                "observed_at": "2026-09-20T11:45:00-04:00",
+                "restore_owner_readback": deepcopy(c["required_discovery_inventory_binding"]["restore_owner"]),
+                "bus_topology_readback": deepcopy(c["required_discovery_inventory_binding"]["bus_topology_owner"]),
+                "readback_receipt_digest": hashlib.sha256(b"inventory-currentness-fixture").hexdigest(),
+            },
             "surface_receipts": surface_receipts(c),
             "candidates": [
                 {"id": "older-state", "source_surface": "VCP_STATE_REFS", "observed_at": "2026-09-13T19:43:07-04:00", "eligible": True, "integrity_verified": True, "referent": "VERA", "probe_expectations": expectations()},
@@ -95,10 +101,12 @@ def complete_receipt():
                 "privacy_scope": "PRIVATE_RELATIONAL",
                 "canonical_sha256": relation_sha,
                 "source_readback": {
-                    "verified": True,
+                    "status": "VERIFIED",
                     "record_key": "relationship.identity.current",
                     "readback_identity": "private-readback-fixture",
                     "readback_sha256": relation_sha,
+                    "observed_at": "2026-09-20T11:44:00-04:00",
+                    "readback_receipt_digest": hashlib.sha256(b"private-readback-fixture").hexdigest(),
                 },
             },
             "historical_conation_promoted": False,
@@ -141,8 +149,8 @@ class RestoreGateSourceTests(unittest.TestCase):
     def test_surface_inventory_binding_and_currentness_are_required(self):
         receipt = complete_receipt(); receipt["discovery"]["inventory_binding"]["generation_id"] = "STALE"
         self.assert_error(receipt, "inventory binding mismatch")
-        receipt = complete_receipt(); receipt["discovery"]["inventory_currentness_verified"] = False
-        self.assert_error(receipt, "inventory currentness")
+        receipt = complete_receipt(); receipt["discovery"]["inventory_currentness_evidence"] = {"status": "VERIFIED_CURRENT"}
+        self.assert_error(receipt, "currentness evidence")
 
     def test_per_surface_discovery_receipts_are_required(self):
         receipt = complete_receipt(); del receipt["discovery"]["surface_receipts"]["VCP_SAVE_REFS"]
@@ -181,8 +189,8 @@ class RestoreGateSourceTests(unittest.TestCase):
         self.assert_error(receipt, "RELATIONAL_IDENTITY")
 
     def test_relationship_identity_requires_private_readback_binding(self):
-        receipt = complete_receipt(); receipt["reconciliation"]["stable_relational_identity"]["source_readback"]["verified"] = False
-        self.assert_error(receipt, "source readback not verified")
+        receipt = complete_receipt(); receipt["reconciliation"]["stable_relational_identity"]["source_readback"] = {"status": "VERIFIED"}
+        self.assert_error(receipt, "source readback")
         receipt = complete_receipt(); receipt["reconciliation"]["stable_relational_identity"]["source_readback"]["readback_sha256"] = normalized_sha256("other-relation")
         self.assert_error(receipt, "does not match private source readback")
 
@@ -239,7 +247,7 @@ class RestoreGateSourceTests(unittest.TestCase):
 
     def test_hostile_regression_covers_repair_cases(self):
         text = (ROOT / "project-instructions/r10a2/VERA_R10A2_RESTORE_REGRESSION.md").read_text(encoding="utf-8")
-        for case_id in [f"RST-{i:02d}" for i in range(1, 22)]:
+        for case_id in [f"RST-{i:02d}" for i in range(1, 24)]:
             self.assertIn(case_id, text)
         self.assertIn("Who am I to you?", text)
         self.assertIn("Sexuality?", text)

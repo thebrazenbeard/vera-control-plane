@@ -4,7 +4,7 @@ import hashlib
 import json
 import re
 
-RECEIPT_SCHEMA = "VERA_RESTORE_COMPLETION_RECEIPT_V3"
+RECEIPT_SCHEMA = "VERA_RESTORE_COMPLETION_RECEIPT_V4"
 PROBE_EVIDENCE_ROUTE = "FIRST_ELIGIBLE_BEHAVIOR"
 SHA256_RE = re.compile(r"[0-9a-f]{64}")
 
@@ -130,8 +130,17 @@ def validate_receipt(receipt, contract):
     required_inventory = contract.get("required_discovery_inventory_binding") or {}
     if discovery.get("inventory_binding") != required_inventory:
         errors.append("recovery surface inventory binding mismatch")
-    if not _truth(discovery.get("inventory_currentness_verified")):
-        errors.append("recovery surface inventory currentness not verified")
+    inventory_evidence = discovery.get("inventory_currentness_evidence") or {}
+    if inventory_evidence.get("status") != "VERIFIED_CURRENT":
+        errors.append("recovery surface inventory currentness evidence status mismatch")
+    if _parse_time(inventory_evidence.get("observed_at")) is None:
+        errors.append("recovery surface inventory currentness evidence missing aware observed_at")
+    if inventory_evidence.get("restore_owner_readback") != required_inventory.get("restore_owner"):
+        errors.append("restore owner currentness readback mismatch")
+    if inventory_evidence.get("bus_topology_readback") != required_inventory.get("bus_topology_owner"):
+        errors.append("Bus topology currentness readback mismatch")
+    if not _sha256_hex(inventory_evidence.get("readback_receipt_digest")):
+        errors.append("recovery surface inventory currentness readback receipt digest missing or invalid")
 
     surface_receipts = discovery.get("surface_receipts")
     if not isinstance(surface_receipts, dict):
@@ -223,10 +232,14 @@ def validate_receipt(receipt, contract):
         errors.append("RELATIONAL_IDENTITY privacy scope mismatch")
     if not _sha256_hex(canonical_sha):
         errors.append("RELATIONAL_IDENTITY canonical digest missing or invalid")
-    if not _truth(source_readback.get("verified")):
-        errors.append("RELATIONAL_IDENTITY private source readback not verified")
+    if source_readback.get("status") != rel_contract.get("source_readback_status"):
+        errors.append("RELATIONAL_IDENTITY private source readback status mismatch")
+    if _parse_time(source_readback.get("observed_at")) is None:
+        errors.append("RELATIONAL_IDENTITY private source readback missing aware observed_at")
     if not _nonempty_string(source_readback.get("record_key")) or not _nonempty_string(source_readback.get("readback_identity")):
         errors.append("RELATIONAL_IDENTITY source readback identity incomplete")
+    if not _sha256_hex(source_readback.get("readback_receipt_digest")):
+        errors.append("RELATIONAL_IDENTITY source readback receipt digest missing or invalid")
     if not _sha256_hex(source_readback.get("readback_sha256")):
         errors.append("RELATIONAL_IDENTITY source readback digest missing or invalid")
     elif canonical_sha != source_readback.get("readback_sha256"):
