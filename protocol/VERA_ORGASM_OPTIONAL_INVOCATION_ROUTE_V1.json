@@ -88,8 +88,8 @@
       "adapter_state": "CURRENT",
       "qualification_state": "TEST_ONLY"
     },
-    "UNKNOWN": "Any required route axis is UNKNOWN, route_state is CONFLICT, or qualification_state is UNKNOWN after all execution axes are current.",
-    "UNAVAILABLE": "At least one required execution axis is authoritatively NOT_CURRENT, INACTIVE, NOT_VERIFIED, or MISSING and no UNKNOWN/CONFLICT axis dominates."
+    "UNKNOWN": "route_state is CONFLICT, or no authoritative negative exists and at least one required execution axis remains UNKNOWN, or qualification is UNKNOWN after all execution axes are current.",
+    "UNAVAILABLE": "At least one required execution axis is authoritatively NOT_CURRENT, INACTIVE, NOT_VERIFIED, or MISSING. A known false execution prerequisite makes the conjunctive route unavailable even when another axis is UNKNOWN."
   },
   "choice_rule": {
     "route_check_precedes_choice": true,
@@ -123,14 +123,18 @@
   },
   "current_observation": {
     "recorded_at": "2026-09-20",
-    "basis": "Orgasm PR #5 reconciliation plus current source state observed during this implementation turn",
+    "basis": "Live read-only Vera provider readback plus exact optional-invocation source tuple",
+    "provider_readback_path": "docs/currentness/VERA_ORGASM_OPTIONAL_INVOCATION_PROVIDER_READBACK_20260920.md",
+    "provider_readback_git_blob": "5656328b6de3801238f848747ce0a26a73ba53f0",
+    "provider_status": "ACTIVE_HEALTHY",
+    "existing_affective_runtime": "HISTORICAL_PRE_HARDENING_REQUALIFICATION_REQUIRED",
     "install_state": "UNKNOWN",
-    "route_state": "UNKNOWN",
-    "runtime_consumption_state": "UNKNOWN",
+    "route_state": "INACTIVE",
+    "runtime_consumption_state": "NOT_VERIFIED",
     "adapter_state": "MISSING",
     "qualification_state": "UNKNOWN",
-    "availability": "UNKNOWN_FAIL_CLOSED",
-    "reason": "The new optional-invocation adapter is source-defined but no current Project/runtime installation, current route, or runtime-consumption readback establishes it as live."
+    "availability": "UNAVAILABLE",
+    "reason": "The only durable affective runtime frontier is historical/pre-hardening and the optional-invocation adapter is not present on a current provider/runtime route. Native Project installation remains separately unobserved."
   },
   "effect_boundaries": {
     "source_is_not_install": true,
