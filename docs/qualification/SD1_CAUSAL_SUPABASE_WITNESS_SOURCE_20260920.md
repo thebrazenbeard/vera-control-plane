@@ -90,8 +90,8 @@ contract. Construction rehashes those current subjects and rejects an otherwise
 correctly pinned PASS artifact when any subject digest is stale.
 
 The exact acceptance semantics are frozen in
-protocol/SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json. Its mutable status
-and current-frontier fields are excluded from the semantic digest; evidence-gate
+protocol/SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json. Its mutable status and exact declared current-frontier leaves are excluded from
+the semantic digest. Unknown current-frontier fields fail closed; evidence-gate
 definitions, artifact shape, state separation, and non-effects remain bound.
 monotonicity_qualification=PASS is not accepted as a standalone assertion.
 The pinned artifact must contain PASS evidence digests for all five required
