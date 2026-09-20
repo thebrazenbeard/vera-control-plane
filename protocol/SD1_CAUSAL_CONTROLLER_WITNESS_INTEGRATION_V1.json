@@ -42,19 +42,29 @@
     "exact_runtime_type_required": true
   },
   "production_binding": {
-    "implementation": "UNBOUND",
+    "implementation": "tools.sd1_causal_supabase_witness.SupabaseFrontierWitness",
+    "client_implementation": "tools.sd1_causal_supabase_witness.SupabaseFrontierClient",
+    "binding_contract": "protocol/SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json",
     "required_contract": "protocol/SD1_CAUSAL_SECONDARY_ANCHOR_V1.json",
+    "provider_project_id": "fawkirqroyniueeqspif",
+    "deployed_statement_sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
+    "qualification_artifact_sha256": null,
+    "monotonicity_qualification": "NOT_EXECUTED",
     "git_transport_alone_allowed": false,
-    "status": "BLOCKS_CAUSAL_COLLECTION",
+    "source_path_wired": true,
+    "runtime_constructible": false,
+    "status": "SOURCE_BOUND_BLOCKS_CAUSAL_COLLECTION_PENDING_INDEPENDENT_QUALIFICATION",
     "exact_reviewed_implementation_required": true
   },
   "claim_ceiling": {
     "source_repair": "PRESENT",
     "source_tests": "PRESENT_NOT_EXECUTED_BY_THIS_CONNECTOR_LANE",
-    "production_witness": "NOT_BOUND",
+    "production_witness": "SOURCE_IMPLEMENTATION_PRESENT_NOT_QUALIFIED",
     "causal_data_collection": "HOLD",
     "control_causality": "UNRESOLVED",
-    "global_qualification": "NOT_EXECUTED"
+    "global_qualification": "NOT_EXECUTED",
+    "provider_deployed_source": "EXACT_BYTES_VERIFIED",
+    "controller_provider_path": "SOURCE_PRESENT_RUNTIME_BLOCKED"
   },
   "non_effects": [
     "NOT_CAUSAL_DATA_COLLECTION",
