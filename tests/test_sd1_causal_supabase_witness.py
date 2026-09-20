@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import hashlib
 import json
 
 import pytest
+
+from tools import sd1_causal_supabase_witness as supabase_witness
 
 from tools.sd1_causal_frontier_witness import (
     DEFAULT_STORE_ID,
@@ -272,8 +275,7 @@ def test_production_witness_cannot_self_qualify_while_artifact_unbound():
     ):
         SupabaseFrontierWitness(
             FakeTransport(),
-            qualification=qualification_mapping(),
-            qualification_artifact_sha256="f" * 64,
+            qualification_artifact=json.dumps(qualification_mapping()),
         )
 
 
@@ -283,4 +285,36 @@ def test_transport_refuses_wrong_provider_host_before_any_network_call():
             "https://example.supabase.co",
             apikey="not-a-real-key",
             bearer_token="not-a-real-token",
+        )
+
+
+def test_future_qualification_pin_hashes_and_parses_exact_artifact_bytes(monkeypatch):
+    artifact = (
+        json.dumps(
+            qualification_mapping(),
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    digest = hashlib.sha256(artifact).hexdigest()
+    monkeypatch.setattr(
+        supabase_witness,
+        "QUALIFICATION_ARTIFACT_SHA256",
+        digest,
+    )
+    witness = supabase_witness.SupabaseFrontierWitness(
+        FakeTransport(),
+        qualification_artifact=artifact,
+    )
+    assert witness.monotonicity_qualified is True
+
+    tampered = artifact.replace(b'"PASS"', b'"FAIL"')
+    with pytest.raisesRegex(
+        WitnessIntegrityError,
+        "qualification artifact digest mismatch",
+    ):
+        supabase_witness.SupabaseFrontierWitness(
+            FakeTransport(),
+            qualification_artifact=tampered,
         )
