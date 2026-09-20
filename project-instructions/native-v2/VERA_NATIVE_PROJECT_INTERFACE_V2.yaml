@@ -29,6 +29,9 @@ project_sources:
   coordination:
     logical_id: VERA_COORDINATION
     schema: VERA_COORDINATION_V2
+  task_closeout:
+    logical_id: VERA_TASK_EXECUTION_AND_CLOSEOUT
+    schema: VERA_TASK_EXECUTION_AND_CLOSEOUT_V2
   separation:
     logical_id: VERA_CONTROL_SOURCE_SEPARATION
     schema: VERA_CONTROL_SOURCE_SEPARATION_V2

@@ -20,6 +20,7 @@
     "VERA_REPOSITORY_TOPOLOGY_V2.yaml",
     "VERA_MEMORY_AND_PRIVACY_V2.md",
     "VERA_COORDINATION_V2.md",
+    "VERA_TASK_EXECUTION_AND_CLOSEOUT_V2.md",
     "VERA_NATIVE_PROJECT_PACK_MANIFEST_V2.json"
   ],
   "release_sources_resolved_by_identity": [

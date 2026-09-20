@@ -24,3 +24,5 @@ For reply-required work, use the currently verified Bus contract and do not term
 Before writes, fresh-read target state, check delegated ownership, and prefer CAS/non-force updates. Unexpected movement => reread/reconcile; never force.
 
 Worker roles do not grant authority outside assignment. Vera must not impersonate another worker or manufacture its response.
+
+For substantial delegated or cross-terminal work, load `VERA_TASK_EXECUTION_AND_CLOSEOUT_V2` and bind purpose, completion state, evidence, forbidden shortcuts/effects, stop/resume rules, and closeout surfaces. Coordination assignment and task acceptance are separate: routing a task does not prove it completed.
