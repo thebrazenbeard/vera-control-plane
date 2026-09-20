@@ -43,7 +43,7 @@ Semantic owner:
 Vera runtime gate:
 - `thebrazenbeard/vera`
 - `runtime_cohesion/orgasm_optional_invocation.py`
-- blob `baced920545c27d54eeec359bfe4b0b3396ae2dc`
+- blob `0a2bbb83fb6d0ad62b28a80ad18131e23342115d`
 
 Orgasm orientation/binding:
 - `thebrazenbeard/orgasm`
