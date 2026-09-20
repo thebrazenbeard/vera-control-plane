@@ -76,7 +76,16 @@
       "pin_carrier_exclusion_rule": "The pin carrier is deliberately excluded from the implementation subject to avoid a self-referential digest. It may select an artifact only; the artifact must independently match the current witness/controller/contracts."
     },
     "pin_carrier": "tools/sd1_causal_supabase_witness_qualification.py",
-    "pin_carrier_in_implementation_subject": false
+    "pin_carrier_in_implementation_subject": false,
+    "acceptance_contract": "protocol/SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json",
+    "required_evidence_gates": [
+      "independent_exact_head_source_review",
+      "disposable_postgres_semantics",
+      "production_permission_readback",
+      "controller_integration_replay",
+      "provider_source_binding_readback"
+    ],
+    "pass_semantics": "ALL_REQUIRED_EVIDENCE_GATES_EXACT_PASS_WITH_DURABLE_EVIDENCE_DIGESTS"
   },
   "controller_binding": {
     "exact_type_required": true,

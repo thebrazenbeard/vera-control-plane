@@ -24,6 +24,7 @@ from tools.sd1_causal_supabase_witness import (
     PROVIDER_PROJECT_ID,
     ProviderTransportError,
     QUALIFICATION_ARTIFACT_SHA256,
+    QUALIFICATION_EVIDENCE_GATES,
     QUALIFICATION_SCHEMA,
     RECEIPT_RPC,
     READ_RPC,
@@ -173,6 +174,13 @@ class FakeTransport:
 
 
 def qualification_mapping() -> dict:
+    evidence = {
+        gate: {
+            "result": "PASS",
+            "evidence_sha256": hashlib.sha256(gate.encode("utf-8")).hexdigest(),
+        }
+        for gate in QUALIFICATION_EVIDENCE_GATES
+    }
     return {
         "qualification_schema": QUALIFICATION_SCHEMA,
         "project_id": PROVIDER_PROJECT_ID,
@@ -181,6 +189,7 @@ def qualification_mapping() -> dict:
         "source_head": SOURCE_HEAD,
         "source_git_blob": SOURCE_GIT_BLOB,
         **implementation_subject_sha256s(),
+        "qualification_evidence": evidence,
         "monotonicity_qualification": "PASS",
     }
 
@@ -313,6 +322,33 @@ def test_pinned_stale_qualification_artifact_rejects_moved_implementation(
             FakeTransport(),
             qualification_artifact=artifact,
         )
+
+
+def test_qualification_rejects_missing_required_evidence_gate(monkeypatch):
+    mapping = qualification_mapping()
+    mapping["qualification_evidence"].pop("disposable_postgres_semantics")
+    artifact = (json.dumps(mapping, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+    monkeypatch.setattr(supabase_witness, "QUALIFICATION_ARTIFACT_SHA256", hashlib.sha256(artifact).hexdigest())
+    with pytest.raises(WitnessIntegrityError, match="evidence gates do not match exact schema"):
+        supabase_witness.SupabaseFrontierWitness(FakeTransport(), qualification_artifact=artifact)
+
+
+def test_qualification_rejects_nonpass_evidence_gate(monkeypatch):
+    mapping = qualification_mapping()
+    mapping["qualification_evidence"]["production_permission_readback"]["result"] = "NOT_EXECUTED"
+    artifact = (json.dumps(mapping, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+    monkeypatch.setattr(supabase_witness, "QUALIFICATION_ARTIFACT_SHA256", hashlib.sha256(artifact).hexdigest())
+    with pytest.raises(WitnessIntegrityError, match="production_permission_readback is not PASS"):
+        supabase_witness.SupabaseFrontierWitness(FakeTransport(), qualification_artifact=artifact)
+
+
+def test_qualification_rejects_malformed_evidence_digest(monkeypatch):
+    mapping = qualification_mapping()
+    mapping["qualification_evidence"]["controller_integration_replay"]["evidence_sha256"] = "not-a-digest"
+    artifact = (json.dumps(mapping, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+    monkeypatch.setattr(supabase_witness, "QUALIFICATION_ARTIFACT_SHA256", hashlib.sha256(artifact).hexdigest())
+    with pytest.raises(WitnessIntegrityError, match="controller_integration_replay digest invalid"):
+        supabase_witness.SupabaseFrontierWitness(FakeTransport(), qualification_artifact=artifact)
 
 
 def test_transport_refuses_wrong_provider_host_before_any_network_call():

@@ -89,12 +89,16 @@ binding contract, and controller binding contract. Construction rehashes those
 current files and rejects an otherwise correctly pinned PASS artifact when any
 subject digest is stale.
 
+The exact acceptance semantics are frozen in
+protocol/SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json.
+monotonicity_qualification=PASS is not accepted as a standalone assertion.
+The pinned artifact must contain PASS evidence digests for all five required
+evidence gates.
+
 A later source change may make the production witness constructible only after:
 
-- independent exact-head hostile review of this client/controller integration;
-- bounded provider permission/readback qualification;
-- stale-CAS/idempotency/ambiguity tests at the provider boundary;
-- a durable qualification artifact;
+- all five acceptance-contract evidence gates are independently satisfied;
+- a durable qualification artifact binds those evidence digests and the exact implementation subject;
 - exact SHA-256 pinning of that artifact in source.
 
 That later source change is itself separate from causal collection authority.
