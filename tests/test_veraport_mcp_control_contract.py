@@ -83,6 +83,9 @@ def test_required_hostile_regressions_are_frozen():
         "CONTROLLER_KEY_MISMATCH",
         "WORKSTATION_KEY_MISMATCH",
         "SOURCE_AS_INSTALL_OR_CURRENT_ROUTE",
+        "LOGICAL_READ_CLOSE_RACE",
+        "POST_CLOSE_MIRROR_MATERIALIZATION",
+        "CONTROLLER_RESTART_FENCE_REUSE",
     }:
         assert required in attacks
 
@@ -109,7 +112,7 @@ def test_contract_is_bound_to_current_vera_implementation_subject():
     assert subject["pull_request"] == 12
     assert subject["branch"] == "vera/veraport-chatgpt-mcp-v2-20260920"
     assert subject["head"] == "87f9be76d3fff35ba1bae7674d4af8957153ac6a"
-    assert subject["review_state"] == "PASS_AT_INITIAL_RDC_EQUIVALENCE_SOURCE_SCOPE"
+    assert subject["review_state"] == "CHANGES_REQUIRED_DEEP_HOSTILE_REREVIEW"
 
 
 def test_live_process_policy_remains_hold():
@@ -118,3 +121,31 @@ def test_live_process_policy_remains_hold():
     assert value["routes"]["current_application_route"] == (
         "NONE_QUALIFIED_PENDING_CONTROLLER_PRIVATE_KEY"
     )
+
+
+def test_close_is_a_linearization_boundary_for_lane_authority():
+    fencing = load()["concurrency_fencing"]
+    assert fencing["lane_close_linearization"] == (
+        "CLOSE_RETURN_MUST_FENCE_ALL_PRIOR_AND_CONCURRENT_LANE_OPERATIONS"
+    )
+    assert fencing["post_close_mirror_materialization"] == "FORBIDDEN"
+    assert fencing["post_close_content_return"] == "FORBIDDEN"
+    assert fencing["await_boundary_rule"] == (
+        "AUTHORITY_MUST_BE_REVALIDATED_OR_SERIALIZED_ACROSS_ASYNC_AWAITS"
+    )
+
+
+def test_fence_identity_never_repeats_across_controller_restart():
+    fencing = load()["concurrency_fencing"]
+    assert fencing["controller_restart_fence_reuse"] == "FORBIDDEN"
+    assert fencing["stale_prior_lifetime_fence"] == "MUST_REJECT"
+    assert fencing["fence_generation_requirement"] == (
+        "NONREPEATING_ACROSS_CONTROLLER_LIFETIMES_OR_DURABLY_MONOTONIC"
+    )
+    assert set(fencing["required_tests"]) >= {
+        "BLOCKED_READ_RACES_CLOSE",
+        "BLOCKED_MIRROR_OPEN_RACES_CLOSE",
+        "CONTROLLER_RESTART_STALE_FENCE",
+        "REOPEN_SAME_LANE_ID_AFTER_RESTART",
+        "NO_POST_CLOSE_REMOTE_OPERATION",
+    }
