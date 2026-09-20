@@ -27,6 +27,18 @@ class ProviderBindingTests(unittest.TestCase):
         self.assertIn("CONTROLLER_BINDING_UNESTABLISHED", anchor["classification"])
         self.assertIn("REAL_CAUSAL_COLLECTION_UNESTABLISHED", anchor["classification"])
 
+    def test_deployed_migration_is_bound_to_exact_git_source_bytes(self):
+        deployed = self.binding["deployed_source_binding"]
+        self.assertEqual(deployed["provider_statement_count"], 1)
+        self.assertEqual(deployed["provider_statement_bytes"], deployed["source_bytes"])
+        self.assertEqual(deployed["provider_statement_sha256"], deployed["source_sha256"])
+        self.assertEqual(
+            deployed["provider_statement_sha256"],
+            "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
+        )
+        self.assertTrue(deployed["exact_byte_match"])
+        self.assertEqual(deployed["classification"], "EXACT_DEPLOYED_SOURCE_BYTES_VERIFIED")
+
     def test_binding_does_not_self_authorize_provider_mutation(self):
         boundary = " ".join(self.binding["effect_boundary"])
         self.assertIn("separate exact Patrick authority", boundary)
