@@ -1,0 +1,69 @@
+{
+  "schema": "SD1_WITNESS_QUALIFICATION_EVIDENCE_CUT_V1",
+  "status": "PARTIAL_EVIDENCE_CUT / 3_OF_5_GATES_PASS / QUALIFICATION_ARTIFACT_UNBOUND",
+  "acceptance_subject": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "draft_pr": 82,
+    "exact_head": "7b9877741df29b75cecdf99ba4d92c2fa09cecf8",
+    "parent_pr": 73,
+    "parent_head": "7e894a72ca453a63a8e2f57d3162aa27962c3e06",
+    "acceptance_contract": "protocol/SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json"
+  },
+  "gates": {
+    "independent_exact_head_source_review": {
+      "result": "NOT_EXECUTED",
+      "reason": "A separate reviewer must return exact-head review for PR #82."
+    },
+    "disposable_postgres_semantics": {
+      "result": "NOT_EXECUTED",
+      "reason": "No disposable PostgreSQL semantic execution has been completed for exact PR #82."
+    },
+    "production_permission_readback": {
+      "result": "PASS",
+      "path": "evidence/qualification/SD1_PR82_PRODUCTION_PERMISSION_READBACK_20260920.json",
+      "evidence_sha256": "0ed4aa1d35d8672e1fb5b28eb5f5d4f4a90355f124ecd85b3969977edebdc665"
+    },
+    "controller_integration_replay": {
+      "result": "PASS",
+      "path": "evidence/qualification/SD1_PR82_CONTROLLER_INTEGRATION_REPLAY_20260920.json",
+      "evidence_sha256": "919c3853bc9e2ff5672a32401fbc3341bfdd7f469c434f9b055bb8ebbd21a511"
+    },
+    "provider_source_binding_readback": {
+      "result": "PASS",
+      "path": "evidence/qualification/SD1_PR82_PROVIDER_SOURCE_BINDING_READBACK_20260920.json",
+      "evidence_sha256": "89bd3d4e295043e5c3b0f74458175e20255863b83e42b4507056ee7f4e3a9256"
+    }
+  },
+  "gate_summary": {
+    "required": 5,
+    "pass": 3,
+    "not_executed": 2
+  },
+  "qualification_artifact": "UNBOUND",
+  "production_witness": "NOT_CONSTRUCTIBLE",
+  "causal_data_collection": "HOLD",
+  "control_causality": "UNRESOLVED",
+  "interpretation": "This cut records only gates established for exact PR #82 on passed PR #73. It cannot become a PASS qualification artifact until all five gates are exact PASS and their durable evidence digests are bound.",
+  "superseded_predecessors": [
+    {
+      "pr": 72,
+      "head": "d5e39d8fee4d6b37aedf11085b3aec66b9a33759",
+      "disposition": "SUPERSEDED_WRONG_PROJECTION_LINEAGE"
+    },
+    {
+      "pr": 75,
+      "head": "05874fb243783602b5292738bb17510c4adf9e36",
+      "disposition": "SUPERSEDED_EVIDENCE_FOR_WRONG_ACCEPTANCE_SUBJECT"
+    }
+  ],
+  "non_effects": [
+    "NOT_PROVIDER_MUTATION",
+    "NOT_CREDENTIAL_PROVISIONING",
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_CURRENT_ROUTE_QUALIFICATION",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_GLOBAL_QUALIFICATION",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}
