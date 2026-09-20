@@ -456,20 +456,30 @@ class SupabaseFrontierWitness(SupabaseFrontierClient):
         self,
         transport: Any,
         *,
-        qualification: dict[str, Any],
-        qualification_artifact_sha256: str,
+        qualification_artifact: str | bytes,
     ) -> None:
         if QUALIFICATION_ARTIFACT_SHA256 is None:
             raise WitnessIntegrityError(
                 "production provider witness qualification artifact is not pinned"
             )
-        if (
-            qualification_artifact_sha256
-            != QUALIFICATION_ARTIFACT_SHA256
-        ):
+        if isinstance(qualification_artifact, str):
+            raw = qualification_artifact.encode("utf-8")
+        elif isinstance(qualification_artifact, bytes):
+            raw = qualification_artifact
+        else:
             raise WitnessIntegrityError(
-                "production provider witness qualification digest mismatch"
+                "production provider witness qualification artifact must be bytes or text"
             )
+        if hashlib.sha256(raw).hexdigest() != QUALIFICATION_ARTIFACT_SHA256:
+            raise WitnessIntegrityError(
+                "production provider witness qualification artifact digest mismatch"
+            )
+        try:
+            qualification = json.loads(raw.decode("utf-8"))
+        except Exception as exc:
+            raise WitnessIntegrityError(
+                "production provider witness qualification artifact is invalid JSON"
+            ) from exc
         self._qualification = ProviderQualification.from_mapping(
             qualification
         )
