@@ -149,3 +149,35 @@ def test_fence_identity_never_repeats_across_controller_restart():
         "REOPEN_SAME_LANE_ID_AFTER_RESTART",
         "NO_POST_CLOSE_REMOTE_OPERATION",
     }
+
+
+def test_transport_blackhole_has_explicit_bounded_failover_semantics():
+    value = load()["transport_deadlines"]
+    assert value["connect_tls_application_handshake"] == "BOUNDED_REQUIRED"
+    assert value["probe"] == "BOUNDED_REQUIRED"
+    assert value["operation"] == "BOUNDED_REQUIRED"
+    assert value["read_only_timeout"] == "MAY_FAILOVER_AS_TRANSPORT_FAILURE"
+    assert value["mutation_timeout"] == "AMBIGUOUS_DELIVERY"
+    assert value["direct_blackhole_must_not_block_edge"] == "REQUIRED"
+
+
+def test_path_freshness_policy_is_one_value_everywhere():
+    policy = load()["routes"]["max_path_age_policy"]
+    assert policy["single_authoritative_value"] == "ControllerConfig.max_path_age_ms"
+    assert set(policy["must_apply_to"]) == {
+        "MACHINE_INFO",
+        "READ_ROUTER",
+        "GATEWAY_LANE_CONTROL",
+        "GATEWAY_WRITE",
+        "GATEWAY_PROCESS",
+    }
+    assert policy["hard_coded_secondary_default"] == "FORBIDDEN"
+
+
+def test_workstation_close_cannot_claim_drained_while_effects_continue():
+    semantics = load()["concurrency_fencing"]["workstation_close_semantics"]
+    assert semantics["required_choice"] == (
+        "DRAIN_BEFORE_CLOSE_RETURN_OR_EXPLICIT_INFLIGHT_STATE"
+    )
+    assert semantics["simple_closed_true_while_effects_continue"] == "FORBIDDEN"
+    assert set(semantics["must_cover"]) >= {"FS_READ", "FS_WRITE", "PROCESS_EXECUTION"}
