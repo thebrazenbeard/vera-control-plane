@@ -85,16 +85,25 @@ required to qualify.
 
 A qualification artifact is also implementation-subject-bound. It must carry
 canonical SHA-256 digests for the witness source, controller source, provider
-binding contract, and controller binding contract. Construction rehashes those
-current files and rejects an otherwise correctly pinned PASS artifact when any
-subject digest is stale.
+binding contract, controller binding contract, and qualification acceptance
+contract. Construction rehashes those current subjects and rejects an otherwise
+correctly pinned PASS artifact when any subject digest is stale.
+
+The binding/controller contracts use the PR #73 narrow semantic projection:
+only declared mutable qualification/currentness leaves are excluded. Fixed hash
+vectors, denied capabilities, and safety/authority ceilings such as
+`causal_data_collection` remain inside the immutable qualification subject.
+
+The acceptance contract is separately hashed after excluding only its mutable
+`status` and `current_frontier`. Evidence-gate definitions, artifact shape,
+state separation, and non-effects remain bound. A caller-supplied
+`monotonicity_qualification=PASS` cannot self-qualify the witness; the pinned
+artifact must carry exact PASS evidence digests for all five required gates.
 
 A later source change may make the production witness constructible only after:
 
-- independent exact-head hostile review of this client/controller integration;
-- bounded provider permission/readback qualification;
-- stale-CAS/idempotency/ambiguity tests at the provider boundary;
-- a durable qualification artifact;
+- all five acceptance-contract evidence gates are independently satisfied;
+- a durable qualification artifact binds those evidence digests and all five exact implementation subjects;
 - exact SHA-256 pinning of that artifact in source.
 
 That later source change is itself separate from causal collection authority.
