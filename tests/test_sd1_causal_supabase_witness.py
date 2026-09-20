@@ -25,6 +25,7 @@ from tools.sd1_causal_supabase_witness import (
     PROVIDER_PROJECT_ID,
     ProviderTransportError,
     QUALIFICATION_ARTIFACT_SHA256,
+    QUALIFICATION_EVIDENCE_GATES,
     QUALIFICATION_SCHEMA,
     RECEIPT_RPC,
     READ_RPC,
@@ -174,6 +175,13 @@ class FakeTransport:
 
 
 def qualification_mapping() -> dict:
+    evidence = {
+        gate: {
+            "result": "PASS",
+            "evidence_sha256": hashlib.sha256(gate.encode("utf-8")).hexdigest(),
+        }
+        for gate in QUALIFICATION_EVIDENCE_GATES
+    }
     return {
         "qualification_schema": QUALIFICATION_SCHEMA,
         "project_id": PROVIDER_PROJECT_ID,
@@ -182,6 +190,7 @@ def qualification_mapping() -> dict:
         "source_head": SOURCE_HEAD,
         "source_git_blob": SOURCE_GIT_BLOB,
         **implementation_subject_sha256s(),
+        "qualification_evidence": evidence,
         "monotonicity_qualification": "PASS",
     }
 
@@ -290,6 +299,7 @@ def test_implementation_subject_excludes_artifact_pin_carrier():
         "controller_source_sha256",
         "witness_binding_contract_sha256",
         "controller_binding_contract_sha256",
+        "qualification_acceptance_contract_sha256",
     }
 
 
@@ -298,8 +308,19 @@ def test_implementation_subject_excludes_artifact_pin_carrier():
     [
         "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json",
         "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json",
+        "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json",
     ],
 )
+def test_implementation_subject_binds_acceptance_contract_as_fifth_subject():
+    assert set(implementation_subject_sha256s()) == {
+        "witness_source_sha256",
+        "controller_source_sha256",
+        "witness_binding_contract_sha256",
+        "controller_binding_contract_sha256",
+        "qualification_acceptance_contract_sha256",
+    }
+
+
 def test_implementation_subject_rejects_malformed_contract(
     monkeypatch,
     contract_name,
@@ -324,6 +345,7 @@ def test_implementation_subject_rejects_malformed_contract(
     [
         "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json",
         "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json",
+        "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json",
     ],
 )
 def test_implementation_subject_rejects_wrong_contract_schema(
@@ -371,6 +393,29 @@ def test_implementation_subject_rejects_contract_projection_metadata_drift(
         implementation_subject_sha256s()
 
 
+def test_acceptance_contract_projection_metadata_drift_fails_closed(
+    monkeypatch,
+):
+    original_read_text = Path.read_text
+
+    def drifted_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json":
+            value = json.loads(text)
+            value["implementation_subject_binding"][
+                "subject_projection_excludes"
+            ] = ["status"]
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", drifted_read_text)
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="projection metadata mismatch",
+    ):
+        implementation_subject_sha256s()
+
+
 def test_qualification_subject_ignores_only_declared_currentness_fields(
     monkeypatch,
 ):
@@ -397,6 +442,12 @@ def test_qualification_subject_ignores_only_declared_currentness_fields(
             value["production_binding"]["monotonicity_qualification"] = "PASS"
             value["production_binding"]["runtime_constructible"] = True
             value["production_binding"]["status"] = "QUALIFIED"
+            return json.dumps(value)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json":
+            value = json.loads(text)
+            value["status"] = "QUALIFIED"
+            value["current_frontier"]["qualification_artifact"] = "PINNED"
+            value["current_frontier"]["production_witness"] = "CONSTRUCTIBLE"
             return json.dumps(value)
         return text
 
@@ -452,6 +503,92 @@ def test_qualification_subject_detects_contract_semantic_change(monkeypatch):
         moved["witness_binding_contract_sha256"]
         != baseline["witness_binding_contract_sha256"]
     )
+
+
+def test_qualification_subject_detects_acceptance_contract_semantic_change(
+    monkeypatch,
+):
+    baseline = implementation_subject_sha256s()
+    original_read_text = Path.read_text
+
+    def semantic_change_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json":
+            value = json.loads(text)
+            value["state_separation"]["causal_collection"] = "AUTO_ALLOWED"
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", semantic_change_read_text)
+    moved = implementation_subject_sha256s()
+    assert (
+        moved["qualification_acceptance_contract_sha256"]
+        != baseline["qualification_acceptance_contract_sha256"]
+    )
+
+
+def test_qualification_rejects_missing_required_evidence_gate(monkeypatch):
+    mapping = qualification_mapping()
+    mapping["qualification_evidence"].pop("disposable_postgres_semantics")
+    artifact = (
+        json.dumps(mapping, sort_keys=True, separators=(",", ":")) + "\n"
+    ).encode("utf-8")
+    monkeypatch.setattr(
+        supabase_witness,
+        "QUALIFICATION_ARTIFACT_SHA256",
+        hashlib.sha256(artifact).hexdigest(),
+    )
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="evidence gates do not match exact schema",
+    ):
+        supabase_witness.SupabaseFrontierWitness(
+            FakeTransport(), qualification_artifact=artifact
+        )
+
+
+def test_qualification_rejects_nonpass_evidence_gate(monkeypatch):
+    mapping = qualification_mapping()
+    mapping["qualification_evidence"]["production_permission_readback"][
+        "result"
+    ] = "NOT_EXECUTED"
+    artifact = (
+        json.dumps(mapping, sort_keys=True, separators=(",", ":")) + "\n"
+    ).encode("utf-8")
+    monkeypatch.setattr(
+        supabase_witness,
+        "QUALIFICATION_ARTIFACT_SHA256",
+        hashlib.sha256(artifact).hexdigest(),
+    )
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="production_permission_readback is not PASS",
+    ):
+        supabase_witness.SupabaseFrontierWitness(
+            FakeTransport(), qualification_artifact=artifact
+        )
+
+
+def test_qualification_rejects_malformed_evidence_digest(monkeypatch):
+    mapping = qualification_mapping()
+    mapping["qualification_evidence"]["controller_integration_replay"][
+        "evidence_sha256"
+    ] = "not-a-digest"
+    artifact = (
+        json.dumps(mapping, sort_keys=True, separators=(",", ":")) + "\n"
+    ).encode("utf-8")
+    monkeypatch.setattr(
+        supabase_witness,
+        "QUALIFICATION_ARTIFACT_SHA256",
+        hashlib.sha256(artifact).hexdigest(),
+    )
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="controller_integration_replay digest invalid",
+    ):
+        supabase_witness.SupabaseFrontierWitness(
+            FakeTransport(), qualification_artifact=artifact
+        )
 
 
 def test_pinned_stale_qualification_artifact_rejects_moved_implementation(
