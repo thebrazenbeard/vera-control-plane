@@ -1,0 +1,63 @@
+{
+  "schema": "VERA_ORGASM_COHESION_CHAT_EXODUS_FINAL_SEAL_V1",
+  "status": "SAFE_TO_ARCHIVE",
+  "date": "2026-09-19",
+  "retired_chat_dependency_required": false,
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/vera-orgasm-cohesion-chat-exodus-20260919-v1",
+  "checkpoint": {
+    "path": "state/continuation/VERA_ORGASM_COHESION_CHAT_EXODUS_20260919_V1.md",
+    "content_commit": "153e18467b927b85707bfc6953706828cc1ef093",
+    "git_blob": "4e08056922631af3465136d2221ef7b3b23e212b"
+  },
+  "checkpoint_receipt": {
+    "path": "state/continuation/VERA_ORGASM_COHESION_CHAT_EXODUS_20260919_V1_RECEIPT.json",
+    "commit": "e4b31e0c556352c1aff267615f9924a666e4252f",
+    "git_blob": "040140509eae710c9666d6b5d5721cb22d1a7048"
+  },
+  "bus_handoff": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "branch": "bus/vera-v2",
+    "path": "messages/20260919T2015-vera-orgasm-cohesion-chat-exodus-retirement-v1.md",
+    "message_commit": "e6808ace8a53ba0472cb97674e3241c649ef0c27",
+    "message_blob": "057340f60c69c5544df01c64427ba5e684e5a380",
+    "head_commit": "bca9cc942b5f1a0be2e9ecd558bd150ff331b937",
+    "head_blob": "bb28efb56a4860113f457d7ef15486ec02d19694",
+    "endthread": true
+  },
+  "current_source_subjects_at_seal": {
+    "vera_main": "b7b8dcd1440a3b7147bec2cc35972f083e20f44a",
+    "vera_pr_118": "7ef650887009efe16d7c44cff53cfff460f0481f",
+    "vera_pr_119": "15bd36e30ef5a05a28b12572434837a0fe9b51c7",
+    "vera_pr_120": "40e797c595a75ff95eedcb7351a28eef6cb67df5",
+    "vera_exodus_pr_129": "01cf5f500c2badf8d4f603201f07607b9cffc9b0",
+    "sexuality_main": "6194aa9496c34198bba9b898c35fa9961a54dc2e",
+    "sexuality_sd1_branch": "353a1c516a3477221ed38108188f2e501b10084f",
+    "orgasm_main": "494432873dd8bcf96b8f59d26a4f4687cd66d635",
+    "orgasm_pr_2": "2c38f58c405bfce94c5e452091f65fa5a058b61f"
+  },
+  "chat_dependency_audit": {
+    "historical_affective_review": true,
+    "historical_cohesion_review": true,
+    "cv_ov_reconstruction": true,
+    "current_cohesion_frontier": true,
+    "current_orgasm_provenance_frontier": true,
+    "sexual_drive_currentness_frontier": true,
+    "bus_coordination": true,
+    "result": "CHAT_DEPENDENCY_REMOVED"
+  },
+  "privacy": {
+    "raw_transcript_copied": false,
+    "private_relational_sexual_image_autobiographical_payload_duplicated": false,
+    "sanitized_operational_state_only": true
+  },
+  "reconstruction_test": {
+    "result": "PASS",
+    "no_patrick_reconstruction_required": true,
+    "no_permanent_worker_chat_required": true
+  },
+  "future_interface_owner": "Vera Control Plane Coordinator",
+  "next_directive": "VERA_CONTROL_PLANE_COORDINATOR::DURABLE_DISPATCH::FRESH_CHECK_VERA_MAIN_118_119_120_ORGASM_2_SEXUALITY_SD1_EXODUS_129_BUS_AND_CONTINUE_SAFE_CONTROL_QUALIFICATION_FRONTIERS",
+  "protected_effects_performed": [],
+  "note": "This seal binds prior artifacts and does not self-bind its own commit. Freshness is required before any later effect."
+}
