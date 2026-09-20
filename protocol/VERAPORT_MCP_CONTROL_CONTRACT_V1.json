@@ -7,7 +7,7 @@
     "exact_head_required_for_review": true,
     "head": "87f9be76d3fff35ba1bae7674d4af8957153ac6a",
     "pull_request": 12,
-    "review_state": "PASS_AT_INITIAL_RDC_EQUIVALENCE_SOURCE_SCOPE"
+    "review_state": "CHANGES_REQUIRED_DEEP_HOSTILE_REREVIEW"
   },
   "operation_classes": {
     "READ_ONLY": [
@@ -174,7 +174,10 @@
     "WORKSTATION_KEY_MISMATCH",
     "EDGE_TLS_BREAKS_END_TO_END_AUTH",
     "LOCAL_PROCESS_DISABLED_BUT_REMOTE_CLAIMED_PASS",
-    "SOURCE_AS_INSTALL_OR_CURRENT_ROUTE"
+    "SOURCE_AS_INSTALL_OR_CURRENT_ROUTE",
+    "LOGICAL_READ_CLOSE_RACE",
+    "POST_CLOSE_MIRROR_MATERIALIZATION",
+    "CONTROLLER_RESTART_FENCE_REUSE"
   ],
   "chatgpt_exposure": {
     "local_mcp_server": "NOT_DIRECTLY_REACHABLE_BY_CHATGPT",
@@ -192,5 +195,21 @@
       "PRODUCT_SIDE_REGISTRATION_READBACK"
     ],
     "local_server_non_implication": "MCP_SERVER_RUNNING_NE_PLUGIN_REGISTERED"
+  },
+  "concurrency_fencing": {
+    "lane_close_linearization": "CLOSE_RETURN_MUST_FENCE_ALL_PRIOR_AND_CONCURRENT_LANE_OPERATIONS",
+    "post_close_mirror_materialization": "FORBIDDEN",
+    "post_close_content_return": "FORBIDDEN",
+    "await_boundary_rule": "AUTHORITY_MUST_BE_REVALIDATED_OR_SERIALIZED_ACROSS_ASYNC_AWAITS",
+    "controller_restart_fence_reuse": "FORBIDDEN",
+    "fence_generation_requirement": "NONREPEATING_ACROSS_CONTROLLER_LIFETIMES_OR_DURABLY_MONOTONIC",
+    "stale_prior_lifetime_fence": "MUST_REJECT",
+    "required_tests": [
+      "BLOCKED_READ_RACES_CLOSE",
+      "BLOCKED_MIRROR_OPEN_RACES_CLOSE",
+      "CONTROLLER_RESTART_STALE_FENCE",
+      "REOPEN_SAME_LANE_ID_AFTER_RESTART",
+      "NO_POST_CLOSE_REMOTE_OPERATION"
+    ]
   }
 }
