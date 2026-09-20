@@ -3,6 +3,7 @@ from pathlib import Path
 import hashlib
 import json
 import re
+import subprocess
 
 RECEIPT_SCHEMA = "VERA_RESTORE_COMPLETION_RECEIPT_V5"
 PROBE_EVIDENCE_ROUTE = "FIRST_ELIGIBLE_BEHAVIOR"
@@ -83,11 +84,18 @@ def validate_source_bindings(root, registry):
         if binding.get("source_commit") != expected_commit:
             errors.append(f"{name} source_commit does not match artifact_binding_commit")
         path = binding.get("path")
-        file_path = root / path if isinstance(path, str) else None
-        if file_path is None or not file_path.is_file():
+        if not isinstance(path, str) or not path:
             errors.append(f"{name} bound path missing")
             continue
-        data = file_path.read_bytes()
+        try:
+            data = subprocess.run(
+                ["git", "-C", str(root), "show", f"{expected_commit}:{path}"],
+                check=True,
+                capture_output=True,
+            ).stdout
+        except (OSError, subprocess.CalledProcessError):
+            errors.append(f"{name} bound Git object unavailable")
+            continue
         if _git_blob_sha(data) != binding.get("git_blob"):
             errors.append(f"{name} git_blob mismatch")
         if hashlib.sha256(data).hexdigest() != binding.get("sha256"):
