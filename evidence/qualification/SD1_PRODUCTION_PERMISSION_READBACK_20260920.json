@@ -1,0 +1,135 @@
+{
+  "schema": "SD1_WITNESS_QUALIFICATION_EVIDENCE_V1",
+  "gate": "production_permission_readback",
+  "result": "PASS",
+  "observed_at": "2026-09-20T16:11:33.915919Z",
+  "provider": {
+    "project_id": "fawkirqroyniueeqspif",
+    "project_name": "Vera Control Plane",
+    "region": "us-east-2",
+    "status": "ACTIVE_HEALTHY",
+    "postgres_version": "17.6.1.166"
+  },
+  "broker_role": {
+    "role_name": "vera_sd1_causal_anchor_broker",
+    "rolcanlogin": false,
+    "rolinherit": false,
+    "rolbypassrls": false,
+    "authenticator_is_member": true
+  },
+  "rpc_surface": [
+    {
+      "name": "sd1_causal_frontier_advance_v1",
+      "security_definer": true,
+      "volatility": "v",
+      "acl": [
+        "postgres=EXECUTE",
+        "vera_sd1_causal_anchor_broker=EXECUTE"
+      ]
+    },
+    {
+      "name": "sd1_causal_frontier_read_v1",
+      "security_definer": true,
+      "volatility": "s",
+      "acl": [
+        "postgres=EXECUTE",
+        "vera_sd1_causal_anchor_broker=EXECUTE"
+      ]
+    },
+    {
+      "name": "sd1_causal_receipt_read_v1",
+      "security_definer": true,
+      "volatility": "s",
+      "acl": [
+        "postgres=EXECUTE",
+        "vera_sd1_causal_anchor_broker=EXECUTE"
+      ]
+    }
+  ],
+  "table_permissions": [
+    {
+      "role": "vera_sd1_causal_anchor_broker",
+      "api_usage": true,
+      "frontier_select": false,
+      "frontier_insert": false,
+      "frontier_update": false,
+      "frontier_delete": false,
+      "receipt_select": false,
+      "receipt_insert": false,
+      "receipt_update": false,
+      "receipt_delete": false
+    },
+    {
+      "role": "anon",
+      "api_usage": false,
+      "frontier_select": false,
+      "frontier_insert": false,
+      "frontier_update": false,
+      "frontier_delete": false,
+      "receipt_select": false,
+      "receipt_insert": false,
+      "receipt_update": false,
+      "receipt_delete": false
+    },
+    {
+      "role": "authenticated",
+      "api_usage": false,
+      "frontier_select": false,
+      "frontier_insert": false,
+      "frontier_update": false,
+      "frontier_delete": false,
+      "receipt_select": false,
+      "receipt_insert": false,
+      "receipt_update": false,
+      "receipt_delete": false
+    },
+    {
+      "role": "service_role",
+      "api_usage": false,
+      "frontier_select": false,
+      "frontier_insert": false,
+      "frontier_update": false,
+      "frontier_delete": false,
+      "receipt_select": false,
+      "receipt_insert": false,
+      "receipt_update": false,
+      "receipt_delete": false
+    }
+  ],
+  "function_permissions": [
+    {
+      "role": "vera_sd1_causal_anchor_broker",
+      "read_frontier_exec": true,
+      "read_receipt_exec": true,
+      "advance_exec": true
+    },
+    {
+      "role": "anon",
+      "read_frontier_exec": false,
+      "read_receipt_exec": false,
+      "advance_exec": false
+    },
+    {
+      "role": "authenticated",
+      "read_frontier_exec": false,
+      "read_receipt_exec": false,
+      "advance_exec": false
+    },
+    {
+      "role": "service_role",
+      "read_frontier_exec": false,
+      "read_receipt_exec": false,
+      "advance_exec": false
+    }
+  ],
+  "interpretation": "PASS establishes the observed bounded broker/API permission boundary only. It does not authorize or perform a frontier advance.",
+  "non_effects": [
+    "NOT_PROVIDER_MUTATION",
+    "NOT_CREDENTIAL_PROVISIONING",
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_CURRENT_ROUTE_QUALIFICATION",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}

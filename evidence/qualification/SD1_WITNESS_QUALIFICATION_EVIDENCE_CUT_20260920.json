@@ -1,0 +1,55 @@
+{
+  "schema": "SD1_WITNESS_QUALIFICATION_EVIDENCE_CUT_V1",
+  "status": "PARTIAL_EVIDENCE_CUT / 3_OF_5_GATES_PASS / QUALIFICATION_ARTIFACT_UNBOUND",
+  "acceptance_subject": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "draft_pr": 63,
+    "exact_head": "a98309513e137b03989f12c30c97c17a78ae2b67",
+    "acceptance_contract": "protocol/SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json"
+  },
+  "gates": {
+    "independent_exact_head_source_review": {
+      "result": "NOT_EXECUTED",
+      "reason": "Independent review belongs outside this Vera/VCP execution lane."
+    },
+    "disposable_postgres_semantics": {
+      "result": "NOT_EXECUTED",
+      "reason": "No disposable PostgreSQL semantic execution has been completed for this exact subject."
+    },
+    "production_permission_readback": {
+      "result": "PASS",
+      "path": "evidence/qualification/SD1_PRODUCTION_PERMISSION_READBACK_20260920.json",
+      "evidence_sha256": "7739476a8c08df5c3b0290cd06a33d84656236dcf0bb133b4362c184d25c109a"
+    },
+    "controller_integration_replay": {
+      "result": "PASS",
+      "path": "evidence/qualification/SD1_CONTROLLER_INTEGRATION_REPLAY_20260920.json",
+      "evidence_sha256": "05801f415e848234aa1cef214cbfdfc9adccc42ede99e788cb21690a9dc99c3f"
+    },
+    "provider_source_binding_readback": {
+      "result": "PASS",
+      "path": "evidence/qualification/SD1_PROVIDER_SOURCE_BINDING_READBACK_20260920.json",
+      "evidence_sha256": "dfaaf7a3626bab428c3495fe1359ef301a817ed525ce3a94aa00a85911ce54b3"
+    }
+  },
+  "gate_summary": {
+    "required": 5,
+    "pass": 3,
+    "not_executed": 2
+  },
+  "qualification_artifact": "UNBOUND",
+  "production_witness": "NOT_CONSTRUCTIBLE",
+  "causal_data_collection": "HOLD",
+  "control_causality": "UNRESOLVED",
+  "interpretation": "This evidence cut records only gates actually established at the exact acceptance subject. It cannot be promoted to a PASS qualification artifact until all five required gates are exact PASS and their evidence digests are bound.",
+  "non_effects": [
+    "NOT_PROVIDER_MUTATION",
+    "NOT_CREDENTIAL_PROVISIONING",
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_CURRENT_ROUTE_QUALIFICATION",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_GLOBAL_QUALIFICATION",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}
