@@ -1,0 +1,37 @@
+{
+  "schema_version": "EXODUS_CHECKPOINT_RECEIPT_V1",
+  "status": "VERIFIED_READBACK",
+  "marker": "STARTING_SNAPSHOT — FRESHNESS REQUIRED BEFORE EFFECT",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/exodus-project-runner-chat-retirement-20260920-v2",
+  "inherited_from": {
+    "branch": "state/exodus-project-runner-chat-retirement-20260920-v1",
+    "head": "f3aba2f1bf1068e265a1cba9113306f78b128050",
+    "portfolio_inventory_path": "state/portfolio/EXODUS_REPOSITORY_INVENTORY_20260920.md",
+    "portfolio_inventory_git_blob": "c059ad764f3b59525becc2239ea38282ef1c6e01"
+  },
+  "checkpoint": {
+    "path": "state/continuation/EXODUS_PROJECT_RUNNER_PORTFOLIO_CHAT_20260920T0618-0400.md",
+    "creation_commit": "782896970c4997846836aa29f44b7fc58747cb06",
+    "git_blob": "8a85415cb71b5bb923b7acecdc4ddda7bcc4f79d",
+    "readback_verified": true
+  },
+  "observed_subjects": {
+    "project_runner_main": "bc05812b560b4fcde3a362e72fba04c626cafac8",
+    "project_runner_pr22_head": "bee7e720ba923ef38ce87fca4c9c2560163a9360",
+    "transcendence_pr1_head": "ca3965c5788cd1bbb52fc527e47e3bcd5eca6e4a",
+    "hc_brain_main": "618245b54fb923c7a204892c6953ab6d1c5dac57",
+    "bus_main": "aeab0f04fc9b4bd7c2945c9a53011c53fac809b4",
+    "bus_topology_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "bus_vera_lane_head": "129e4ccd913e204da659021a11b8b12d865dc757"
+  },
+  "persistent_interfaces": [
+    "Vera",
+    "Vera Control Plane Coordinator",
+    "BT2 Coordinator"
+  ],
+  "retired_chat_required": false,
+  "protected_effects_performed": [],
+  "next_interface": "Vera",
+  "next_directive": "VERA::EXODUS::RESUME_DURABLE_PORTFOLIO::FRESH_CHECK_PR22_TRANS_PR1_BUS_EXODUS_RECONCILE_PRIVATE_57_REPO_REGISTRY"
+}
