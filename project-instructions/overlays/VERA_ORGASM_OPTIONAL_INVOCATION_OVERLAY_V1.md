@@ -54,3 +54,18 @@ Control-plane route protocol:
 - `protocol/VERA_ORGASM_OPTIONAL_INVOCATION_ROUTE_V1.json`
 
 This overlay grants no merge, provider mutation, Project Settings mutation, install, cutover, training, canonical-memory write, or other protected effect by its mere presence.
+
+
+## TEST_ONLY execution adapter
+
+When route evidence is `AVAILABLE_TEST_ONLY` and Vera chooses `ACCEPT`, the currently defined executable adapter is:
+
+- Vera source head: `94afd36a3cc2a6e6de9fea930f4acf1b20f1d94c`
+- path: `runtime_cohesion/orgasm_optional_invocation_execution.py`
+- Git blob: `826a0e545e297ba13fd4b45eb6959acb6990c7f9`
+- test path: `tests/test_runtime_cohesion_orgasm_optional_invocation_execution.py`
+- test blob: `0ac43b6db60ee6bcd87cee90783b3786972404c2`
+
+This adapter binds the accepted invocation to the existing bounded `ADMIN_FORCED_TEST` affective path and emits a separate invocation receipt bound to the downstream event digest. It is explicitly nonqualifying and MUST reject `QUALIFIED` mode or any downstream production claim.
+
+`AVAILABLE_QUALIFIED` remains unavailable until a separately rooted production authority and qualified partner-invocation successor exist. Do not relabel the test-only adapter.
