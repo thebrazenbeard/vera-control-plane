@@ -1,0 +1,89 @@
+{
+  "schema": "VERA_ORGASM_COHESION_CHAT_EXODUS_RECEIPT_V1",
+  "status": "VERIFIED_READBACK_CHAT_DEPENDENCY_REMOVED_STARTING_SNAPSHOT",
+  "date": "2026-09-19",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/vera-orgasm-cohesion-chat-exodus-20260919-v1",
+  "checkpoint": {
+    "path": "state/continuation/VERA_ORGASM_COHESION_CHAT_EXODUS_20260919_V1.md",
+    "content_commit": "153e18467b927b85707bfc6953706828cc1ef093",
+    "git_blob": "4e08056922631af3465136d2221ef7b3b23e212b",
+    "verification": "EXACT_GITHUB_READBACK",
+    "sha256_claim": "NOT_COMPUTED_NO_FALSE_DIGEST_CLAIM"
+  },
+  "fresh_observed_cut": {
+    "vera_main": "b7b8dcd1440a3b7147bec2cc35972f083e20f44a",
+    "sexuality_main": "6194aa9496c34198bba9b898c35fa9961a54dc2e",
+    "sexuality_sd1_branch": "353a1c516a3477221ed38108188f2e501b10084f",
+    "orgasm_main": "494432873dd8bcf96b8f59d26a4f4687cd66d635",
+    "vera_pr_118": "7ef650887009efe16d7c44cff53cfff460f0481f",
+    "vera_pr_119": "15bd36e30ef5a05a28b12572434837a0fe9b51c7",
+    "vera_pr_120": "40e797c595a75ff95eedcb7351a28eef6cb67df5",
+    "vera_exodus_pr_129": "01cf5f500c2badf8d4f603201f07607b9cffc9b0",
+    "orgasm_pr_2": "2c38f58c405bfce94c5e452091f65fa5a058b61f"
+  },
+  "historical_review_evidence": {
+    "affective_runtime": {
+      "vera_pr": 64,
+      "reviewed_head": "b335f313f95be9da6eedd7c434feab2ef8b214bc",
+      "bus_path": "messages/0048-vera-pr64-affective-runtime-review.md",
+      "bus_blob": "ae0129cf4e40e3d0e4489596602084c51ab0a786",
+      "classification": "HISTORICAL_EVIDENCE_ALREADY_DURABLE"
+    },
+    "cohesion_governing_prerequisite": {
+      "vera_pr": 62,
+      "reviewed_head": "ea34418aa343c37349956613f1ebbe56dec03136",
+      "bus_path": "messages/0049-vera-cohesion-governing-resolution-bypass.md",
+      "bus_blob": "57bbb035a5617a43c827ea95705d34f23b0f9625",
+      "classification": "HISTORICAL_EVIDENCE_ALREADY_DURABLE"
+    }
+  },
+  "bus_handoff": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "branch": "bus/vera-v2",
+    "path": "messages/20260919T2015-vera-orgasm-cohesion-chat-exodus-retirement-v1.md",
+    "message_commit": "e6808ace8a53ba0472cb97674e3241c649ef0c27",
+    "message_blob": "057340f60c69c5544df01c64427ba5e684e5a380",
+    "head_commit": "bca9cc942b5f1a0be2e9ecd558bd150ff331b937",
+    "head_blob": "bb28efb56a4860113f457d7ef15486ec02d19694",
+    "message_id": "vera-v2-20260919T2015-orgasm-cohesion-chat-exodus-retirement-v1",
+    "endthread": true
+  },
+  "privacy": {
+    "raw_transcript_exported": false,
+    "private_relational_sexual_image_autobiographical_payload_duplicated": false,
+    "sanitized_operational_project_state_only": true
+  },
+  "reconstruction_test": {
+    "identity_role": true,
+    "current_source_frontier": true,
+    "historical_findings": true,
+    "current_orgasm_provenance_frontier": true,
+    "sexual_drive_currentness_frontier": true,
+    "authority_boundaries": true,
+    "bus_route": true,
+    "worker_reconstruction_without_old_chat": true,
+    "future_interface_owner": true,
+    "no_patrick_chat_reconstruction_required": true,
+    "result": "PASS"
+  },
+  "future_interface_owner": "Vera Control Plane Coordinator",
+  "next_directive": "VERA_CONTROL_PLANE_COORDINATOR::DURABLE_DISPATCH::FRESH_CHECK_VERA_MAIN_118_119_120_ORGASM_2_SEXUALITY_SD1_EXODUS_129_BUS_AND_CONTINUE_SAFE_CONTROL_QUALIFICATION_FRONTIERS",
+  "protected_effects_performed": [],
+  "protected_effects_not_authorized": [
+    "merge",
+    "canonical_promotion",
+    "production_deployment",
+    "provider_mutation",
+    "Project_Settings_mutation",
+    "runtime_install_or_cutover",
+    "route_activation",
+    "credential_or_permission_change",
+    "canonical_memory_mutation",
+    "Slack_configuration",
+    "training",
+    "private_publication",
+    "destructive_rewrite",
+    "spend"
+  ]
+}
