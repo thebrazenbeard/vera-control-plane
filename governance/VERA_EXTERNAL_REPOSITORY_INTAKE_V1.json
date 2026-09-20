@@ -1,0 +1,196 @@
+{
+  "schema": "VERA_EXTERNAL_REPOSITORY_INTAKE_V1",
+  "status": "SOURCE_RESEARCH_INTAKE_ONLY_NOT_DEPENDENCY_NOT_CONTROL",
+  "observed_date": "2026-09-20",
+  "rules": {
+    "discovery_not_admission": true,
+    "exact_head_required": true,
+    "license_and_lifecycle_required": true,
+    "external_content_not_autobiographical_memory": true,
+    "external_content_not_control_source": true,
+    "external_source_not_install_or_runtime_evidence": true,
+    "code_reuse_requires_license_compatibility_review": true,
+    "destination_ownership_required_before_implementation": true
+  },
+  "repositories": [
+    {
+      "repository": "KKKKhazix/khazix-skills",
+      "head": "4f2db09802736ac8130ddf8dd6121435b5a41b55",
+      "license": "MIT",
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "HIGH_VALUE_PATTERN_SOURCE",
+      "evidence": [
+        {
+          "path": "leader/SKILL.md",
+          "blob": "deb36d81b75eed93b476b4469a085c6666156973"
+        },
+        {
+          "path": "neat-freak/SKILL.md",
+          "blob": "51333e97c010a8ba13b10dc3c89d17021d915aa8"
+        }
+      ],
+      "reusable_patterns": [
+        "goal plus harness plus evidence plus anti-cheat acceptance",
+        "verified-current / changed-and-verified / pending / out-of-scope / not-applicable closeout states",
+        "separate code/runtime/docs/rules/memory/workspace truth surfaces"
+      ],
+      "destination": "VCP coordination/currentness research",
+      "non_effect": "DO_NOT_INSTALL_SKILLS_OR_IMPORT_AGENT_MEMORY_AUTOMATICALLY"
+    },
+    {
+      "repository": "yhatt/marp",
+      "head": "5ce01a2343a28d25f25085d1d37cd92ea180184b",
+      "license": "MIT",
+      "lifecycle": "ARCHIVED",
+      "disposition": "HISTORICAL_ONLY_SUCCESSOR_REQUIRED",
+      "evidence": [
+        {
+          "path": "README.md",
+          "blob": "b1e9197e192b79aba14e55a86456169dfc8f1611"
+        }
+      ],
+      "reusable_patterns": [
+        "archived/popular source must not be treated as current dependency",
+        "explicit successor/currentness check"
+      ],
+      "destination": "documentation-tooling research only",
+      "non_effect": "NO_CLASSIC_MARP_DEPENDENCY"
+    },
+    {
+      "repository": "cirosantilli/china-dictatorship",
+      "head": "dc9884711356ebfe3da729c516dd7e2e555b4419",
+      "license": "CC-BY-SA-4.0",
+      "lifecycle": "ACTIVE_CONTENT_REPOSITORY",
+      "disposition": "CONTENT_CORPUS_ONLY",
+      "evidence_note": "Repository self-describes as a political advocacy/propaganda collection; no political claims are adopted by this intake.",
+      "reusable_patterns": [
+        "possible bounded multilingual/provenance stress fixture only under a separate explicit task"
+      ],
+      "destination": "none by default",
+      "non_effect": "NO_IDENTITY_MEMORY_CONTROL_OR_POLITICAL_POSITION_INGESTION"
+    },
+    {
+      "repository": "hughhowey/neo",
+      "head": "a2846ff28f8bfec257565c6ca0ecce4c16242e61",
+      "license": "MIT",
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "PATTERN_SOURCE",
+      "evidence": [
+        {
+          "path": "README.md",
+          "blob": "6d48c346514d2919473b8bb261dc1a0463fbbd23"
+        }
+      ],
+      "reusable_patterns": [
+        "local-first plain-file custody",
+        "reversible removal / Darlings pattern",
+        "placeholders for unresolved facts",
+        "timestamped export plus SHA-256 fingerprint",
+        "continuous autosave plus rotating backup"
+      ],
+      "destination": "VCP recovery/creative-workflow research",
+      "non_effect": "NO_APPLICATION_DEPENDENCY"
+    },
+    {
+      "repository": "fivesheep/chnroutes",
+      "head": "e62a5b3402d8b0bb60a92c352dede01c170232dc",
+      "license": null,
+      "lifecycle": "STALE_LAST_COMMIT_2018",
+      "disposition": "HISTORICAL_TECHNIQUE_ONLY_NO_CODE_REUSE",
+      "evidence": [
+        {
+          "path": "README.en.md",
+          "blob": "4f1ba81ddce775a2788ba4c2bf94ef9e36f04cdf"
+        }
+      ],
+      "reusable_patterns": [
+        "derive route policy from external allocation data",
+        "refresh generated routing data periodically"
+      ],
+      "destination": "network-routing history only",
+      "non_effect": "NO_CODE_COPY_NO_RUNTIME_DEPENDENCY"
+    },
+    {
+      "repository": "CluvexStudio/Aether",
+      "head": "0e6f6a5218e65ed4cddc68d1a71d9b9633f89e3f",
+      "license": "AGPL-3.0",
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "NETWORK_RESEARCH_ONLY_LICENSE_REVIEW_REQUIRED",
+      "evidence": [
+        {
+          "path": "README.md",
+          "blob": "4cbad772417faca610d9ad05f06f16b38f5847d6"
+        }
+      ],
+      "reusable_patterns": [
+        "validate a route by actual data-plane traffic, not handshake alone",
+        "last-known-good fast reconnect",
+        "persist node identity across ephemeral runtime",
+        "loopback-safe default exposure",
+        "release checksum verification"
+      ],
+      "destination": "VeraMesh transport/resilience research",
+      "non_effect": "NO_VCP_NETWORK_STACK_NO_CODE_IMPORT_WITHOUT_LICENSE_REVIEW"
+    },
+    {
+      "repository": "DNSCrypt/dnscrypt-server-docker",
+      "head": "1218e90963b4551fbc1e1272f1202fcbd1780a6c",
+      "license": "ISC",
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "OPERATIONS_PATTERN_SOURCE",
+      "evidence": [
+        {
+          "path": "README.md",
+          "blob": "b0e96c0307340f272c3eca5e54d4a893f17acf2d"
+        }
+      ],
+      "reusable_patterns": [
+        "persist keys/state outside replaceable runtime container",
+        "verify durable state before replacement",
+        "retain predecessor until successor is running",
+        "explicit operational readback and metrics"
+      ],
+      "destination": "VCP install/recovery pattern research",
+      "non_effect": "NO_DNS_SERVICE_DEPLOYMENT"
+    },
+    {
+      "repository": "encodeous/nylon",
+      "head": "c4a96c804f7aa08512721dec7994907eab100bc8",
+      "license": "Apache-2.0",
+      "lifecycle": "ACTIVE_2026",
+      "disposition": "HIGH_VALUE_NETWORK_ARCHITECTURE_SOURCE",
+      "evidence": [
+        {
+          "path": "README.md",
+          "blob": "1b01fccfb91281a222b9ebb715cdb4f67d7867f8"
+        }
+      ],
+      "reusable_patterns": [
+        "self-healing route convergence after link failure",
+        "decentralized route exchange without a central coordination server",
+        "multi-hop lowest-latency forwarding",
+        "control traffic inside authenticated encrypted transport"
+      ],
+      "destination": "VeraMesh first; Bus resilience research second",
+      "non_effect": "NO_VCP_ROUTING_IMPLEMENTATION_BY_DISCOVERY_ALONE"
+    }
+  ],
+  "prioritized_followups": [
+    "adapt goal/harness and closeout truth-surface patterns into VCP task/currentness contracts",
+    "send nylon and Aether architecture observations to VeraMesh research custody rather than implement in VCP",
+    "adapt durable-state-before-runtime-replacement pattern from DNSCrypt into install/recovery qualification",
+    "keep NEO reversible-removal and placeholder patterns available for recovery/creative workflows"
+  ],
+  "non_effects": [
+    "NOT_DEPENDENCY_ADMISSION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_RUNTIME_ROUTE",
+    "NOT_MEMORY_ADMISSION",
+    "NOT_CONTROL_OWNER",
+    "NOT_PROVIDER_MUTATION",
+    "NOT_NETWORK_DEPLOYMENT",
+    "NOT_POLITICAL_POSITION",
+    "NOT_LICENSE_COMPATIBILITY_APPROVAL",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}
