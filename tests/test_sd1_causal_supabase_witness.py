@@ -309,7 +309,6 @@ def test_implementation_subject_excludes_artifact_pin_carrier():
         "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json",
         "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json",
         "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json",
-        "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json",
     ],
 )
 def test_implementation_subject_rejects_malformed_contract(
@@ -371,6 +370,29 @@ def test_implementation_subject_rejects_contract_projection_metadata_drift(
         if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json":
             value = json.loads(text)
             value["qualification_gate"]["implementation_subject_binding"][
+                "subject_projection_excludes"
+            ] = ["status"]
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", drifted_read_text)
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="projection metadata mismatch",
+    ):
+        implementation_subject_sha256s()
+
+
+def test_acceptance_contract_projection_metadata_drift_fails_closed(
+    monkeypatch,
+):
+    original_read_text = Path.read_text
+
+    def drifted_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json":
+            value = json.loads(text)
+            value["implementation_subject_binding"][
                 "subject_projection_excludes"
             ] = ["status"]
             return json.dumps(value)
