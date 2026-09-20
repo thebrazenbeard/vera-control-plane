@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from pathlib import Path
 
 import pytest
 
@@ -301,6 +302,138 @@ def test_implementation_subject_excludes_artifact_pin_carrier():
     }
 
 
+@pytest.mark.parametrize(
+    "contract_name",
+    [
+        "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json",
+        "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json",
+    ],
+)
+def test_implementation_subject_rejects_malformed_contract(
+    monkeypatch,
+    contract_name,
+):
+    original_read_text = Path.read_text
+
+    def malformed_read_text(self, *args, **kwargs):
+        if self.name == contract_name:
+            return "{ definitely-not-json }"
+        return original_read_text(self, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", malformed_read_text)
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="unreadable or invalid JSON",
+    ):
+        implementation_subject_sha256s()
+
+
+@pytest.mark.parametrize(
+    "contract_name",
+    [
+        "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json",
+        "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json",
+    ],
+)
+def test_implementation_subject_rejects_wrong_contract_schema(
+    monkeypatch,
+    contract_name,
+):
+    original_read_text = Path.read_text
+
+    def wrong_schema_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == contract_name:
+            value = json.loads(text)
+            value["schema"] = "WRONG_SCHEMA"
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", wrong_schema_read_text)
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="schema mismatch",
+    ):
+        implementation_subject_sha256s()
+
+
+def test_implementation_subject_rejects_contract_projection_metadata_drift(
+    monkeypatch,
+):
+    original_read_text = Path.read_text
+
+    def drifted_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json":
+            value = json.loads(text)
+            value["qualification_gate"]["implementation_subject_binding"][
+                "subject_projection_excludes"
+            ] = ["status"]
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", drifted_read_text)
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="projection metadata mismatch",
+    ):
+        implementation_subject_sha256s()
+
+
+def test_qualification_subject_ignores_only_declared_currentness_fields(
+    monkeypatch,
+):
+    baseline = implementation_subject_sha256s()
+    original_read_text = Path.read_text
+
+    def currentness_changed_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json":
+            value = json.loads(text)
+            value["status"] = "QUALIFIED"
+            value["read_only_hash_vector"]["current_generation"] = 99
+            value["claim_ceiling"]["production_witness_qualification"] = "PASS"
+            value["qualification_gate"]["artifact_sha256"] = "a" * 64
+            value["qualification_gate"]["current_result"] = "PASS"
+            value["qualification_gate"]["production_witness"] = "CONSTRUCTIBLE"
+            value["controller_binding"]["runtime_binding"] = "QUALIFIED"
+            return json.dumps(value)
+        if self.name == "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json":
+            value = json.loads(text)
+            value["status"] = "RUNTIME_QUALIFIED"
+            value["claim_ceiling"]["production_witness"] = "QUALIFIED"
+            value["production_binding"]["qualification_artifact_sha256"] = "a" * 64
+            value["production_binding"]["monotonicity_qualification"] = "PASS"
+            value["production_binding"]["runtime_constructible"] = True
+            value["production_binding"]["status"] = "QUALIFIED"
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", currentness_changed_read_text)
+    moved = implementation_subject_sha256s()
+    assert moved == baseline
+
+
+def test_qualification_subject_detects_contract_semantic_change(monkeypatch):
+    baseline = implementation_subject_sha256s()
+    original_read_text = Path.read_text
+
+    def semantic_change_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json":
+            value = json.loads(text)
+            value["denied_capabilities"] = value["denied_capabilities"][:-1]
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", semantic_change_read_text)
+    moved = implementation_subject_sha256s()
+    assert (
+        moved["witness_binding_contract_sha256"]
+        != baseline["witness_binding_contract_sha256"]
+    )
+
+
 def test_pinned_stale_qualification_artifact_rejects_moved_implementation(
     monkeypatch,
 ):
@@ -390,3 +523,28 @@ def test_future_qualification_pin_hashes_and_parses_exact_artifact_bytes(monkeyp
             FakeTransport(),
             qualification_artifact=tampered,
         )
+
+
+
+def test_qualification_subject_detects_acceptance_gate_semantic_change(
+    monkeypatch,
+):
+    baseline = implementation_subject_sha256s()
+    original_read_text = Path.read_text
+
+    def acceptance_change_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json":
+            value = json.loads(text)
+            value["qualification_gate"]["required_evidence_gates"] = (
+                value["qualification_gate"]["required_evidence_gates"][:-1]
+            )
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", acceptance_change_read_text)
+    moved = implementation_subject_sha256s()
+    assert (
+        moved["witness_binding_contract_sha256"]
+        != baseline["witness_binding_contract_sha256"]
+    )

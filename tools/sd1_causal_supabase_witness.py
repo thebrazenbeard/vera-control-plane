@@ -54,20 +54,160 @@ def _canonical_text_sha256(path: Path) -> str:
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
+_WITNESS_CONTRACT_CURRENTNESS_PATHS = (
+    ("status",),
+    ("read_only_hash_vector",),
+    ("claim_ceiling",),
+    ("qualification_gate", "artifact_sha256"),
+    ("qualification_gate", "current_result"),
+    ("qualification_gate", "production_witness"),
+    ("controller_binding", "runtime_binding"),
+)
+_CONTROLLER_CONTRACT_CURRENTNESS_PATHS = (
+    ("status",),
+    ("claim_ceiling",),
+    ("production_binding", "qualification_artifact_sha256"),
+    ("production_binding", "monotonicity_qualification"),
+    ("production_binding", "runtime_constructible"),
+    ("production_binding", "status"),
+)
+
+
+def _validate_qualification_contract_shape(
+    value: dict[str, Any],
+    *,
+    expected_schema: str,
+    currentness_paths: tuple[tuple[str, ...], ...],
+) -> None:
+    if expected_schema == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1":
+        expected_top = {
+            "schema", "status", "provider", "source", "allowed_rpc_surface",
+            "denied_capabilities", "idempotency", "read_only_hash_vector",
+            "qualification_gate", "controller_binding", "claim_ceiling",
+            "non_effects",
+        }
+        dict_fields = {
+            "provider", "source", "idempotency", "read_only_hash_vector",
+            "qualification_gate", "controller_binding", "claim_ceiling",
+        }
+        list_fields = {
+            "allowed_rpc_surface", "denied_capabilities", "non_effects",
+        }
+        binding = value.get("qualification_gate", {}).get(
+            "implementation_subject_binding"
+        )
+    elif expected_schema == "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1":
+        expected_top = {
+            "schema", "status", "repairs", "controller_rules",
+            "rollback_attack_rule", "transaction_failure_rules",
+            "test_binding", "production_binding", "claim_ceiling",
+            "non_effects",
+        }
+        dict_fields = {
+            "controller_rules", "rollback_attack_rule",
+            "transaction_failure_rules", "test_binding",
+            "production_binding", "claim_ceiling",
+        }
+        list_fields = {"repairs", "non_effects"}
+        binding = value.get("production_binding", {}).get(
+            "implementation_subject_binding"
+        )
+    else:
+        raise WitnessIntegrityError(
+            f"unsupported qualification subject schema {expected_schema}"
+        )
+    if set(value) != expected_top:
+        raise WitnessIntegrityError(
+            f"qualification subject {expected_schema} envelope mismatch"
+        )
+    if any(type(value.get(field)) is not dict for field in dict_fields):
+        raise WitnessIntegrityError(
+            f"qualification subject {expected_schema} object shape mismatch"
+        )
+    if any(type(value.get(field)) is not list for field in list_fields):
+        raise WitnessIntegrityError(
+            f"qualification subject {expected_schema} list shape mismatch"
+        )
+    expected_excludes = [".".join(parts) for parts in currentness_paths]
+    if type(binding) is not dict:
+        raise WitnessIntegrityError(
+            f"qualification subject {expected_schema} binding metadata missing"
+        )
+    if (
+        binding.get("digest_algorithm")
+        != "SHA256_CANONICAL_JSON_SEMANTIC_PROJECTION_V1"
+        or binding.get("subject_projection_excludes") != expected_excludes
+    ):
+        raise WitnessIntegrityError(
+            f"qualification subject {expected_schema} projection metadata mismatch"
+        )
+
+
+def _canonical_json_subject_sha256(
+    path: Path,
+    *,
+    expected_schema: str,
+    currentness_paths: tuple[tuple[str, ...], ...],
+) -> str:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise WitnessIntegrityError(
+            f"qualification subject {path.name} is unreadable or invalid JSON"
+        ) from exc
+    if type(value) is not dict or value.get("schema") != expected_schema:
+        raise WitnessIntegrityError(
+            f"qualification subject {path.name} schema mismatch"
+        )
+    _validate_qualification_contract_shape(
+        value,
+        expected_schema=expected_schema,
+        currentness_paths=currentness_paths,
+    )
+    projected = json.loads(json.dumps(value))
+    for key_path in currentness_paths:
+        cursor = projected
+        try:
+            for key in key_path[:-1]:
+                cursor = cursor[key]
+            del cursor[key_path[-1]]
+        except (KeyError, TypeError) as exc:
+            dotted = ".".join(key_path)
+            raise WitnessIntegrityError(
+                f"qualification subject {path.name} missing currentness field {dotted}"
+            ) from exc
+    encoded = json.dumps(
+        projected,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def implementation_subject_sha256s() -> dict[str, str]:
     root = Path(__file__).resolve().parents[1]
-    subjects = {
-        "witness_source_sha256": Path(__file__).resolve(),
-        "controller_source_sha256":
-            root / "tools" / "sd1_causal_execution_controller.py",
-        "witness_binding_contract_sha256":
-            root / "protocol" / "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json",
-        "controller_binding_contract_sha256":
-            root / "protocol" / "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json",
-    }
+    witness_contract = (
+        root / "protocol" / "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json"
+    )
+    controller_contract = (
+        root / "protocol" / "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json"
+    )
     return {
-        field: _canonical_text_sha256(path)
-        for field, path in subjects.items()
+        "witness_source_sha256": _canonical_text_sha256(Path(__file__).resolve()),
+        "controller_source_sha256": _canonical_text_sha256(
+            root / "tools" / "sd1_causal_execution_controller.py"
+        ),
+        "witness_binding_contract_sha256": _canonical_json_subject_sha256(
+            witness_contract,
+            expected_schema="SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1",
+            currentness_paths=_WITNESS_CONTRACT_CURRENTNESS_PATHS,
+        ),
+        "controller_binding_contract_sha256": _canonical_json_subject_sha256(
+            controller_contract,
+            expected_schema="SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1",
+            currentness_paths=_CONTROLLER_CONTRACT_CURRENTNESS_PATHS,
+        ),
     }
 
 

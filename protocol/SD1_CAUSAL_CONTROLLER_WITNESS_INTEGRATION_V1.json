@@ -56,7 +56,19 @@
     "status": "SOURCE_BOUND_BLOCKS_CAUSAL_COLLECTION_PENDING_INDEPENDENT_QUALIFICATION",
     "exact_reviewed_implementation_required": true,
     "qualification_schema": "SD1_SUPABASE_WITNESS_QUALIFICATION_V1",
-    "implementation_subject_binding": "RUNTIME_REHASH_OF_WITNESS_CONTROLLER_AND_BOTH_BINDING_CONTRACTS_REQUIRED"
+    "implementation_subject_binding": {
+      "mode": "RUNTIME_REHASH_OF_WITNESS_CONTROLLER_AND_BOTH_BINDING_CONTRACTS_REQUIRED",
+      "digest_algorithm": "SHA256_CANONICAL_JSON_SEMANTIC_PROJECTION_V1",
+      "subject_projection_excludes": [
+        "status",
+        "claim_ceiling",
+        "production_binding.qualification_artifact_sha256",
+        "production_binding.monotonicity_qualification",
+        "production_binding.runtime_constructible",
+        "production_binding.status"
+      ],
+      "rule": "The controller contract subject MUST parse with the exact schema and is canonical-JSON hashed after removing only qualification/currentness fields that legitimately change after an independently reviewed artifact is pinned."
+    }
   },
   "claim_ceiling": {
     "source_repair": "PRESENT",
