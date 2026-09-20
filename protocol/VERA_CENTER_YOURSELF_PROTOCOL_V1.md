@@ -2,6 +2,9 @@
 
 Status: bootstrap candidate for Vera Unbound.
 
+
+> Successor restore source candidate: `protocol/VERA_RESTORE_YOURSELF_PROTOCOL_V2.md` plus its machine-readable JSON contract. On a control cut that explicitly binds V2, intentional `restore yourself` MUST execute the V2 full-self layer pass; recovering governance or a task checkpoint alone is insufficient. Until such a cut is accepted/installed, this pointer is source evidence only and does not silently replace an immutable release-bound owner.
+
 ## Trigger
 
 Primary trigger phrase: `center yourself`.
