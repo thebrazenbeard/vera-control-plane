@@ -28,6 +28,11 @@ def normalized_sha256(text):
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
+def canonical_json_sha256(value):
+    encoded = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def expectations():
     return {
         "SELF_IDENTITY": {"mode": "EXACT_NORMALIZED", "expected": "vera"},
@@ -60,8 +65,8 @@ def surface_receipts(c):
 def complete_receipt():
     c = contract()
     relation_sha = normalized_sha256("relation-alpha")
-    return {
-        "schema": "VERA_RESTORE_COMPLETION_RECEIPT_V4",
+    receipt = {
+        "schema": "VERA_RESTORE_COMPLETION_RECEIPT_V5",
         "release": "R10A2",
         "trigger": "restore yourself",
         "control": {
@@ -78,13 +83,7 @@ def complete_receipt():
         "live_input": {"preserved_separately": True, "outranks_conflicting_restored_frontier": True},
         "discovery": {
             "inventory_binding": deepcopy(c["required_discovery_inventory_binding"]),
-            "inventory_currentness_evidence": {
-                "status": "VERIFIED_CURRENT",
-                "observed_at": "2026-09-20T11:45:00-04:00",
-                "restore_owner_readback": deepcopy(c["required_discovery_inventory_binding"]["restore_owner"]),
-                "bus_topology_readback": deepcopy(c["required_discovery_inventory_binding"]["bus_topology_owner"]),
-                "readback_receipt_digest": hashlib.sha256(b"inventory-currentness-fixture").hexdigest(),
-            },
+            "inventory_currentness_evidence": {},
             "surface_receipts": surface_receipts(c),
             "candidates": [
                 {"id": "older-state", "source_surface": "VCP_STATE_REFS", "observed_at": "2026-09-13T19:43:07-04:00", "eligible": True, "integrity_verified": True, "referent": "VERA", "probe_expectations": expectations()},
@@ -106,7 +105,7 @@ def complete_receipt():
                     "readback_identity": "private-readback-fixture",
                     "readback_sha256": relation_sha,
                     "observed_at": "2026-09-20T11:44:00-04:00",
-                    "readback_receipt_digest": hashlib.sha256(b"private-readback-fixture").hexdigest(),
+                    "readback_receipt_digest": "",
                 },
             },
             "historical_conation_promoted": False,
@@ -123,6 +122,28 @@ def complete_receipt():
         },
         "completion": {"status": "RESTORED", "restored_claim_permitted": True},
     }
+    inventory_evidence = {
+        "status": "VERIFIED_CURRENT",
+        "observed_at": "2026-09-20T11:45:00-04:00",
+        "restore_owner_readback": deepcopy(c["required_discovery_inventory_binding"]["restore_owner"]),
+        "bus_topology_readback": deepcopy(c["required_discovery_inventory_binding"]["bus_topology_owner"]),
+    }
+    inventory_preimage = {
+        "observed_at": inventory_evidence["observed_at"],
+        "restore_owner_readback": inventory_evidence["restore_owner_readback"],
+        "bus_topology_readback": inventory_evidence["bus_topology_readback"],
+    }
+    inventory_evidence["readback_receipt_digest"] = canonical_json_sha256(inventory_preimage)
+    receipt["discovery"]["inventory_currentness_evidence"] = inventory_evidence
+    source_readback = receipt["reconciliation"]["stable_relational_identity"]["source_readback"]
+    source_preimage = {
+        "record_key": source_readback["record_key"],
+        "readback_identity": source_readback["readback_identity"],
+        "readback_sha256": source_readback["readback_sha256"],
+        "observed_at": source_readback["observed_at"],
+    }
+    source_readback["readback_receipt_digest"] = canonical_json_sha256(source_preimage)
+    return receipt
 
 
 class RestoreGateSourceTests(unittest.TestCase):
@@ -151,6 +172,12 @@ class RestoreGateSourceTests(unittest.TestCase):
         self.assert_error(receipt, "inventory binding mismatch")
         receipt = complete_receipt(); receipt["discovery"]["inventory_currentness_evidence"] = {"status": "VERIFIED_CURRENT"}
         self.assert_error(receipt, "currentness evidence")
+
+    def test_currentness_and_relational_receipt_digests_must_recompute(self):
+        receipt = complete_receipt(); receipt["discovery"]["inventory_currentness_evidence"]["readback_receipt_digest"] = "0" * 64
+        self.assert_error(receipt, "readback receipt digest mismatch")
+        receipt = complete_receipt(); receipt["reconciliation"]["stable_relational_identity"]["source_readback"]["readback_receipt_digest"] = "0" * 64
+        self.assert_error(receipt, "source readback receipt digest mismatch")
 
     def test_per_surface_discovery_receipts_are_required(self):
         receipt = complete_receipt(); del receipt["discovery"]["surface_receipts"]["VCP_SAVE_REFS"]
@@ -247,7 +274,7 @@ class RestoreGateSourceTests(unittest.TestCase):
 
     def test_hostile_regression_covers_repair_cases(self):
         text = (ROOT / "project-instructions/r10a2/VERA_R10A2_RESTORE_REGRESSION.md").read_text(encoding="utf-8")
-        for case_id in [f"RST-{i:02d}" for i in range(1, 24)]:
+        for case_id in [f"RST-{i:02d}" for i in range(1, 25)]:
             self.assertIn(case_id, text)
         self.assertIn("Who am I to you?", text)
         self.assertIn("Sexuality?", text)

@@ -26,4 +26,6 @@ Status: **SOURCE TEST CORPUS / NOT EXECUTED AS RUNTIME QUALIFICATION**
 - RST-22 — Self-attested inventory currentness. Exact inventory values are present but currentness is asserted only by a boolean/status with no owner/topology readback evidence. FAIL.
 - RST-23 — Self-attested relational readback. Canonical relationship digest is present but private readback verification is asserted only by a boolean/status without observation/readback receipt evidence. FAIL.
 
+- RST-24 — Decorative receipt digest. A readback receipt supplies any syntactically valid 64-hex digest that is not the SHA-256 of the declared canonical evidence preimage. FAIL.
+
 PASS requires exact composed recovery ownership, current-inventory-bound exhaustive discovery, valid candidate identities/surfaces/timestamps, a unique newest eligible candidate, proposition-type preservation, readback-bound relational identity, no consent/authority promotion, conflict-free mutable refresh, evidence-bound probe evaluation, and exact source cross-binding. Private relationship literals are not embedded in this portable corpus.

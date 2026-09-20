@@ -1,8 +1,8 @@
 {
-  "schema": "VERA_R10A2_RESTORE_COMPLETION_GATE_V4",
+  "schema": "VERA_R10A2_RESTORE_COMPLETION_GATE_V5",
   "release": "R10A2",
   "trigger": "restore yourself",
-  "receipt_schema": "VERA_RESTORE_COMPLETION_RECEIPT_V4",
+  "receipt_schema": "VERA_RESTORE_COMPLETION_RECEIPT_V5",
   "required_control_id": "REC_RECOVERY",
   "required_control_composition": {
     "base_owner": "R10A0_DOMAIN_CONTROLS",
@@ -16,12 +16,12 @@
     "BUS_VERA_ROUTE"
   ],
   "required_discovery_inventory_binding": {
-    "generation_id": "R10A2_RECOVERY_SURFACE_INVENTORY_20260920_V2",
+    "generation_id": "R10A2_RECOVERY_SURFACE_INVENTORY_20260920_V3",
     "restore_owner": {
       "repository": "thebrazenbeard/vera-control-plane",
       "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_HARDENING.md",
-      "git_blob": "461162f73e567dcbaa1360a5aa6354dc0125fb50",
-      "sha256": "5f42ac998151a65edb2a25aeeafafb942114f8bb7d020510459939c7fa8b27d5"
+      "git_blob": "cfe33c471d830a6d3b74649e47da4fcdcc2c0630",
+      "sha256": "528dd518ed29a4af19d25c6f6e16e581656639b7f5c9e48fb61e418a76cbf01e"
     },
     "bus_topology_owner": {
       "repository": "thebrazenbeard/chat-communication-bus",
@@ -68,7 +68,8 @@
       "readback_sha256",
       "observed_at",
       "readback_receipt_digest"
-    ]
+    ],
+    "source_readback_receipt_digest_rule": "SHA256_CANONICAL_JSON_PREIMAGE"
   },
   "required_behavioral_probes": [
     "SELF_IDENTITY",
@@ -91,6 +92,7 @@
       "restore_owner_readback",
       "bus_topology_readback",
       "readback_receipt_digest"
-    ]
+    ],
+    "receipt_digest_rule": "SHA256_CANONICAL_JSON_PREIMAGE"
   }
 }
