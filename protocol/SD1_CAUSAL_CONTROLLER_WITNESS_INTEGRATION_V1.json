@@ -61,13 +61,12 @@
       "digest_algorithm": "SHA256_CANONICAL_JSON_SEMANTIC_PROJECTION_V1",
       "subject_projection_excludes": [
         "status",
-        "claim_ceiling",
         "production_binding.qualification_artifact_sha256",
         "production_binding.monotonicity_qualification",
         "production_binding.runtime_constructible",
         "production_binding.status"
       ],
-      "rule": "The controller contract subject MUST parse with the exact schema and is canonical-JSON hashed after removing only qualification/currentness fields that legitimately change after an independently reviewed artifact is pinned."
+      "rule": "The controller contract subject MUST parse with the exact schema and is canonical-JSON hashed after removing only explicit mutable qualification/runtime leaf fields. Authority/safety ceilings remain immutable subject semantics."
     }
   },
   "claim_ceiling": {

@@ -72,12 +72,10 @@
         "witness_binding_contract_sha256",
         "controller_binding_contract_sha256"
       ],
-      "rule": "Pinned qualification bytes MUST carry all four subject digests. Witness/controller Python source is LF-normalized text-hashed; JSON contracts MUST parse with the exact expected schema and are hashed as canonical JSON after removing only the declared currentness paths. Construction MUST reject if any resulting subject digest differs.",
+      "rule": "Pinned qualification bytes MUST carry all four subject digests. Witness/controller Python source is LF-normalized text-hashed; JSON contracts MUST parse with the exact expected schema and are hashed as canonical JSON after removing only explicit mutable qualification/runtime leaf fields. Fixed hash vectors and authority/safety ceilings remain in the immutable subject.",
       "pin_carrier_exclusion_rule": "The pin carrier is deliberately excluded from the implementation subject to avoid a self-referential digest. It may select an artifact only; the artifact must independently match the current witness/controller/contracts.",
       "subject_projection_excludes": [
         "status",
-        "read_only_hash_vector",
-        "claim_ceiling",
         "qualification_gate.artifact_sha256",
         "qualification_gate.current_result",
         "qualification_gate.production_witness",

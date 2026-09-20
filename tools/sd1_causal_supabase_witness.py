@@ -56,8 +56,6 @@ def _canonical_text_sha256(path: Path) -> str:
 
 _WITNESS_CONTRACT_CURRENTNESS_PATHS = (
     ("status",),
-    ("read_only_hash_vector",),
-    ("claim_ceiling",),
     ("qualification_gate", "artifact_sha256"),
     ("qualification_gate", "current_result"),
     ("qualification_gate", "production_witness"),
@@ -65,7 +63,6 @@ _WITNESS_CONTRACT_CURRENTNESS_PATHS = (
 )
 _CONTROLLER_CONTRACT_CURRENTNESS_PATHS = (
     ("status",),
-    ("claim_ceiling",),
     ("production_binding", "qualification_artifact_sha256"),
     ("production_binding", "monotonicity_qualification"),
     ("production_binding", "runtime_constructible"),

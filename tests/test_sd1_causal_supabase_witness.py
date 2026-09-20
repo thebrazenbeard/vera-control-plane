@@ -391,8 +391,6 @@ def test_qualification_subject_ignores_only_declared_currentness_fields(
         if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json":
             value = json.loads(text)
             value["status"] = "QUALIFIED"
-            value["read_only_hash_vector"]["current_generation"] = 99
-            value["claim_ceiling"]["production_witness_qualification"] = "PASS"
             value["qualification_gate"]["artifact_sha256"] = "a" * 64
             value["qualification_gate"]["current_result"] = "PASS"
             value["qualification_gate"]["production_witness"] = "CONSTRUCTIBLE"
@@ -401,7 +399,6 @@ def test_qualification_subject_ignores_only_declared_currentness_fields(
         if self.name == "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json":
             value = json.loads(text)
             value["status"] = "RUNTIME_QUALIFIED"
-            value["claim_ceiling"]["production_witness"] = "QUALIFIED"
             value["production_binding"]["qualification_artifact_sha256"] = "a" * 64
             value["production_binding"]["monotonicity_qualification"] = "PASS"
             value["production_binding"]["runtime_constructible"] = True
@@ -432,6 +429,67 @@ def test_qualification_subject_detects_contract_semantic_change(monkeypatch):
         moved["witness_binding_contract_sha256"]
         != baseline["witness_binding_contract_sha256"]
     )
+
+
+def test_qualification_subject_detects_witness_authority_ceiling_change(
+    monkeypatch,
+):
+    baseline = implementation_subject_sha256s()
+    original_read_text = Path.read_text
+
+    def changed_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json":
+            value = json.loads(text)
+            value["claim_ceiling"]["causal_data_collection"] = "AUTHORIZED"
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", changed_read_text)
+    moved = implementation_subject_sha256s()
+    assert moved["witness_binding_contract_sha256"] != baseline[
+        "witness_binding_contract_sha256"
+    ]
+
+
+def test_qualification_subject_detects_fixed_hash_vector_change(monkeypatch):
+    baseline = implementation_subject_sha256s()
+    original_read_text = Path.read_text
+
+    def changed_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json":
+            value = json.loads(text)
+            value["read_only_hash_vector"]["expected_request_digest"] = "0" * 64
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", changed_read_text)
+    moved = implementation_subject_sha256s()
+    assert moved["witness_binding_contract_sha256"] != baseline[
+        "witness_binding_contract_sha256"
+    ]
+
+
+def test_qualification_subject_detects_controller_authority_ceiling_change(
+    monkeypatch,
+):
+    baseline = implementation_subject_sha256s()
+    original_read_text = Path.read_text
+
+    def changed_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json":
+            value = json.loads(text)
+            value["claim_ceiling"]["causal_data_collection"] = "AUTHORIZED"
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", changed_read_text)
+    moved = implementation_subject_sha256s()
+    assert moved["controller_binding_contract_sha256"] != baseline[
+        "controller_binding_contract_sha256"
+    ]
 
 
 def test_pinned_stale_qualification_artifact_rejects_moved_implementation(
