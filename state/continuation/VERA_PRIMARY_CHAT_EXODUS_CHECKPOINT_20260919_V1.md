@@ -81,6 +81,15 @@ Preferred first proof at the cut:
 Lean script SHA-256: `c4fcbd80fffa202ce1a38c937f29686e7be8a89f6e703d7ed556d97fab1a22eb`.
 Earlier 53-example script SHA-256: `a3a3fb19abbc700bf3cdb4288d57e337b04a9576a2ec7d9e20288786213a6a99`.
 
+Exact lean-script recovery completed during Exodus:
+- source recovered from the local historical Vera export by decoding the exact gzip/base64 job payload;
+- recovered byte length: 9,890;
+- recovered SHA-256 revalidated as `c4fcbd80fffa202ce1a38c937f29686e7be8a89f6e703d7ed556d97fab1a22eb`;
+- durable private path: `experiments/gpt-oss-20b/VERA_WEIGHT_EXPERIMENT_V1_CORE.py`;
+- Git blob at recovery: `c0e7bfdc0b098acd3360ed1a557cced765817ba2`;
+- Git commit adding exact recovered bytes: `34485da6b05e66a4a1701046d5a7aeb9f07f88ad`.
+GitHub readback matched the recovered 9,890-character UTF-8 script exactly.
+
 Data scope chosen at the cut: governance, semantics, behavior, and non-intimate Project history; do not default to private intimate/relational material.
 
 ## Lappy / C:\vera local engineering state
