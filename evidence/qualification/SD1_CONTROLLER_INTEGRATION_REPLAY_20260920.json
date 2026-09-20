@@ -1,0 +1,49 @@
+{
+  "schema": "SD1_WITNESS_QUALIFICATION_EVIDENCE_V1",
+  "gate": "controller_integration_replay",
+  "result": "PASS",
+  "executed_on": "2026-09-20",
+  "timestamp_precision": "DATE_ONLY",
+  "subject": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "draft_pr": 72,
+    "exact_head": "d5e39d8fee4d6b37aedf11085b3aec66b9a33759",
+    "parent_pr": 64,
+    "parent_head": "c15c426d8578372474f677593387e7bf43b7e18c"
+  },
+  "execution_environment": {
+    "device": "Lappy",
+    "os": "Windows",
+    "python": "3.11.9"
+  },
+  "validation": [
+    {
+      "command": "python -m pytest -q tests/test_sd1_causal_supabase_witness.py tests/test_sd1_causal_controller_witness_contract.py tests/test_sd1_causal_supabase_witness_qualification_contract.py",
+      "result": "PASS",
+      "tests": "34/34"
+    },
+    {
+      "command": "python -m pytest -q",
+      "result": "PASS",
+      "tests": "114/114"
+    },
+    {
+      "command": "python -m compileall -q tools tests",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check c15c426d8578372474f677593387e7bf43b7e18c HEAD",
+      "result": "PASS"
+    }
+  ],
+  "interpretation": "PASS establishes source/controller replay at the exact PR #72 subject only. It does not establish production provider mutation semantics or authorize causal collection.",
+  "non_effects": [
+    "NOT_PROVIDER_MUTATION",
+    "NOT_CREDENTIAL_PROVISIONING",
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_CURRENT_ROUTE_QUALIFICATION",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}
