@@ -79,6 +79,13 @@ _ACCEPTANCE_CONTRACT_CURRENTNESS_PATHS = (
     ("current_frontier", "control_causality"),
 )
 
+_ACCEPTANCE_FRONTIER_VALUE_DOMAINS = {
+    "qualification_artifact": frozenset({"UNBOUND", "PINNED"}),
+    "production_witness": frozenset({"NOT_CONSTRUCTIBLE", "CONSTRUCTIBLE"}),
+    "causal_data_collection": frozenset({"HOLD", "READY"}),
+    "control_causality": frozenset({"UNRESOLVED", "PENDING_EXECUTION"}),
+}
+
 
 def _validate_qualification_contract_shape(
     value: dict[str, Any],
@@ -128,7 +135,7 @@ def _validate_qualification_contract_shape(
         dict_fields = {
             "required_evidence_gates", "artifact_gate_shape",
             "state_separation", "current_frontier",
-            "implementation_subject_binding",
+            "current_frontier_allowed_values", "implementation_subject_binding",
         }
         list_fields = {"non_effects"}
         binding = value.get("implementation_subject_binding")
@@ -159,6 +166,26 @@ def _validate_qualification_contract_shape(
             raise WitnessIntegrityError(
                 "qualification acceptance current_frontier shape mismatch"
             )
+
+        allowed_values = value["current_frontier_allowed_values"]
+        if set(allowed_values) != expected_frontier_fields:
+            raise WitnessIntegrityError(
+                "qualification acceptance current_frontier value-domain shape mismatch"
+            )
+        expected_domains = {
+            field: sorted(values)
+            for field, values in _ACCEPTANCE_FRONTIER_VALUE_DOMAINS.items()
+        }
+        if allowed_values != expected_domains:
+            raise WitnessIntegrityError(
+                "qualification acceptance current_frontier value-domain mismatch"
+            )
+        for field, allowed in _ACCEPTANCE_FRONTIER_VALUE_DOMAINS.items():
+            current_value = value["current_frontier"][field]
+            if type(current_value) is not str or current_value not in allowed:
+                raise WitnessIntegrityError(
+                    f"qualification acceptance current_frontier {field} value outside allowed domain"
+                )
     expected_excludes = [".".join(parts) for parts in currentness_paths]
     if type(binding) is not dict:
         raise WitnessIntegrityError(
