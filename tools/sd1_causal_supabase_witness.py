@@ -71,6 +71,10 @@ _CONTROLLER_CONTRACT_CURRENTNESS_PATHS = (
     ("production_binding", "runtime_constructible"),
     ("production_binding", "status"),
 )
+_ACCEPTANCE_CONTRACT_CURRENTNESS_PATHS = (
+    ("status",),
+    ("current_frontier",),
+)
 
 
 def _validate_qualification_contract_shape(
