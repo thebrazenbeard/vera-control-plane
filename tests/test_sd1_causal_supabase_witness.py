@@ -438,6 +438,8 @@ def test_qualification_subject_ignores_only_declared_currentness_fields(
             value["status"] = "QUALIFIED"
             value["current_frontier"]["qualification_artifact"] = "PINNED"
             value["current_frontier"]["production_witness"] = "CONSTRUCTIBLE"
+            value["current_frontier"]["causal_data_collection"] = "READY"
+            value["current_frontier"]["control_causality"] = "PENDING_EXECUTION"
             return json.dumps(value)
         return text
 
@@ -493,6 +495,27 @@ def test_qualification_subject_detects_contract_semantic_change(monkeypatch):
         moved["witness_binding_contract_sha256"]
         != baseline["witness_binding_contract_sha256"]
     )
+
+
+def test_acceptance_contract_rejects_unknown_current_frontier_authority_field(
+    monkeypatch,
+):
+    original_read_text = Path.read_text
+
+    def hostile_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json":
+            value = json.loads(text)
+            value["current_frontier"]["provider_write_authority"] = "GRANTED"
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", hostile_read_text)
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="current_frontier shape mismatch",
+    ):
+        implementation_subject_sha256s()
 
 
 def test_qualification_subject_detects_acceptance_contract_semantic_change(
