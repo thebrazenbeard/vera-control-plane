@@ -85,16 +85,22 @@ required to qualify.
 
 A qualification artifact is also implementation-subject-bound. It must carry
 canonical SHA-256 digests for the witness source, controller source, provider
-binding contract, and controller binding contract. Construction rehashes those
-current files and rejects an otherwise correctly pinned PASS artifact when any
-subject digest is stale.
+binding contract, controller binding contract, and qualification acceptance
+contract. Construction rehashes those current subjects and rejects an otherwise
+correctly pinned PASS artifact when any subject digest is stale.
+
+The exact acceptance semantics are frozen in
+protocol/SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json. Its mutable status
+and current-frontier fields are excluded from the semantic digest; evidence-gate
+definitions, artifact shape, state separation, and non-effects remain bound.
+monotonicity_qualification=PASS is not accepted as a standalone assertion.
+The pinned artifact must contain PASS evidence digests for all five required
+evidence gates.
 
 A later source change may make the production witness constructible only after:
 
-- independent exact-head hostile review of this client/controller integration;
-- bounded provider permission/readback qualification;
-- stale-CAS/idempotency/ambiguity tests at the provider boundary;
-- a durable qualification artifact;
+- all five acceptance-contract evidence gates are independently satisfied;
+- a durable qualification artifact binds those evidence digests and all five exact implementation subjects;
 - exact SHA-256 pinning of that artifact in source.
 
 That later source change is itself separate from causal collection authority.
