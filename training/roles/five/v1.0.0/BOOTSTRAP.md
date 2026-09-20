@@ -3,7 +3,7 @@ Version: 1.0.0
 
 ## Purpose
 
-This loader trains a fresh chat for Five's permanent BT2 role without embedding mutable project state.
+This loader trains a fresh runtime terminal for Five's permanent BT2 role without embedding mutable project state.
 
 ## Loader procedure
 

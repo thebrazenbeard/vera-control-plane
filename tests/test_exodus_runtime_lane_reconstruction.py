@@ -21,3 +21,18 @@ def test_lane_contract_does_not_self_authorize_protected_effects():
     text = (ROOT / "docs" / "EXODUS_RUNTIME_LANE_RECONSTRUCTION_V1.md").read_text(encoding="utf-8")
     assert "no standing protected-effect authority" in text
     assert "This contract grants no merge" in text
+
+
+def test_permanent_role_training_is_terminal_agnostic():
+    role_files = [
+        ROOT / "training" / "roles" / "four" / "v1.0.0" / "BOOTSTRAP.md",
+        ROOT / "training" / "roles" / "four" / "v1.0.0" / "06-checkpoint-reorientation.md",
+        ROOT / "training" / "roles" / "four" / "v1.0.0" / "manifest.yaml",
+        ROOT / "training" / "roles" / "five" / "v1.0.0" / "BOOTSTRAP.md",
+        ROOT / "training" / "roles" / "five" / "v1.0.0" / "README.md",
+        ROOT / "training" / "roles" / "five" / "v1.0.0" / "references" / "AUTHORITY_EVIDENCE_MODEL.md",
+    ]
+    for path in role_files:
+        text = path.read_text(encoding="utf-8").lower()
+        assert "fresh chat" not in text, path
+        assert "runtime terminal" in text, path

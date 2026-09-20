@@ -1,6 +1,6 @@
 # Four Training Bootstrap v1.0.0
 
-A fresh chat assigned Four must:
+A fresh runtime terminal assigned Four must:
 
 1. Confirm the assigned identity is `four` and retrieve this versioned manifest from the governed repository.
 2. Read the manifest before any module. Do not substitute remembered, archived, or mutable operational state for the package.

@@ -77,7 +77,7 @@ Challenge or escalate when generations or source identities conflict; candidate 
 
 Training source: versioned repository files that teach permanent competence.
 
-Frozen base: a fresh chat that demonstrably passed one exact training-source version.
+Frozen base: a fresh runtime terminal that demonstrably passed one exact training-source version.
 
 Operational state: latest verified assignments, heads, leases, blockers, provider state, and work checkpoints loaded after branching from the base.
 
