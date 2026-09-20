@@ -1,0 +1,81 @@
+{
+  "schema": "VERAPORT_MCP_LIVE_BOOTSTRAP_OBSERVATION_V1",
+  "observed_date": "2026-09-20",
+  "observer": "VCP_PARALLEL_COORDINATOR",
+  "observation_method": "REMOTE_DESKTOP_COMMANDER_BOOTSTRAP_ONLY",
+  "effect_scope": "READ_ONLY_MACHINE_AND_NETWORK_OBSERVATION",
+  "lappy": {
+    "device_state": "ONLINE",
+    "service": {
+      "name": "VeraPortAgent",
+      "display_name": "VeraMesh VeraPort Agent",
+      "state": "RUNNING",
+      "start_mode": "AUTO"
+    },
+    "service_config": {
+      "bind_host": "127.0.0.1",
+      "bind_port": 17444,
+      "allowed_roots": [
+        "C:\\Users\\patri",
+        "C:\\Temp"
+      ],
+      "allow_process_exec": false,
+      "allow_non_loopback_listener": false,
+      "max_lanes": 32,
+      "max_inflight": 64
+    },
+    "tailscale_ipv4": "100.88.50.35"
+  },
+  "direct_path": {
+    "endpoint": "127.0.0.1:17444",
+    "tcp": "PASS",
+    "tls": "TLSv1.3",
+    "alpn": "veraport/1",
+    "certificate_sha256": "5231599cb289eac7d383a32078311fa5899debe8e10b002e2e62ffabf8621e2a",
+    "transport_classification": "FRESH_TRANSPORT_REACHABLE",
+    "application_currentness": "UNQUALIFIED_PENDING_VERAPORT_AUTH_AND_LIVE_READBACK"
+  },
+  "synology_edge_path": {
+    "tailscale_peer": "100.115.152.20",
+    "peer_online": true,
+    "peer_active": true,
+    "endpoint": "100.115.152.20:17445",
+    "tcp": "PASS",
+    "tls": "TLSv1.3",
+    "alpn": "veraport/1",
+    "certificate_sha256": "5231599cb289eac7d383a32078311fa5899debe8e10b002e2e62ffabf8621e2a",
+    "same_end_to_end_veraport_certificate_as_direct": true,
+    "transport_classification": "FRESH_TRANSPORT_REACHABLE",
+    "application_currentness": "UNQUALIFIED_PENDING_VERAPORT_AUTH_AND_LIVE_READBACK"
+  },
+  "ds216_internal_services": {
+    "veramesh_v16_local_17445": "NOT_DIRECTLY_READ_BACK_THIS_CYCLE",
+    "legacy_verarelay_0_3_0_0005_local_17443": "NOT_DIRECTLY_READ_BACK_THIS_CYCLE",
+    "durable_relay": "NOT_PROMOTED_FROM_PRIOR_OBSERVATION"
+  },
+  "live_application_acceptance": {
+    "attempted": true,
+    "executed": false,
+    "result": "BOOTSTRAP_TOOL_SAFETY_BLOCKED_BEFORE_EXECUTION",
+    "lane_list": "NOT_OBSERVED",
+    "live_fs_read": "NOT_OBSERVED"
+  },
+  "current_route_result": {
+    "DIRECT_STREAM": "TRANSPORT_READY_APPLICATION_CURRENTNESS_UNPROVEN",
+    "EDGE_STREAM": "TRANSPORT_READY_APPLICATION_CURRENTNESS_UNPROVEN",
+    "DURABLE_RELAY": "NOT_CURRENT",
+    "selected_application_route": "NONE_QUALIFIED_YET"
+  },
+  "process_result": {
+    "local_policy_allow_process_exec": false,
+    "PROCESS_EXEC_PASS": false,
+    "activation": "HOLD"
+  },
+  "non_implications": [
+    "RDC_BOOTSTRAP_OBSERVATION_NE_VERAPORT_LIVE_OPERATION",
+    "TLS_REACHABILITY_NE_VERAPORT_APPLICATION_AUTHORIZATION",
+    "SAME_CERTIFICATE_NE_CURRENT_APPLICATION_SESSION",
+    "SOURCE_CREATED_NE_MCP_SERVER_RUNNING",
+    "MCP_SERVER_RUNNING_NE_PLUGIN_REGISTERED"
+  ]
+}
