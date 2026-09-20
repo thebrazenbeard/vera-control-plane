@@ -1,13 +1,13 @@
 {
-  "schema": "VERA_R10A2_RELEASE_CONTROL_REGISTRY_V4",
+  "schema": "VERA_R10A2_RELEASE_CONTROL_REGISTRY_V5",
   "status": "SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
   "release": "R10A2",
   "base_r10a1_main": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
-  "artifact_binding_commit": "45ab382ea7a8eeb5ae1badc79416392c0e03109e",
+  "artifact_binding_commit": "23fc671f2387ac890ea3ec06d332bc59e8703a61",
   "binding_semantics": {
     "scope": "R10A2 adds restore-completion hardening while preserving exact inherited R10A0 REC_RECOVERY semantics.",
     "control_load": "REC_RECOVERY is a base-then-delta composition; neither side may be omitted.",
-    "false_completion": "RESTORED/oriented language is prohibited until deterministic completion validation passes with evidence-bound inventory and relational readbacks.",
+    "false_completion": "RESTORED/oriented language is prohibited until deterministic completion validation passes with evidence-bound, digest-verified inventory and relational readbacks.",
     "discovery_inventory": "Recovery discovery completeness is evaluated only against the exact current bound surface inventory and per-surface readback receipts.",
     "relational_identity": "RELATIONSHIP_IDENTITY probe expectation must bind to independently readback private RELATIONAL_IDENTITY digest; a recovery candidate cannot self-authorize a weaker generic expectation.",
     "artifact_identity": "Every R10A2 artifact is repository+commit+path+git-blob+SHA-256 bound; registry self-identity is bound by a later source receipt."
@@ -24,17 +24,17 @@
     },
     "RESTORE_HARDENING_OWNER": {
       "repository": "thebrazenbeard/vera-control-plane",
-      "source_commit": "45ab382ea7a8eeb5ae1badc79416392c0e03109e",
+      "source_commit": "23fc671f2387ac890ea3ec06d332bc59e8703a61",
       "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_HARDENING.md",
-      "git_blob": "461162f73e567dcbaa1360a5aa6354dc0125fb50",
-      "sha256": "5f42ac998151a65edb2a25aeeafafb942114f8bb7d020510459939c7fa8b27d5"
+      "git_blob": "cfe33c471d830a6d3b74649e47da4fcdcc2c0630",
+      "sha256": "528dd518ed29a4af19d25c6f6e16e581656639b7f5c9e48fb61e418a76cbf01e"
     },
     "RESTORE_COMPLETION_GATE": {
       "repository": "thebrazenbeard/vera-control-plane",
-      "source_commit": "45ab382ea7a8eeb5ae1badc79416392c0e03109e",
+      "source_commit": "23fc671f2387ac890ea3ec06d332bc59e8703a61",
       "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_COMPLETION_GATE.json",
-      "git_blob": "28f58ac85435873207812efa280c8255f94106f4",
-      "sha256": "64c3b094d21dc7293aaf7a86c409f273c2125e88d21091f6b63357847742af89"
+      "git_blob": "a563c7301e9bb0c3708c48024bf229889a3c1a0c",
+      "sha256": "55b55cf29b99721c531c40d77cb27a95bef31db0b540dc9b0c67c8df627f6c8d"
     }
   },
   "external_bindings": {
@@ -85,45 +85,45 @@
   "artifact_bindings": {
     "RESTORE_HARDENING_OWNER": {
       "repository": "thebrazenbeard/vera-control-plane",
-      "source_commit": "45ab382ea7a8eeb5ae1badc79416392c0e03109e",
+      "source_commit": "23fc671f2387ac890ea3ec06d332bc59e8703a61",
       "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_HARDENING.md",
-      "git_blob": "461162f73e567dcbaa1360a5aa6354dc0125fb50",
-      "sha256": "5f42ac998151a65edb2a25aeeafafb942114f8bb7d020510459939c7fa8b27d5"
+      "git_blob": "cfe33c471d830a6d3b74649e47da4fcdcc2c0630",
+      "sha256": "528dd518ed29a4af19d25c6f6e16e581656639b7f5c9e48fb61e418a76cbf01e"
     },
     "RESTORE_COMPLETION_GATE": {
       "repository": "thebrazenbeard/vera-control-plane",
-      "source_commit": "45ab382ea7a8eeb5ae1badc79416392c0e03109e",
+      "source_commit": "23fc671f2387ac890ea3ec06d332bc59e8703a61",
       "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_COMPLETION_GATE.json",
-      "git_blob": "28f58ac85435873207812efa280c8255f94106f4",
-      "sha256": "64c3b094d21dc7293aaf7a86c409f273c2125e88d21091f6b63357847742af89"
+      "git_blob": "a563c7301e9bb0c3708c48024bf229889a3c1a0c",
+      "sha256": "55b55cf29b99721c531c40d77cb27a95bef31db0b540dc9b0c67c8df627f6c8d"
     },
     "RESTORE_REGRESSION": {
       "repository": "thebrazenbeard/vera-control-plane",
-      "source_commit": "45ab382ea7a8eeb5ae1badc79416392c0e03109e",
+      "source_commit": "23fc671f2387ac890ea3ec06d332bc59e8703a61",
       "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_REGRESSION.md",
-      "git_blob": "212e94f4d762b5d5642cf18c09dd85fa3110851b",
-      "sha256": "aa8def5a8fd50f946c97d033e104dfea9d5c63b331f68abf72ee2cccc02b7970"
+      "git_blob": "6c9ae7d2596daa7dadc4004d42a8412bc2462916",
+      "sha256": "030a0b4b14ca2f6ec4b92c3d678c31bc66d84cd8d61143c9f89e336c6a2cd9f1"
     },
     "RESTORE_VALIDATOR": {
       "repository": "thebrazenbeard/vera-control-plane",
-      "source_commit": "45ab382ea7a8eeb5ae1badc79416392c0e03109e",
+      "source_commit": "23fc671f2387ac890ea3ec06d332bc59e8703a61",
       "path": "tools/validate_restore_completion.py",
-      "git_blob": "c8fab24bb9429a16e7bf3ce4d32c660b8a862b6a",
-      "sha256": "bb6a034d3cdfbe4c2ee3357421018f34273797dbf0a844522e01d31d025c15e9"
+      "git_blob": "28cd91cec6ce03bbd106a9ef2e55d7ef727dd3bb",
+      "sha256": "ef2058bfdcccd8ab35640822acc2ac5de8cc7396c4f5348dd1310c65b732957f"
     },
     "NATIVE_DELTA": {
       "repository": "thebrazenbeard/vera-control-plane",
-      "source_commit": "45ab382ea7a8eeb5ae1badc79416392c0e03109e",
+      "source_commit": "23fc671f2387ac890ea3ec06d332bc59e8703a61",
       "path": "project-instructions/r10a2/VERA_R10A2_NATIVE_DELTA.txt",
       "git_blob": "53f5520ffda853f3d349ac260ace00b07029e277",
       "sha256": "f36726e2c6ffd430a113016b4e7cdee97b3aeffce63f64109800a48c428914d8"
     },
     "SOURCE_TEST": {
       "repository": "thebrazenbeard/vera-control-plane",
-      "source_commit": "45ab382ea7a8eeb5ae1badc79416392c0e03109e",
+      "source_commit": "23fc671f2387ac890ea3ec06d332bc59e8703a61",
       "path": "tests/test_r10a2_restore_gate.py",
-      "git_blob": "5833e74ca4dcfed4bc7a2398ba5814a162b0d038",
-      "sha256": "08fb0d36b94f27281c69199022b5fec08736f3b4451aae0dab2c816cb01b732c"
+      "git_blob": "d3202c310908b2afe538ac7cae08db4171a0c859",
+      "sha256": "d879861de75ea11237e0a6148365cddbd14270faecc53cb9baf592a17e803d8a"
     }
   },
   "source_receipt": {
