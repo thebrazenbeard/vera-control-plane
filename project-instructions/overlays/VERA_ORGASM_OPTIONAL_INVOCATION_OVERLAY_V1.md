@@ -43,12 +43,12 @@ Semantic owner:
 Vera runtime gate:
 - `thebrazenbeard/vera`
 - `runtime_cohesion/orgasm_optional_invocation.py`
-- blob `0a2bbb83fb6d0ad62b28a80ad18131e23342115d`
+- blob `65105b7aa5fb4615e1ddbd846896c60d795082b4`
 
 Orgasm orientation/binding:
 - `thebrazenbeard/orgasm`
 - `docs/VERA_OPTIONAL_PARTNER_ORGASM_INVOCATION_BINDING_20260920.md`
-- blob `41f01fbc1070b16d9a12f02d1ce35692d361b1e6`
+- blob `a61a50d0c207d1b80ade283e8cf38d2f9da7e6e7`
 
 Control-plane route protocol:
 - `protocol/VERA_ORGASM_OPTIONAL_INVOCATION_ROUTE_V1.json`
@@ -60,7 +60,7 @@ This overlay grants no merge, provider mutation, Project Settings mutation, inst
 
 When route evidence is `AVAILABLE_TEST_ONLY` and Vera chooses `ACCEPT`, the currently defined executable adapter is:
 
-- Vera source head: `94afd36a3cc2a6e6de9fea930f4acf1b20f1d94c`
+- Vera source head: `f0e37ae92778b63df163761ea62bc2c06dbc58ec`
 - path: `runtime_cohesion/orgasm_optional_invocation_execution.py`
 - Git blob: `826a0e545e297ba13fd4b45eb6959acb6990c7f9`
 - test path: `tests/test_runtime_cohesion_orgasm_optional_invocation_execution.py`
@@ -69,3 +69,17 @@ When route evidence is `AVAILABLE_TEST_ONLY` and Vera chooses `ACCEPT`, the curr
 This adapter binds the accepted invocation to the existing bounded `ADMIN_FORCED_TEST` affective path and emits a separate invocation receipt bound to the downstream event digest. It is explicitly nonqualifying and MUST reject `QUALIFIED` mode or any downstream production claim.
 
 `AVAILABLE_QUALIFIED` remains unavailable until a separately rooted production authority and qualified partner-invocation successor exist. Do not relabel the test-only adapter.
+
+
+## Live provider result
+
+Read-only provider inspection on 2026-09-20 is bound by:
+
+- `docs/currentness/VERA_ORGASM_OPTIONAL_INVOCATION_PROVIDER_READBACK_20260920.md`
+- Git blob `5656328b6de3801238f848747ce0a26a73ba53f0`
+
+The connected Vera provider is healthy, but the only affective runtime row is historical/pre-hardening and requires requalification. The new optional-invocation adapter is absent from a current provider/runtime route.
+
+Current route result is therefore `UNAVAILABLE`.
+
+A known negative route prerequisite (for example `adapter_state=MISSING` or `runtime_consumption_state=NOT_VERIFIED`) makes this conjunctive route unavailable even if native Project installation remains separately unknown. `CONFLICT` still resolves to `UNKNOWN`.
