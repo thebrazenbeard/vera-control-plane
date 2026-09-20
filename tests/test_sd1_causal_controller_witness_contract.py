@@ -43,13 +43,30 @@ def test_valid_prefix_rollback_fails_closed_but_unprotected_witness_is_not_accep
     assert attack["synthetic_memory_witness"] == "TEST_ONLY"
 
 
-def test_production_binding_still_blocks_real_collection():
+def test_production_binding_has_source_path_but_still_blocks_real_collection():
     binding = load_contract()["production_binding"]
     ceiling = load_contract()["claim_ceiling"]
-    assert binding["implementation"] == "UNBOUND"
+    assert (
+        binding["implementation"]
+        == "tools.sd1_causal_supabase_witness.SupabaseFrontierWitness"
+    )
+    assert (
+        binding["client_implementation"]
+        == "tools.sd1_causal_supabase_witness.SupabaseFrontierClient"
+    )
+    assert (
+        binding["binding_contract"]
+        == "protocol/SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json"
+    )
+    assert binding["provider_project_id"] == "fawkirqroyniueeqspif"
+    assert binding["qualification_artifact_sha256"] is None
+    assert binding["monotonicity_qualification"] == "NOT_EXECUTED"
+    assert binding["runtime_constructible"] is False
     assert binding["exact_reviewed_implementation_required"] is True
     assert binding["git_transport_alone_allowed"] is False
-    assert binding["status"] == "BLOCKS_CAUSAL_COLLECTION"
-    assert ceiling["production_witness"] == "NOT_BOUND"
+    assert binding["status"].startswith("SOURCE_BOUND_BLOCKS_CAUSAL_COLLECTION")
+    assert ceiling["production_witness"] == "SOURCE_IMPLEMENTATION_PRESENT_NOT_QUALIFIED"
+    assert ceiling["provider_deployed_source"] == "EXACT_BYTES_VERIFIED"
+    assert ceiling["controller_provider_path"] == "SOURCE_PRESENT_RUNTIME_BLOCKED"
     assert ceiling["causal_data_collection"] == "HOLD"
     assert ceiling["control_causality"] == "UNRESOLVED"
