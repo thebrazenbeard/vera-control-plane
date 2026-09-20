@@ -151,7 +151,7 @@ Current coordination holds:
 Current exact review/repair subjects include:
 - Orgasm PR #3/#4 reconciliation; PR #4 head 256bb3cdfe4a231c56025335d494cd52f242cfe8 remains a source/currentness successor, not provider/causal proof.
 - HC-Brain PR #22 failed motor-learning provenance review; repair is delegated through Bus. PR #23 planning-only local-stabilization subject remains independently reviewable at af08cae975f85adf5f6f0c09277e52c832a5632b.
-- God Brain PR #20 failed exact provenance binding; repair delegated. PR #21 remains at d3dcae69b3cdd98259055848ee22a49e3f6bc52.
+- God Brain PR #20 failed exact provenance binding; repair delegated. PR #21 remains at d3dcae69b3c3dd98259055848ee22a49e3f6bc52.
 - VeraMesh PR #9 remains at 34d581a9ba601c5f674f4d55e6e2557aa36c8b63 under hostile review.
 - VCP PR #87 failed excluded-leaf value-domain review and remains delegated for successor repair at failed head d449a2104439548d206f8cd7f5ea96faccde473f.
 - VCP PR #88 failed free-text promotion-channel review; successor PR #89 exists at 7c68ea94335110d5302edcfa0175134bde0cfc50 under independent exact-head review.
