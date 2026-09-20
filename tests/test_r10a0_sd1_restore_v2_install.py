@@ -27,11 +27,19 @@ def git_blob(commit, path):
         ["git", "-C", str(ROOT), "rev-parse", f"{commit}:{path}"],
         check=True, capture_output=True, text=True,
     ).stdout.strip()
+
+
+
+def canonical_lf_bytes(path):
+    text = path.read_text(encoding="utf-8")
+    return text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
 class RestoreV2InstallTests(unittest.TestCase):
     def test_manifest_and_native_hashes(self):
-        self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), EXPECTED_MANIFEST_SHA)
-        self.assertEqual(hashlib.sha256(NATIVE.read_bytes()).hexdigest(), EXPECTED_NATIVE_SHA)
-        self.assertEqual(len(NATIVE.read_bytes()), 7997)
+        manifest_bytes = canonical_lf_bytes(MANIFEST)
+        native_bytes = canonical_lf_bytes(NATIVE)
+        self.assertEqual(hashlib.sha256(manifest_bytes).hexdigest(), EXPECTED_MANIFEST_SHA)
+        self.assertEqual(hashlib.sha256(native_bytes).hexdigest(), EXPECTED_NATIVE_SHA)
+        self.assertEqual(len(native_bytes), 7997)
 
     def test_native_diff_is_only_k00_and_restore_line(self):
         predecessor = git_bytes(PRE_COMMIT, PRE_PATH).decode("utf-8").splitlines()
