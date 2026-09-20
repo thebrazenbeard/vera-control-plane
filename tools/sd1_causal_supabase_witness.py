@@ -80,10 +80,10 @@ _ACCEPTANCE_CONTRACT_CURRENTNESS_PATHS = (
 )
 
 _ACCEPTANCE_FRONTIER_VALUE_DOMAINS = {
-    "qualification_artifact": frozenset({"UNBOUND", "PINNED"}),
-    "production_witness": frozenset({"NOT_CONSTRUCTIBLE", "CONSTRUCTIBLE"}),
-    "causal_data_collection": frozenset({"HOLD", "READY"}),
-    "control_causality": frozenset({"UNRESOLVED", "PENDING_EXECUTION"}),
+    "qualification_artifact": ("UNBOUND", "PINNED"),
+    "production_witness": ("NOT_CONSTRUCTIBLE", "CONSTRUCTIBLE"),
+    "causal_data_collection": ("HOLD", "READY"),
+    "control_causality": ("UNRESOLVED", "PENDING_EXECUTION"),
 }
 
 
@@ -130,7 +130,8 @@ def _validate_qualification_contract_shape(
         expected_top = {
             "schema", "status", "artifact_schema", "required_evidence_gates",
             "artifact_gate_shape", "state_separation", "current_frontier",
-            "implementation_subject_binding", "non_effects",
+            "current_frontier_allowed_values", "implementation_subject_binding",
+            "non_effects",
         }
         dict_fields = {
             "required_evidence_gates", "artifact_gate_shape",
@@ -173,7 +174,7 @@ def _validate_qualification_contract_shape(
                 "qualification acceptance current_frontier value-domain shape mismatch"
             )
         expected_domains = {
-            field: sorted(values)
+            field: list(values)
             for field, values in _ACCEPTANCE_FRONTIER_VALUE_DOMAINS.items()
         }
         if allowed_values != expected_domains:
