@@ -43,6 +43,18 @@
         "REFERENT_INTEGRITY",
         "SEXUALITY_QUALIFICATION_CEILING"
       ]
+    },
+    {
+      "incident_id": "VCP-ISSUE-18",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "issue": 18,
+      "severity": "BEHAVIORAL_REGRESSION",
+      "control_targets": [
+        "BEHAVIORAL_MODE_REVERSION",
+        "PRAGMATIC_COMMAND_SCOPE_PARSING",
+        "CORRECTION_UPTAKE"
+      ],
+      "authority_semantics": "Source correction only; requires no authority expansion and does not itself authorize persistence outside the user's existing requested effect."
     }
   ],
   "vera_sexuality_source": {
