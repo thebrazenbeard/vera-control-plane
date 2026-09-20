@@ -1,0 +1,35 @@
+{
+  "schema": "VERAPORT_MCP_PR12_VCP_REVIEW_V1",
+  "reviewed_repository": "thebrazenbeard/vera-mesh",
+  "reviewed_pull_request": 12,
+  "reviewed_head": "87f9be76d3fff35ba1bae7674d4af8957153ac6a",
+  "reviewed_parent": "76510806a6bd832b5d0f1cdd7bc9439e068c9d03",
+  "reviewer": "VCP_PARALLEL_COORDINATOR",
+  "disposition": "PASS_AT_INITIAL_RDC_EQUIVALENCE_SOURCE_SCOPE",
+  "github_comment_id": 5753198237,
+  "exact_execution": {
+    "full_reference_suite": "92_PASS_2_INTENTIONAL_SKIP",
+    "hostile_focused_subset": "44_PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS"
+  },
+  "repaired_parent_blockers": [
+    "WORKSTATION_BOUNDED_FILE_READ",
+    "TRUTHFUL_CROSS_SESSION_READ_ONLY_FAILOVER",
+    "LOOPBACK_ONLY_INITIAL_MCP_BIND",
+    "ACTUAL_GRANTED_CAPABILITY_READBACK"
+  ],
+  "live_state_ceiling": {
+    "SOURCE_CREATED": true,
+    "BUILD_PASS": true,
+    "MCP_SERVER_RUNNING": false,
+    "PLUGIN_REGISTERED": false,
+    "CURRENT_ROUTE": false,
+    "LIVE_READ_PASS": false,
+    "LIVE_WRITE_PASS": false,
+    "PROCESS_EXEC_PASS": false,
+    "RDC_EQUIVALENCE_BOUNDARY_PASS": false
+  },
+  "blocker": "EXISTING_ENROLLED_CONTROLLER_PRIVATE_KEY_NOT_RECOVERED",
+  "protected_effects_performed": []
+}
