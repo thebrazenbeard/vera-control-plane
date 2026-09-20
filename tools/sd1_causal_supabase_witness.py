@@ -27,6 +27,13 @@ SOURCE_GIT_BLOB = "0769c527ad8fc8280d052dc1ce93f85673b6bb7d"
 # The artifact pin is carried in a separate source module so changing the pin
 # does not change the implementation bytes the artifact itself must qualify.
 QUALIFICATION_SCHEMA = "SD1_SUPABASE_WITNESS_QUALIFICATION_V1"
+QUALIFICATION_EVIDENCE_GATES = (
+    "independent_exact_head_source_review",
+    "disposable_postgres_semantics",
+    "production_permission_readback",
+    "controller_integration_replay",
+    "provider_source_binding_readback",
+)
 
 READ_RPC = "sd1_causal_frontier_read_v1"
 RECEIPT_RPC = "sd1_causal_receipt_read_v1"
@@ -105,6 +112,19 @@ def _validate_qualification_contract_shape(
         binding = value.get("production_binding", {}).get(
             "implementation_subject_binding"
         )
+    elif expected_schema == "SD1_SUPABASE_WITNESS_QUALIFICATION_CONTRACT_V1":
+        expected_top = {
+            "schema", "status", "artifact_schema", "required_evidence_gates",
+            "artifact_gate_shape", "state_separation", "current_frontier",
+            "implementation_subject_binding", "non_effects",
+        }
+        dict_fields = {
+            "required_evidence_gates", "artifact_gate_shape",
+            "state_separation", "current_frontier",
+            "implementation_subject_binding",
+        }
+        list_fields = {"non_effects"}
+        binding = value.get("implementation_subject_binding")
     else:
         raise WitnessIntegrityError(
             f"unsupported qualification subject schema {expected_schema}"
@@ -186,6 +206,9 @@ def implementation_subject_sha256s() -> dict[str, str]:
     controller_contract = (
         root / "protocol" / "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json"
     )
+    acceptance_contract = (
+        root / "protocol" / "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json"
+    )
     return {
         "witness_source_sha256": _canonical_text_sha256(Path(__file__).resolve()),
         "controller_source_sha256": _canonical_text_sha256(
@@ -200,6 +223,11 @@ def implementation_subject_sha256s() -> dict[str, str]:
             controller_contract,
             expected_schema="SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1",
             currentness_paths=_CONTROLLER_CONTRACT_CURRENTNESS_PATHS,
+        ),
+        "qualification_acceptance_contract_sha256": _canonical_json_subject_sha256(
+            acceptance_contract,
+            expected_schema="SD1_SUPABASE_WITNESS_QUALIFICATION_CONTRACT_V1",
+            currentness_paths=_ACCEPTANCE_CONTRACT_CURRENTNESS_PATHS,
         ),
     }
 
@@ -216,6 +244,8 @@ class ProviderQualification:
     controller_source_sha256: str
     witness_binding_contract_sha256: str
     controller_binding_contract_sha256: str
+    qualification_acceptance_contract_sha256: str
+    qualification_evidence: dict[str, dict[str, str]]
     monotonicity_qualification: str
 
     @classmethod
@@ -233,6 +263,8 @@ class ProviderQualification:
             "controller_source_sha256",
             "witness_binding_contract_sha256",
             "controller_binding_contract_sha256",
+            "qualification_acceptance_contract_sha256",
+            "qualification_evidence",
             "monotonicity_qualification",
         }
         if set(value) != expected_fields:
@@ -252,6 +284,9 @@ class ProviderQualification:
                 value["witness_binding_contract_sha256"],
             controller_binding_contract_sha256=
                 value["controller_binding_contract_sha256"],
+            qualification_acceptance_contract_sha256=
+                value["qualification_acceptance_contract_sha256"],
+            qualification_evidence=value["qualification_evidence"],
             monotonicity_qualification=value["monotonicity_qualification"],
         )
         out.validate()
@@ -277,6 +312,33 @@ class ProviderQualification:
             if getattr(self, field) != actual_digest:
                 raise WitnessIntegrityError(
                     f"provider qualification {field} mismatch"
+                )
+        if type(self.qualification_evidence) is not dict:
+            raise WitnessIntegrityError(
+                "provider qualification evidence must be an object"
+            )
+        if set(self.qualification_evidence) != set(QUALIFICATION_EVIDENCE_GATES):
+            raise WitnessIntegrityError(
+                "provider qualification evidence gates do not match exact schema"
+            )
+        for gate_name in QUALIFICATION_EVIDENCE_GATES:
+            gate = self.qualification_evidence[gate_name]
+            if type(gate) is not dict or set(gate) != {"result", "evidence_sha256"}:
+                raise WitnessIntegrityError(
+                    f"provider qualification evidence gate {gate_name} schema mismatch"
+                )
+            if gate["result"] != "PASS":
+                raise WitnessIntegrityError(
+                    f"provider qualification evidence gate {gate_name} is not PASS"
+                )
+            digest = gate["evidence_sha256"]
+            if (
+                type(digest) is not str
+                or len(digest) != 64
+                or any(ch not in "0123456789abcdef" for ch in digest)
+            ):
+                raise WitnessIntegrityError(
+                    f"provider qualification evidence gate {gate_name} digest invalid"
                 )
         if self.monotonicity_qualification != "PASS":
             raise WitnessIntegrityError(
@@ -686,6 +748,7 @@ __all__ = [
     "ProviderQualification",
     "ProviderTransportError",
     "QUALIFICATION_ARTIFACT_SHA256",
+    "QUALIFICATION_EVIDENCE_GATES",
     "QUALIFICATION_SCHEMA",
     "RECEIPT_RPC",
     "READ_RPC",
