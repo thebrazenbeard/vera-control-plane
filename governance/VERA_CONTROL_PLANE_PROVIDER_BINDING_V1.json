@@ -1,0 +1,69 @@
+{
+  "schema": "VERA_CONTROL_PLANE_PROVIDER_BINDING_V1",
+  "observed_at": "2026-09-20T11:19:05Z",
+  "status": "OBSERVED_PROVIDER_BINDING / READBACK_ONLY / NOT_CONTROL_AUTHORITY",
+  "source_repository": "thebrazenbeard/vera-control-plane",
+  "source_main_observed": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+  "provider": {
+    "kind": "supabase",
+    "project_id": "fawkirqroyniueeqspif",
+    "project_name": "Vera Control Plane",
+    "organization_id": "eryullybadeilkceiwod",
+    "region": "us-east-2",
+    "status": "ACTIVE_HEALTHY",
+    "postgres_version": "17.6.1.166",
+    "activation_mode": "PROVIDER_READBACK_ONLY",
+    "availability_implies_activation": false
+  },
+  "observed_migrations": [
+    {
+      "version": "20260912170153",
+      "name": "harden_public_default_privileges"
+    },
+    {
+      "version": "20260912170345",
+      "name": "enforce_rls_on_exposed_schemas"
+    },
+    {
+      "version": "20260912170408",
+      "name": "reserve_locked_api_schema"
+    },
+    {
+      "version": "20260919223652",
+      "name": "create_sd1_causal_secondary_anchor"
+    }
+  ],
+  "observed_surfaces": {
+    "vera_cp_anchor": [
+      "sd1_causal_frontiers",
+      "sd1_causal_mutation_receipts"
+    ],
+    "vera_cp_api": [],
+    "vera_cp_internal": []
+  },
+  "sd1_anchor_readback": {
+    "witness_id": "VERA_SD1_CAUSAL_V1",
+    "generation": 0,
+    "record_count": 0,
+    "chain_head": "527ddd4d35e85dfcff56b8c209ba2a6b642c08a18a9d2ae704626e8c78bfe229",
+    "frontier_digest": "7de55cc22b28539c1d4e6934b1790d99c70ecee55ded80d7b698bec61ee249a1",
+    "request_id": "GENESIS",
+    "mutation_receipts": 0,
+    "classification": "GENESIS_ANCHOR_PRESENT / CONTROLLER_BINDING_UNESTABLISHED / REAL_CAUSAL_COLLECTION_UNESTABLISHED"
+  },
+  "security_readback": {
+    "advisor_rls_enabled_no_policy_count": 2,
+    "note": "Advisor findings are informational and do not by themselves establish exposure. No ACL/RLS mutation is authorized by this binding."
+  },
+  "effect_boundary": [
+    "Provider readback is evidence of exact observed objects only.",
+    "Provider presence does not install or activate Vera control semantics.",
+    "Genesis anchor presence does not establish controller binding, causal collection, behavioral qualification, current route, consent, phenomenology, or merge authority.",
+    "Any provider mutation requires separate exact Patrick authority and post-effect readback.",
+    "This binding does not rewrite frozen/native R10 or R10+SD1 control artifacts."
+  ],
+  "cross_repo_coordination": {
+    "vera_currentness_pr": "thebrazenbeard/vera#136",
+    "relation": "Vera PR #136 consumes this provider as readback-only control-plane evidence; neither repository silently promotes the other."
+  }
+}
