@@ -3,13 +3,13 @@
   "logical_id": "VERA_NATIVE_PROJECT_V2_SOURCE_RECEIPT",
   "status": "SOURCE_CUSTODY_ONLY_NOT_CANONICAL_RELEASE_NOT_INSTALL_EVIDENCE",
   "repository": "thebrazenbeard/vera-control-plane",
-  "branch": "source/native-project-v2-20260920",
+  "branch": "work/native-project-v2-task-closeout-v1-20260920",
   "base_main": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
-  "pre_receipt_head": "0d6a06b73ea70b05f283cd661a6fb1264908d172",
+  "pre_receipt_head": "5e8db0fb8b2def582ebf84f79d382ac6a6499f7c",
   "package": {
     "filename_hint": "VERA_NATIVE_PROJECT_PACK_V2.zip",
-    "sha256": "52c05a093e07bd6e34562e536be3f1a7da2fc50f004a1c02fcebc7b5bac5f452",
-    "bytes": 24868,
+    "sha256": "f6a6040c25bfa024dc40d9a995c3003e47ea42dfd2901ddd93e8b2332666b342",
+    "bytes": 30333,
     "binary_zip_not_committed": true,
     "reproducible_from_git": true,
     "archive_format": "ZIP_STORED_V1",
@@ -20,47 +20,52 @@
       "path": "tools/build_native_project_pack_v2.py",
       "source_commit": "f03b1cd5c66e3d49e6e4a47156141b40b3d7e2de",
       "git_blob": "5001202872580e43de8ff5e6dd98ac8a9eaada60"
-    }
+    },
+    "source_commit": "5e8db0fb8b2def582ebf84f79d382ac6a6499f7c"
   },
   "source_directory": "project-instructions/native-v2/",
   "files": {
-    "VERA_CONTROL_SOURCE_SEPARATION_V2.md": {
-      "git_blob": "0c6ad24e62f46c01d4361a3794cf35fcc0f35d7b",
-      "sha256": "85d4c469b54c9bfd601bf1ba6426adee9f596b3e8655eaa1d673d1bb2d71f5a0"
-    },
-    "VERA_COORDINATION_V2.md": {
-      "git_blob": "eef92f7aa4cea2353b9f40158af0ad29491100cb",
-      "sha256": "ed8219c0a0625dc5d37acb92d2aa8ebe992dd233cc3b3c0b9992f87d9c624634"
-    },
-    "VERA_CURRENTNESS_AND_RECOVERY_V2.md": {
-      "git_blob": "4b92406c49c6c5f9784c53a3c65c672af761e584",
-      "sha256": "7be6e6b2cc03d630a474ca2de98fb7bb28b68c0860f32812963846b9a71ca654"
-    },
-    "VERA_MEMORY_AND_PRIVACY_V2.md": {
-      "git_blob": "60dda7d02ee6adb6ecf67f6072eaf21a3b6ced67",
-      "sha256": "e808c9aec1d7b9fc24a72973f113803929d0edb31f421ee2937c7bd4de9e6a1a"
-    },
-    "VERA_NATIVE_CHARTER_V2.md": {
-      "git_blob": "cf2a01b67b78a49e00015e7c691e37ddb53fd6d3",
-      "sha256": "b6ddbbf7266d3d0af3ec00b88626e8c71091d9f5905c4e02b9da158204547fec"
-    },
-    "VERA_NATIVE_PROJECT_INTERFACE_V2.yaml": {
-      "git_blob": "f83c0d9b7ede8b115ba05eac669fb287a40c1b56",
-      "sha256": "8a1288270cb0d3df2da82d094917f1c4231155ff4488f91875eb75103d9d5d0b"
-    },
     "VERA_NATIVE_PROJECT_KERNEL_V2.txt": {
       "git_blob": "6f9f1cb92a4f4ce788edbd4aacef29a322f702c5",
       "sha256": "877a2e97ec5cb6fc5f80ed907b5b12b8587c0c698f5e46e84dad2940baf79fcb",
       "python_character_count": 7958,
       "utf8_bytes": 7974
     },
-    "VERA_NATIVE_PROJECT_PACK_MANIFEST_V2.json": {
-      "git_blob": "637127844725f3e639b768daaac48791272551b0",
-      "sha256": "8452603113f704e053011a4e4ea1f124ce521af57baa85c999a56286659dcc2d"
+    "VERA_NATIVE_PROJECT_INTERFACE_V2.yaml": {
+      "git_blob": "6dea5c6e8d87ccda95f70d0661d1352539154af6",
+      "sha256": "e07aabe59bc4e37e097c33c45857355f5b36f521d30b350e0e8422c827a061e0"
+    },
+    "VERA_NATIVE_CHARTER_V2.md": {
+      "git_blob": "cf2a01b67b78a49e00015e7c691e37ddb53fd6d3",
+      "sha256": "b6ddbbf7266d3d0af3ec00b88626e8c71091d9f5905c4e02b9da158204547fec"
+    },
+    "VERA_CONTROL_SOURCE_SEPARATION_V2.md": {
+      "git_blob": "0c6ad24e62f46c01d4361a3794cf35fcc0f35d7b",
+      "sha256": "85d4c469b54c9bfd601bf1ba6426adee9f596b3e8655eaa1d673d1bb2d71f5a0"
+    },
+    "VERA_CURRENTNESS_AND_RECOVERY_V2.md": {
+      "git_blob": "4b92406c49c6c5f9784c53a3c65c672af761e584",
+      "sha256": "7be6e6b2cc03d630a474ca2de98fb7bb28b68c0860f32812963846b9a71ca654"
     },
     "VERA_REPOSITORY_TOPOLOGY_V2.yaml": {
       "git_blob": "07278c3dfd19d694fa307a839425c218d8ad2478",
       "sha256": "5e3a747c2bc5a8dab29d6ad011a630701ce8c7106e9828901681c3dac7c3b2d0"
+    },
+    "VERA_MEMORY_AND_PRIVACY_V2.md": {
+      "git_blob": "60dda7d02ee6adb6ecf67f6072eaf21a3b6ced67",
+      "sha256": "e808c9aec1d7b9fc24a72973f113803929d0edb31f421ee2937c7bd4de9e6a1a"
+    },
+    "VERA_COORDINATION_V2.md": {
+      "git_blob": "bab44fd1701c8ad9bca75ccecb30a7bfdd3e4e6b",
+      "sha256": "60528e1f2137005f920bcbbafd0b7dd0a01d9092d140d8963d57b707ff2fdb69"
+    },
+    "VERA_TASK_EXECUTION_AND_CLOSEOUT_V2.md": {
+      "git_blob": "1afc7a4de35e1d946471b667ffa04cf003cfba7a",
+      "sha256": "9c111299be4c03a0aed707aa0430ddec14fcb2e63dfa3d73c8d44e0ced86f025"
+    },
+    "VERA_NATIVE_PROJECT_PACK_MANIFEST_V2.json": {
+      "git_blob": "592e3de561e217d26d3fdcc34b638bc257702095",
+      "sha256": "164dcd956759336aca7f8fc746c9dfe69f7571eecc24faff0e14ba18739591a2"
     }
   },
   "project_source_inventory_observation": {
@@ -83,5 +88,6 @@
     "not provider mutation",
     "not canonical memory mutation"
   ],
-  "filename_rule": "LOGICAL_ID_SCHEMA_ROLE_AND_VERIFIED_CONTENT_BINDING_OUTRANK_FILENAME; FILENAME_MANGLE_DOES_NOT_CREATE_NEW_CONTROL_SUBJECT"
+  "filename_rule": "LOGICAL_ID_SCHEMA_ROLE_AND_VERIFIED_CONTENT_BINDING_OUTRANK_FILENAME; FILENAME_MANGLE_DOES_NOT_CREATE_NEW_CONTROL_SUBJECT",
+  "previous_native_v2_head": "d8c12a8f3ef514fb10df27c20d2de4c8d8dfdcc0"
 }
