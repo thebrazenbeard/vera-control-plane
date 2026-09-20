@@ -85,3 +85,18 @@ def test_required_hostile_regressions_are_frozen():
         "SOURCE_AS_INSTALL_OR_CURRENT_ROUTE",
     }:
         assert required in attacks
+
+
+def test_local_mcp_server_does_not_equal_chatgpt_registration():
+    exposure = load()["chatgpt_exposure"]
+    assert exposure["local_mcp_server"] == "NOT_DIRECTLY_REACHABLE_BY_CHATGPT"
+    assert exposure["preferred_private_mode"] == "SECURE_MCP_TUNNEL"
+    assert exposure["tunnel_effect_class"] == (
+        "ADMINISTRATIVE_PROVIDER_AND_CREDENTIAL_EFFECT"
+    )
+    assert exposure["local_server_non_implication"] == (
+        "MCP_SERVER_RUNNING_NE_PLUGIN_REGISTERED"
+    )
+    assert "PRODUCT_SIDE_REGISTRATION_READBACK" in (
+        exposure["plugin_registered_requires"]
+    )
