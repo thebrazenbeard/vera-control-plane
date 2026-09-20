@@ -106,10 +106,10 @@ def test_contract_is_bound_to_current_vera_implementation_subject():
     value = load()
     subject = value["implementation_subject"]
     assert subject["repository"] == "thebrazenbeard/vera-mesh"
-    assert subject["pull_request"] == 11
-    assert subject["branch"] == "vera/veraport-chatgpt-mcp-v1-20260920"
-    assert subject["head"] == "76510806a6bd832b5d0f1cdd7bc9439e068c9d03"
-    assert subject["review_state"] == "PENDING_INDEPENDENT_EXACT_HEAD_HOSTILE_REVIEW"
+    assert subject["pull_request"] == 12
+    assert subject["branch"] == "vera/veraport-chatgpt-mcp-v2-20260920"
+    assert subject["head"] == "87f9be76d3fff35ba1bae7674d4af8957153ac6a"
+    assert subject["review_state"] == "PASS_AT_INITIAL_RDC_EQUIVALENCE_SOURCE_SCOPE"
 
 
 def test_live_process_policy_remains_hold():
