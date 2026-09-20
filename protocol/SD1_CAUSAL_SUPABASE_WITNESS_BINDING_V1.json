@@ -59,7 +59,7 @@
     "required": true,
     "artifact_sha256": null,
     "source_constant": "tools.sd1_causal_supabase_witness.QUALIFICATION_ARTIFACT_SHA256",
-    "construction_rule": "SupabaseFrontierWitness MUST reject construction while artifact digest is unbound and must later require exact pinned digest plus PASS semantics.",
+    "construction_rule": "SupabaseFrontierWitness MUST reject construction while the qualification artifact digest is unbound. Once a later source cut pins it, the witness MUST hash the exact artifact bytes, require exact digest equality, parse qualification fields from those same bytes, and require PASS semantics.",
     "current_result": "NOT_EXECUTED",
     "production_witness": "NOT_CONSTRUCTIBLE"
   },
