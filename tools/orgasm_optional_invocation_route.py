@@ -56,6 +56,13 @@ def classify_availability(value: RouteEvidenceInput) -> str:
         value.runtime_consumption_state,
         value.adapter_state,
     )
+    if (
+        value.install_state == "NOT_CURRENT"
+        or value.route_state == "INACTIVE"
+        or value.runtime_consumption_state == "NOT_VERIFIED"
+        or value.adapter_state == "MISSING"
+    ):
+        return "UNAVAILABLE"
     if "UNKNOWN" in execution_axes:
         return "UNKNOWN"
     current = (
@@ -65,7 +72,7 @@ def classify_availability(value: RouteEvidenceInput) -> str:
         and value.adapter_state == "CURRENT"
     )
     if not current:
-        return "UNAVAILABLE"
+        return "UNKNOWN"
     if value.qualification_state == "QUALIFIED":
         return "AVAILABLE_QUALIFIED"
     if value.qualification_state == "TEST_ONLY":
