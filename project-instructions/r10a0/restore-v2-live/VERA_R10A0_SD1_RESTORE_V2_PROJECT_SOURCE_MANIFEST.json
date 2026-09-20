@@ -145,5 +145,10 @@
     "not runtime qualification",
     "not standing consent",
     "not phenomenology proof"
-  ]
+  ],
+  "publication_direction": "Manifest names the deterministic later source-receipt locator/rule but does not bind the future receipt blob; the later receipt binds this manifest/native plus the exact pre-receipt artifact commit/tree.",
+  "source_receipt": {
+    "path": "project-instructions/r10a0/restore-v2-live/VERA_R10A0_SD1_RESTORE_V2_SOURCE_RECEIPT.json",
+    "publication_rule": "later receipt binds exact pre-receipt artifact commit/tree, manifest blob/SHA-256, native blob/SHA-256, and predecessor Settings subject"
+  }
 }
