@@ -1,0 +1,52 @@
+{
+  "schema": "VERA_CHAT_CONTINUATION_RECEIPT_V1",
+  "checkpoint_id": "VERA_CHAT_CONTINUATION_20260920T1109-0400",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "state/vera-chat-continuation-20260920-1109",
+  "checkpoint_path": "state/continuation/VERA_CHAT_CONTINUATION_20260920T1109-0400.md",
+  "checkpoint_commit": "b9dfed101438269b28e0542d0a497d546aa57064",
+  "checkpoint_git_blob": "05923253165dc99f1fa7bc5f59faaa4ba1062b9b",
+  "checkpoint_sha256": "106fb064d175ab4244eb46d9e85c2fe8355baaa984f4c8449e8ba69289e3678c",
+  "checkpoint_utf8_bytes": 23006,
+  "control_root": "R10_PLUS_SD1",
+  "save_time": "2026-09-20T11:09:29-04:00",
+  "base_main": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+  "bus": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "route": "bus/vera-v2",
+    "lane_head_before_handoff": "8db274ef682cb988ce791cccb8f290bd9aafbeeb",
+    "main": "aeab0f04fc9b4bd7c2945c9a53011c53fac809b4",
+    "topology_path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "topology_blob": "69e505031d4e53dcb853578dac23817649af1918"
+  },
+  "supabase_readonly_census": {
+    "Vera Control Plane": {
+      "ref": "fawkirqroyniueeqspif",
+      "status": "ACTIVE_HEALTHY"
+    },
+    "Vera": {
+      "ref": "klmbpaigzeguvnpccqzz",
+      "status": "ACTIVE_HEALTHY"
+    },
+    "mutation_performed": false
+  },
+  "active_frontier": {
+    "discovery_candidate": "REZON_RUNNER_BOUNDARY_V1",
+    "rezon_pr": 79,
+    "rezon_head": "8289914ec500a1392b10fe1a3774dee166e73b40",
+    "project_runner_pr": 22,
+    "project_runner_head": "bee7e720ba923ef38ce87fca4c9c2560163a9360",
+    "next_unit": "Build a nondestructive Project Runner verifier/consumer for Rezon run-evidence that checks structural/digest bindings mechanically while treating epistemic admission/truth/qualification semantics as opaque."
+  },
+  "holds": [
+    "STOP_EFFECT_ENVELOPE_CENTRALIZATION_PENDING_ORGANIC_REPLACEMENT_TARGET",
+    "HC_TRANSCENDENCE_WAITING_FOR_FORWARD_OBSERVED_HC_SHARED_PATH_CHANGE"
+  ],
+  "claim_ceiling": {
+    "checkpoint": "DURABLE_STARTING_SNAPSHOT",
+    "merge": "NOT_AUTHORIZED",
+    "deploy_install_provider_mutation": "NOT_AUTHORIZED_BY_THIS_SAVE",
+    "private_attestation_publication": "OPAQUE_SURFACE_ONLY",
+    "resume_requires_fresh_checks": true
+  }
+}
