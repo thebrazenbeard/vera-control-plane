@@ -81,3 +81,10 @@ def test_acceptance_contract_preserves_state_separation():
     assert frontier["production_witness"] == "NOT_CONSTRUCTIBLE"
     assert frontier["causal_data_collection"] == "HOLD"
     assert frontier["control_causality"] == "UNRESOLVED"
+
+    assert contract["current_frontier_allowed_values"] == {
+        "qualification_artifact": ["UNBOUND", "PINNED"],
+        "production_witness": ["NOT_CONSTRUCTIBLE", "CONSTRUCTIBLE"],
+        "causal_data_collection": ["HOLD", "READY"],
+        "control_causality": ["UNRESOLVED", "PENDING_EXECUTION"],
+    }
