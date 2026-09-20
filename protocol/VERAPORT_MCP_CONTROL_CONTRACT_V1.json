@@ -3,11 +3,11 @@
   "status": "SOURCE_CONTROL_CONTRACT / NO_INSTALL_OR_ROUTE_EFFECT",
   "implementation_subject": {
     "repository": "thebrazenbeard/vera-mesh",
-    "branch": "vera/veraport-chatgpt-mcp-v1-20260920",
+    "branch": "vera/veraport-chatgpt-mcp-v2-20260920",
     "exact_head_required_for_review": true,
-    "head": "76510806a6bd832b5d0f1cdd7bc9439e068c9d03",
-    "pull_request": 11,
-    "review_state": "PENDING_INDEPENDENT_EXACT_HEAD_HOSTILE_REVIEW"
+    "head": "87f9be76d3fff35ba1bae7674d4af8957153ac6a",
+    "pull_request": 12,
+    "review_state": "PASS_AT_INITIAL_RDC_EQUIVALENCE_SOURCE_SCOPE"
   },
   "operation_classes": {
     "READ_ONLY": [
