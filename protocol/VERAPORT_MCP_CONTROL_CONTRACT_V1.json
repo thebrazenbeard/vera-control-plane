@@ -168,5 +168,22 @@
     "EDGE_TLS_BREAKS_END_TO_END_AUTH",
     "LOCAL_PROCESS_DISABLED_BUT_REMOTE_CLAIMED_PASS",
     "SOURCE_AS_INSTALL_OR_CURRENT_ROUTE"
-  ]
+  ],
+  "chatgpt_exposure": {
+    "local_mcp_server": "NOT_DIRECTLY_REACHABLE_BY_CHATGPT",
+    "admitted_modes": [
+      "REMOTE_HTTPS",
+      "SECURE_MCP_TUNNEL"
+    ],
+    "preferred_private_mode": "SECURE_MCP_TUNNEL",
+    "tunnel_effect_class": "ADMINISTRATIVE_PROVIDER_AND_CREDENTIAL_EFFECT",
+    "tunnel_creation_requires": "PATRICK_EXACT_AUTHORITY_AND_PLATFORM_CREDENTIALS",
+    "plugin_registered_requires": [
+      "MCP_SERVER_RUNNING",
+      "CHATGPT_REACHABLE_MCP_ENDPOINT_OR_TUNNEL",
+      "TOOL_SCAN_PASS",
+      "PRODUCT_SIDE_REGISTRATION_READBACK"
+    ],
+    "local_server_non_implication": "MCP_SERVER_RUNNING_NE_PLUGIN_REGISTERED"
+  }
 }
