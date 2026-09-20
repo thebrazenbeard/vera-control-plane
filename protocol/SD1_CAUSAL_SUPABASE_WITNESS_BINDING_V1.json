@@ -1,0 +1,92 @@
+{
+  "schema": "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1",
+  "status": "SOURCE_IMPLEMENTATION_PRESENT / DEPLOYED_SOURCE_BYTES_VERIFIED / QUALIFICATION_ARTIFACT_UNBOUND / CAUSAL_COLLECTION_HOLD",
+  "provider": {
+    "kind": "SUPABASE_POSTGREST_RPC",
+    "project_id": "fawkirqroyniueeqspif",
+    "project_name": "Vera Control Plane",
+    "host": "fawkirqroyniueeqspif.supabase.co",
+    "deployed_migration_version": "20260919223652",
+    "deployed_migration_name": "create_sd1_causal_secondary_anchor",
+    "deployed_statement_bytes": 24103,
+    "deployed_statement_sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
+    "exact_git_source_bytes_verified": true
+  },
+  "source": {
+    "deployed_source_pr": 45,
+    "deployed_source_head": "749b64e4cc65859db40271fcf27f9273708f2304",
+    "deployed_source_path": "supabase/migrations/20260919195000_create_sd1_causal_secondary_anchor.sql",
+    "deployed_source_git_blob": "0769c527ad8fc8280d052dc1ce93f85673b6bb7d",
+    "integration_parent_pr": 48,
+    "integration_parent_head": "e141968fbac172b72d4c5f027b8b367fd9085855",
+    "implementation": "tools.sd1_causal_supabase_witness.SupabaseFrontierWitness",
+    "client": "tools.sd1_causal_supabase_witness.SupabaseFrontierClient"
+  },
+  "allowed_rpc_surface": [
+    "vera_cp_api.sd1_causal_frontier_read_v1()",
+    "vera_cp_api.sd1_causal_receipt_read_v1(text)",
+    "vera_cp_api.sd1_causal_frontier_advance_v1(text,text,bigint,text,bigint,bigint,text,text,text,text,text)"
+  ],
+  "denied_capabilities": [
+    "GENERIC_SQL_PROXY",
+    "DIRECT_TABLE_INSERT",
+    "DIRECT_TABLE_UPDATE",
+    "DIRECT_TABLE_DELETE",
+    "AUTOMATIC_AMBIGUOUS_MUTATION_RETRY",
+    "SERVICE_ROLE_AS_CONTROLLER_REQUIREMENT",
+    "CALLER_SELF_QUALIFICATION"
+  ],
+  "idempotency": {
+    "request_id": "DETERMINISTIC_FROM_SUCCESSOR_GENERATION_AND_FRONTIER_DIGEST",
+    "request_digest": "EXACT_PROVIDER_CANONICAL_REQUEST_SHA256",
+    "ambiguous_transport": "READ_EXACT_RECEIPT_THEN_FRONTIER / NEVER_BLIND_RETRY",
+    "changed_successor_after_ambiguity": "FORBIDDEN"
+  },
+  "read_only_hash_vector": {
+    "provider_observed_date": "2026-09-20",
+    "current_generation": 0,
+    "synthetic_successor_generation": 1,
+    "synthetic_last_slot_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "synthetic_chain_head": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "expected_frontier_digest": "ff5a32f213908b3da9de479434125cbab2ca5c5b6992bfdf0f9568163f67790f",
+    "expected_request_id": "sd1.causal.frontier.1.ff5a32f213908b3da9de479434125cbab2ca5c5b6992bfdf0f9568163f67790f",
+    "expected_request_digest": "07035e70192c90180088b0cd9284393eeaf82e1250d9baf7c1a3f9c3a8e51f35",
+    "provider_frontier_digest_match": true,
+    "provider_request_digest_match": true,
+    "effect": "READ_ONLY_IMMUTABLE_DIGEST_FUNCTIONS"
+  },
+  "qualification_gate": {
+    "required": true,
+    "artifact_sha256": null,
+    "source_constant": "tools.sd1_causal_supabase_witness.QUALIFICATION_ARTIFACT_SHA256",
+    "construction_rule": "SupabaseFrontierWitness MUST reject construction while artifact digest is unbound and must later require exact pinned digest plus PASS semantics.",
+    "current_result": "NOT_EXECUTED",
+    "production_witness": "NOT_CONSTRUCTIBLE"
+  },
+  "controller_binding": {
+    "exact_type_required": true,
+    "instance_method_shadowing_forbidden": true,
+    "source_path_wired": true,
+    "runtime_binding": "BLOCKED_BY_UNBOUND_QUALIFICATION_ARTIFACT"
+  },
+  "claim_ceiling": {
+    "provider_install": "EXACT_DEPLOYED_SOURCE_BYTES_VERIFIED",
+    "provider_genesis": "READ_BACK_GENERATION_0_RECORD_COUNT_0",
+    "provider_client_source": "PRESENT",
+    "controller_source_path": "PRESENT",
+    "production_witness_qualification": "NOT_EXECUTED",
+    "production_witness_runtime_binding": "NOT_ESTABLISHED",
+    "causal_data_collection": "HOLD",
+    "control_causality": "UNRESOLVED",
+    "global_qualification": "NOT_EXECUTED"
+  },
+  "non_effects": [
+    "NOT_PROVIDER_MUTATION",
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_CREDENTIAL_PROVISIONING",
+    "NOT_PROJECT_INSTALL",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_GLOBAL_QUALIFICATION",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}
