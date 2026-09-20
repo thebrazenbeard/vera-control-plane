@@ -11,6 +11,7 @@ from tools.sd1_causal_frontier_witness import (
     build_successor_frontier,
     validate_frontier,
 )
+from tools.sd1_causal_supabase_witness import SupabaseFrontierWitness
 from tools.sd1_causal_witness_testing import MemoryFrontierWitness
 
 _ALLOWED_OUTCOMES = {"RESPONSE", "MISSING", "UNKNOWN"}
@@ -127,18 +128,41 @@ def _expected_readback(binding: dict[str, Any], condition: str) -> dict[str, str
 def _read_witness_frontier(witness: Any) -> dict[str, Any]:
     if witness is None:
         raise ValueError("causal frontier witness is required")
-    if type(witness) is not MemoryFrontierWitness:
+    if type(witness) is MemoryFrontierWitness:
+        read = MemoryFrontierWitness.read_frontier
+    elif type(witness) is SupabaseFrontierWitness:
+        read = SupabaseFrontierWitness.read_frontier
+    else:
         raise ValueError("causal frontier witness is not an exact reviewed witness")
     if getattr(witness, "monotonicity_qualified", False) is not True:
         raise ValueError("causal frontier witness is not monotonicity-qualified")
     store_id = getattr(witness, "store_id", None)
     if type(store_id) is not str or not store_id:
         raise ValueError("causal frontier witness interface is invalid")
-    frontier = MemoryFrontierWitness.read_frontier(witness)
+    frontier = read(witness)
     if type(frontier) is not dict:
         raise ValueError("causal frontier witness readback must be an object")
     validate_frontier(frontier, expected_store_id=store_id)
     return frontier
+
+
+def _advance_witness_frontier(
+    witness: Any,
+    *,
+    expected_frontier_digest: str,
+    successor: dict[str, Any],
+) -> dict[str, Any]:
+    if type(witness) is MemoryFrontierWitness:
+        advance = MemoryFrontierWitness.advance_frontier
+    elif type(witness) is SupabaseFrontierWitness:
+        advance = SupabaseFrontierWitness.advance_frontier
+    else:
+        raise ValueError("causal frontier witness is not an exact reviewed witness")
+    return advance(
+        witness,
+        expected_frontier_digest=expected_frontier_digest,
+        successor=successor,
+    )
 
 
 def _reconcile_ledger_frontier(
@@ -283,7 +307,7 @@ def record_attempt(
             os.fsync(pending.fileno())
             pending_path = Path(pending.name)
 
-        advanced = MemoryFrontierWitness.advance_frontier(
+        advanced = _advance_witness_frontier(
             witness,
             expected_frontier_digest=current_frontier["frontier_digest"],
             successor=successor_frontier,
