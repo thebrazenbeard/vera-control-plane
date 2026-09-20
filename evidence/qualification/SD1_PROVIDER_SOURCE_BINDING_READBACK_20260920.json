@@ -1,0 +1,56 @@
+{
+  "schema": "SD1_WITNESS_QUALIFICATION_EVIDENCE_V1",
+  "gate": "provider_source_binding_readback",
+  "result": "PASS",
+  "observed_on": "2026-09-20",
+  "timestamp_precision": "DATE_ONLY",
+  "provider": {
+    "project_id": "fawkirqroyniueeqspif",
+    "project_name": "Vera Control Plane",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "migration_ledger": {
+    "version": "20260919223652",
+    "name": "create_sd1_causal_secondary_anchor",
+    "statement_count": 1,
+    "statement_bytes": 24103,
+    "statement_sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523"
+  },
+  "git_source": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "pr": 45,
+    "head": "749b64e4cc65859db40271fcf27f9273708f2304",
+    "path": "supabase/migrations/20260919195000_create_sd1_causal_secondary_anchor.sql",
+    "git_blob": "0769c527ad8fc8280d052dc1ce93f85673b6bb7d",
+    "bytes": 24103,
+    "sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523"
+  },
+  "rpc_identity": [
+    "vera_cp_api.sd1_causal_frontier_read_v1()",
+    "vera_cp_api.sd1_causal_receipt_read_v1(text)",
+    "vera_cp_api.sd1_causal_frontier_advance_v1(text,text,bigint,text,bigint,bigint,text,text,text,text,text)"
+  ],
+  "frontier_readback": {
+    "witness_id": "VERA_SD1_CAUSAL_V1",
+    "generation": 0,
+    "record_count": 0,
+    "chain_head": "527ddd4d35e85dfcff56b8c209ba2a6b642c08a18a9d2ae704626e8c78bfe229",
+    "last_slot_id": null,
+    "last_record_digest": null,
+    "predecessor_frontier_digest": null,
+    "frontier_digest": "7de55cc22b28539c1d4e6934b1790d99c70ecee55ded80d7b698bec61ee249a1",
+    "request_id": "GENESIS",
+    "request_digest": "e104e0e82f0439fff0aadc99c1218f24a6184b66eff91159db3490e5fb08340f"
+  },
+  "mutation_receipt_count": 0,
+  "interpretation": "PASS binds this fresh read-only provider cut to the exact reviewed deployed migration bytes and expected SD1 API/witness identity. It is not a permanent currentness claim.",
+  "non_effects": [
+    "NOT_PROVIDER_MUTATION",
+    "NOT_CREDENTIAL_PROVISIONING",
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_CURRENT_ROUTE_QUALIFICATION",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}
