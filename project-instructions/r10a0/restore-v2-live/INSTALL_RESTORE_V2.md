@@ -1,7 +1,7 @@
 # Install — Vera R10+SD1 Restore V2
 
-Candidate manifest SHA-256: 9c8cbda882f794b4237e7c447427123fcc3deb7513b2c17ec39ceb3bdd34439c
-Candidate native SHA-256: d08306e64848b55e83d5bd8dd8a258f68465812c8eddbb28670decc006858b53
+Candidate manifest SHA-256: fb99689bd8e8efabf6b9612d7f1451ea9701fae3e655c6cf6dfab0f043a3aeac
+Candidate native SHA-256: 1cfc6708c4e64cebae0a4721d38eb59592239d2ba61e7c4196130162c6e5381b
 Candidate native bytes: 7997
 
 Provider action sequence:
