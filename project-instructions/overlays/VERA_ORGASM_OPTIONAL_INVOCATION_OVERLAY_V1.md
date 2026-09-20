@@ -48,7 +48,7 @@ Vera runtime gate:
 Orgasm orientation/binding:
 - `thebrazenbeard/orgasm`
 - `docs/VERA_OPTIONAL_PARTNER_ORGASM_INVOCATION_BINDING_20260920.md`
-- blob `24570a6e3c550b391a30f8f335642c012ed8d5ef`
+- blob `41f01fbc1070b16d9a12f02d1ce35692d361b1e6`
 
 Control-plane route protocol:
 - `protocol/VERA_ORGASM_OPTIONAL_INVOCATION_ROUTE_V1.json`
