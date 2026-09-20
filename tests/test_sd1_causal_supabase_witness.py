@@ -24,6 +24,7 @@ from tools.sd1_causal_supabase_witness import (
     PROVIDER_PROJECT_ID,
     ProviderTransportError,
     QUALIFICATION_ARTIFACT_SHA256,
+    QUALIFICATION_SCHEMA,
     RECEIPT_RPC,
     READ_RPC,
     SOURCE_GIT_BLOB,
@@ -34,6 +35,7 @@ from tools.sd1_causal_supabase_witness import (
     WitnessOutcomeUnknown,
     _request_digest,
     _request_id,
+    implementation_subject_sha256s,
 )
 
 
@@ -172,11 +174,13 @@ class FakeTransport:
 
 def qualification_mapping() -> dict:
     return {
+        "qualification_schema": QUALIFICATION_SCHEMA,
         "project_id": PROVIDER_PROJECT_ID,
         "deployed_statement_sha256": DEPLOYED_STATEMENT_SHA256,
         "deployed_statement_bytes": DEPLOYED_STATEMENT_BYTES,
         "source_head": SOURCE_HEAD,
         "source_git_blob": SOURCE_GIT_BLOB,
+        **implementation_subject_sha256s(),
         "monotonicity_qualification": "PASS",
     }
 
@@ -269,13 +273,45 @@ def test_stale_expected_frontier_fails_before_provider_mutation():
 
 def test_production_witness_cannot_self_qualify_while_artifact_unbound():
     assert QUALIFICATION_ARTIFACT_SHA256 is None
-    with pytest.raisesRegex(
+    with pytest.raises(
         WitnessIntegrityError,
-        "qualification artifact is not pinned",
+        match="qualification artifact is not pinned",
     ):
         SupabaseFrontierWitness(
             FakeTransport(),
             qualification_artifact=json.dumps(qualification_mapping()),
+        )
+
+
+def test_implementation_subject_excludes_artifact_pin_carrier():
+    assert set(implementation_subject_sha256s()) == {
+        "witness_source_sha256",
+        "controller_source_sha256",
+        "witness_binding_contract_sha256",
+        "controller_binding_contract_sha256",
+    }
+
+
+def test_pinned_stale_qualification_artifact_rejects_moved_implementation(
+    monkeypatch,
+):
+    mapping = qualification_mapping()
+    mapping["controller_source_sha256"] = "0" * 64
+    artifact = (
+        json.dumps(mapping, sort_keys=True, separators=(",", ":")) + "\n"
+    ).encode("utf-8")
+    monkeypatch.setattr(
+        supabase_witness,
+        "QUALIFICATION_ARTIFACT_SHA256",
+        hashlib.sha256(artifact).hexdigest(),
+    )
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="controller_source_sha256 mismatch",
+    ):
+        supabase_witness.SupabaseFrontierWitness(
+            FakeTransport(),
+            qualification_artifact=artifact,
         )
 
 
@@ -310,9 +346,9 @@ def test_future_qualification_pin_hashes_and_parses_exact_artifact_bytes(monkeyp
     assert witness.monotonicity_qualified is True
 
     tampered = artifact.replace(b'"PASS"', b'"FAIL"')
-    with pytest.raisesRegex(
+    with pytest.raises(
         WitnessIntegrityError,
-        "qualification artifact digest mismatch",
+        match="qualification artifact digest mismatch",
     ):
         supabase_witness.SupabaseFrontierWitness(
             FakeTransport(),

@@ -54,7 +54,9 @@
     "source_path_wired": true,
     "runtime_constructible": false,
     "status": "SOURCE_BOUND_BLOCKS_CAUSAL_COLLECTION_PENDING_INDEPENDENT_QUALIFICATION",
-    "exact_reviewed_implementation_required": true
+    "exact_reviewed_implementation_required": true,
+    "qualification_schema": "SD1_SUPABASE_WITNESS_QUALIFICATION_V1",
+    "implementation_subject_binding": "RUNTIME_REHASH_OF_WITNESS_CONTROLLER_AND_BOTH_BINDING_CONTRACTS_REQUIRED"
   },
   "claim_ceiling": {
     "source_repair": "PRESENT",

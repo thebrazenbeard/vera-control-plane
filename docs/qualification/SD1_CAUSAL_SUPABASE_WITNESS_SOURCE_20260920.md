@@ -75,7 +75,19 @@ A changed successor after ambiguity is not retried under the same attempt.
 
 `SupabaseFrontierWitness` is intentionally not constructible in this source cut.
 
-The module constant `QUALIFICATION_ARTIFACT_SHA256` is `None`. Even a caller-supplied mapping that says `monotonicity_qualification=PASS` is rejected.
+The source-controlled pin QUALIFICATION_ARTIFACT_SHA256 is None in
+tools/sd1_causal_supabase_witness_qualification.py. Even a caller-supplied
+mapping that says monotonicity_qualification=PASS is rejected.
+
+The pin lives outside the implementation-subject digest. This is deliberate:
+pinning an artifact must not change the witness bytes that the same artifact is
+required to qualify.
+
+A qualification artifact is also implementation-subject-bound. It must carry
+canonical SHA-256 digests for the witness source, controller source, provider
+binding contract, and controller binding contract. Construction rehashes those
+current files and rejects an otherwise correctly pinned PASS artifact when any
+subject digest is stale.
 
 A later source change may make the production witness constructible only after:
 

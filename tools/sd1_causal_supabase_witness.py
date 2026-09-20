@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 from urllib import error, parse, request
 
@@ -12,6 +13,9 @@ from tools.sd1_causal_frontier_witness import (
     WitnessIntegrityError,
     validate_frontier,
 )
+from tools.sd1_causal_supabase_witness_qualification import (
+    QUALIFICATION_ARTIFACT_SHA256,
+)
 
 PROVIDER_PROJECT_ID = "fawkirqroyniueeqspif"
 PROVIDER_HOST = f"{PROVIDER_PROJECT_ID}.supabase.co"
@@ -20,10 +24,9 @@ DEPLOYED_STATEMENT_BYTES = 24103
 SOURCE_HEAD = "749b64e4cc65859db40271fcf27f9273708f2304"
 SOURCE_GIT_BLOB = "0769c527ad8fc8280d052dc1ce93f85673b6bb7d"
 
-# This remains deliberately unbound until an independently reviewed
-# monotonicity/controller-integration qualification artifact exists and a later
-# source change pins that artifact's exact SHA-256.
-QUALIFICATION_ARTIFACT_SHA256: str | None = None
+# The artifact pin is carried in a separate source module so changing the pin
+# does not change the implementation bytes the artifact itself must qualify.
+QUALIFICATION_SCHEMA = "SD1_SUPABASE_WITNESS_QUALIFICATION_V1"
 
 READ_RPC = "sd1_causal_frontier_read_v1"
 RECEIPT_RPC = "sd1_causal_receipt_read_v1"
@@ -38,13 +41,41 @@ class WitnessOutcomeUnknown(RuntimeError):
     pass
 
 
+def _canonical_text_sha256(path: Path) -> str:
+    text = path.read_text(encoding="utf-8")
+    canonical = text.replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def implementation_subject_sha256s() -> dict[str, str]:
+    root = Path(__file__).resolve().parents[1]
+    subjects = {
+        "witness_source_sha256": Path(__file__).resolve(),
+        "controller_source_sha256":
+            root / "tools" / "sd1_causal_execution_controller.py",
+        "witness_binding_contract_sha256":
+            root / "protocol" / "SD1_CAUSAL_SUPABASE_WITNESS_BINDING_V1.json",
+        "controller_binding_contract_sha256":
+            root / "protocol" / "SD1_CAUSAL_CONTROLLER_WITNESS_INTEGRATION_V1.json",
+    }
+    return {
+        field: _canonical_text_sha256(path)
+        for field, path in subjects.items()
+    }
+
+
 @dataclass(frozen=True)
 class ProviderQualification:
+    qualification_schema: str
     project_id: str
     deployed_statement_sha256: str
     deployed_statement_bytes: int
     source_head: str
     source_git_blob: str
+    witness_source_sha256: str
+    controller_source_sha256: str
+    witness_binding_contract_sha256: str
+    controller_binding_contract_sha256: str
     monotonicity_qualification: str
 
     @classmethod
@@ -52,11 +83,16 @@ class ProviderQualification:
         if not isinstance(value, dict):
             raise WitnessIntegrityError("provider qualification must be an object")
         expected_fields = {
+            "qualification_schema",
             "project_id",
             "deployed_statement_sha256",
             "deployed_statement_bytes",
             "source_head",
             "source_git_blob",
+            "witness_source_sha256",
+            "controller_source_sha256",
+            "witness_binding_contract_sha256",
+            "controller_binding_contract_sha256",
             "monotonicity_qualification",
         }
         if set(value) != expected_fields:
@@ -64,17 +100,26 @@ class ProviderQualification:
                 "provider qualification fields do not match exact schema"
             )
         out = cls(
+            qualification_schema=value["qualification_schema"],
             project_id=value["project_id"],
             deployed_statement_sha256=value["deployed_statement_sha256"],
             deployed_statement_bytes=value["deployed_statement_bytes"],
             source_head=value["source_head"],
             source_git_blob=value["source_git_blob"],
+            witness_source_sha256=value["witness_source_sha256"],
+            controller_source_sha256=value["controller_source_sha256"],
+            witness_binding_contract_sha256=
+                value["witness_binding_contract_sha256"],
+            controller_binding_contract_sha256=
+                value["controller_binding_contract_sha256"],
             monotonicity_qualification=value["monotonicity_qualification"],
         )
         out.validate()
         return out
 
     def validate(self) -> None:
+        if self.qualification_schema != QUALIFICATION_SCHEMA:
+            raise WitnessIntegrityError("provider qualification schema mismatch")
         if self.project_id != PROVIDER_PROJECT_ID:
             raise WitnessIntegrityError("provider qualification project id mismatch")
         if self.deployed_statement_sha256 != DEPLOYED_STATEMENT_SHA256:
@@ -87,6 +132,12 @@ class ProviderQualification:
             )
         if self.source_head != SOURCE_HEAD or self.source_git_blob != SOURCE_GIT_BLOB:
             raise WitnessIntegrityError("provider qualification source provenance mismatch")
+        actual_subjects = implementation_subject_sha256s()
+        for field, actual_digest in actual_subjects.items():
+            if getattr(self, field) != actual_digest:
+                raise WitnessIntegrityError(
+                    f"provider qualification {field} mismatch"
+                )
         if self.monotonicity_qualification != "PASS":
             raise WitnessIntegrityError(
                 "provider witness is not independently monotonicity-qualified"
@@ -495,6 +546,7 @@ __all__ = [
     "ProviderQualification",
     "ProviderTransportError",
     "QUALIFICATION_ARTIFACT_SHA256",
+    "QUALIFICATION_SCHEMA",
     "RECEIPT_RPC",
     "READ_RPC",
     "SOURCE_GIT_BLOB",
@@ -503,4 +555,5 @@ __all__ = [
     "SupabaseFrontierWitness",
     "SupabaseRestRpcTransport",
     "WitnessOutcomeUnknown",
+    "implementation_subject_sha256s",
 ]

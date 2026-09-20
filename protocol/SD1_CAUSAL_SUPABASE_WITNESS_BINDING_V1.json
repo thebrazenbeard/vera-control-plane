@@ -58,10 +58,25 @@
   "qualification_gate": {
     "required": true,
     "artifact_sha256": null,
-    "source_constant": "tools.sd1_causal_supabase_witness.QUALIFICATION_ARTIFACT_SHA256",
-    "construction_rule": "SupabaseFrontierWitness MUST reject construction while the qualification artifact digest is unbound. Once a later source cut pins it, the witness MUST hash the exact artifact bytes, require exact digest equality, parse qualification fields from those same bytes, and require PASS semantics.",
+    "source_constant": "tools.sd1_causal_supabase_witness_qualification.QUALIFICATION_ARTIFACT_SHA256",
+    "construction_rule": "SupabaseFrontierWitness MUST reject construction while the qualification artifact digest is unbound. Once a later source cut pins it, the witness MUST hash the exact artifact bytes, require exact digest equality, parse qualification fields from those same bytes, require PASS semantics, and rehash the current witness/controller/contract subject so stale qualification cannot survive implementation movement.",
     "current_result": "NOT_EXECUTED",
-    "production_witness": "NOT_CONSTRUCTIBLE"
+    "production_witness": "NOT_CONSTRUCTIBLE",
+    "qualification_schema": "SD1_SUPABASE_WITNESS_QUALIFICATION_V1",
+    "implementation_subject_binding": {
+      "runtime_rehash_required": true,
+      "digest_algorithm": "SHA256_CANONICAL_UTF8_LF",
+      "subject_fields": [
+        "witness_source_sha256",
+        "controller_source_sha256",
+        "witness_binding_contract_sha256",
+        "controller_binding_contract_sha256"
+      ],
+      "rule": "Pinned qualification bytes MUST carry all four subject digests and construction MUST reject if any digest differs from the currently loaded source/contracts.",
+      "pin_carrier_exclusion_rule": "The pin carrier is deliberately excluded from the implementation subject to avoid a self-referential digest. It may select an artifact only; the artifact must independently match the current witness/controller/contracts."
+    },
+    "pin_carrier": "tools/sd1_causal_supabase_witness_qualification.py",
+    "pin_carrier_in_implementation_subject": false
   },
   "controller_binding": {
     "exact_type_required": true,
