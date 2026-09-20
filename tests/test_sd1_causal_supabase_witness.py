@@ -518,6 +518,38 @@ def test_acceptance_contract_rejects_unknown_current_frontier_authority_field(
         implementation_subject_sha256s()
 
 
+@pytest.mark.parametrize(
+    ("field", "hostile_value"),
+    [
+        ("qualification_artifact", "PROVIDER_WRITE_AUTHORITY_GRANTED"),
+        ("production_witness", "RUNTIME_EFFECT_AUTHORIZED"),
+        ("causal_data_collection", "PROVIDER_WRITE_AUTHORITY_GRANTED"),
+        ("control_causality", "CAUSAL_CONTROL_GRANTED"),
+    ],
+)
+def test_acceptance_current_frontier_values_fail_closed_outside_declared_domain(
+    monkeypatch,
+    field,
+    hostile_value,
+):
+    original_read_text = Path.read_text
+
+    def hostile_read_text(self, *args, **kwargs):
+        text = original_read_text(self, *args, **kwargs)
+        if self.name == "SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json":
+            value = json.loads(text)
+            value["current_frontier"][field] = hostile_value
+            return json.dumps(value)
+        return text
+
+    monkeypatch.setattr(Path, "read_text", hostile_read_text)
+    with pytest.raises(
+        WitnessIntegrityError,
+        match="value outside allowed domain",
+    ):
+        implementation_subject_sha256s()
+
+
 def test_qualification_subject_detects_acceptance_contract_semantic_change(
     monkeypatch,
 ):
