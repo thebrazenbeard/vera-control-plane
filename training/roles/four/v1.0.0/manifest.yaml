@@ -3,7 +3,7 @@ role:
   identity: four
   title: Exact Implementation Reconstruction / Packaging; Documentation / Specification Owner
 package_version: 1.0.0
-purpose: Reproducible permanent-role competence for fresh Four chats.
+purpose: Reproducible permanent-role competence for fresh Four runtime terminals.
 mutable_operational_state_in_package: false
 ordered_modules:
   - 01-role-authority.md
