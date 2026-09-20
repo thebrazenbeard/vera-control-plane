@@ -16,7 +16,14 @@
     "primary_repo": "thebrazenbeard/vera-control-plane",
     "communication_hub": "thebrazenbeard/chat-communication-bus",
     "vera_bus_route": "bus/vera-v2",
-    "exodus_topology_contract": "thebrazenbeard/chat-communication-bus:architecture/contracts/EXODUS_INTERFACE_TOPOLOGY_V1.json"
+    "exodus_topology_contract": {
+      "repository": "thebrazenbeard/chat-communication-bus",
+      "branch": "architecture/chatgpt-exodus-interface-topology-v1-20260919",
+      "head": "54f3fe558f69a44220f5ce43a33a09cbc6e39183",
+      "path": "architecture/contracts/CHATGPT_EXODUS_INTERFACE_TOPOLOGY_V1.md",
+      "git_blob": "71c4336b127e9a0bb9c3ccbd5cebeae4b585b031",
+      "status": "SOURCE_DESIGN_EXACT_BINDING_NOT_BUS_MAIN"
+    }
   },
   "startup_obligations": [
     "fresh-check current project control/governance",
