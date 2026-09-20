@@ -1,0 +1,172 @@
+{
+  "schema": "VERAPORT_MCP_CONTROL_CONTRACT_V1",
+  "status": "SOURCE_CONTROL_CONTRACT / NO_INSTALL_OR_ROUTE_EFFECT",
+  "implementation_subject": {
+    "repository": "thebrazenbeard/vera-mesh",
+    "branch": "vera/veraport-mcp-rdc-equivalent-v1-20260920",
+    "exact_head_required_for_review": true,
+    "head": null
+  },
+  "operation_classes": {
+    "READ_ONLY": [
+      "machine_info",
+      "lane.list",
+      "fs.read_text",
+      "process.list",
+      "process.status",
+      "process.output"
+    ],
+    "MUTATING": [
+      "fs.write_text"
+    ],
+    "PROCESS_EXECUTION": [
+      "process.exec",
+      "process.start"
+    ],
+    "PROCESS_CONTROL": [
+      "process.terminate"
+    ],
+    "SESSION_CONTROL": [
+      "lane.open",
+      "lane.renew",
+      "lane.close"
+    ],
+    "ADMINISTRATIVE": [
+      "mcp.install",
+      "mcp.register",
+      "mcp.route_activate",
+      "controller.credential_change",
+      "workstation.policy_change",
+      "service.install",
+      "service.config_change"
+    ]
+  },
+  "authority_ceiling": {
+    "rule": "EFFECTIVE_AUTHORITY_IS_INTERSECTION_ONLY",
+    "ordered_narrowing_layers": [
+      "PATRICK_EXACT_EFFECT_AUTHORITY",
+      "VCP_GATEWAY_POLICY",
+      "WORKSTATION_LOCAL_POLICY",
+      "AUTHENTICATED_SESSION_CAPABILITY",
+      "LANE_CAPABILITY",
+      "LANE_RESOURCE_CLAIM"
+    ],
+    "tool_discoverability": "NO_AUTHORITY",
+    "edge_reachability": "NO_APPLICATION_AUTHORITY",
+    "source_presence": "NO_INSTALL_OR_CURRENT_ROUTE_AUTHORITY"
+  },
+  "routes": {
+    "preferred_order": [
+      "DIRECT_STREAM",
+      "EDGE_STREAM"
+    ],
+    "DURABLE_RELAY": "FUTURE_NOT_IMPLEMENTED_NOT_CURRENT",
+    "current_requires": [
+      "FRESH_TRANSPORT_OBSERVATION",
+      "TLS_1_3_VERAPORT_ALPN",
+      "VERAPORT_APPLICATION_AUTH_PASS",
+      "EXPECTED_CONTROLLER_PRINCIPAL",
+      "EXPECTED_WORKSTATION_PRINCIPAL",
+      "UNEXPIRED_APPLICATION_SESSION",
+      "LIVE_APPLICATION_READBACK",
+      "OBSERVATION_WITHIN_FRESHNESS_WINDOW"
+    ],
+    "stale_route": "INELIGIBLE_EVEN_IF_LOWER_PRIORITY_ROUTE_IS_FRESH",
+    "edge_tls_only": "TRANSPORT_REACHABLE_NOT_CURRENT_APPLICATION_ROUTE"
+  },
+  "mcp_reconnect": {
+    "client_transport_reconnect": "MUST_REUSE_EXISTING_CONTROLLER_RUNTIME_WHERE_RUNNING",
+    "must_not_imply": "VERAPORT_APPLICATION_SESSION_RECREATION",
+    "controller_process_restart": "APPLICATION_SESSION_RECREATION_CURRENTLY_REQUIRED",
+    "session_resume_across_controller_restart": "NOT_IMPLEMENTED"
+  },
+  "mutation_failover": {
+    "pre_delivery_failure": "MAY_SELECT_NEXT_CURRENT_AUTHENTICATED_ROUTE",
+    "unknown_delivery": "NO_CROSS_SESSION_RETRY",
+    "same_request_id_required": true,
+    "same_application_session_required": true,
+    "durable_idempotency_required": true,
+    "no_compatible_same_session_path": "AMBIGUOUS_DELIVERY_STOP"
+  },
+  "filesystem": {
+    "allowed_root_enforcement": "WORKSTATION_LOCAL_POLICY_REQUIRED",
+    "resolved_path_must_remain_under_allowed_root": true,
+    "static_parent_symlink_escape": "REJECT",
+    "local_privileged_reparse_point_race": "RESIDUAL_HOST_SECURITY_BOUNDARY_NOT_CLAIMED_SOLVED"
+  },
+  "process_activation": {
+    "required_all": [
+      "PATRICK_EXACT_PROCESS_EFFECT_AUTHORITY_WHEN_ACTIVATING_OR_EXECUTING",
+      "VCP_EXACT_HEAD_SOURCE_REVIEW_PASS",
+      "LIVE_WORKSTATION_ALLOW_PROCESS_EXEC_TRUE",
+      "GATEWAY_OPERATION_ALLOWED",
+      "SESSION_PROCESS_CAPABILITY_GRANTED",
+      "LANE_PROCESS_CAPABILITY_GRANTED",
+      "LANE_CWD_RESOURCE_CLAIM_GRANTED"
+    ],
+    "current_live_workstation_policy": "UNKNOWN_UNTIL_READBACK",
+    "pid_only_termination": "FORBIDDEN",
+    "managed_process_handle_required": true,
+    "output_must_be_bounded": true,
+    "hanging_process_must_have_TIMEOUT_OR_EXPLICIT_TERMINATION_PATH": true
+  },
+  "state_model": [
+    "SOURCE_CREATED",
+    "BUILD_PASS",
+    "MCP_SERVER_RUNNING",
+    "PLUGIN_REGISTERED",
+    "CURRENT_ROUTE",
+    "LIVE_READ_PASS",
+    "LIVE_WRITE_PASS",
+    "PROCESS_EXEC_PASS",
+    "RDC_EQUIVALENCE_BOUNDARY_PASS"
+  ],
+  "state_non_implications": [
+    "SOURCE_CREATED_NE_BUILD_PASS",
+    "BUILD_PASS_NE_MCP_SERVER_RUNNING",
+    "MCP_SERVER_RUNNING_NE_PLUGIN_REGISTERED",
+    "PLUGIN_REGISTERED_NE_CURRENT_ROUTE",
+    "CURRENT_ROUTE_NE_LIVE_READ_PASS",
+    "LIVE_READ_PASS_NE_LIVE_WRITE_PASS",
+    "LIVE_WRITE_PASS_NE_PROCESS_EXEC_PASS",
+    "PROCESS_EXEC_PASS_NE_RDC_EQUIVALENCE_BOUNDARY_PASS"
+  ],
+  "rdc_equivalence_boundary": {
+    "must_enumerate_gaps": true,
+    "screen_capture_required_for_full_parity": false,
+    "gui_interaction_required_for_full_parity": false,
+    "initial_milestone": [
+      "MCP_SERVER_SOURCE_EXISTS",
+      "AUTHENTICATED_VERAPORT_GATEWAY_PATH",
+      "LIVE_LANE_LIST",
+      "LIVE_READ_ONLY_FILESYSTEM_OPERATION",
+      "VCP_EXACT_HEAD_PASS",
+      "PLUGIN_STATE_EXPLICIT",
+      "CAPABILITY_GAPS_EXPLICIT"
+    ]
+  },
+  "hostile_regressions": [
+    "TOOL_DISCOVERABILITY_AUTHORITY",
+    "MCP_RECONNECT_IDENTITY_RESET",
+    "STALE_DIRECT_BEATS_FRESH_EDGE",
+    "EDGE_REACHABILITY_EQUALS_AUTHORIZATION",
+    "MUTATION_REPLAY_CROSS_SESSION",
+    "PATH_TRAVERSAL",
+    "SYMLINK_ROOT_ESCAPE",
+    "OVERSIZED_OUTPUT",
+    "HANGING_PROCESS",
+    "PID_REUSE",
+    "OUTPUT_SPOOFING",
+    "REQUEST_ID_COLLISION",
+    "SESSION_EXPIRY_RACE",
+    "LANE_FENCING_RACE",
+    "STALE_PROCESS_HANDLE",
+    "UNAUTHORIZED_PROCESS_TERMINATION",
+    "FAILOVER_AFTER_UNKNOWN_MUTATION",
+    "CONTROLLER_KEY_MISMATCH",
+    "WORKSTATION_KEY_MISMATCH",
+    "EDGE_TLS_BREAKS_END_TO_END_AUTH",
+    "LOCAL_PROCESS_DISABLED_BUT_REMOTE_CLAIMED_PASS",
+    "SOURCE_AS_INSTALL_OR_CURRENT_ROUTE"
+  ]
+}
