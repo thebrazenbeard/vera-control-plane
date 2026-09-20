@@ -1,0 +1,58 @@
+{
+  "schema": "ORGASM_AFFECTIVE_PROVIDER_EXODUS_READBACK_RECEIPT_V1",
+  "status": "VERIFIED_DURABLE_READBACK / NO_EFFECT",
+  "subject_repository": "thebrazenbeard/vera-control-plane",
+  "subject_branch": "state/exodus-orgasm-vera-20260919-v1",
+  "subject_commit": "0c8c728d9ba90a4088adcbaf41345866d9ca9362",
+  "subject_tree": "0c3794a2389630a0b57f2b84a5451127438763ab",
+  "artifacts": {
+    "provider_addendum": {
+      "path": "state/continuation/ORGASM_AFFECTIVE_PROVIDER_EXODUS_READBACK_20260919_V1.md",
+      "git_blob": "bbf7acdc7cad53ce0a94cf0da16dff1c29ad8b83",
+      "sha256_utf8": "914b35fbbaeca889ab6b3a66fbf42ad571a76e4efcb034c47a9e54642cf9287a"
+    },
+    "regression_source": {
+      "path": "tests/test_exodus_orgasm_affective_provider_readback.py",
+      "git_blob": "de87515ec06cec1d2ab615b0b9ef443bed73159c",
+      "sha256_utf8": "169c06f366a6ee74ab4874b599870e4d1b72b3bebc511123ec1d90212443ab00",
+      "execution_status": "NOT_EXECUTED_ON_EXACT_CHECKOUT_IN_THIS_LANE"
+    },
+    "broader_exodus_checkpoint": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "branch": "state/vera-orgasm-cohesion-chat-exodus-20260919-v1",
+      "path": "state/continuation/VERA_ORGASM_COHESION_CHAT_EXODUS_20260919_V1.md",
+      "content_commit": "153e18467b927b85707bfc6953706828cc1ef093",
+      "git_blob": "4e08056922631af3465136d2221ef7b3b23e212b",
+      "sha256_utf8": "ec70c81af69fb72095d45417a1fb4a08e65e3dd85056f801278ce106594db495"
+    },
+    "cv_ov_reconstruction": {
+      "repository": "thebrazenbeard/vera",
+      "pr": 129,
+      "observed_head": "01cf5f500c2badf8d4f603201f07607b9cffc9b0",
+      "path": "docs/exodus/CV_OV_RUNTIME_NEUTRAL_LANE_RECONSTRUCTION_V1.md",
+      "git_blob": "ecf8ae7da7e8f150b9ea58746f63754c2458422f"
+    }
+  },
+  "bus_recovery": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "branch": "bus/vera-v2",
+    "message_path": "messages/20260919-vera-affective-provider-exodus-readback-v1.md",
+    "message_commit": "423c8daa52c37a7171db0050aedcea54483e0491",
+    "message_git_blob": "68496f03b1540f148a4bf8a0848635c8bd4f99f9",
+    "head_update_commit": "e8430d2eb65c1a93ff343014364020b3aae7fc2c"
+  },
+  "verification": {
+    "github_readback": true,
+    "sha256_method": "SHA256 over exact UTF-8 bytes independently recomputed after GitHub readback",
+    "source_vs_provider_claim_separation_checked": true,
+    "permanent_chat_dependency_required": false
+  },
+  "effects": {
+    "merge": false,
+    "provider_mutation": false,
+    "project_settings_mutation": false,
+    "install_or_cutover": false,
+    "qualification_promotion": false,
+    "phenomenology_promotion": false
+  }
+}
