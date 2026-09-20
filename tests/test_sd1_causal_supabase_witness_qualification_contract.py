@@ -53,7 +53,10 @@ def test_acceptance_contract_declares_stable_semantic_projection():
     )
     assert subject["subject_projection_excludes"] == [
         "status",
-        "current_frontier",
+        "current_frontier.qualification_artifact",
+        "current_frontier.production_witness",
+        "current_frontier.causal_data_collection",
+        "current_frontier.control_causality",
     ]
     assert "qualification_acceptance_contract_sha256" in (
         implementation_subject_sha256s()
@@ -64,6 +67,12 @@ def test_acceptance_contract_preserves_state_separation():
     contract = load(CONTRACT_PATH)
     separation = contract["state_separation"]
     frontier = contract["current_frontier"]
+    assert set(frontier) == {
+        "qualification_artifact",
+        "production_witness",
+        "causal_data_collection",
+        "control_causality",
+    }
     assert separation["production_witness_constructible"] == (
         "DOES_NOT_AUTHORIZE_FIRST_CAUSAL_MUTATION"
     )
