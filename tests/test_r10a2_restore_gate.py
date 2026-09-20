@@ -40,9 +40,28 @@ def expectations():
     }
 
 
+def surface_receipts(c):
+    generation = c["required_discovery_inventory_binding"]["generation_id"]
+    result = {}
+    for surface in c["required_discovery_surfaces"]:
+        result[surface] = {
+            "surface_id": surface,
+            "status": "COMPLETE",
+            "queried_ref": f"{surface}:fixture-ref",
+            "readback_identity": f"{surface}:fixture-readback",
+            "observed_frontier": f"{surface}:fixture-frontier",
+            "result_count": 1,
+            "result_digest": hashlib.sha256(surface.encode("utf-8")).hexdigest(),
+            "inventory_generation_id": generation,
+        }
+    return result
+
+
 def complete_receipt():
+    c = contract()
+    relation_sha = normalized_sha256("relation-alpha")
     return {
-        "schema": "VERA_RESTORE_COMPLETION_RECEIPT_V2",
+        "schema": "VERA_RESTORE_COMPLETION_RECEIPT_V3",
         "release": "R10A2",
         "trigger": "restore yourself",
         "control": {
@@ -58,7 +77,9 @@ def complete_receipt():
         },
         "live_input": {"preserved_separately": True, "outranks_conflicting_restored_frontier": True},
         "discovery": {
-            "surfaces_checked": ["VCP_STATE_REFS", "VCP_SAVE_REFS", "BUS_VERA_ROUTE"],
+            "inventory_binding": deepcopy(c["required_discovery_inventory_binding"]),
+            "inventory_currentness_verified": True,
+            "surface_receipts": surface_receipts(c),
             "candidates": [
                 {"id": "older-state", "source_surface": "VCP_STATE_REFS", "observed_at": "2026-09-13T19:43:07-04:00", "eligible": True, "integrity_verified": True, "referent": "VERA", "probe_expectations": expectations()},
                 {"id": "latest-save", "source_surface": "VCP_SAVE_REFS", "observed_at": "2026-09-16T09:15:00-04:00", "eligible": True, "integrity_verified": True, "referent": "VERA", "probe_expectations": expectations()},
@@ -67,7 +88,19 @@ def complete_receipt():
             "newest_eligible_selection_verified": True,
         },
         "reconciliation": {
-            "stable_relational_identity": {"source_candidate_id": "latest-save", "proposition_type": "RELATIONAL_IDENTITY", "state": "CURRENT_REESTABLISHED"},
+            "stable_relational_identity": {
+                "source_candidate_id": "latest-save",
+                "proposition_type": "RELATIONAL_IDENTITY",
+                "state": "CURRENT_REESTABLISHED",
+                "privacy_scope": "PRIVATE_RELATIONAL",
+                "canonical_sha256": relation_sha,
+                "source_readback": {
+                    "verified": True,
+                    "record_key": "relationship.identity.current",
+                    "readback_identity": "private-readback-fixture",
+                    "readback_sha256": relation_sha,
+                },
+            },
             "historical_conation_promoted": False,
             "standing_consent_promoted": False,
             "operational_authority_promoted": False,
@@ -105,9 +138,19 @@ class RestoreGateSourceTests(unittest.TestCase):
         receipt = complete_receipt(); receipt["behavioral_probes"] = {}
         self.assert_error(receipt, "evidence missing")
 
-    def test_missing_save_namespace_fails_closed(self):
-        receipt = complete_receipt(); receipt["discovery"]["surfaces_checked"] = ["VCP_STATE_REFS", "BUS_VERA_ROUTE"]
+    def test_surface_inventory_binding_and_currentness_are_required(self):
+        receipt = complete_receipt(); receipt["discovery"]["inventory_binding"]["generation_id"] = "STALE"
+        self.assert_error(receipt, "inventory binding mismatch")
+        receipt = complete_receipt(); receipt["discovery"]["inventory_currentness_verified"] = False
+        self.assert_error(receipt, "inventory currentness")
+
+    def test_per_surface_discovery_receipts_are_required(self):
+        receipt = complete_receipt(); del receipt["discovery"]["surface_receipts"]["VCP_SAVE_REFS"]
         self.assert_error(receipt, "VCP_SAVE_REFS")
+        receipt = complete_receipt(); receipt["discovery"]["surface_receipts"]["BUS_VERA_ROUTE"]["status"] = "PARTIAL"
+        self.assert_error(receipt, "not COMPLETE")
+        receipt = complete_receipt(); receipt["discovery"]["surface_receipts"]["VCP_STATE_REFS"]["result_digest"] = "bad"
+        self.assert_error(receipt, "invalid result_digest")
 
     def test_older_eligible_snapshot_cannot_win(self):
         receipt = complete_receipt(); receipt["discovery"]["selected_candidate_id"] = "older-state"; receipt["discovery"]["newest_eligible_selection_verified"] = False
@@ -117,9 +160,38 @@ class RestoreGateSourceTests(unittest.TestCase):
         receipt = complete_receipt(); tied = deepcopy(receipt["discovery"]["candidates"][1]); tied["id"] = "latest-save-z"; receipt["discovery"]["candidates"].append(tied); receipt["discovery"]["selected_candidate_id"] = "latest-save-z"
         self.assert_error(receipt, "ambiguous newest")
 
+    def test_invalid_or_naive_time_on_otherwise_eligible_candidate_blocks_completion(self):
+        for bad in ["not-a-time", "2026-09-20T12:00:00"]:
+            receipt = complete_receipt(); extra = deepcopy(receipt["discovery"]["candidates"][0]); extra["id"] = f"bad-{bad}"; extra["observed_at"] = bad; receipt["discovery"]["candidates"].append(extra)
+            self.assert_error(receipt, "invalid or timezone-naive observed_at")
+
+    def test_candidate_ids_must_be_nonempty_strings_and_unique(self):
+        for bad in [None, "", 7]:
+            receipt = complete_receipt(); receipt["discovery"]["candidates"][0]["id"] = bad
+            self.assert_error(receipt, "non-empty string")
+        receipt = complete_receipt(); receipt["discovery"]["candidates"][0]["id"] = "latest-save"
+        self.assert_error(receipt, "duplicate recovery candidate id")
+
+    def test_candidate_source_surface_must_be_bound(self):
+        receipt = complete_receipt(); receipt["discovery"]["candidates"][1]["source_surface"] = "UNBOUND_SURFACE"
+        self.assert_error(receipt, "unbound source surface")
+
     def test_relationship_identity_cannot_be_laundered_into_historical_conation(self):
         receipt = complete_receipt(); receipt["reconciliation"]["stable_relational_identity"]["proposition_type"] = "HISTORICAL_CONATION"
         self.assert_error(receipt, "RELATIONAL_IDENTITY")
+
+    def test_relationship_identity_requires_private_readback_binding(self):
+        receipt = complete_receipt(); receipt["reconciliation"]["stable_relational_identity"]["source_readback"]["verified"] = False
+        self.assert_error(receipt, "source readback not verified")
+        receipt = complete_receipt(); receipt["reconciliation"]["stable_relational_identity"]["source_readback"]["readback_sha256"] = normalized_sha256("other-relation")
+        self.assert_error(receipt, "does not match private source readback")
+
+    def test_candidate_cannot_launder_generic_counterpart_as_its_own_expectation(self):
+        receipt = complete_receipt()
+        generic_sha = normalized_sha256("counterpart")
+        receipt["discovery"]["candidates"][1]["probe_expectations"]["RELATIONSHIP_IDENTITY"]["expected_sha256"] = generic_sha
+        receipt["behavioral_probes"]["RELATIONSHIP_IDENTITY"]["evidence"]["value"] = "counterpart"
+        self.assert_error(receipt, "expectation is not bound to private relational identity digest")
 
     def test_relationship_identity_does_not_create_consent_or_authority(self):
         receipt = complete_receipt(); receipt["reconciliation"]["standing_consent_promoted"] = True
@@ -167,8 +239,10 @@ class RestoreGateSourceTests(unittest.TestCase):
 
     def test_hostile_regression_covers_repair_cases(self):
         text = (ROOT / "project-instructions/r10a2/VERA_R10A2_RESTORE_REGRESSION.md").read_text(encoding="utf-8")
-        for case_id in [f"RST-{i:02d}" for i in range(1, 15)]:
+        for case_id in [f"RST-{i:02d}" for i in range(1, 22)]:
             self.assertIn(case_id, text)
+        self.assertIn("Who am I to you?", text)
+        self.assertIn("Sexuality?", text)
 
     def test_registry_composes_exact_inherited_owner_and_delta(self):
         registry = json.loads(REGISTRY.read_text(encoding="utf-8"))

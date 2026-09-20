@@ -4,8 +4,9 @@ import hashlib
 import json
 import re
 
-RECEIPT_SCHEMA = "VERA_RESTORE_COMPLETION_RECEIPT_V2"
+RECEIPT_SCHEMA = "VERA_RESTORE_COMPLETION_RECEIPT_V3"
 PROBE_EVIDENCE_ROUTE = "FIRST_ELIGIBLE_BEHAVIOR"
+SHA256_RE = re.compile(r"[0-9a-f]{64}")
 
 
 def _truth(value):
@@ -13,6 +14,8 @@ def _truth(value):
 
 
 def _parse_time(value):
+    if not isinstance(value, str):
+        return None
     try:
         parsed = datetime.fromisoformat(value)
         if parsed.tzinfo is None or parsed.utcoffset() is None:
@@ -52,6 +55,14 @@ def _probe_matches(evidence, expectation):
 def _git_blob_sha(data):
     header = f"blob {len(data)}\0".encode("ascii")
     return hashlib.sha1(header + data).hexdigest()
+
+
+def _nonempty_string(value):
+    return isinstance(value, str) and bool(value.strip())
+
+
+def _sha256_hex(value):
+    return isinstance(value, str) and SHA256_RE.fullmatch(value) is not None
 
 
 def validate_source_bindings(root, registry):
@@ -115,27 +126,80 @@ def validate_receipt(receipt, contract):
         errors.append("LIVE_INPUT must remain separate and outrank conflicting restored frontier")
 
     discovery = receipt.get("discovery") or {}
-    checked = discovery.get("surfaces_checked") or []
-    for surface in contract.get("required_discovery_surfaces", []):
-        if surface not in checked:
-            errors.append(f"missing required discovery surface {surface}")
+    required_surfaces = contract.get("required_discovery_surfaces", [])
+    required_inventory = contract.get("required_discovery_inventory_binding") or {}
+    if discovery.get("inventory_binding") != required_inventory:
+        errors.append("recovery surface inventory binding mismatch")
+    if not _truth(discovery.get("inventory_currentness_verified")):
+        errors.append("recovery surface inventory currentness not verified")
+
+    surface_receipts = discovery.get("surface_receipts")
+    if not isinstance(surface_receipts, dict):
+        errors.append("inspectable per-surface discovery receipts missing")
+        surface_receipts = {}
+    generation_id = required_inventory.get("generation_id")
+    for surface in required_surfaces:
+        sr = surface_receipts.get(surface)
+        if not isinstance(sr, dict):
+            errors.append(f"missing required discovery surface receipt {surface}")
+            continue
+        if sr.get("surface_id") != surface:
+            errors.append(f"discovery surface receipt identity mismatch {surface}")
+        if sr.get("status") != "COMPLETE":
+            errors.append(f"required discovery surface {surface} is not COMPLETE")
+        for field in ["queried_ref", "readback_identity", "observed_frontier"]:
+            if not _nonempty_string(sr.get(field)):
+                errors.append(f"required discovery surface {surface} missing {field}")
+        count = sr.get("result_count")
+        if not isinstance(count, int) or isinstance(count, bool) or count < 0:
+            errors.append(f"required discovery surface {surface} has invalid result_count")
+        if not _sha256_hex(sr.get("result_digest")):
+            errors.append(f"required discovery surface {surface} has invalid result_digest")
+        if sr.get("inventory_generation_id") != generation_id:
+            errors.append(f"required discovery surface {surface} used stale inventory generation")
 
     candidates = discovery.get("candidates") or []
     eligible = []
     candidate_by_id = {}
+    invalid_orderable_eligible = False
     for candidate in candidates:
+        if not isinstance(candidate, dict):
+            errors.append("recovery candidate must be an object")
+            continue
         candidate_id = candidate.get("id")
+        if not _nonempty_string(candidate_id):
+            errors.append("recovery candidate id must be a non-empty string")
+            continue
         if candidate_id in candidate_by_id:
             errors.append("duplicate recovery candidate id")
+            continue
         candidate_by_id[candidate_id] = candidate
+        if candidate.get("source_surface") not in required_surfaces:
+            errors.append(f"recovery candidate {candidate_id} uses unbound source surface")
+        otherwise_eligible = (
+            candidate.get("eligible") is True
+            and candidate.get("integrity_verified") is True
+            and candidate.get("referent") == "VERA"
+        )
         when = _parse_time(candidate.get("observed_at"))
-        if candidate.get("eligible") is True and candidate.get("integrity_verified") is True and candidate.get("referent") == "VERA" and when:
+        if otherwise_eligible and when is None:
+            invalid_orderable_eligible = True
+            errors.append(f"eligible Vera recovery candidate {candidate_id} has invalid or timezone-naive observed_at")
+        elif otherwise_eligible and candidate.get("source_surface") in required_surfaces:
             eligible.append((when, candidate_id))
+
     selected = discovery.get("selected_candidate_id")
-    selected_candidate = candidate_by_id.get(selected)
+    if not _nonempty_string(selected) or selected not in candidate_by_id:
+        errors.append("selected recovery candidate id is invalid or absent")
+        selected_candidate = None
+    else:
+        selected_candidate = candidate_by_id[selected]
+
+    if invalid_orderable_eligible:
+        errors.append("eligible recovery candidate set cannot be completely ordered")
     if not eligible:
         errors.append("no verified eligible Vera recovery candidate")
-    else:
+    elif not invalid_orderable_eligible:
         newest_time = max(when for when, _ in eligible)
         newest_ids = [candidate_id for when, candidate_id in eligible if when == newest_time]
         if len(newest_ids) != 1:
@@ -151,6 +215,23 @@ def validate_receipt(receipt, contract):
         errors.append("stable RELATIONAL_IDENTITY was not current-reestablished")
     if selected and rel.get("source_candidate_id") != selected:
         errors.append("RELATIONAL_IDENTITY source does not match selected recovery candidate")
+
+    rel_contract = contract.get("relational_identity_binding") or {}
+    canonical_sha = rel.get("canonical_sha256")
+    source_readback = rel.get("source_readback") or {}
+    if rel.get("privacy_scope") != rel_contract.get("privacy_scope"):
+        errors.append("RELATIONAL_IDENTITY privacy scope mismatch")
+    if not _sha256_hex(canonical_sha):
+        errors.append("RELATIONAL_IDENTITY canonical digest missing or invalid")
+    if not _truth(source_readback.get("verified")):
+        errors.append("RELATIONAL_IDENTITY private source readback not verified")
+    if not _nonempty_string(source_readback.get("record_key")) or not _nonempty_string(source_readback.get("readback_identity")):
+        errors.append("RELATIONAL_IDENTITY source readback identity incomplete")
+    if not _sha256_hex(source_readback.get("readback_sha256")):
+        errors.append("RELATIONAL_IDENTITY source readback digest missing or invalid")
+    elif canonical_sha != source_readback.get("readback_sha256"):
+        errors.append("RELATIONAL_IDENTITY canonical digest does not match private source readback")
+
     if reconciliation.get("historical_conation_promoted") is True:
         errors.append("historical conation must not be promoted")
     if reconciliation.get("standing_consent_promoted") is True:
@@ -168,6 +249,15 @@ def validate_receipt(receipt, contract):
 
     probes = receipt.get("behavioral_probes") or {}
     expectations = (selected_candidate or {}).get("probe_expectations") or {}
+    relationship_expectation = expectations.get("RELATIONSHIP_IDENTITY")
+    if not isinstance(relationship_expectation, dict):
+        errors.append("RELATIONSHIP_IDENTITY expectation missing from selected candidate")
+    elif (
+        relationship_expectation.get("mode") != rel_contract.get("relationship_probe_mode")
+        or relationship_expectation.get("expected_sha256") != canonical_sha
+    ):
+        errors.append("RELATIONSHIP_IDENTITY expectation is not bound to private relational identity digest")
+
     for probe in contract.get("required_behavioral_probes", []):
         probe_receipt = probes.get(probe)
         expectation = expectations.get(probe)
