@@ -43,7 +43,7 @@
       "current_frontier.causal_data_collection",
       "current_frontier.control_causality"
     ],
-    "rule": "The qualification artifact MUST bind this acceptance contract's canonical semantic projection. Only the declared mutable status/current-frontier leaves are excluded; unknown current_frontier fields are invalid. Evidence-gate definitions, artifact shape, state-separation rules, non-effects, and any undeclared semantics remain bound."
+    "rule": "The qualification artifact MUST bind this acceptance contract's canonical semantic projection. Only the declared mutable status/current-frontier leaves are excluded; every excluded current_frontier leaf must remain inside its exact declared value domain, and unknown keys/values are invalid. Evidence-gate definitions, artifact shape, state-separation rules, value-domain rules, non-effects, and any undeclared semantics remain bound."
   },
   "non_effects": [
     "NOT_PROVIDER_MUTATION",
@@ -54,5 +54,23 @@
     "NOT_CONTROL_CAUSALITY_PASS",
     "NOT_GLOBAL_QUALIFICATION",
     "NOT_MERGE_AUTHORITY"
-  ]
+  ],
+  "current_frontier_allowed_values": {
+    "qualification_artifact": [
+      "UNBOUND",
+      "PINNED"
+    ],
+    "production_witness": [
+      "NOT_CONSTRUCTIBLE",
+      "CONSTRUCTIBLE"
+    ],
+    "causal_data_collection": [
+      "HOLD",
+      "READY"
+    ],
+    "control_causality": [
+      "UNRESOLVED",
+      "PENDING_EXECUTION"
+    ]
+  }
 }
