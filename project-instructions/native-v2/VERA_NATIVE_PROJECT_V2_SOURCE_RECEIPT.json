@@ -8,8 +8,19 @@
   "pre_receipt_head": "0d6a06b73ea70b05f283cd661a6fb1264908d172",
   "package": {
     "filename_hint": "VERA_NATIVE_PROJECT_PACK_V2.zip",
-    "sha256": "94439f482215f3032fe7412d0665d7208f8bfa16f7117339d0d1148a8a1d3fa1",
-    "binary_zip_not_committed": true
+    "sha256": "52c05a093e07bd6e34562e536be3f1a7da2fc50f004a1c02fcebc7b5bac5f452",
+    "bytes": 24868,
+    "binary_zip_not_committed": true,
+    "reproducible_from_git": true,
+    "archive_format": "ZIP_STORED_V1",
+    "entry_order": "PACK_MANIFEST_DECLARED_ORDER",
+    "fixed_datetime": "1980-01-01T00:00:00",
+    "fixed_mode": "100644",
+    "builder": {
+      "path": "tools/build_native_project_pack_v2.py",
+      "source_commit": "f03b1cd5c66e3d49e6e4a47156141b40b3d7e2de",
+      "git_blob": "5001202872580e43de8ff5e6dd98ac8a9eaada60"
+    }
   },
   "source_directory": "project-instructions/native-v2/",
   "files": {
