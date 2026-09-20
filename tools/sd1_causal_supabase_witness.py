@@ -73,7 +73,10 @@ _CONTROLLER_CONTRACT_CURRENTNESS_PATHS = (
 )
 _ACCEPTANCE_CONTRACT_CURRENTNESS_PATHS = (
     ("status",),
-    ("current_frontier",),
+    ("current_frontier", "qualification_artifact"),
+    ("current_frontier", "production_witness"),
+    ("current_frontier", "causal_data_collection"),
+    ("current_frontier", "control_causality"),
 )
 
 
@@ -145,6 +148,17 @@ def _validate_qualification_contract_shape(
         raise WitnessIntegrityError(
             f"qualification subject {expected_schema} list shape mismatch"
         )
+    if expected_schema == "SD1_SUPABASE_WITNESS_QUALIFICATION_CONTRACT_V1":
+        expected_frontier_fields = {
+            "qualification_artifact",
+            "production_witness",
+            "causal_data_collection",
+            "control_causality",
+        }
+        if set(value["current_frontier"]) != expected_frontier_fields:
+            raise WitnessIntegrityError(
+                "qualification acceptance current_frontier shape mismatch"
+            )
     expected_excludes = [".".join(parts) for parts in currentness_paths]
     if type(binding) is not dict:
         raise WitnessIntegrityError(
