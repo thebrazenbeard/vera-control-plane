@@ -1,0 +1,62 @@
+{
+  "schema": "SD1_WITNESS_QUALIFICATION_EVIDENCE_CUT_V1",
+  "status": "PARTIAL_EVIDENCE_CUT / 3_OF_5_GATES_PASS / QUALIFICATION_ARTIFACT_UNBOUND",
+  "acceptance_subject": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "draft_pr": 72,
+    "exact_head": "d5e39d8fee4d6b37aedf11085b3aec66b9a33759",
+    "parent_pr": 64,
+    "parent_head": "c15c426d8578372474f677593387e7bf43b7e18c",
+    "acceptance_contract": "protocol/SD1_CAUSAL_SUPABASE_WITNESS_QUALIFICATION_V1.json"
+  },
+  "gates": {
+    "independent_exact_head_source_review": {
+      "result": "NOT_EXECUTED",
+      "reason": "Independent exact-head review of PR #72 must be returned by a separate reviewer lane."
+    },
+    "disposable_postgres_semantics": {
+      "result": "NOT_EXECUTED",
+      "reason": "No disposable PostgreSQL semantic execution has been completed for exact PR #72 subject."
+    },
+    "production_permission_readback": {
+      "result": "PASS",
+      "path": "evidence/qualification/SD1_PRODUCTION_PERMISSION_READBACK_20260920.json",
+      "evidence_sha256": "0ed4aa1d35d8672e1fb5b28eb5f5d4f4a90355f124ecd85b3969977edebdc665"
+    },
+    "controller_integration_replay": {
+      "result": "PASS",
+      "path": "evidence/qualification/SD1_CONTROLLER_INTEGRATION_REPLAY_20260920.json",
+      "evidence_sha256": "a0c1c42076f69e8c89b8543e92b8d8f9e4802f847b79e9650bcc151883d1b9f7"
+    },
+    "provider_source_binding_readback": {
+      "result": "PASS",
+      "path": "evidence/qualification/SD1_PROVIDER_SOURCE_BINDING_READBACK_20260920.json",
+      "evidence_sha256": "ccce2d00866bd7dc8e4821d533a17815dd7b249158eab9af4013483d70e71284"
+    }
+  },
+  "gate_summary": {
+    "required": 5,
+    "pass": 3,
+    "not_executed": 2
+  },
+  "qualification_artifact": "UNBOUND",
+  "production_witness": "NOT_CONSTRUCTIBLE",
+  "causal_data_collection": "HOLD",
+  "control_causality": "UNRESOLVED",
+  "interpretation": "This cut records only gates actually established for exact PR #72. It cannot become a PASS qualification artifact until all five gates are exact PASS and their durable evidence digests are bound.",
+  "historical_predecessor": {
+    "pr": 65,
+    "head": "4c63a5771ace947b4c02fd1376b87fb95e9035a0",
+    "disposition": "HISTORICAL_FAILED_PARENT_LINEAGE_NOT_CURRENT_QUALIFICATION_EVIDENCE"
+  },
+  "non_effects": [
+    "NOT_PROVIDER_MUTATION",
+    "NOT_CREDENTIAL_PROVISIONING",
+    "NOT_CAUSAL_DATA_COLLECTION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_CURRENT_ROUTE_QUALIFICATION",
+    "NOT_CONTROL_CAUSALITY_PASS",
+    "NOT_GLOBAL_QUALIFICATION",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}
