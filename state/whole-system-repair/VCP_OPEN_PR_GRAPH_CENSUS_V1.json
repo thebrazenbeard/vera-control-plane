@@ -1,0 +1,539 @@
+{
+  "schema": "VCP_OPEN_PR_GRAPH_CENSUS_V1",
+  "observed_at": "2026-09-21",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "current_main": "2ec72fda1822dbb7a8531d9f01df0a41408ec6de",
+  "open_pr_count": 37,
+  "method": "Exact get_pr_info head/base metadata plus compare(PR_HEAD...CURRENT_MAIN). Graph class is ancestry only; it is not semantic supersession, merge readiness, review status, or authority.",
+  "summary": {
+    "pr_descends_current_main": 2,
+    "diverged_from_current_main": 35,
+    "pr_ancestor_of_current_main": 0
+  },
+  "implications": [
+    "Only PRs whose merge base is current main are current-main descendants.",
+    "A diverged PR must not be treated as merge-ready merely because its historical tests/reviews passed.",
+    "Divergence does not by itself mean obsolete; semantic restack/supersession review is still required.",
+    "No PR is closed or merged by this census."
+  ],
+  "entries": [
+    {
+      "number": 102,
+      "title": "Refresh Vera whole-system closure ledger currentness",
+      "head_sha": "d2bd708b670cfce900b05a2e42f029a02d021401",
+      "base_ref": "main",
+      "base_sha": "2ec72fda1822dbb7a8531d9f01df0a41408ec6de",
+      "graph_class": "PR_DESCENDS_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "behind",
+        "ahead_by": 0,
+        "behind_by": 1,
+        "merge_base_sha": "2ec72fda1822dbb7a8531d9f01df0a41408ec6de"
+      }
+    },
+    {
+      "number": 101,
+      "title": "Implement VCP issue #18 behavioral mode and pragmatic command policy",
+      "head_sha": "e1f50a52e9d4c6a3828ed3f8576765e73cf65d4e",
+      "base_ref": "main",
+      "base_sha": "2ec72fda1822dbb7a8531d9f01df0a41408ec6de",
+      "graph_class": "PR_DESCENDS_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "behind",
+        "ahead_by": 0,
+        "behind_by": 4,
+        "merge_base_sha": "2ec72fda1822dbb7a8531d9f01df0a41408ec6de"
+      }
+    },
+    {
+      "number": 96,
+      "title": "Define VeraRelay DSM lifecycle ownership and currentness gates",
+      "head_sha": "39ebc98656ac3f95bc78e3913609d15b53d25fb6",
+      "base_ref": "main",
+      "base_sha": "18a108f25c999b0c126a4ceb7158a6d8b58d71cf",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 33,
+        "behind_by": 9,
+        "merge_base_sha": "18a108f25c999b0c126a4ceb7158a6d8b58d71cf"
+      }
+    },
+    {
+      "number": 91,
+      "title": "Define VeraPort MCP authority, route-currentness, and RDC-equivalence gates",
+      "head_sha": "7466bf27d6ebdc24e121e65d1d163cd2e7905844",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 34,
+        "behind_by": 30,
+        "merge_base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540"
+      }
+    },
+    {
+      "number": 99,
+      "title": "Define VeraPort controller credential recovery and safe rotation gate",
+      "head_sha": "08637d04cba2914c4058ee7d5094fff87d23eadf",
+      "base_ref": "main",
+      "base_sha": "18a108f25c999b0c126a4ceb7158a6d8b58d71cf",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 33,
+        "behind_by": 2,
+        "merge_base_sha": "18a108f25c999b0c126a4ceb7158a6d8b58d71cf"
+      }
+    },
+    {
+      "number": 92,
+      "title": "Repair stale README currentness",
+      "head_sha": "72a0b439a70e5643d828d278e2d3b3eb2229d0cc",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 34,
+        "behind_by": 1,
+        "merge_base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540"
+      }
+    },
+    {
+      "number": 47,
+      "title": "Add project-wide Hostile Reviewer toggle",
+      "head_sha": "5ff8cd5308584c76d616893eefeb351e542a688c",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 5,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 46,
+      "title": "Harden SD1 controller witness qualification",
+      "head_sha": "93002de693a69b0a1006946a357a2102a6f4655f",
+      "base_ref": "work/sd1-causal-secondary-anchor-contract-20260919",
+      "base_sha": "3f7011febe37f61cb9caa2f66e01a7064b760f8c",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 45,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 84,
+      "title": "BT2: bind fresh partial SD1 evidence to PR82",
+      "head_sha": "68d696b7a845126fb7250837e7f6bb4fbf40a58d",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 94,
+        "behind_by": 111,
+        "merge_base_sha": "d129d51fe4c783033563cd207886f0975b939cc1"
+      }
+    },
+    {
+      "number": 75,
+      "title": "BT2: restack partial SD1 qualification evidence on PR72",
+      "head_sha": "05874fb243783602b5292738bb17510c4adf9e36",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 94,
+        "behind_by": 108,
+        "merge_base_sha": "d129d51fe4c783033563cd207886f0975b939cc1"
+      }
+    },
+    {
+      "number": 66,
+      "title": "Reconcile qualification projection with VCP acceptance semantics",
+      "head_sha": "93a25886fb0d4b5be9cf49b66192134965630846",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 94,
+        "behind_by": 99,
+        "merge_base_sha": "d129d51fe4c783033563cd207886f0975b939cc1"
+      }
+    },
+    {
+      "number": 70,
+      "title": "Refresh specialist topology currentness",
+      "head_sha": "275b2d8d10f7a73a78edbd1f110d9c577445b9b2",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 4,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 71,
+      "title": "Repair VCP coordinator Exodus topology locator",
+      "head_sha": "882aade5e8cfb88742fb735099a682b9f3e04dd6",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 3,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 79,
+      "title": "Align relational reaction selector with contract",
+      "head_sha": "c5c1f793e863568be90610aedc8b8b80e6cf8c86",
+      "base_ref": "work/restore-v2-install-test-git-object-20260920",
+      "base_sha": "94b3aa8dc5611404d4e5ff1134f9e3d4a62c8a8c",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 34,
+        "behind_by": 9,
+        "merge_base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540"
+      }
+    },
+    {
+      "number": 86,
+      "title": "Harden Native V2 replacement and rollback safety",
+      "head_sha": "d23ae71851318ec479639a87af0e5d6507ac4f40",
+      "base_ref": "work/restore-v2-install-test-git-object-20260920",
+      "base_sha": "94b3aa8dc5611404d4e5ff1134f9e3d4a62c8a8c",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 34,
+        "behind_by": 19,
+        "merge_base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540"
+      }
+    },
+    {
+      "number": 89,
+      "title": "Guard external intake free-text promotion channels",
+      "head_sha": "7c68ea94335110d5302edcfa0175134bde0cfc50",
+      "base_ref": "work/restore-v2-install-test-git-object-20260920",
+      "base_sha": "94b3aa8dc5611404d4e5ff1134f9e3d4a62c8a8c",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 34,
+        "behind_by": 5,
+        "merge_base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540"
+      }
+    },
+    {
+      "number": 90,
+      "title": "Bind SD1 acceptance frontier leaves to finite value domains",
+      "head_sha": "167b49437580be0a3ff005c46f041e016b3ea994",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 94,
+        "behind_by": 119,
+        "merge_base_sha": "d129d51fe4c783033563cd207886f0975b939cc1"
+      }
+    },
+    {
+      "number": 68,
+      "title": "Fix Restore V2 install regression to validate immutable Git objects",
+      "head_sha": "94b3aa8dc5611404d4e5ff1134f9e3d4a62c8a8c",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 34,
+        "behind_by": 1,
+        "merge_base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540"
+      }
+    },
+    {
+      "number": 80,
+      "title": "Consolidate VCP Exodus and specialist topology on current baseline",
+      "head_sha": "17ca76cc94c5ec4ebb12b312f686f9ddacd2ffb6",
+      "base_ref": "work/restore-v2-install-test-git-object-20260920",
+      "base_sha": "94b3aa8dc5611404d4e5ff1134f9e3d4a62c8a8c",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 34,
+        "behind_by": 14,
+        "merge_base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540"
+      }
+    },
+    {
+      "number": 78,
+      "title": "Rebind Restore V2 currentness to immutable artifact baseline",
+      "head_sha": "ce0bfd0a937b658c0639a8f167ec792a22d7cf47",
+      "base_ref": "work/restore-v2-install-test-git-object-20260920",
+      "base_sha": "94b3aa8dc5611404d4e5ff1134f9e3d4a62c8a8c",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 34,
+        "behind_by": 2,
+        "merge_base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540"
+      }
+    },
+    {
+      "number": 74,
+      "title": "Preserve Vera Native Project V2 source architecture",
+      "head_sha": "30c15517a85bfef4b5ca8be7aecec8bb9182f125",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 34,
+        "behind_by": 11,
+        "merge_base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540"
+      }
+    },
+    {
+      "number": 67,
+      "title": "Repair Restore V2 install currentness bindings",
+      "head_sha": "a97611e2b255396515fbb9c0662cbb57729d9083",
+      "base_ref": "main",
+      "base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 34,
+        "behind_by": 1,
+        "merge_base_sha": "57bd2cd3e53bc112d7bf220ede82225f14e2e540"
+      }
+    },
+    {
+      "number": 65,
+      "title": "Persist partial SD1 witness qualification evidence cut",
+      "head_sha": "4c63a5771ace947b4c02fd1376b87fb95e9035a0",
+      "base_ref": "work/sd1-witness-qualification-acceptance-v1-20260920",
+      "base_sha": "a98309513e137b03989f12c30c97c17a78ae2b67",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 94,
+        "behind_by": 93,
+        "merge_base_sha": "d129d51fe4c783033563cd207886f0975b939cc1"
+      }
+    },
+    {
+      "number": 58,
+      "title": "Bind live Vera Control Plane provider currentness",
+      "head_sha": "16f9f684829af67ac2a3b20c1533dd2199acfd4b",
+      "base_ref": "main",
+      "base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 6,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 57,
+      "title": "Exodus: retire Vera behavior-audit chat",
+      "head_sha": "e4d466ee3c23b94d30ae3ac8cdfc13b11ff0d8bc",
+      "base_ref": "main",
+      "base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 1,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 24,
+      "title": "Freeze SD1 causal execution controller",
+      "head_sha": "48d635f84381806088b8ea7b063a84026a245dc3",
+      "base_ref": "work/r10a0-sd1-control-cut-20260913",
+      "base_sha": "93957daa6f9b0054c4158164167cfecc1aa41803",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 9,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 56,
+      "title": "Exodus: retire BV persistent chat",
+      "head_sha": "b0d8b6349b4ec4e6bf25ce67a5c6f92102526af3",
+      "base_ref": "exodus/runtime-lane-reconstruction-v1-20260919",
+      "base_sha": "b9b98a3b090101688cc65d1cf93265bb44fa54c4",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 3,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 53,
+      "title": "Exodus: persist affective provider readback addendum",
+      "head_sha": "0ec6d8c9f63b2c047b4ca611d794da1858bed450",
+      "base_ref": "exodus/runtime-lane-reconstruction-v1-20260919",
+      "base_sha": "b9b98a3b090101688cc65d1cf93265bb44fa54c4",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 12,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 52,
+      "title": "Exodus: define chat-independent Vera runtime lanes",
+      "head_sha": "b9b98a3b090101688cc65d1cf93265bb44fa54c4",
+      "base_ref": "main",
+      "base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 2,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 51,
+      "title": "Exodus: persist Vera primary-chat retirement checkpoint",
+      "head_sha": "06816e7c66c4adc488a843b4acc1c24797b0ba64",
+      "base_ref": "main",
+      "base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 5,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 50,
+      "title": "Dechatify SD1-V hostile review worker",
+      "head_sha": "bc41a84ebe283015d680406b585675f0aebdbfd2",
+      "base_ref": "main",
+      "base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 2,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 34,
+      "title": "Preserve explicit tool-route constraints for issue 1",
+      "head_sha": "faf3d860e70fd78811b9af6ba317fab5246ce878",
+      "base_ref": "radar/r10a1-validator-freeze-schema-repair-20260919",
+      "base_sha": "d28b5608dda1cb3582aabb782d4dd345a4be178b",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 93,
+        "behind_by": 4,
+        "merge_base_sha": "d28b5608dda1cb3582aabb782d4dd345a4be178b"
+      }
+    },
+    {
+      "number": 36,
+      "title": "Rebind R10+SD1 Bus topology owner to current canonical topology",
+      "head_sha": "3fb3c998cf714ed556bb2620649f41361f22e4a1",
+      "base_ref": "work/r10a0-sd1-drive-action-20260918",
+      "base_sha": "32ce2cb7897f5e0939161eb8002b5b1b2283df59",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 41,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 25,
+      "title": "Harden SD1 manifest and binding trust boundary",
+      "head_sha": "b0aa53e6309a00c45c4e3b86dc9770f521b479fb",
+      "base_ref": "work/r10a0-sd1-control-cut-20260913",
+      "base_sha": "8c9ae8fac24ade151d8e72509989c569646a8093",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 6,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 23,
+      "title": "Build R10 + SD1 control-plane cut",
+      "head_sha": "8c9ae8fac24ade151d8e72509989c569646a8093",
+      "base_ref": "main",
+      "base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 4,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 22,
+      "title": "Design bounded provider mutation broker V1",
+      "head_sha": "f5206567d7a7f300451848834764ee20ea28f994",
+      "base_ref": "main",
+      "base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 2,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    },
+    {
+      "number": 19,
+      "title": "Add Vera self-appraisal operational contract",
+      "head_sha": "106da3d48f3aed7eab1461c3688e2aa4d20ccf32",
+      "base_ref": "main",
+      "base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "graph_class": "DIVERGED_FROM_CURRENT_MAIN",
+      "compare_pr_head_to_current_main": {
+        "status": "diverged",
+        "ahead_by": 95,
+        "behind_by": 2,
+        "merge_base_sha": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1"
+      }
+    }
+  ]
+}
