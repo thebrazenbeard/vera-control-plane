@@ -341,17 +341,23 @@ def apply_command_force_correction(
     corrected_as_command: bool,
     context: ExecutionContext,
 ) -> ExecutionDecision:
-    """Apply a present command-force correction to the next relevant behavior."""
+    """Apply an explicit command-force correction in either direction."""
 
+    if type(clause) is not PragmaticClause:
+        raise TypeError("clause must be an exact PragmaticClause")
     if type(corrected_as_command) is not bool:
         raise BehavioralPolicyViolation("corrected_as_command must be boolean")
-    corrected = clause
+    if type(context) is not ExecutionContext:
+        raise TypeError("context must be an exact ExecutionContext")
+
     if corrected_as_command:
         if clause.action_id is None:
             raise BehavioralPolicyViolation(
                 "cannot promote a correction without a resolved bounded action"
             )
         corrected = replace(clause, force=CommandForce.REQUESTED_ACTION)
+    else:
+        corrected = replace(clause, force=CommandForce.AMBIGUOUS)
     return decide_execution(corrected, context)
 
 
