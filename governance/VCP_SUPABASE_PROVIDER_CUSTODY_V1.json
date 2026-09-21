@@ -1,6 +1,6 @@
 {
   "schema": "VCP_SUPABASE_PROVIDER_CUSTODY_V1",
-  "observed_at": "2026-09-21T19:26:27.779Z",
+  "observed_at": "2026-09-21T20:31:00Z",
   "provider": {
     "kind": "supabase",
     "project_id": "fawkirqroyniueeqspif",
@@ -66,6 +66,18 @@
       "source_relation": "EXECUTABLE_EFFECT_EQUIVALENT_NOT_BYTE_IDENTICAL_DUE_TO_OMITTED_EXPLANATORY_COMMENTS",
       "historical_git_source": "REVIEWED_SOURCE_EXISTED_BEFORE_EFFECT_BUT_APPLIED_PROVIDER_BYTES_DIFFER",
       "active": true
+    },
+    {
+      "version": "20260921200623",
+      "name": "make_anchor_deny_all_rls_explicit_v1",
+      "provider_bytes": 636,
+      "provider_sha256": "46132f28486afe4ee1ba9830fdf93d499b7b61a53e81b904a49a128579eda248",
+      "custody_class": "EXACT_DEPLOYED_SOURCE_BYTES_VERIFIED",
+      "canonical_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260921200623_make_anchor_deny_all_rls_explicit_v1.sql",
+      "source_path": "supabase/migrations/20260921201000_make_anchor_deny_all_rls_explicit_v1.sql",
+      "source_git_blob": "5441b649c5cc5d9d6d9c38583c1a92986569f760",
+      "source_relation": "EXACT_BYTE_IDENTICAL",
+      "active": true
     }
   ],
   "provider_inventory": {
@@ -79,12 +91,12 @@
       {
         "name": "vera_cp_anchor.sd1_causal_frontiers",
         "rls": true,
-        "policies": 0
+        "policies": 1
       },
       {
         "name": "vera_cp_anchor.sd1_causal_mutation_receipts",
         "rls": true,
-        "policies": 0
+        "policies": 1
       }
     ],
     "views": [],
@@ -127,14 +139,7 @@
   },
   "security_readback": {
     "supabase_advisor": {
-      "security": [
-        {
-          "finding": "rls_enabled_no_policy",
-          "count": 2,
-          "classification": "INTENTIONAL_DENY_ALL",
-          "reason": "Tables have RLS enabled, no policies, no client SELECT grants, and anchor schema has no client/broker USAGE."
-        }
-      ],
+      "security": [],
       "performance": []
     },
     "internal_rls_guard": {
@@ -166,17 +171,45 @@
       "authenticated_schema_usage": false,
       "service_role_schema_usage": false,
       "broker_only_execute": true
+    },
+    "explicit_deny_all_policies": {
+      "migration_version": "20260921200623",
+      "migration_sha256": "46132f28486afe4ee1ba9830fdf93d499b7b61a53e81b904a49a128579eda248",
+      "policies": [
+        {
+          "table": "vera_cp_anchor.sd1_causal_frontiers",
+          "policy": "deny_all_untrusted_v1",
+          "roles": [
+            "public"
+          ],
+          "cmd": "ALL",
+          "using": false,
+          "with_check": false
+        },
+        {
+          "table": "vera_cp_anchor.sd1_causal_mutation_receipts",
+          "policy": "deny_all_untrusted_v1",
+          "roles": [
+            "public"
+          ],
+          "cmd": "ALL",
+          "using": false,
+          "with_check": false
+        }
+      ],
+      "provider_readback": "VERIFIED"
     }
   },
   "reproducibility": {
-    "canonical_main_observed": "386ef60b7cd3911c07227ccf0e9563ace1f4731c",
-    "current_main_class": "PARTIALLY_REPRODUCIBLE",
-    "repair_branch": "work/bv-whole-system-repair-v1-20260921",
-    "target_after_merge": "REPRODUCIBLE_FROM_CANONICAL_SOURCE",
+    "canonical_main_observed": "505c395890bde275cbbc6327be8f387e7f25ca3a",
+    "current_main_class": "REPRODUCIBLE_FROM_CANONICAL_SOURCE",
+    "repair_branch": "work/bv-vcp-custody-authority-reconcile-v2-20260921",
+    "target_after_merge": "REPRODUCIBLE_FROM_CANONICAL_SOURCE_WITH_CURRENT_CUSTODY_MANIFEST",
     "provenance_limitations": [
       "Migrations 20260912170153/20260912170345/20260912170408 are exact provider-history recovery; original pre-apply Git custody is unresolved.",
       "Migration 20260919223652 has exact deployed/source byte identity proven via PR #45/PR #58 evidence.",
-      "Migration 20260921192624 was applied under Patrick's current Supabase/GitHub repair instruction; exact provider bytes are preserved separately because the provider query omitted explanatory comments from the reviewed source file."
+      "Migration 20260921192624 exact provider bytes are preserved separately; reviewed source was executable-effect equivalent but not byte-identical because explanatory comments were omitted at application.",
+      "Migration 20260921200623 is exact byte-identical to canonical Git source."
     ]
   }
 }
