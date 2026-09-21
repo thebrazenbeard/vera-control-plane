@@ -5,7 +5,7 @@
   "branch": "work/bv-whole-system-repair-v1-20260921",
   "created_at": "2026-09-21",
   "current_heads": {
-    "vera": "3241397755ae1da1af2ce1fb7e7b0f83e0da7538",
+    "vera": "0e9d298b4c9ae9f1ae3a5d1fae29c74a9eeeba52",
     "vera_control_plane": "386ef60b7cd3911c07227ccf0e9563ace1f4731c",
     "bus_bv": "8ec2c20ab8f8b0384e9b0d73887c5312a1016d9b",
     "bus_vera": "e3fc73ecb5b3510e27b965ea05e95348d96e7af9"
@@ -88,19 +88,19 @@
       "id": "VCP-DB-CUSTODY-001",
       "subsystem": "vera-control-plane/supabase",
       "severity": "HIGH",
-      "description": "Four applied production migrations lacked canonical VCP source custody on main.",
+      "description": "Five applied production migrations require canonical VCP source custody on main; exact provider bytes are now captured on the repair branch.",
       "discovery_evidence": [
         "Supabase fawkirqroyniueeqspif supabase_migrations.schema_migrations",
         "versions 20260912170153,20260912170345,20260912170408,20260919223652"
       ],
       "assigned_worker": "BV",
       "source_subject": "work/bv-whole-system-repair-v1-20260921",
-      "status": "REPAIR_IN_PROGRESS",
-      "repair_head": null,
+      "status": "SOURCE_FIXED",
+      "repair_head": "PENDING_BRANCH_HEAD_AFTER_PROVIDER_READBACK_BINDING",
       "review_evidence": [],
       "provider_effect": null,
       "post_effect_readback": null,
-      "residual_limitation": "Exact provider bodies are recoverable from Supabase migration history.",
+      "residual_limitation": "Canonical-main reproducibility remains pending merge of the reviewed custody cut.",
       "closure_classification": null
     },
     {
@@ -113,13 +113,18 @@
       ],
       "assigned_worker": "BV",
       "source_subject": "work/bv-whole-system-repair-v1-20260921",
-      "status": "CLAIMED",
-      "repair_head": null,
+      "status": "READBACK_VERIFIED",
+      "repair_head": "PENDING_BRANCH_HEAD_AFTER_PROVIDER_READBACK_BINDING",
       "review_evidence": [],
-      "provider_effect": null,
-      "post_effect_readback": null,
+      "provider_effect": {
+        "project_id": "fawkirqroyniueeqspif",
+        "migration_version": "20260921192624",
+        "name": "revoke_internal_rls_guard_public_execute",
+        "sha256": "b5f43de5a82cd8a2f4b068dcc213db0370d8ddd286c8487722aef6a59f48a698"
+      },
+      "post_effect_readback": "anon/authenticated/service_role/vera_sd1_causal_anchor_broker EXECUTE=false; function ACL postgres-only; security advisor unchanged at two intentional deny-all INFO findings.",
       "residual_limitation": null,
-      "closure_classification": null
+      "closure_classification": "VERIFIED_FIXED"
     },
     {
       "id": "VCP-DB-REPRO-001",
