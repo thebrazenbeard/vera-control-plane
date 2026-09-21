@@ -199,7 +199,13 @@
     "WIRE_RESPONSE_OVERFLOW",
     "JSON_ESCAPE_EXPANSION",
     "UNCORRELATED_RESPONSE_WRITE_FAILURE",
-    "MAX_READ_EQUALS_MAX_FRAME_FALSE_SAFETY"
+    "MAX_READ_EQUALS_MAX_FRAME_FALSE_SAFETY",
+    "SESSION_DISCONNECT_LANE_LEAK",
+    "SESSION_EXPIRY_LANE_LEAK",
+    "RECONNECT_STORM_MAX_LANES_EXHAUSTION",
+    "REMOTE_CLOSE_APPLICATION_ERROR_IGNORED",
+    "CROSS_SESSION_REAP",
+    "SESSION_EXPIRY_INFLIGHT_EFFECT"
   ],
   "chatgpt_exposure": {
     "local_mcp_server": "NOT_DIRECTLY_REACHABLE_BY_CHATGPT",
@@ -242,6 +248,12 @@
         "PROCESS_EXECUTION",
         "SESSION_LANE_CONTROL"
       ]
+    },
+    "logical_close_truth": {
+      "remote_application_errors_must_be_inspected": true,
+      "closed_true_requires": "ALL_REACHABLE_MIRRORS_PROVEN_CLOSED_OR_ALREADY_ABSENT",
+      "unresolved_mirror": "PARTIAL_OR_UNKNOWN_NOT_SUCCESS",
+      "reconciliation_state_required": true
     }
   },
   "transport_deadlines": {
@@ -261,5 +273,14 @@
     "uncorrelated_task_failure": "FORBIDDEN",
     "client_wait_without_deadline": "FORBIDDEN",
     "preferred_file_read_model": "RANGED_OR_CHUNKED_READ_WITH_EXPLICIT_LIMITS"
+  },
+  "session_lifecycle": {
+    "lane_ttl_must_not_exceed_remaining_session_lifetime": true,
+    "session_disconnect_cleanup": "DRAIN_THEN_REAP_EXACT_SESSION_LANES",
+    "session_expiry_cleanup": "NO_NEW_ADMISSION_THEN_DRAIN_BOUNDED_INFLIGHT_AND_REAP",
+    "cross_session_reap": "FORBIDDEN",
+    "dead_session_resource_claims": "MUST_NOT_PERSIST_BEYOND_BOUNDED_DRAIN",
+    "reconnect_storm_lane_leak": "FORBIDDEN",
+    "expiry_semantics": "ADMISSION_CUTOFF_NOT_IMPLICIT_INSTANT_EFFECT_CANCELLATION"
   }
 }
