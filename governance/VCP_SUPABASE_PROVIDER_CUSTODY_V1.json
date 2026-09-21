@@ -1,6 +1,6 @@
 {
   "schema": "VCP_SUPABASE_PROVIDER_CUSTODY_V1",
-  "observed_at": "2026-09-21T17:47:37.136Z",
+  "observed_at": "2026-09-21T19:26:27.779Z",
   "provider": {
     "kind": "supabase",
     "project_id": "fawkirqroyniueeqspif",
@@ -53,6 +53,18 @@
       "source_git_blob": "0769c527ad8fc8280d052dc1ce93f85673b6bb7d",
       "source_filename_version": "20260919195000",
       "note": "Provider migration version differs from source filename timestamp; exact applied/source bytes match.",
+      "active": true
+    },
+    {
+      "version": "20260921192624",
+      "name": "revoke_internal_rls_guard_public_execute",
+      "provider_bytes": 231,
+      "provider_sha256": "b5f43de5a82cd8a2f4b068dcc213db0370d8ddd286c8487722aef6a59f48a698",
+      "custody_class": "EXACT_PROVIDER_SOURCE_RECOVERED",
+      "canonical_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260921192624_revoke_internal_rls_guard_public_execute.sql",
+      "source_path": "supabase/migrations/20260921173000_revoke_internal_rls_guard_public_execute.sql",
+      "source_relation": "EXECUTABLE_EFFECT_EQUIVALENT_NOT_BYTE_IDENTICAL_DUE_TO_OMITTED_EXPLANATORY_COMMENTS",
+      "historical_git_source": "REVIEWED_SOURCE_EXISTED_BEFORE_EFFECT_BUT_APPLIED_PROVIDER_BYTES_DIFFER",
       "active": true
     }
   ],
@@ -129,20 +141,23 @@
       "function": "vera_cp_internal.enable_rls_for_new_api_tables()",
       "security_definer": true,
       "search_path": "pg_catalog",
-      "public_execute": true,
-      "anon_execute": true,
-      "authenticated_execute": true,
-      "service_role_execute": true,
-      "broker_execute": true,
+      "public_execute": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "service_role_execute": false,
+      "broker_execute": false,
       "public_schema_usage": false,
       "anon_schema_usage": false,
       "authenticated_schema_usage": false,
       "service_role_schema_usage": false,
       "broker_schema_usage": false,
-      "exploitability": "NOT_ORDINARILY_REACHABLE_WITH_CURRENT_SCHEMA_GRANTS",
-      "defect_class": "UNNECESSARY_EXECUTE_PRIVILEGE",
+      "exploitability": "EXECUTE_REVOKED_FOR_PUBLIC_CLIENT_BACKEND_AND_BROKER_ROLES",
+      "defect_class": "VERIFIED_FIXED",
       "repair_source": "supabase/migrations/20260921173000_revoke_internal_rls_guard_public_execute.sql",
-      "provider_effect": "PROTECTED_EFFECT_REQUIRED"
+      "provider_effect": "APPLIED_VERIFIED",
+      "provider_migration_version": "20260921192624",
+      "provider_migration_sha256": "b5f43de5a82cd8a2f4b068dcc213db0370d8ddd286c8487722aef6a59f48a698",
+      "provider_custody_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260921192624_revoke_internal_rls_guard_public_execute.sql"
     },
     "api_rpc_boundary": {
       "broker_schema_usage": true,
@@ -160,7 +175,8 @@
     "target_after_merge": "REPRODUCIBLE_FROM_CANONICAL_SOURCE",
     "provenance_limitations": [
       "Migrations 20260912170153/20260912170345/20260912170408 are exact provider-history recovery; original pre-apply Git custody is unresolved.",
-      "Migration 20260919223652 has exact deployed/source byte identity proven via PR #45/PR #58 evidence."
+      "Migration 20260919223652 has exact deployed/source byte identity proven via PR #45/PR #58 evidence.",
+      "Migration 20260921192624 was applied under Patrick's current Supabase/GitHub repair instruction; exact provider bytes are preserved separately because the provider query omitted explanatory comments from the reviewed source file."
     ]
   }
 }
