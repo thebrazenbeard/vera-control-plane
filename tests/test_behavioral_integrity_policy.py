@@ -186,5 +186,32 @@ class BehavioralIntegrityPolicyTests(unittest.TestCase):
         self.assertEqual(CommandForce.AMBIGUOUS, clause.force)
 
 
+    def test_malformed_mode_boolean_fails_closed(self):
+        with self.assertRaises(Exception):
+            resolve_behavior_mode(
+                BehaviorModeContext(
+                    active_mode=BehaviorMode.RESEARCH_REPORT,
+                    specialized_task_complete="yes",
+                    context_changed=True,
+                )
+            )
+
+    def test_malformed_execution_boolean_fails_closed(self):
+        clause = parse_pragmatic_command(
+            "Bug report",
+            established_action_context=True,
+        )[0]
+        with self.assertRaises(Exception):
+            decide_execution(
+                clause,
+                ExecutionContext(
+                    target_sufficient=True,
+                    authority_sufficient="yes",
+                    currentness_sufficient=True,
+                    tools_sufficient=True,
+                ),
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
