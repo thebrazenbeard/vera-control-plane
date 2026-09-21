@@ -205,7 +205,11 @@
     "RECONNECT_STORM_MAX_LANES_EXHAUSTION",
     "REMOTE_CLOSE_APPLICATION_ERROR_IGNORED",
     "CROSS_SESSION_REAP",
-    "SESSION_EXPIRY_INFLIGHT_EFFECT"
+    "SESSION_EXPIRY_INFLIGHT_EFFECT",
+    "UNBOUNDED_REQUEST_LEDGER",
+    "READ_ONLY_PROBE_DURABLE_WRITE_AMPLIFICATION",
+    "MUTATION_REPLAY_AFTER_LEDGER_GC",
+    "STATE_DB_DISK_FULL_ROUTE_COLLAPSE"
   ],
   "chatgpt_exposure": {
     "local_mcp_server": "NOT_DIRECTLY_REACHABLE_BY_CHATGPT",
@@ -311,5 +315,19 @@
     "dead_session_resource_claims": "MUST_NOT_PERSIST_BEYOND_BOUNDED_DRAIN",
     "reconnect_storm_lane_leak": "FORBIDDEN",
     "expiry_semantics": "ADMISSION_CUTOFF_NOT_IMPLICIT_INSTANT_EFFECT_CANCELLATION"
+  },
+  "request_ledger": {
+    "durable_idempotency_scope": "MUTATION_OPERATIONS_ONLY_UNLESS_READ_LEDGER_SEPARATELY_JUSTIFIED",
+    "read_probe_permanent_rows": "FORBIDDEN",
+    "unbounded_request_table": "FORBIDDEN",
+    "mutation_retention": "BOUNDED_POLICY_REQUIRED_WITH_REPLAY_SAFETY",
+    "late_retry_after_detail_gc": "MUST_REJECT_OR_USE_COMPACT_TOMBSTONE_NOT_REEXECUTE",
+    "state_store_health_dimensions": [
+      "SIZE",
+      "WRITE_AVAILABILITY",
+      "CHECKPOINT_MAINTENANCE"
+    ],
+    "disk_full_before_mutation_admission": "FAIL_CLOSED",
+    "read_probe_storage_failure": "MUST_NOT_MASQUERADE_AS_APPLICATION_AUTH_FAILURE"
   }
 }
