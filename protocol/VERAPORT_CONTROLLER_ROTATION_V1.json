@@ -1,0 +1,127 @@
+{
+  "schema": "VERAPORT_CONTROLLER_ROTATION_V1",
+  "status": "SOURCE_CONTROL_CONTRACT_ONLY_NO_CREDENTIAL_EFFECT",
+  "current_blocker": {
+    "enrolled_controller_principal": "controller:ef3814b70f0883d2fbc4a8b7bd7b4eb982ac6cf74d9fd76734827d4561bc554b",
+    "matching_private_key": "NOT_RECOVERED",
+    "live_acceptance": "BLOCKED"
+  },
+  "authority": {
+    "key_generation": "PATRICK_EXACT_AUTHORITY_REQUIRED",
+    "trust_mutation": "PATRICK_EXACT_AUTHORITY_REQUIRED",
+    "service_restart": "PATRICK_EXACT_AUTHORITY_REQUIRED",
+    "old_controller_retirement": "PATRICK_EXACT_AUTHORITY_REQUIRED",
+    "write_capability_activation": "SEPARATE_EXACT_AUTHORITY_REQUIRED",
+    "process_activation": "SEPARATE_EXACT_AUTHORITY_REQUIRED"
+  },
+  "recovery": {
+    "candidate_filename_is_identity": false,
+    "required_match": [
+      "EC_P256_PRIVATE_KEY",
+      "DERIVED_PUBLIC_SPKI",
+      "DERIVED_CONTROLLER_PRINCIPAL_EXACT",
+      "DERIVED_KEY_ID_EXACT"
+    ],
+    "exact_principal": "controller:ef3814b70f0883d2fbc4a8b7bd7b4eb982ac6cf74d9fd76734827d4561bc554b",
+    "matching_candidate_action": "RECOVER_EXISTING_IDENTITY_NO_TRUST_MUTATION"
+  },
+  "rotation": {
+    "strategy": "ADDITIVE_THEN_ACCEPT_THEN_OPTIONAL_RETIRE",
+    "pre_effect_evidence": [
+      "HASH_VERAPORT_CONFIG",
+      "HASH_CONTROLLER_TRUST",
+      "READ_WORKSTATION_PRINCIPAL",
+      "READ_TLS_IDENTITY",
+      "READ_ALLOWED_ROOTS",
+      "READ_PROCESS_POLICY",
+      "READ_DIRECT_EDGE_TRANSPORT",
+      "CAPTURE_ROLLBACK_TRUST_COPY"
+    ],
+    "new_identity": {
+      "curve": "P-256",
+      "private_key_git": "FORBIDDEN",
+      "private_key_bus": "FORBIDDEN",
+      "private_key_logs": "FORBIDDEN",
+      "private_key_screenshots": "FORBIDDEN",
+      "acl": "RESTRICTIVE_LOCAL_ACL_REQUIRED_BEFORE_USE",
+      "principal_and_key_id": "DERIVE_FROM_PUBLIC_SPKI"
+    },
+    "initial_enrollment": {
+      "mode": "ADD_WITHOUT_PREDECESSOR_DELETION",
+      "capabilities": ["fs.read"],
+      "fs.write": "NOT_GRANTED_IN_INITIAL_ACCEPTANCE",
+      "process.exec": "NOT_GRANTED"
+    },
+    "reload": {
+      "trust_loaded_at_host_prepare": true,
+      "service_restart_required_for_new_trust": true,
+      "restart_is_separate_effect": true,
+      "rollback_on_restart_failure": true
+    },
+    "acceptance": [
+      "DIRECT_APPLICATION_AUTH_PASS",
+      "EDGE_APPLICATION_AUTH_PASS",
+      "EXPECTED_NEW_CONTROLLER_PRINCIPAL",
+      "EXPECTED_WORKSTATION_PRINCIPAL",
+      "LANE_LIST_PASS",
+      "READ_ONLY_LANE_OPEN_PASS",
+      "HARMLESS_ALLOWED_ROOT_READ_PASS",
+      "LANE_CLOSE_DRAIN_PASS",
+      "DIRECT_EDGE_IDENTITY_MATCH"
+    ],
+    "post_acceptance_non_implications": [
+      "READ_PASS_NE_WRITE_AUTHORITY",
+      "READ_PASS_NE_PROCESS_AUTHORITY",
+      "READ_PASS_NE_PLUGIN_REGISTERED",
+      "READ_PASS_NE_OLD_CONTROLLER_RETIREMENT_AUTHORITY"
+    ],
+    "predecessor_retirement": {
+      "separate_effect": true,
+      "requires_successor_acceptance": true,
+      "requires_exact_authority": true,
+      "remove_only_exact_principal": true,
+      "empty_trust_forbidden": true
+    }
+  },
+  "failure_modes": {
+    "new_key_generated_but_not_enrolled": "NO_LIVE_AUTHORITY",
+    "trust_written_service_restart_fails": "ROLLBACK_TRUST_AND_RESTORE_SERVICE",
+    "direct_pass_edge_fail": "NO_CURRENT_MULTI_PATH_ACCEPTANCE",
+    "wrong_workstation_identity": "ABORT",
+    "capability_widening": "ABORT",
+    "predecessor_removed_before_successor_pass": "ABORT_AND_ROLLBACK"
+  },
+  "receipt": {
+    "record": [
+      "PRE_TRUST_SHA256",
+      "POST_TRUST_SHA256",
+      "CONFIG_SHA256",
+      "NEW_CONTROLLER_PRINCIPAL",
+      "NEW_CONTROLLER_KEY_ID",
+      "EXACT_CAPABILITY_CEILING",
+      "SERVICE_RESTART_READBACK",
+      "DIRECT_EDGE_APPLICATION_RESULTS",
+      "LIVE_READ_RESULT",
+      "PREDECESSOR_STATUS"
+    ],
+    "never_record": [
+      "PRIVATE_KEY_BYTES",
+      "PASSWORDS",
+      "UNREDACTED_SECRET_MATERIAL"
+    ]
+  },
+  "hostile_regressions": [
+    "FILENAME_MISLABELED_AS_RECOVERY",
+    "WRONG_CURVE",
+    "PUBLIC_PRIVATE_MISMATCH",
+    "PRINCIPAL_KEY_ID_MISMATCH",
+    "TRUST_OVERWRITE_REMOVES_ALL_CONTROLLERS",
+    "ROTATION_CAPABILITY_WIDENING",
+    "OLD_CONTROLLER_REMOVED_PRE_ACCEPTANCE",
+    "SERVICE_RESTART_FAILURE",
+    "DIRECT_EDGE_WORKSTATION_IDENTITY_DIVERGENCE",
+    "PRIVATE_KEY_LEAK_TO_GIT",
+    "PRIVATE_KEY_LEAK_TO_BUS",
+    "PRIVATE_KEY_LEAK_TO_LOG"
+  ]
+}
