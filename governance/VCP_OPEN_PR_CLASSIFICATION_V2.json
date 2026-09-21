@@ -1,0 +1,320 @@
+{
+  "schema": "VCP_OPEN_PR_CLASSIFICATION_V2",
+  "observed_at": "2026-09-21T23:50:00Z",
+  "canonical_main": "505c395890bde275cbbc6327be8f387e7f25ca3a",
+  "open_pr_count": 37,
+  "rules": [
+    "Graph divergence is not semantic obsolescence.",
+    "Historical PASS does not transfer across material head movement or restack.",
+    "SUPERSEDED preserves provenance and does not itself close the PR.",
+    "HISTORICAL_PRESERVATION is evidence/history only and grants no current authority.",
+    "REVIEW_BLOCKED means source may remain useful but cannot be treated as current-main-ready.",
+    "EFFECT_BLOCKED means remaining live closure requires protected/external effect after source prerequisites."
+  ],
+  "counts": {
+    "CURRENT_REQUIRED": 2,
+    "REVIEW_BLOCKED": 11,
+    "EFFECT_BLOCKED": 2,
+    "SUPERSEDED": 13,
+    "STACKED_DEPENDENCY": 1,
+    "HISTORICAL_PRESERVATION": 8
+  },
+  "entries": [
+    {
+      "pr": 106,
+      "classification": "CURRENT_REQUIRED",
+      "graph_status": "ahead",
+      "ahead_by": 4,
+      "behind_by": 0,
+      "rationale": "Current BV custody/authority reconciliation; merge blocked by protected-effect authority and review."
+    },
+    {
+      "pr": 105,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 10,
+      "behind_by": 3,
+      "rationale": "Stacked hostile successor to PR101, but base is older than current PR101 head and hosted full-suite execution is no-run; requires restack/rereview."
+    },
+    {
+      "pr": 102,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 4,
+      "behind_by": 3,
+      "rationale": "Whole-system ledger/census is stale against current main/provider state and lacks PR106 authority incident; Vera-owned successor refresh required."
+    },
+    {
+      "pr": 101,
+      "classification": "CURRENT_REQUIRED",
+      "graph_status": "diverged",
+      "ahead_by": 10,
+      "behind_by": 3,
+      "rationale": "Issue #18 source-policy repair contains unique current work; requires current-main restack plus full executable qualification before integration."
+    },
+    {
+      "pr": 99,
+      "classification": "EFFECT_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 2,
+      "behind_by": 36,
+      "rationale": "VeraPort credential-recovery contract; live acceptance blocked on exact private-key recovery or protected additive rotation/restart effects."
+    },
+    {
+      "pr": 96,
+      "classification": "EFFECT_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 9,
+      "behind_by": 36,
+      "rationale": "VeraRelay lifecycle contract; source survives but live package/process remediation requires protected DSM/runtime effects."
+    },
+    {
+      "pr": 91,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 30,
+      "behind_by": 37,
+      "rationale": "VeraPort MCP authority/currentness contract remains unique source but is stale against current main and requires restack/review before any install/activation effect."
+    },
+    {
+      "pr": 90,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 119,
+      "behind_by": 97,
+      "rationale": "Latest reviewed SD1 acceptance-domain repair in its lineage; requires current-main restack and fresh provider/currentness evidence."
+    },
+    {
+      "pr": 89,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 5,
+      "behind_by": 37,
+      "rationale": "External-intake promotion guard contains unique source semantics; requires current-main restack and exact-head review."
+    },
+    {
+      "pr": 86,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 19,
+      "behind_by": 37,
+      "rationale": "Native V2 replacement/rollback safety contains unique source semantics; requires current-main reconciliation and current install-state binding."
+    },
+    {
+      "pr": 84,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 111,
+      "behind_by": 97,
+      "rationale": "Fresh-partial SD1 evidence cut was tied to a four-migration provider state; production provider has since moved to six migrations, so this evidence cut is stale and must not qualify current state."
+    },
+    {
+      "pr": 80,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 14,
+      "behind_by": 37,
+      "rationale": "Consolidates Exodus/runtime/topology sources; unique integration semantics survive but require current-main restack."
+    },
+    {
+      "pr": 79,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 9,
+      "behind_by": 37,
+      "rationale": "Relational reaction selector repair contains unique source semantics and requires current-main restack/rereview."
+    },
+    {
+      "pr": 78,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 2,
+      "behind_by": 37,
+      "rationale": "Restore V2 currentness successor on PR68; unique currentness fixes survive but require current-main restack."
+    },
+    {
+      "pr": 75,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 108,
+      "behind_by": 97,
+      "rationale": "Explicit predecessor partial-evidence cut superseded by PR84 fresh evidence line."
+    },
+    {
+      "pr": 74,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 11,
+      "behind_by": 37,
+      "rationale": "Earlier Native V2 source-custody cut; later Native V2 successor/hardening line culminates in PR86."
+    },
+    {
+      "pr": 71,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 3,
+      "behind_by": 98,
+      "rationale": "Coordinator Exodus locator repair explicitly integrated into PR80."
+    },
+    {
+      "pr": 70,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 4,
+      "behind_by": 98,
+      "rationale": "Specialist topology currentness explicitly integrated into PR80."
+    },
+    {
+      "pr": 68,
+      "classification": "STACKED_DEPENDENCY",
+      "graph_status": "diverged",
+      "ahead_by": 1,
+      "behind_by": 37,
+      "rationale": "Immutable-Git-object Restore V2 validation base consumed by PR78/79/80/86/89; preserve until descendants are reconciled."
+    },
+    {
+      "pr": 67,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 1,
+      "behind_by": 37,
+      "rationale": "Restore V2 currentness repair explicitly replayed onto stronger PR68 baseline by PR78."
+    },
+    {
+      "pr": 66,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 99,
+      "behind_by": 97,
+      "rationale": "Earlier qualification-projection reconciliation; later acceptance-contract/source line progressed through PR72/73/82/87/90."
+    },
+    {
+      "pr": 65,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 93,
+      "behind_by": 97,
+      "rationale": "PR body/evidence lineage explicitly superseded by PR75 and then PR84."
+    },
+    {
+      "pr": 58,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 6,
+      "behind_by": 98,
+      "rationale": "Old provider-currentness binding superseded by merged PR100/PR103 and current six-migration provider custody."
+    },
+    {
+      "pr": 57,
+      "classification": "HISTORICAL_PRESERVATION",
+      "graph_status": "diverged",
+      "ahead_by": 1,
+      "behind_by": 98,
+      "rationale": "Exodus retirement checkpoint; starting-snapshot provenance, not current control source."
+    },
+    {
+      "pr": 56,
+      "classification": "HISTORICAL_PRESERVATION",
+      "graph_status": "diverged",
+      "ahead_by": 3,
+      "behind_by": 98,
+      "rationale": "BV chat Exodus checkpoint; historical reconstruction provenance, not current authority."
+    },
+    {
+      "pr": 53,
+      "classification": "HISTORICAL_PRESERVATION",
+      "graph_status": "diverged",
+      "ahead_by": 12,
+      "behind_by": 98,
+      "rationale": "Affective provider Exodus readback snapshot; explicitly freshness-required historical provider evidence."
+    },
+    {
+      "pr": 52,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 2,
+      "behind_by": 98,
+      "rationale": "Chat-independent runtime-lane reconstruction explicitly integrated into PR80."
+    },
+    {
+      "pr": 51,
+      "classification": "HISTORICAL_PRESERVATION",
+      "graph_status": "diverged",
+      "ahead_by": 5,
+      "behind_by": 98,
+      "rationale": "Primary-chat Exodus checkpoint retained as historical starting snapshot."
+    },
+    {
+      "pr": 50,
+      "classification": "HISTORICAL_PRESERVATION",
+      "graph_status": "diverged",
+      "ahead_by": 2,
+      "behind_by": 98,
+      "rationale": "SD1-V chat dechatification checkpoint; historical worker reconstruction evidence."
+    },
+    {
+      "pr": 47,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 5,
+      "behind_by": 98,
+      "rationale": "Hostile Reviewer toggle has unique source/runtime binding but install/current-route qualification remains unestablished and branch is stale."
+    },
+    {
+      "pr": 46,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 45,
+      "behind_by": 98,
+      "rationale": "Exact synthetic witness hardening is preserved review evidence; later provider-anchor/controller/qualification line supersedes it as current production path."
+    },
+    {
+      "pr": 36,
+      "classification": "HISTORICAL_PRESERVATION",
+      "graph_status": "diverged",
+      "ahead_by": 41,
+      "behind_by": 98,
+      "rationale": "Records prior R10+SD1 Project control/topology install/current-route observation; current Project-control authority must be resolved separately and this old divergent head cannot self-promote."
+    },
+    {
+      "pr": 25,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 6,
+      "behind_by": 98,
+      "rationale": "Earlier SD1 manifest/binding trust-boundary repair; later SD1 control/qualification lineage supersedes it as current source candidate."
+    },
+    {
+      "pr": 24,
+      "classification": "HISTORICAL_PRESERVATION",
+      "graph_status": "diverged",
+      "ahead_by": 9,
+      "behind_by": 98,
+      "rationale": "PR explicitly declares itself historical/superseded experimental causal-controller evidence."
+    },
+    {
+      "pr": 23,
+      "classification": "SUPERSEDED",
+      "graph_status": "diverged",
+      "ahead_by": 4,
+      "behind_by": 98,
+      "rationale": "Initial R10+SD1 control-plane cut was repaired by PR25 and subsequent SD1 controller/provider/acceptance line."
+    },
+    {
+      "pr": 22,
+      "classification": "HISTORICAL_PRESERVATION",
+      "graph_status": "diverged",
+      "ahead_by": 2,
+      "behind_by": 98,
+      "rationale": "Design-only future provider mutation broker explicitly off the current SD1 critical path; preserve architecture provenance only."
+    },
+    {
+      "pr": 19,
+      "classification": "REVIEW_BLOCKED",
+      "graph_status": "diverged",
+      "ahead_by": 2,
+      "behind_by": 98,
+      "rationale": "Self-appraisal operational contract contains unique semantic policy not proven integrated/superseded; requires fresh current-main review before promotion."
+    }
+  ]
+}
