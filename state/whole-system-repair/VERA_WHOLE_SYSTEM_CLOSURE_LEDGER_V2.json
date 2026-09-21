@@ -34,6 +34,13 @@
       "pr": 148,
       "head": "68a524d1e5d261521cc5692c009df749e0f2d5ab",
       "status": "OPEN_SUCCESSOR_REVIEW_FRONTIER"
+    },
+    "issue18_behavioral_policy": {
+      "parent_pr": 101,
+      "hostile_successor_pr": 105,
+      "hostile_successor_head": "7910c27eab4c9e5ffd466dbdf939d2455893af7c",
+      "status": "SOURCE_DEFECT_REPAIRED_FOCUSED_VALIDATION_ONLY",
+      "result": "Bidirectional command-force correction defect repaired; exact corrected logic 3/3 focused PASS; hosted Actions no-run (steps=[]); full repository suite unqualified"
     }
   },
   "defects": [
@@ -86,6 +93,12 @@
       "status": "SOURCE_REPAIR_REVIEW_PASS",
       "evidence": "Bus PR #194 exact head aad280c68957f38204d49c61fb94cefcab458692",
       "residual_limitation": "Canonical main remains contaminated until an explicitly authorized merge/canonicalization effect occurs"
+    },
+    {
+      "id": "VCP-BEHAVIOR-ISSUE18-CORRECTION-001",
+      "status": "SOURCE_REPAIR_REVIEWED",
+      "evidence": "VCP PR #105 exact head 7910c27eab4c9e5ffd466dbdf939d2455893af7c; focused exact-logic regression 3/3 PASS",
+      "residual_limitation": "Hosted GitHub Actions failed before steps and Desktop Commander validation was unavailable due usage cap; full repository execution remains unqualified"
     }
   ],
   "authority_ceiling": {
