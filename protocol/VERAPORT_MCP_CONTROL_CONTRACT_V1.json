@@ -209,7 +209,10 @@
     "UNBOUNDED_REQUEST_LEDGER",
     "READ_ONLY_PROBE_DURABLE_WRITE_AMPLIFICATION",
     "MUTATION_REPLAY_AFTER_LEDGER_GC",
-    "STATE_DB_DISK_FULL_ROUTE_COLLAPSE"
+    "STATE_DB_DISK_FULL_ROUTE_COLLAPSE",
+    "MAX_INFLIGHT_TASK_QUEUE_UNBOUNDED",
+    "OVERLOAD_WITH_STALLED_HANDLERS",
+    "TEARDOWN_UNDER_REQUEST_FLOOD"
   ],
   "chatgpt_exposure": {
     "local_mcp_server": "NOT_DIRECTLY_REACHABLE_BY_CHATGPT",
@@ -329,5 +332,14 @@
     ],
     "disk_full_before_mutation_admission": "FAIL_CLOSED",
     "read_probe_storage_failure": "MUST_NOT_MASQUERADE_AS_APPLICATION_AUTH_FAILURE"
+  },
+  "request_admission": {
+    "max_inflight_semantics": "BOUND_ADMITTED_OUTSTANDING_REQUESTS_NOT_ONLY_EXECUTING_HANDLERS",
+    "unbounded_waiting_tasks": "FORBIDDEN",
+    "backpressure_before_unbounded_task_creation": "REQUIRED",
+    "accepted_request_without_correlated_terminal_result": "FORBIDDEN",
+    "overload_behavior": "DETERMINISTIC_BACKPRESSURE_OR_CORRELATED_ERROR_OR_STREAM_TERMINATION",
+    "teardown_under_overload": "BOUNDED_REQUIRED",
+    "per_session_fairness_or_timeout_policy": "REQUIRED_IF_CAPACITY_IS_SHARED"
   }
 }
