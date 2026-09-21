@@ -243,3 +243,19 @@ def test_chatgpt_product_gate_is_separate_from_tunnel_transport():
     assert tunnel["credentials_git_bus_logs"] == "FORBIDDEN"
     assert product["states"][0] == "MCP_SERVER_RUNNING"
     assert product["states"][-1] == "WRITE_TOOL_INVOCATION_PASS"
+
+
+def test_request_ledger_is_bounded_without_replay_regression():
+    ledger = load()["request_ledger"]
+    assert ledger["durable_idempotency_scope"] == (
+        "MUTATION_OPERATIONS_ONLY_UNLESS_READ_LEDGER_SEPARATELY_JUSTIFIED"
+    )
+    assert ledger["read_probe_permanent_rows"] == "FORBIDDEN"
+    assert ledger["unbounded_request_table"] == "FORBIDDEN"
+    assert ledger["mutation_retention"] == (
+        "BOUNDED_POLICY_REQUIRED_WITH_REPLAY_SAFETY"
+    )
+    assert ledger["late_retry_after_detail_gc"] == (
+        "MUST_REJECT_OR_USE_COMPACT_TOMBSTONE_NOT_REEXECUTE"
+    )
+    assert ledger["disk_full_before_mutation_admission"] == "FAIL_CLOSED"
