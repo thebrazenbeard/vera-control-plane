@@ -116,6 +116,16 @@ def resolve_behavior_mode(context: BehaviorModeContext) -> BehaviorModeDecision:
 
     if type(context) is not BehaviorModeContext:
         raise TypeError("context must be an exact BehaviorModeContext")
+    if type(context.active_mode) is not BehaviorMode:
+        raise BehavioralPolicyViolation("active_mode must be an exact BehaviorMode")
+    for field_name in (
+        "specialized_task_complete",
+        "context_changed",
+        "explicit_continue_specialized_mode",
+        "voice_context_correction",
+    ):
+        if type(getattr(context, field_name)) is not bool:
+            raise BehavioralPolicyViolation(f"{field_name} must be boolean")
 
     if context.active_mode is BehaviorMode.BASELINE:
         return BehaviorModeDecision(
@@ -184,9 +194,15 @@ def _find_action(
     for entry in lexicon:
         if type(entry) is not ActionLexiconEntry:
             raise BehavioralPolicyViolation("lexicon entries must be ActionLexiconEntry")
-        if not entry.action_id.strip() or not entry.phrases:
-            raise BehavioralPolicyViolation("action lexicon entries must be non-empty")
+        if type(entry.action_id) is not str or not entry.action_id.strip():
+            raise BehavioralPolicyViolation("action_id must be a non-empty string")
+        if type(entry.phrases) is not tuple or not entry.phrases:
+            raise BehavioralPolicyViolation("action phrases must be a non-empty tuple")
+        if len(set(entry.phrases)) != len(entry.phrases):
+            raise BehavioralPolicyViolation("action phrases must not contain duplicates")
         for phrase in entry.phrases:
+            if type(phrase) is not str or not phrase.strip():
+                raise BehavioralPolicyViolation("action phrases must be non-empty strings")
             p = _normalize_phrase(phrase)
             if normalized == p or normalized.startswith(p + " "):
                 candidates.append((len(p), entry, p))
@@ -299,6 +315,14 @@ def decide_execution(
         raise TypeError("clause must be an exact PragmaticClause")
     if type(context) is not ExecutionContext:
         raise TypeError("context must be an exact ExecutionContext")
+    for field_name in (
+        "target_sufficient",
+        "authority_sufficient",
+        "currentness_sufficient",
+        "tools_sufficient",
+    ):
+        if type(getattr(context, field_name)) is not bool:
+            raise BehavioralPolicyViolation(f"{field_name} must be boolean")
 
     if clause.force is not CommandForce.REQUESTED_ACTION or clause.action_id is None:
         return ExecutionDecision(
