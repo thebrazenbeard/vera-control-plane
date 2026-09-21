@@ -127,6 +127,11 @@ def resolve_behavior_mode(context: BehaviorModeContext) -> BehaviorModeDecision:
         if type(getattr(context, field_name)) is not bool:
             raise BehavioralPolicyViolation(f"{field_name} must be boolean")
 
+    if context.voice_context_correction and context.explicit_continue_specialized_mode:
+        raise BehavioralPolicyViolation(
+            "conflicting current mode directives require explicit ordering or clarification"
+        )
+
     if context.active_mode is BehaviorMode.BASELINE:
         return BehaviorModeDecision(
             status=ModeDecisionStatus.BASELINE_UNCHANGED,
@@ -265,6 +270,34 @@ def parse_pragmatic_command(
         raise BehavioralPolicyViolation("established_action_context must be boolean")
     if type(lexicon) is not tuple or not lexicon:
         raise BehavioralPolicyViolation("lexicon must be a non-empty tuple")
+
+    normalized_phrase_owner: dict[str, str] = {}
+    action_phrase_sets: dict[str, frozenset[str]] = {}
+    for entry in lexicon:
+        if type(entry) is not ActionLexiconEntry:
+            raise BehavioralPolicyViolation("lexicon entries must be ActionLexiconEntry")
+        if type(entry.action_id) is not str or not entry.action_id.strip():
+            raise BehavioralPolicyViolation("action_id must be a non-empty string")
+        if type(entry.phrases) is not tuple or not entry.phrases:
+            raise BehavioralPolicyViolation("action phrases must be a non-empty tuple")
+        normalized = []
+        for phrase in entry.phrases:
+            if type(phrase) is not str or not phrase.strip():
+                raise BehavioralPolicyViolation("action phrases must be non-empty strings")
+            p = _normalize_phrase(phrase)
+            normalized.append(p)
+            previous_owner = normalized_phrase_owner.get(p)
+            if previous_owner is not None and previous_owner != entry.action_id:
+                raise BehavioralPolicyViolation(
+                    f"ambiguous action phrase collision: {p}"
+                )
+            normalized_phrase_owner[p] = entry.action_id
+        normalized_set = frozenset(normalized)
+        if entry.action_id in action_phrase_sets and action_phrase_sets[entry.action_id] != normalized_set:
+            raise BehavioralPolicyViolation(
+                f"duplicate action_id with incompatible phrase set: {entry.action_id}"
+            )
+        action_phrase_sets[entry.action_id] = normalized_set
 
     result: list[PragmaticClause] = []
     for raw in _split_compact_directive(text):
