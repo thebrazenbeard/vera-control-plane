@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "VERAPORT_MACHINE_ACCEPTANCE_RECEIPT_V1",
+  "title": "VeraPort Read-Only Machine Acceptance Receipt V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "coordination_id",
+    "implementation_subject",
+    "controller_identity",
+    "trust",
+    "service_readback",
+    "routes",
+    "lane_list",
+    "lane_open",
+    "bounded_read",
+    "drained_close",
+    "negative_assertions",
+    "claim_ceiling"
+  ],
+  "properties": {
+    "schema": {"const": "VERAPORT_MACHINE_ACCEPTANCE_RECEIPT_V1"},
+    "coordination_id": {"type": "string", "minLength": 1},
+    "implementation_subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "pull_request", "exact_head", "vcp_review", "independent_review"],
+      "properties": {
+        "repository": {"const": "thebrazenbeard/vera-mesh"},
+        "pull_request": {"type": "integer", "minimum": 1},
+        "exact_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "vcp_review": {"const": "PASS"},
+        "independent_review": {"const": "PASS"}
+      }
+    },
+    "controller_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["principal", "key_id", "curve", "private_key_recorded"],
+      "properties": {
+        "principal": {"type": "string", "pattern": "^controller:[0-9a-f]{64}$"},
+        "key_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "curve": {"const": "P-256"},
+        "private_key_recorded": {"const": false}
+      }
+    },
+    "trust": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pre_sha256",
+        "post_sha256",
+        "capabilities",
+        "fs_write_granted",
+        "process_exec_granted"
+      ],
+      "properties": {
+        "pre_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "post_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "capabilities": {
+          "type": "array",
+          "prefixItems": [{"const": "fs.read"}],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "fs_write_granted": {"const": false},
+        "process_exec_granted": {"const": false}
+      }
+    },
+    "service_readback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "service_running",
+        "config_sha256",
+        "trust_sha256",
+        "workstation_principal",
+        "allow_process_exec"
+      ],
+      "properties": {
+        "service_running": {"const": true},
+        "config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "trust_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "workstation_principal": {"type": "string", "pattern": "^workstation:[0-9a-f]{64}$"},
+        "allow_process_exec": {"const": false}
+      }
+    },
+    "routes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["direct", "edge", "identity_match"],
+      "properties": {
+        "direct": {"$ref": "#/$defs/applicationRoute"},
+        "edge": {"$ref": "#/$defs/applicationRoute"},
+        "identity_match": {"const": true}
+      }
+    },
+    "lane_list": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pass", "request_id", "correlated_response", "read_only_ledger_policy_pass"],
+      "properties": {
+        "pass": {"const": true},
+        "request_id": {"type": "string", "minLength": 1},
+        "correlated_response": {"const": true},
+        "read_only_ledger_policy_pass": {"const": true}
+      }
+    },
+    "lane_open": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pass",
+        "logical_lane_id",
+        "fencing_token",
+        "capabilities",
+        "write_claim_present",
+        "ttl_within_session"
+      ],
+      "properties": {
+        "pass": {"const": true},
+        "logical_lane_id": {"type": "string", "minLength": 1},
+        "fencing_token": {"type": ["integer", "string"]},
+        "capabilities": {
+          "type": "array",
+          "prefixItems": [{"const": "fs.read"}],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "write_claim_present": {"const": false},
+        "ttl_within_session": {"const": true}
+      }
+    },
+    "bounded_read": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pass",
+        "fixture_id",
+        "expected_sha256",
+        "actual_sha256",
+        "bytes_read",
+        "wire_bound_pass",
+        "deadline_pass",
+        "rdc_performed_workstation_operation"
+      ],
+      "properties": {
+        "pass": {"const": true},
+        "fixture_id": {"type": "string", "minLength": 1},
+        "expected_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "actual_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "bytes_read": {"type": "integer", "minimum": 0},
+        "wire_bound_pass": {"const": true},
+        "deadline_pass": {"const": true},
+        "rdc_performed_workstation_operation": {"const": false}
+      }
+    },
+    "drained_close": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pass",
+        "inflight_after_close",
+        "all_reachable_mirrors_closed_or_reconciled",
+        "post_close_remote_operation_observed",
+        "post_close_content_return_observed",
+        "resource_claim_released",
+        "reopen_fence_nonreused"
+      ],
+      "properties": {
+        "pass": {"const": true},
+        "inflight_after_close": {"const": 0},
+        "all_reachable_mirrors_closed_or_reconciled": {"const": true},
+        "post_close_remote_operation_observed": {"const": false},
+        "post_close_content_return_observed": {"const": false},
+        "resource_claim_released": {"const": true},
+        "reopen_fence_nonreused": {"const": true}
+      }
+    },
+    "negative_assertions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fs_write_performed",
+        "process_exec_performed",
+        "process_policy_enabled",
+        "chatgpt_app_registered",
+        "public_ingress_created",
+        "merge_performed",
+        "deploy_performed"
+      ],
+      "properties": {
+        "fs_write_performed": {"const": false},
+        "process_exec_performed": {"const": false},
+        "process_policy_enabled": {"const": false},
+        "chatgpt_app_registered": {"const": false},
+        "public_ingress_created": {"const": false},
+        "merge_performed": {"const": false},
+        "deploy_performed": {"const": false}
+      }
+    },
+    "claim_ceiling": {
+      "const": "LIVE_READ_ONLY_MACHINE_ACCEPTANCE_PASS"
+    }
+  },
+  "$defs": {
+    "applicationRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tls",
+        "alpn",
+        "application_auth",
+        "controller_principal",
+        "workstation_principal",
+        "granted_capabilities",
+        "session_unexpired"
+      ],
+      "properties": {
+        "tls": {"const": "TLSv1.3"},
+        "alpn": {"const": "veraport/1"},
+        "application_auth": {"const": "PASS"},
+        "controller_principal": {"type": "string", "pattern": "^controller:[0-9a-f]{64}$"},
+        "workstation_principal": {"type": "string", "pattern": "^workstation:[0-9a-f]{64}$"},
+        "granted_capabilities": {
+          "type": "array",
+          "prefixItems": [{"const": "fs.read"}],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "session_unexpired": {"const": true}
+      }
+    }
+  }
+}
