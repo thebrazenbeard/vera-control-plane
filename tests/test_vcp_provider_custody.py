@@ -36,6 +36,12 @@ EXPECTED = {
         24103,
         "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
     ),
+    "20260921192624": (
+        "supabase/provider-custody/fawkirqroyniueeqspif/applied/"
+        "20260921192624_revoke_internal_rls_guard_public_execute.sql",
+        231,
+        "b5f43de5a82cd8a2f4b068dcc213db0370d8ddd286c8487722aef6a59f48a698",
+    ),
 }
 
 
@@ -87,15 +93,17 @@ class VcpProviderCustodyTests(unittest.TestCase):
         self.assertEqual(advisor[0]["finding"], "rls_enabled_no_policy")
         self.assertEqual(advisor[0]["classification"], "INTENTIONAL_DENY_ALL")
 
-    def test_internal_guard_public_execute_is_bounded_but_not_ignored(self):
+    def test_internal_guard_execute_revoke_is_readback_verified(self):
         guard = self.custody["security_readback"]["internal_rls_guard"]
-        self.assertTrue(guard["public_execute"])
+        self.assertFalse(guard["public_execute"])
+        self.assertFalse(guard["anon_execute"])
+        self.assertFalse(guard["authenticated_execute"])
+        self.assertFalse(guard["service_role_execute"])
+        self.assertFalse(guard["broker_execute"])
         self.assertFalse(guard["public_schema_usage"])
-        self.assertEqual(
-            guard["exploitability"],
-            "NOT_ORDINARILY_REACHABLE_WITH_CURRENT_SCHEMA_GRANTS",
-        )
-        self.assertEqual(guard["provider_effect"], "PROTECTED_EFFECT_REQUIRED")
+        self.assertEqual(guard["defect_class"], "VERIFIED_FIXED")
+        self.assertEqual(guard["provider_effect"], "APPLIED_VERIFIED")
+        self.assertEqual(guard["provider_migration_version"], "20260921192624")
 
     def test_security_migration_revokes_all_unnecessary_execute_paths(self):
         path = (
@@ -119,16 +127,16 @@ class VcpProviderCustodyTests(unittest.TestCase):
         ):
             self.assertIn(role, text)
 
-    def test_effect_packet_cannot_self_authorize(self):
-        self.assertEqual(self.packet["status"], "PROTECTED_EFFECT_REQUIRED")
+    def test_effect_packet_records_external_authority_and_verified_effect(self):
+        self.assertEqual(self.packet["status"], "READBACK_VERIFIED")
         self.assertEqual(
             self.packet["provider"]["project_id"],
             "fawkirqroyniueeqspif",
         )
-        self.assertIn(
-            "Authorize applying",
-            self.packet["exact_authorization_needed"],
-        )
+        self.assertEqual(self.packet["authorization"]["authority"], "Patrick current direct instruction")
+        self.assertEqual(self.packet["provider_effect"]["result"], "APPLIED_VERIFIED")
+        self.assertEqual(self.packet["provider_effect"]["migration_version"], "20260921192624")
+        self.assertIsNone(self.packet["exact_authorization_needed"])
         self.assertTrue(
             self.packet["rollback_recovery"][
                 "emergency_regrant_requires_separate_authority"
