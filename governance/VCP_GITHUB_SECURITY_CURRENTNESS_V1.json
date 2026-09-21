@@ -1,0 +1,91 @@
+{
+  "schema": "VCP_GITHUB_SECURITY_CURRENTNESS_V1",
+  "observed_at": "2026-09-21T23:58:00Z",
+  "scope": [
+    "thebrazenbeard/vera",
+    "thebrazenbeard/vera-control-plane"
+  ],
+  "observations": {
+    "thebrazenbeard/vera": {
+      "repository_id": "1315986738",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "integration_permissions": {
+        "admin": true,
+        "maintain": true,
+        "push": true,
+        "triage": true,
+        "pull": true
+      },
+      "rulesets": {
+        "status": "BLOCKED_EXTERNAL",
+        "readback": "HTTP_403",
+        "reason": "GitHub reports rulesets unavailable for this private repository without GitHub Pro or public visibility."
+      },
+      "main_branch_protection": {
+        "status": "BLOCKED_EXTERNAL",
+        "readback": "HTTP_403",
+        "reason": "Branch-protection endpoint is not accessible to this GitHub integration."
+      },
+      "security_and_analysis": {
+        "status": "BLOCKED_EXTERNAL",
+        "readback": "NOT_EXPOSED_IN_REPOSITORY_RESPONSE",
+        "reason": "Current repository readback does not expose secret-scanning/push-protection state."
+      }
+    },
+    "thebrazenbeard/vera-control-plane": {
+      "repository_id": "1331014282",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "integration_permissions": {
+        "admin": true,
+        "maintain": true,
+        "push": true,
+        "triage": true,
+        "pull": true
+      },
+      "rulesets": {
+        "status": "BLOCKED_EXTERNAL",
+        "readback": "HTTP_403",
+        "reason": "GitHub reports rulesets unavailable for this private repository without GitHub Pro or public visibility."
+      },
+      "main_branch_protection": {
+        "status": "BLOCKED_EXTERNAL",
+        "readback": "HTTP_403",
+        "reason": "Branch-protection endpoint is not accessible to this GitHub integration."
+      },
+      "security_and_analysis": {
+        "status": "BLOCKED_EXTERNAL",
+        "readback": "NOT_EXPOSED_IN_REPOSITORY_RESPONSE",
+        "reason": "Current repository readback does not expose secret-scanning/push-protection state."
+      }
+    }
+  },
+  "conclusions": {
+    "repository_visibility": "VERIFIED_PRIVATE",
+    "repository_archival": "VERIFIED_NOT_ARCHIVED",
+    "branch_protection_currentness": "BLOCKED_EXTERNAL",
+    "ruleset_currentness": "BLOCKED_EXTERNAL",
+    "secret_scanning_push_protection_currentness": "BLOCKED_EXTERNAL",
+    "security_issue_2_scope_note": "Historical issue #2 covered many repositories/account settings. Whole-system repair scope here binds only vera and vera-control-plane. Unrelated repositories are not promoted into this mission solely because the historical issue named them."
+  },
+  "no_effects": [
+    "No visibility mutation performed.",
+    "No branch/ruleset mutation performed.",
+    "No secret-scanning setting changed.",
+    "No GitHub plan/account setting changed.",
+    "Integration admin permission is an observed app capability, not evidence that branch protection or rulesets are enabled."
+  ],
+  "closure": {
+    "classification": "PARTIAL_READBACK_WITH_EXTERNAL_BLOCKERS",
+    "exact_external_blockers": [
+      "Read/verify main branch-protection state for both scoped private repositories.",
+      "Read/verify repository ruleset state for both scoped private repositories; GitHub currently reports this feature unavailable without GitHub Pro or public visibility.",
+      "Read/verify secret-scanning and push-protection state for both scoped private repositories."
+    ],
+    "protected_effect_needed_now": false,
+    "reason": "Current blocker is readback capability/plan availability, not a demonstrated security misconfiguration that BV can safely mutate."
+  }
+}
