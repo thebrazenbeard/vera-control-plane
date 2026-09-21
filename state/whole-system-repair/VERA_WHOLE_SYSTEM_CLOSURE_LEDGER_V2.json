@@ -1,0 +1,98 @@
+{
+  "schema": "VERA_WHOLE_SYSTEM_CLOSURE_LEDGER_V2",
+  "mission": "VERA::WHOLE_SYSTEM_REPAIR::EXECUTE_TO_VERIFIED_CLOSURE_V1",
+  "status": "CURRENTNESS_REFRESH_AND_CROSS_REPO_REPAIR_BINDING",
+  "supersedes_for_currentness": "state/whole-system-repair/VERA_WHOLE_SYSTEM_CLOSURE_LEDGER_V1.json",
+  "preserves_v1_as_historical_evidence": true,
+  "observed_at": "2026-09-21",
+  "current_heads": {
+    "vera_control_plane_main": "2ec72fda1822dbb7a8531d9f01df0a41408ec6de",
+    "vera_main": "06090f96b1437a2a148c205f1ce7c264167644d7",
+    "semanticatlas_main": "5669a727b870a490ecee748b2cd712a2fc4a54c5",
+    "chat_communication_bus_main": "aeab0f04fc9b4bd7c2945c9a53011c53fac809b4"
+  },
+  "current_repair_subjects": {
+    "semanticatlas_provider_custody": {
+      "pr": 7,
+      "head": "e134104d9682cb674f39c7b270d3bab5a5631aad",
+      "status": "SOURCE_CANDIDATE",
+      "result": "28/28 Semantic Atlas provider migration-ledger statement hashes matched fresh live readback"
+    },
+    "vera_semanticatlas_custody_binding": {
+      "pr": 165,
+      "head": "9041e6be81778c30846956e6fa00c1116121c05a",
+      "status": "SOURCE_CANDIDATE",
+      "result": "Provider-ledger reconstructibility recovered; original authoring provenance remains partial"
+    },
+    "bus_main_reconciliation": {
+      "pr": 194,
+      "head": "aad280c68957f38204d49c61fb94cefcab458692",
+      "status": "SOURCE_REVIEW_PASS / HOSTED_EXECUTION_UNQUALIFIED_NO_RUN",
+      "result": "Proposed tree removes wrong-target Brigit append while preserving incident ancestry"
+    },
+    "vera_currentness_profile": {
+      "pr": 148,
+      "head": "68a524d1e5d261521cc5692c009df749e0f2d5ab",
+      "status": "OPEN_SUCCESSOR_REVIEW_FRONTIER"
+    }
+  },
+  "defects": [
+    {
+      "id": "VCP-REPO-README-001",
+      "status": "VERIFIED_FIXED",
+      "evidence": "README repair merged to current VCP main through whole-system repair integration"
+    },
+    {
+      "id": "VCP-REPO-PRSTACK-001",
+      "status": "REPAIR_IN_PROGRESS",
+      "evidence": "36 open VCP pull requests observed on 2026-09-21; exact per-PR dependency/supersession classification still required",
+      "residual_limitation": "No mass-close; currentness must be resolved per exact PR subject"
+    },
+    {
+      "id": "VCP-DB-CUSTODY-001",
+      "status": "VERIFIED_FIXED_SOURCE_SCOPE",
+      "evidence": "Current VCP main contains provider-custody source for all five applied VCP Supabase migrations"
+    },
+    {
+      "id": "VCP-DB-SEC-001",
+      "status": "VERIFIED_FIXED",
+      "evidence": "Provider revoke applied and read back; current main records exact applied provider bytes"
+    },
+    {
+      "id": "VCP-DB-REPRO-001",
+      "status": "VERIFIED_FIXED_SOURCE_SCOPE",
+      "evidence": "Current VCP main contains deterministic provider inventory/custody needed for database reconstruction",
+      "residual_limitation": "Historical pre-apply Git origin remains unresolved for three 2026-09-12 provider-recovered migrations"
+    },
+    {
+      "id": "VCP-GITHUB-SEC-002",
+      "status": "OPEN",
+      "evidence": "GitHub issue #2 remains open",
+      "residual_limitation": "Repository/account administration effects require separate authority and may require interfaces beyond current connector"
+    },
+    {
+      "id": "VERA-CURRENTNESS-147-148",
+      "status": "REVIEW_PENDING",
+      "evidence": "Vera PR #148 remains open as the current successor currentness-profile subject"
+    },
+    {
+      "id": "VERA-DB-CUSTODY-001",
+      "status": "REPAIR_IN_PROGRESS",
+      "evidence": "Semantic Atlas provider-ledger sub-slice is now 28/28 reconstructible in SemanticAtlas PR #7 and bound by Vera PR #165",
+      "residual_limitation": "Whole Vera provider custody spans additional subsystems and original authoring provenance remains incomplete"
+    },
+    {
+      "id": "BUS-MAIN-CONTAMINATION-001",
+      "status": "SOURCE_REPAIR_REVIEW_PASS",
+      "evidence": "Bus PR #194 exact head aad280c68957f38204d49c61fb94cefcab458692",
+      "residual_limitation": "Canonical main remains contaminated until an explicitly authorized merge/canonicalization effect occurs"
+    }
+  ],
+  "authority_ceiling": {
+    "merges": "NOT_AUTHORIZED_BY_THIS_LEDGER",
+    "provider_mutations": "NOT_AUTHORIZED_BY_THIS_LEDGER",
+    "credential_permission_changes": "NOT_AUTHORIZED_BY_THIS_LEDGER",
+    "project_installation": "NOT_ESTABLISHED",
+    "runtime_behavioral_qualification": "NOT_ESTABLISHED"
+  }
+}
