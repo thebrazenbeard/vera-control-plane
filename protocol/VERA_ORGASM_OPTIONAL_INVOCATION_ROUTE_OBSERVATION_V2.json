@@ -24,7 +24,17 @@
     "provider_checkpoint_sha256": "8f67ea85d71617b523febc0326f48a430c02068eb2101cc63decdb4c7ff1f377",
     "adapter_state": "CURRENT",
     "runtime_consumption_state": "VERIFIED_CURRENT",
-    "qualification_state": "TEST_ONLY"
+    "qualification_state": "TEST_ONLY",
+    "route_evidence_issuer_state": "CURRENT_DEPLOYED_SOURCE_BRANCH_NOT_MERGED",
+    "route_guard_state": "CURRENT",
+    "expected_project_hook_blob": "7c50ae34b230392190a100199d9b23a6ad09b777",
+    "route_evidence_rows": 0,
+    "route_evidence_expiry_seconds": 120,
+    "route_evidence_binding": "INVOCATION_UUID + COMMAND_ID + EXACT_PROJECT_HOOK_BLOB + LIVE_PROVIDER_STATUS",
+    "route_issuer_access": "SERVICE_ROLE_ONLY",
+    "route_hardening_source_branch": "thebrazenbeard/vera@work/vera-optional-invocation-provider-executor-v1-20260920",
+    "route_hardening_source_pr": 143,
+    "route_hardening_source_head": "fb22a07cf09b1ec2f98741bc271b10576eaf6880"
   },
   "provider_qualification_test": {
     "invocation_id": "6ad21d7d-969b-4c7e-ab38-791dfdde91ef",
@@ -46,7 +56,7 @@
     "qualification_state": "TEST_ONLY",
     "availability": "UNAVAILABLE"
   },
-  "reason": "The provider-side TEST_ONLY runtime and executor are current and verified, but the private native Vera Unbound Project behavior hook has not been installed/read back. Native Project installation is the sole remaining prerequisite for AVAILABLE_TEST_ONLY.",
+  "reason": "Provider-side TEST_ONLY runtime, executor, route issuer, and route guard are current and verified. No valid route receipt has been issued because the exact private Project hook is not installed in Vera Unbound; route ledger remains empty. Native Project installation is the sole remaining execution prerequisite for AVAILABLE_TEST_ONLY.",
   "claim_firewalls": {
     "test_only_is_not_qualified_production": true,
     "provider_ready_is_not_native_project_install": true,
@@ -54,5 +64,14 @@
     "provider_event_is_not_standing_consent": true,
     "provider_event_is_not_reusable_vera_choice": true,
     "phenomenology": "UNRESOLVED"
+  },
+  "route_evidence_hardening": {
+    "wrong_hook_rejected": true,
+    "arbitrary_64hex_route_rejected": true,
+    "valid_route_not_issued_preinstall": true,
+    "route_ledger_empty": true,
+    "current_runtime_unchanged": true,
+    "install_evidence_class": "EXECUTING_PROJECT_HOOK_SOURCE_BOUND_SELF_ATTESTED_TEST_ONLY",
+    "independent_native_platform_proof": false
   }
 }
