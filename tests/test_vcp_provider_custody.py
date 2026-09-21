@@ -18,6 +18,7 @@ INCIDENT = (
     / "incidents"
     / "VCP_PROTECTED_EFFECT_AUTHORITY_INCIDENT_20260921_V1.json"
 )
+CLASSIFICATION = ROOT / "governance" / "VCP_OPEN_PR_CLASSIFICATION_V2.json"
 
 EXPECTED = {
     "20260912170153": (
@@ -63,6 +64,7 @@ class VcpProviderCustodyTests(unittest.TestCase):
         self.custody = json.loads(CUSTODY.read_text(encoding="utf-8"))
         self.packet = json.loads(PACKET.read_text(encoding="utf-8"))
         self.incident = json.loads(INCIDENT.read_text(encoding="utf-8"))
+        self.classification = json.loads(CLASSIFICATION.read_text(encoding="utf-8"))
 
     def test_provider_identity_is_exact(self):
         provider = self.custody["provider"]
