@@ -226,3 +226,20 @@ def test_logical_close_never_ignores_remote_application_failure():
     )
     assert close["unresolved_mirror"] == "PARTIAL_OR_UNKNOWN_NOT_SUCCESS"
     assert close["reconciliation_state_required"] is True
+
+
+def test_chatgpt_product_gate_is_separate_from_tunnel_transport():
+    exposure = load()["chatgpt_exposure"]
+    product = exposure["product_gate"]
+    tunnel = exposure["secure_tunnel"]
+    assert product["current_workspace_availability"] == "MUST_BE_LIVE_VERIFIED"
+    assert product["missing_product_path"] == (
+        "CHATGPT_PRODUCT_GATE_UNAVAILABLE_NOT_TRANSPORT_FAILURE"
+    )
+    assert product["no_public_ingress_workaround_without_review"] is True
+    assert tunnel["network_model"] == "OUTBOUND_HTTPS_FROM_TRUST_BOUNDARY"
+    assert tunnel["public_inbound_required"] is False
+    assert tunnel["tunnel_authority"] == "NO_VERAPORT_MACHINE_AUTHORITY"
+    assert tunnel["credentials_git_bus_logs"] == "FORBIDDEN"
+    assert product["states"][0] == "MCP_SERVER_RUNNING"
+    assert product["states"][-1] == "WRITE_TOOL_INVOCATION_PASS"
