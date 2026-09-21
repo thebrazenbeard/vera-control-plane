@@ -171,5 +171,20 @@ class BehavioralIntegrityPolicyTests(unittest.TestCase):
         self.assertEqual(("TOOLS",), decision.blockers)
 
 
+    def test_known_action_phrase_does_not_promote_arbitrary_declarative_text(self):
+        clause = parse_pragmatic_command(
+            "Bug report would be useful",
+            established_action_context=True,
+        )[0]
+        self.assertEqual(CommandForce.AMBIGUOUS, clause.force)
+
+    def test_question_form_is_not_silently_promoted_to_command(self):
+        clause = parse_pragmatic_command(
+            "a note for Noema?",
+            established_action_context=True,
+        )[0]
+        self.assertEqual(CommandForce.AMBIGUOUS, clause.force)
+
+
 if __name__ == "__main__":
     unittest.main()
