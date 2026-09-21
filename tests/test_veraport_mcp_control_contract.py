@@ -181,3 +181,15 @@ def test_workstation_close_cannot_claim_drained_while_effects_continue():
     )
     assert semantics["simple_closed_true_while_effects_continue"] == "FORBIDDEN"
     assert set(semantics["must_cover"]) >= {"FS_READ", "FS_WRITE", "PROCESS_EXECUTION"}
+
+
+def test_file_read_bound_is_not_confused_with_wire_frame_bound():
+    wire = load()["wire_limits"]
+    assert wire["local_file_read_limit_ne_wire_frame_limit"] is True
+    assert wire["successful_executor_result_must_fit_or_be_chunked"] is True
+    assert wire["json_escape_expansion_must_be_accounted"] is True
+    assert wire["uncorrelated_task_failure"] == "FORBIDDEN"
+    assert wire["client_wait_without_deadline"] == "FORBIDDEN"
+    assert wire["preferred_file_read_model"] == (
+        "RANGED_OR_CHUNKED_READ_WITH_EXPLICIT_LIMITS"
+    )
