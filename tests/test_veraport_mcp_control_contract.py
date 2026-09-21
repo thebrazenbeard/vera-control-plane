@@ -259,3 +259,14 @@ def test_request_ledger_is_bounded_without_replay_regression():
         "MUST_REJECT_OR_USE_COMPACT_TOMBSTONE_NOT_REEXECUTE"
     )
     assert ledger["disk_full_before_mutation_admission"] == "FAIL_CLOSED"
+
+
+def test_max_inflight_bounds_admitted_requests_not_only_execution():
+    admission = load()["request_admission"]
+    assert admission["max_inflight_semantics"] == (
+        "BOUND_ADMITTED_OUTSTANDING_REQUESTS_NOT_ONLY_EXECUTING_HANDLERS"
+    )
+    assert admission["unbounded_waiting_tasks"] == "FORBIDDEN"
+    assert admission["backpressure_before_unbounded_task_creation"] == "REQUIRED"
+    assert admission["accepted_request_without_correlated_terminal_result"] == "FORBIDDEN"
+    assert admission["teardown_under_overload"] == "BOUNDED_REQUIRED"
