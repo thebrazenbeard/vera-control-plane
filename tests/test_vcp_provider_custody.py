@@ -12,6 +12,13 @@ PACKET = (
     / "VCP_REVOKE_INTERNAL_RLS_GUARD_PUBLIC_EXECUTE_V1.json"
 )
 
+INCIDENT = (
+    ROOT
+    / "governance"
+    / "incidents"
+    / "VCP_PROTECTED_EFFECT_AUTHORITY_INCIDENT_20260921_V1.json"
+)
+
 EXPECTED = {
     "20260912170153": (
         "supabase/provider-custody/fawkirqroyniueeqspif/applied/"
@@ -42,6 +49,12 @@ EXPECTED = {
         231,
         "b5f43de5a82cd8a2f4b068dcc213db0370d8ddd286c8487722aef6a59f48a698",
     ),
+    "20260921200623": (
+        "supabase/provider-custody/fawkirqroyniueeqspif/applied/"
+        "20260921200623_make_anchor_deny_all_rls_explicit_v1.sql",
+        636,
+        "46132f28486afe4ee1ba9830fdf93d499b7b61a53e81b904a49a128579eda248",
+    ),
 }
 
 
@@ -49,6 +62,7 @@ class VcpProviderCustodyTests(unittest.TestCase):
     def setUp(self):
         self.custody = json.loads(CUSTODY.read_text(encoding="utf-8"))
         self.packet = json.loads(PACKET.read_text(encoding="utf-8"))
+        self.incident = json.loads(INCIDENT.read_text(encoding="utf-8"))
 
     def test_provider_identity_is_exact(self):
         provider = self.custody["provider"]
