@@ -222,7 +222,36 @@
       "TOOL_SCAN_PASS",
       "PRODUCT_SIDE_REGISTRATION_READBACK"
     ],
-    "local_server_non_implication": "MCP_SERVER_RUNNING_NE_PLUGIN_REGISTERED"
+    "local_server_non_implication": "MCP_SERVER_RUNNING_NE_PLUGIN_REGISTERED",
+    "product_gate": {
+      "current_workspace_availability": "MUST_BE_LIVE_VERIFIED",
+      "docs_full_mcp_write_availability": "BUSINESS_ENTERPRISE_EDU_BETA",
+      "docs_pro_read_fetch": "DOCUMENTED",
+      "plus_full_custom_mcp": "NOT_ESTABLISHED_BY_CURRENT_DOCS",
+      "missing_product_path": "CHATGPT_PRODUCT_GATE_UNAVAILABLE_NOT_TRANSPORT_FAILURE",
+      "no_public_ingress_workaround_without_review": true,
+      "states": [
+        "MCP_SERVER_RUNNING",
+        "TUNNEL_OBJECT_CREATED",
+        "TUNNEL_CLIENT_READY",
+        "TARGET_CHATGPT_WORKSPACE_ASSOCIATED",
+        "CHATGPT_DEVELOPER_MODE_AVAILABLE",
+        "APP_DRAFT_CREATED",
+        "TOOL_SCAN_PASS",
+        "APP_ENABLED_FOR_TARGET_USER",
+        "READ_TOOL_INVOCATION_PASS",
+        "WRITE_TOOL_PRODUCT_PERMISSION_AVAILABLE",
+        "WRITE_TOOL_INVOCATION_PASS"
+      ]
+    },
+    "secure_tunnel": {
+      "network_model": "OUTBOUND_HTTPS_FROM_TRUST_BOUNDARY",
+      "public_inbound_required": false,
+      "local_mcp_reachability": "REQUIRED_FROM_TUNNEL_CLIENT_HOST",
+      "tunnel_health_readback": "REQUIRED",
+      "tunnel_authority": "NO_VERAPORT_MACHINE_AUTHORITY",
+      "credentials_git_bus_logs": "FORBIDDEN"
+    }
   },
   "concurrency_fencing": {
     "lane_close_linearization": "CLOSE_RETURN_MUST_FENCE_ALL_PRIOR_AND_CONCURRENT_LANE_OPERATIONS",
