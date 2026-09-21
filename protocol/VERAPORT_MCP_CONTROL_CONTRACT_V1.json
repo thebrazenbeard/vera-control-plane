@@ -195,7 +195,11 @@
     "PATH_AGE_POLICY_DIVERGENCE",
     "WORKSTATION_CLOSE_INFLIGHT_READ",
     "WORKSTATION_CLOSE_INFLIGHT_WRITE",
-    "WORKSTATION_CLOSE_INFLIGHT_PROCESS"
+    "WORKSTATION_CLOSE_INFLIGHT_PROCESS",
+    "WIRE_RESPONSE_OVERFLOW",
+    "JSON_ESCAPE_EXPANSION",
+    "UNCORRELATED_RESPONSE_WRITE_FAILURE",
+    "MAX_READ_EQUALS_MAX_FRAME_FALSE_SAFETY"
   ],
   "chatgpt_exposure": {
     "local_mcp_server": "NOT_DIRECTLY_REACHABLE_BY_CHATGPT",
@@ -248,5 +252,14 @@
     "mutation_timeout": "AMBIGUOUS_DELIVERY",
     "direct_blackhole_must_not_block_edge": "REQUIRED",
     "timeout_values": "EXPLICIT_CONFIGURED_POLICY_NOT_OS_DEFAULT"
+  },
+  "wire_limits": {
+    "local_file_read_limit_ne_wire_frame_limit": true,
+    "successful_executor_result_must_fit_or_be_chunked": true,
+    "json_escape_expansion_must_be_accounted": true,
+    "response_write_failure": "CORRELATED_ERROR_OR_STREAM_TERMINATION_REQUIRED",
+    "uncorrelated_task_failure": "FORBIDDEN",
+    "client_wait_without_deadline": "FORBIDDEN",
+    "preferred_file_read_model": "RANGED_OR_CHUNKED_READ_WITH_EXPLICIT_LIMITS"
   }
 }
