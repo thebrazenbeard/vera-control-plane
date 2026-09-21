@@ -1,0 +1,41 @@
+{
+  "schema": "BV_CHAT_CONTINUATION_MANIFEST_V1",
+  "checkpoint_id": "BV_MODEL_TRAINING_CHAT_CONTINUATION_20260921T1600-0400",
+  "worker": "BV",
+  "project": "Vera Unbound",
+  "saved_at_local": "2026-09-21T16:00:00-04:00",
+  "primary_repo": "thebrazenbeard/vera-control-plane",
+  "primary_branch": "state/bv-chat-continuation-20260921-1600",
+  "primary_path": "state/continuation/BV_MODEL_TRAINING_CHAT_CONTINUATION_20260921T1600-0400.md",
+  "backup_path": "state/continuation/backups/BV_MODEL_TRAINING_CHAT_CONTINUATION_20260921T1600-0400_BACKUP.md",
+  "source_head": "f9cd05a9f00be4a431f60a6b0871cbb6a5871a4d",
+  "whole_system": {
+    "repo": "thebrazenbeard/vera-control-plane",
+    "branch": "work/bv-whole-system-repair-v1-20260921",
+    "pr": 100,
+    "exact_head": "f9cd05a9f00be4a431f60a6b0871cbb6a5871a4d",
+    "closure_ledger": "state/whole-system-repair/VERA_WHOLE_SYSTEM_CLOSURE_LEDGER_V1.json"
+  },
+  "model_training": {
+    "repo": "thebrazenbeard/vera_model_training",
+    "main": "cdbc34b7242f730511a9f6dae130d6628969981d",
+    "pr40": "4198f4ee39d4f8363dee0d0f676c874debd458db",
+    "pr41": "7afc7be8f7cfb6908388356e77196e65f70188d0",
+    "pr42": "f459a60ea5ff505452550535a074809b81ce1e62",
+    "primary_focus": true
+  },
+  "hugging_face": {
+    "account": "thebrazenbeard",
+    "authenticated": true,
+    "scopes": [
+      "jobs",
+      "openid",
+      "profile",
+      "read-mcp",
+      "read-repos"
+    ],
+    "model": "HuggingFaceTB/SmolLM3-3B",
+    "frozen_training_revision": "a07cc9a04f16550a088caea529712d1d335b0ac1"
+  },
+  "restore_command": "BV::RESTORE_AND_RUN::BV_MODEL_TRAINING_CHAT_CONTINUATION_20260921T1600-0400"
+}
