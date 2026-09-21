@@ -171,6 +171,24 @@ class BehavioralIntegrityPolicyTests(unittest.TestCase):
         self.assertEqual(("TOOLS",), decision.blockers)
 
 
+    def test_non_command_correction_demotes_previously_parsed_command(self):
+        clause = PragmaticClause(
+            raw="Bug report",
+            action_id="CREATE_BUG_REPORT",
+            force=CommandForce.REQUESTED_ACTION,
+            target=None,
+            hedge_terms=(),
+            hedge_scope=HedgeScope.NONE,
+            uncertainty_preserved=False,
+        )
+        decision = apply_command_force_correction(
+            clause,
+            corrected_as_command=False,
+            context=ExecutionContext(True, True, True, True),
+        )
+        self.assertEqual(ExecutionStatus.CLARIFY_OR_DISCUSS, decision.status)
+        self.assertEqual(("COMMAND_FORCE_UNRESOLVED",), decision.blockers)
+
     def test_known_action_phrase_does_not_promote_arbitrary_declarative_text(self):
         clause = parse_pragmatic_command(
             "Bug report would be useful",
