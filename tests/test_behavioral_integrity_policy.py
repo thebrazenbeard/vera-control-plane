@@ -213,5 +213,44 @@ class BehavioralIntegrityPolicyTests(unittest.TestCase):
             )
 
 
+    def test_conflicting_current_mode_directives_fail_closed(self):
+        with self.assertRaises(Exception):
+            resolve_behavior_mode(
+                BehaviorModeContext(
+                    active_mode=BehaviorMode.RESEARCH_REPORT,
+                    specialized_task_complete=True,
+                    context_changed=True,
+                    explicit_continue_specialized_mode=True,
+                    voice_context_correction=True,
+                )
+            )
+
+    def test_cross_entry_phrase_collision_cannot_route_action(self):
+        from tools.behavioral_integrity_policy import ActionLexiconEntry
+        collision = (
+            ActionLexiconEntry(action_id="CREATE_NOTE", phrases=("note",)),
+            ActionLexiconEntry(action_id="DELETE_NOTE", phrases=("note",)),
+        )
+        with self.assertRaises(Exception):
+            parse_pragmatic_command(
+                "note",
+                established_action_context=True,
+                lexicon=collision,
+            )
+
+    def test_duplicate_action_id_with_incompatible_phrases_fails_closed(self):
+        from tools.behavioral_integrity_policy import ActionLexiconEntry
+        collision = (
+            ActionLexiconEntry(action_id="CREATE_NOTE", phrases=("note",)),
+            ActionLexiconEntry(action_id="CREATE_NOTE", phrases=("memo",)),
+        )
+        with self.assertRaises(Exception):
+            parse_pragmatic_command(
+                "note",
+                established_action_context=True,
+                lexicon=collision,
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
