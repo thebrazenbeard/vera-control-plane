@@ -45,8 +45,8 @@
     {
       "id": "VCP-REPO-PRSTACK-001",
       "status": "REPAIR_IN_PROGRESS",
-      "evidence": "36 open VCP pull requests observed on 2026-09-21; exact per-PR dependency/supersession classification still required",
-      "residual_limitation": "No mass-close; currentness must be resolved per exact PR subject"
+      "evidence": "37 open VCP pull requests observed on 2026-09-21; exact-head graph census persisted in VCP_OPEN_PR_GRAPH_CENSUS_V1.json",
+      "residual_limitation": "2 open PR heads descend current main; 35 are graph-divergent and require semantic classification/restack/supersession review. No mass-close."
     },
     {
       "id": "VCP-DB-CUSTODY-001",
