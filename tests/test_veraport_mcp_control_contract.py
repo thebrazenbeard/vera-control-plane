@@ -193,3 +193,36 @@ def test_file_read_bound_is_not_confused_with_wire_frame_bound():
     assert wire["preferred_file_read_model"] == (
         "RANGED_OR_CHUNKED_READ_WITH_EXPLICIT_LIMITS"
     )
+
+
+def test_session_lifetime_bounds_lane_lifetime_and_cleanup():
+    lifecycle = load()["session_lifecycle"]
+    assert lifecycle["lane_ttl_must_not_exceed_remaining_session_lifetime"] is True
+    assert lifecycle["session_disconnect_cleanup"] == (
+        "DRAIN_THEN_REAP_EXACT_SESSION_LANES"
+    )
+    assert lifecycle["cross_session_reap"] == "FORBIDDEN"
+    assert lifecycle["dead_session_resource_claims"] == (
+        "MUST_NOT_PERSIST_BEYOND_BOUNDED_DRAIN"
+    )
+    assert lifecycle["reconnect_storm_lane_leak"] == "FORBIDDEN"
+
+
+def test_session_expiry_is_truthful_admission_cutoff():
+    lifecycle = load()["session_lifecycle"]
+    assert lifecycle["expiry_semantics"] == (
+        "ADMISSION_CUTOFF_NOT_IMPLICIT_INSTANT_EFFECT_CANCELLATION"
+    )
+    assert lifecycle["session_expiry_cleanup"] == (
+        "NO_NEW_ADMISSION_THEN_DRAIN_BOUNDED_INFLIGHT_AND_REAP"
+    )
+
+
+def test_logical_close_never_ignores_remote_application_failure():
+    close = load()["concurrency_fencing"]["logical_close_truth"]
+    assert close["remote_application_errors_must_be_inspected"] is True
+    assert close["closed_true_requires"] == (
+        "ALL_REACHABLE_MIRRORS_PROVEN_CLOSED_OR_ALREADY_ABSENT"
+    )
+    assert close["unresolved_mirror"] == "PARTIAL_OR_UNKNOWN_NOT_SUCCESS"
+    assert close["reconciliation_state_required"] is True
