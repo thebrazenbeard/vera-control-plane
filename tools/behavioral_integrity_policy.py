@@ -177,10 +177,10 @@ def _strip_leading_conjunction(value: str) -> str:
 def _find_action(
     clause: str,
     lexicon: tuple[ActionLexiconEntry, ...],
-) -> ActionLexiconEntry | None:
+) -> tuple[ActionLexiconEntry, str] | None:
     normalized = _normalize_phrase(_strip_leading_conjunction(clause))
     # Prefer the longest phrase so a more specific action wins deterministically.
-    candidates: list[tuple[int, ActionLexiconEntry]] = []
+    candidates: list[tuple[int, ActionLexiconEntry, str]] = []
     for entry in lexicon:
         if type(entry) is not ActionLexiconEntry:
             raise BehavioralPolicyViolation("lexicon entries must be ActionLexiconEntry")
@@ -189,11 +189,38 @@ def _find_action(
         for phrase in entry.phrases:
             p = _normalize_phrase(phrase)
             if normalized == p or normalized.startswith(p + " "):
-                candidates.append((len(p), entry))
+                candidates.append((len(p), entry, p))
     if not candidates:
         return None
     candidates.sort(key=lambda item: item[0], reverse=True)
-    return candidates[0][1]
+    _, entry, phrase = candidates[0]
+    return entry, phrase
+
+
+def _bounded_command_suffix(clause: str, matched_phrase: str) -> bool:
+    """Accept only the compact issue-18 command grammar after the action noun.
+
+    The parser must not promote arbitrary declarative text merely because it starts
+    with a known action phrase. After the action phrase, only local hedge terms,
+    an optional for-target phrase, uncertainty emoji, and non-question command
+    punctuation are admitted by this bounded source policy.
+    """
+
+    normalized = _normalize_phrase(_strip_leading_conjunction(clause))
+    if normalized == matched_phrase:
+        return True
+    if not normalized.startswith(matched_phrase + " "):
+        return False
+
+    suffix = normalized[len(matched_phrase):].strip()
+    for word in _HEDGE_WORDS:
+        suffix = re.sub(rf"\b{re.escape(word)}\b", " ", suffix)
+    suffix = _TARGET_RE.sub(" ", suffix)
+    for emoji in _UNCERTAINTY_EMOJI:
+        suffix = suffix.replace(emoji, " ")
+    suffix = re.sub(r"[,.;!]+", " ", suffix)
+    suffix = " ".join(suffix.split())
+    return suffix == ""
 
 
 def _hedges(clause: str) -> tuple[str, ...]:
@@ -225,7 +252,13 @@ def parse_pragmatic_command(
 
     result: list[PragmaticClause] = []
     for raw in _split_compact_directive(text):
-        action = _find_action(raw, lexicon)
+        matched = _find_action(raw, lexicon)
+        action = matched[0] if matched is not None else None
+        bounded_command_suffix = (
+            _bounded_command_suffix(raw, matched[1])
+            if matched is not None
+            else False
+        )
         hedge_terms = _hedges(raw)
         target_match = _TARGET_RE.search(raw)
         target = target_match.group(1) if target_match else None
@@ -235,7 +268,7 @@ def parse_pragmatic_command(
             else HedgeScope.NONE
         )
 
-        if action is not None and established_action_context:
+        if action is not None and established_action_context and bounded_command_suffix:
             force = CommandForce.REQUESTED_ACTION
             action_id = action.action_id
         else:
