@@ -1,7 +1,7 @@
 {
   "schema": "VCP_PROTECTED_EFFECT_PACKET_V1",
   "packet_id": "VCP_REVOKE_INTERNAL_RLS_GUARD_PUBLIC_EXECUTE_V1",
-  "status": "PROTECTED_EFFECT_REQUIRED",
+  "status": "READBACK_VERIFIED",
   "provider": {
     "kind": "supabase",
     "project_id": "fawkirqroyniueeqspif",
@@ -44,5 +44,27 @@
     "emergency_regrant_requires_separate_authority": true,
     "emergency_sql": "GRANT EXECUTE ON FUNCTION vera_cp_internal.enable_rls_for_new_api_tables() TO PUBLIC"
   },
-  "exact_authorization_needed": "Authorize applying the source migration supabase/migrations/20260921173000_revoke_internal_rls_guard_public_execute.sql to Supabase project fawkirqroyniueeqspif, then perform the specified readbacks."
+  "exact_authorization_needed": null,
+  "authorization": {
+    "authority": "Patrick current direct instruction",
+    "instruction": "Fix all Vera & Vera Control Plane issues on @Supabase and @GitHub",
+    "date": "2026-09-21",
+    "scope": "Vera Control Plane Supabase and GitHub repair"
+  },
+  "provider_effect": {
+    "result": "APPLIED_VERIFIED",
+    "migration_version": "20260921192624",
+    "migration_name": "revoke_internal_rls_guard_public_execute",
+    "exact_provider_bytes": 231,
+    "exact_provider_sha256": "b5f43de5a82cd8a2f4b068dcc213db0370d8ddd286c8487722aef6a59f48a698",
+    "exact_provider_custody_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260921192624_revoke_internal_rls_guard_public_execute.sql"
+  },
+  "readback": {
+    "anon_execute": false,
+    "authenticated_execute": false,
+    "service_role_execute": false,
+    "broker_execute": false,
+    "function_acl": "postgres=X/postgres",
+    "security_advisor_remaining_findings": "2 INFO rls_enabled_no_policy on intentional deny-all anchor tables"
+  }
 }
