@@ -278,6 +278,28 @@ def test_resolved_admission_field_injection_fails_closed():
         validate_review_evidence_binding(receipt(evidence), resolver(evidence))
 
 
+def test_boolean_pull_request_cannot_alias_integer_subject():
+    evidence = resolved_reviews()
+    evidence[VCP_ID] = rewrite_admission(evidence[VCP_ID], pull_request=True)
+    with pytest.raises(VeraPortAcceptanceError, match="target PR mismatch"):
+        validate_review_evidence_binding(receipt(evidence), resolver(evidence))
+
+
+def test_duplicate_json_key_in_authenticated_admission_fails_closed():
+    evidence = resolved_reviews()
+    payload = evidence[VCP_ID].canonical_payload.decode("utf-8")
+    payload = payload.replace(
+        '"verdict":"PASS"',
+        '"verdict":"PASS","verdict":"PASS"',
+    )
+    evidence[VCP_ID] = replace(
+        evidence[VCP_ID],
+        canonical_payload=payload.encode("utf-8"),
+    )
+    with pytest.raises(VeraPortAcceptanceError, match="duplicate key"):
+        validate_review_evidence_binding(receipt(evidence), resolver(evidence))
+
+
 @pytest.mark.parametrize(
     ("field", "value", "message"),
     [
