@@ -78,6 +78,17 @@ def _sha256(value: Any, field: str) -> str:
     return value
 
 
+def _reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    value: dict[str, Any] = {}
+    for key, item in pairs:
+        if key in value:
+            raise VeraPortAcceptanceError(
+                f"resolved evidence admission contains duplicate key: {key}"
+            )
+        value[key] = item
+    return value
+
+
 def _parse_authenticated_admission(
     payload: bytes,
     *,
@@ -90,7 +101,7 @@ def _parse_authenticated_admission(
         )
     try:
         decoded = payload.decode("utf-8")
-        admission = json.loads(decoded)
+        admission = json.loads(decoded, object_pairs_hook=_reject_duplicate_keys)
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise VeraPortAcceptanceError(
             f"{slot} resolved evidence payload is not valid UTF-8 JSON"
@@ -174,7 +185,7 @@ def _resolve_review(
         raise VeraPortAcceptanceError(
             f"{slot} resolved review target repository mismatch"
         )
-    if admission["pull_request"] != IMPLEMENTATION_PR:
+    if type(admission["pull_request"]) is not int or admission["pull_request"] != IMPLEMENTATION_PR:
         raise VeraPortAcceptanceError(f"{slot} resolved review target PR mismatch")
     if admission["reviewed_head"] != subject["exact_head"]:
         raise VeraPortAcceptanceError(
