@@ -43,6 +43,7 @@ jobs:
     timeout-minutes: 10
     env:
       EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || '' }}
     steps:
       - name: Checkout exact subject
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -130,8 +131,15 @@ jobs:
           print(f"NV2A1 package verified: {actual_sha}")
           PY
 
-      - name: Reject whitespace errors
+      - name: Reject whitespace errors across the validated change
         shell: bash
         run: |
           set -euo pipefail
-          git diff --check HEAD^ HEAD || git diff --check
+          zero="0000000000000000000000000000000000000000"
+          if [ -n "$BASE_SHA" ] && [ "$BASE_SHA" != "$zero" ] && git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            git diff --check "$BASE_SHA"...HEAD
+          elif git rev-parse HEAD^ >/dev/null 2>&1; then
+            git diff --check HEAD^ HEAD
+          else
+            git diff --check
+          fi
