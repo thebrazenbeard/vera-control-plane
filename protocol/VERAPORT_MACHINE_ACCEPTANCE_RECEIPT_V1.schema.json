@@ -358,32 +358,10 @@
       ],
       "properties": {
         "vcp": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/reviewEvidence"
-            },
-            {
-              "properties": {
-                "review_class": {
-                  "const": "VCP_SOURCE_REVIEW"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/reviewEvidenceRef"
         },
         "independent": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/reviewEvidence"
-            },
-            {
-              "properties": {
-                "review_class": {
-                  "const": "INDEPENDENT_SOURCE_REVIEW"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/reviewEvidenceRef"
         }
       }
     }
@@ -435,46 +413,22 @@
         }
       }
     },
-    "reviewEvidence": {
+    "reviewEvidenceRef": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "review_class",
-        "target_repository",
-        "pull_request",
-        "reviewed_head",
-        "reviewer_identity",
         "evidence_id",
-        "verdict"
+        "evidence_content_sha256"
       ],
       "properties": {
-        "review_class": {
-          "enum": [
-            "VCP_SOURCE_REVIEW",
-            "INDEPENDENT_SOURCE_REVIEW"
-          ]
-        },
-        "target_repository": {
-          "const": "thebrazenbeard/vera-mesh"
-        },
-        "pull_request": {
-          "const": 12
-        },
-        "reviewed_head": {
-          "const": "9bffc57930587bf74a12657bbeaa913474ab5574"
-        },
-        "reviewer_identity": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "^[A-Za-z0-9._:/@-]+$"
-        },
         "evidence_id": {
           "type": "string",
           "minLength": 1,
           "pattern": "^(github:(review|comment):[A-Za-z0-9._:/@-]+|bus:[0-9a-f]{40})$"
         },
-        "verdict": {
-          "const": "PASS"
+        "evidence_content_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
         }
       }
     }
