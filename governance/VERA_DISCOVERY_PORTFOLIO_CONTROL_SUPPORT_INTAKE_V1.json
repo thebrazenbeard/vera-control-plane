@@ -1,0 +1,119 @@
+{
+  "schema": "VERA_DISCOVERY_PORTFOLIO_CONTROL_SUPPORT_INTAKE_V1",
+  "status": "SOURCE_SUPPORT_INTAKE_ONLY_NOT_CONTROL_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "observed_date": "2026-09-22",
+  "discovery_binding": {
+    "repository": "thebrazenbeard/discovery",
+    "pr": 39,
+    "exact_head": "aa62fcca3987ae5323785800d112d8ed0e16beb9",
+    "map_path": "architecture/DISCOVERY_VERA_VCP_IMPLEMENTATION_MAP_V1.json"
+  },
+  "guard_rules": {
+    "discovery_classification_not_control_authority": true,
+    "source_registration_not_project_install": true,
+    "source_registration_not_runtime_consumption": true,
+    "source_registration_not_provider_authority": true,
+    "exact_head_required": true,
+    "finite_destinations_only": true,
+    "release_control_binding_separate": true,
+    "implementation_requires_owner_surface": true
+  },
+  "domains": {
+    "destination": [
+      "VCP_PORTFOLIO_INTAKE_GOVERNANCE",
+      "VCP_RECOVERY_QUALIFICATION_RESEARCH",
+      "VCP_EXECUTION_GOVERNANCE_RESEARCH",
+      "VCP_PROVENANCE_CURRENTNESS_RESEARCH",
+      "VCP_ROUTING_CONNECTIVITY_RESEARCH",
+      "VCP_INSTALL_DEPLOYMENT_RESEARCH",
+      "VCP_HOSTILE_REVIEW_AUDIT_RESEARCH",
+      "VCP_AMBIGUOUS_EFFECT_RECOVERY_RESEARCH"
+    ],
+    "disposition": [
+      "CONTROL_SUPPORT_SOURCE_CANDIDATE"
+    ],
+    "activation_mode": [
+      "EVIDENCE_ONLY",
+      "MECHANISM_RESEARCH_ONLY",
+      "EXACT_TASK_AND_TARGET_AUTHORITY_REQUIRED",
+      "REVIEW_ONLY"
+    ]
+  },
+  "sources": [
+    {
+      "repository": "thebrazenbeard/discovery",
+      "head": "34b9d49ff4be7eedd6104cbfa5501549e468eccd",
+      "disposition": "CONTROL_SUPPORT_SOURCE_CANDIDATE",
+      "destination": "VCP_PORTFOLIO_INTAKE_GOVERNANCE",
+      "activation_mode": "EVIDENCE_ONLY",
+      "authority_ceiling": "Portfolio discovery/classification/implementation-planning evidence only; no release-control ownership, Project install, runtime activation, merge authority, or provider effect."
+    },
+    {
+      "repository": "thebrazenbeard/driftguard",
+      "head": "9894692ff6b549e4378bcc2b8ca46813ff18bf37",
+      "disposition": "CONTROL_SUPPORT_SOURCE_CANDIDATE",
+      "destination": "VCP_RECOVERY_QUALIFICATION_RESEARCH",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "authority_ceiling": "Behavioral drift/recovery qualification mechanisms only; reload decisions, effects, recovery, and causality remain separately evidenced."
+    },
+    {
+      "repository": "thebrazenbeard/project-runner",
+      "head": "bc05812b560b4fcde3a362e72fba04c626cafac8",
+      "disposition": "CONTROL_SUPPORT_SOURCE_CANDIDATE",
+      "destination": "VCP_EXECUTION_GOVERNANCE_RESEARCH",
+      "activation_mode": "EXACT_TASK_AND_TARGET_AUTHORITY_REQUIRED",
+      "authority_ceiling": "Bounded execution/orchestration mechanics only; technical capability cannot grant VCP control, target authority, merge, install, provider mutation, or deployment."
+    },
+    {
+      "repository": "thebrazenbeard/roots",
+      "head": "7fab72635f319c633b480174c8a0687901ac1db2",
+      "disposition": "CONTROL_SUPPORT_SOURCE_CANDIDATE",
+      "destination": "VCP_PROVENANCE_CURRENTNESS_RESEARCH",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "authority_ceiling": "Origin/provenance tracing methods only; inferred lineage never becomes current authority without exact corroboration."
+    },
+    {
+      "repository": "thebrazenbeard/vera-mesh",
+      "head": "d3bbaa247797dce5f6a26e7006206f37cfef66fe",
+      "disposition": "CONTROL_SUPPORT_SOURCE_CANDIDATE",
+      "destination": "VCP_ROUTING_CONNECTIVITY_RESEARCH",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "authority_ceiling": "Connectivity/routing mechanisms only; source availability does not establish a current route, provider state, or runtime binding."
+    },
+    {
+      "repository": "thebrazenbeard/vera-synology",
+      "head": "1c453331fe2259f2807426aa0b59bad8dac1d0b7",
+      "disposition": "CONTROL_SUPPORT_SOURCE_CANDIDATE",
+      "destination": "VCP_INSTALL_DEPLOYMENT_RESEARCH",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "authority_ceiling": "Installation/deployment mechanism evidence only; no installation, host mutation, deployment, credential, provider, or production authority."
+    },
+    {
+      "repository": "thebrazenbeard/voss",
+      "head": "54478372002bb24c6df733092a32abbdd1fa8d3c",
+      "disposition": "CONTROL_SUPPORT_SOURCE_CANDIDATE",
+      "destination": "VCP_HOSTILE_REVIEW_AUDIT_RESEARCH",
+      "activation_mode": "REVIEW_ONLY",
+      "authority_ceiling": "Audit/hostile-review support only; review output does not grant control, truth, merge, install, runtime, or provider authority."
+    },
+    {
+      "repository": "thebrazenbeard/wip",
+      "head": "12a7c23dbe0482fd7bfe63659e54526778efef1e",
+      "disposition": "CONTROL_SUPPORT_SOURCE_CANDIDATE",
+      "destination": "VCP_AMBIGUOUS_EFFECT_RECOVERY_RESEARCH",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "authority_ceiling": "Ambiguous-effect/recovery/idempotence mechanisms only; no blind retry, effect authority, or current-state promotion."
+    }
+  ],
+  "global_forbidden_effects": [
+    "CONTROL_OWNERSHIP",
+    "PROJECT_INSTALL",
+    "RUNTIME_ACTIVATION",
+    "PROVIDER_MUTATION",
+    "CREDENTIAL_OR_PERMISSION_CHANGE",
+    "NETWORK_DEPLOYMENT",
+    "MERGE_AUTHORITY",
+    "MEMORY_OR_IDENTITY_ADMISSION"
+  ],
+  "claim_ceiling": "VCP_CONTROL_SUPPORT_SOURCE_INTAKE_ONLY_NO_RELEASE_BINDING_NO_INSTALL_NO_RUNTIME_ACTIVATION"
+}
