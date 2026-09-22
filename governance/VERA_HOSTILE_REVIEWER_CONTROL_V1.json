@@ -63,5 +63,13 @@
     "provider currentness"
   ],
   "mode_lifetime": "CONTROL_SETTING_NOT_PERSONALITY_STATE",
-  "currentness_rule": "Exact Vera runtime head/blob bindings are dependency evidence only; mutable source review/install/route/runtime state must be refreshed when material."
+  "currentness_rule": "Exact Vera runtime head/blob bindings are dependency evidence only; mutable source review/install/route/runtime state must be refreshed when material.",
+  "mutation_semantics": {
+    "generation_compare_required": true,
+    "single_writer_lock": "ATOMIC_O_EXCL_LOCKFILE",
+    "lock_collision": "FAIL_CLOSED_RECONCILE",
+    "replacement": "ATOMIC_OS_REPLACE",
+    "post_write_readback": "EXACT_STATE_EQUALITY",
+    "stale_lock": "FAIL_CLOSED_REQUIRES_RECONCILIATION"
+  }
 }
