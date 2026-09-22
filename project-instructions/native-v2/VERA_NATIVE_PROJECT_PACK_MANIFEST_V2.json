@@ -2,8 +2,8 @@
   "schema": "VERA_NATIVE_PROJECT_PACK_MANIFEST_V2",
   "logical_id": "VERA_NATIVE_PROJECT_PACK_MANIFEST",
   "status": "DRAFT_NATIVE_PROJECT_PACKAGE_FOR_INSTALL_REVIEW",
-  "generated_date": "2026-09-20",
-  "native_kernel_chars": 7958,
+  "generated_date": "2026-09-22",
+  "native_kernel_chars": 7995,
   "filename_semantics": "NON_AUTHORITATIVE",
   "resolution_order": [
     "logical_id",
@@ -41,5 +41,11 @@
     "current assignments",
     "provider/install state",
     "reviews after subject movement"
-  ]
+  ],
+  "install_artifact_naming": {
+    "successor_basename_policy": "NEW_RELEASE_SCOPED_UNUSED_NAMESPACE",
+    "loose_installable_chat_artifacts": "FORBIDDEN",
+    "handoff": "ONE_VERIFIED_ZIP",
+    "existing_upload_suffix_semantics": "NON_AUTHORITATIVE"
+  }
 }
