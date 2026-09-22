@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from typing import Any
 
 
@@ -16,9 +17,29 @@ class VeraPortAcceptanceError(ValueError):
     pass
 
 
+_REVIEWER_RE = re.compile(r"^[A-Za-z0-9._:/@-]+$")
+_EVIDENCE_RE = re.compile(
+    r"^(?:github:(?:review|comment):[A-Za-z0-9._:/@-]+|bus:[0-9a-f]{40})$"
+)
+
+
 def _exact_nonempty_str(value: Any, field: str) -> str:
     if type(value) is not str or not value:
         raise VeraPortAcceptanceError(f"{field} must be an exact non-empty string")
+    return value
+
+
+def _reviewer_identity(value: Any, field: str) -> str:
+    value = _exact_nonempty_str(value, field)
+    if _REVIEWER_RE.fullmatch(value) is None:
+        raise VeraPortAcceptanceError(f"{field} has invalid shape")
+    return value
+
+
+def _evidence_id(value: Any, field: str) -> str:
+    value = _exact_nonempty_str(value, field)
+    if _EVIDENCE_RE.fullmatch(value) is None:
+        raise VeraPortAcceptanceError(f"{field} has invalid durable evidence shape")
     return value
 
 
@@ -67,8 +88,8 @@ def validate_review_evidence_binding(receipt: dict[str, Any]) -> None:
             raise VeraPortAcceptanceError(f"{slot} review is bound to a stale/different head")
         if review["verdict"] != "PASS":
             raise VeraPortAcceptanceError(f"{slot} review has not passed")
-        identities.append(_exact_nonempty_str(review["reviewer_identity"], f"{slot}.reviewer_identity"))
-        evidence_ids.append(_exact_nonempty_str(review["evidence_id"], f"{slot}.evidence_id"))
+        identities.append(_reviewer_identity(review["reviewer_identity"], f"{slot}.reviewer_identity"))
+        evidence_ids.append(_evidence_id(review["evidence_id"], f"{slot}.evidence_id"))
 
     if identities[0] == identities[1]:
         raise VeraPortAcceptanceError("one reviewer identity cannot satisfy both review classes")
