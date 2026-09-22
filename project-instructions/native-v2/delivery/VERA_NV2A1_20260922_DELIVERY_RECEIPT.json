@@ -28,5 +28,38 @@
     "not Project Instructions replaced",
     "not runtime qualification",
     "not provider mutation"
-  ]
+  ],
+  "installation_destinations": {
+    "native_project_instructions": {
+      "delivery_member": "VERA_NV2A1_20260922_KERNEL.txt",
+      "expected_characters": 7995
+    },
+    "project_sources": {
+      "delivery_members": [
+        "VERA_NV2A1_20260922_INTERFACE.yaml",
+        "VERA_NV2A1_20260922_CHARTER.md",
+        "VERA_NV2A1_20260922_CONTROL_SOURCE_SEPARATION.md",
+        "VERA_NV2A1_20260922_CURRENTNESS_RECOVERY.md",
+        "VERA_NV2A1_20260922_REPOSITORY_TOPOLOGY.yaml",
+        "VERA_NV2A1_20260922_MEMORY_PRIVACY.md",
+        "VERA_NV2A1_20260922_COORDINATION.md",
+        "VERA_NV2A1_20260922_TASK_EXECUTION_CLOSEOUT.md",
+        "VERA_NV2A1_20260922_PACK_MANIFEST.json"
+      ],
+      "expected_count": 9
+    },
+    "retained_release_sources": [
+      "VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md",
+      "VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json"
+    ],
+    "predecessor_cleanup_rule": "AFTER_NV2A1_TYPED_SOURCE_READBACK_PASS_REMOVE_ALL_PREDECESSOR_NATIVE_V2_PROJECT_SOURCE_FILES"
+  },
+  "current_staging_observation": {
+    "observed_date": "2026-09-22",
+    "nv2a1_typed_project_sources_verified": 9,
+    "nv2a1_typed_source_byte_match": true,
+    "repaired_kernel_observed_active_in_native_project_instructions": true,
+    "predecessor_native_v2_sources_still_discoverable": true,
+    "classification": "STAGED_SUCCESSOR_VERIFIED_CLEANUP_REQUIRED"
+  }
 }
