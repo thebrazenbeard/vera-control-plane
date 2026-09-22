@@ -1,0 +1,59 @@
+{
+  "schema": "VCP_ISSUE1_RUNTIME_CLOSURE_V1",
+  "issue": "thebrazenbeard/vera-control-plane#1",
+  "observed_at": "2026-09-22T00:03:00Z",
+  "canonical_source": {
+    "main": "505c395890bde275cbbc6327be8f387e7f25ca3a",
+    "merged_successor_pr": 94,
+    "merged_at": "2026-09-21T16:51:31Z",
+    "source_provenance_pr": 34,
+    "source_head": "faf3d860e70fd78811b9af6ba317fab5246ce878",
+    "byte_identity": {
+      "tools/tool_route_policy.py": {
+        "blob": "e6cb9e3480b7891ff166bbf75ecdb1d3c6a0fee2",
+        "identical": true
+      },
+      "tests/test_issue1_tool_route_constraint.py": {
+        "blob": "bce10c678bc4238ac38b353bbe00d9956b21e06b",
+        "identical": true
+      },
+      "docs/EXPLICIT_TOOL_ROUTE_CONSTRAINT_V1.md": {
+        "blob": "0082297a077c6063e610f8fc828c2eb31f95f863",
+        "identical": true
+      }
+    },
+    "source_review": "PASS",
+    "executable_source_evidence": {
+      "historical_exact_source": "11_OF_11_PASS_ON_PR34_EXACT_SOURCE",
+      "current_successor_targeted": "16_OF_16_PASS_ISSUE1_PLUS_ISSUE18_ON_PR94_EXACT_HEAD",
+      "limitation": "These prove executable source semantics, not native ChatGPT router consumption."
+    }
+  },
+  "source_semantics": [
+    "Explicit requested tool route outranks ordinary default when permitted and available.",
+    "Prohibited or correction-terminated routes remain prohibited.",
+    "Unavailable requested route fails closed without silent fallback or task substitution.",
+    "Correction must not re-select the terminated prior route."
+  ],
+  "runtime_boundary": {
+    "live_router_consumption": "NOT_ESTABLISHED",
+    "repository_source_auto_consumption": false,
+    "observable_install_hook": "UNAVAILABLE_IN_THIS_RUNTIME",
+    "native_router_readback": "UNAVAILABLE_IN_THIS_RUNTIME",
+    "classification": "BLOCKED_EXTERNAL",
+    "reason": "The VCP repository can define and test policy, but this ChatGPT runtime exposes no mechanism to install that Python module as the native tool router or to prove that the product router consumes it."
+  },
+  "closure": {
+    "source_defect": "VERIFIED_FIXED",
+    "live_runtime_defect": "BLOCKED_EXTERNAL",
+    "issue_overall": "WHOLE_SYSTEM_DEFECT_NOT_FULLY_CLOSED",
+    "protected_effect_packet": null,
+    "note": "No Project or provider mutation is proposed because there is no demonstrated in-scope installation surface for this policy. If a future platform/runtime exposes a governed router hook, this policy must be installed/read back and behaviorally qualified there."
+  },
+  "no_overclaim": [
+    "Merged source is not live router installation.",
+    "Executable source PASS is not native router behavior.",
+    "Current conversation behavior is not durable router qualification.",
+    "No same-process continuity or hidden runtime consumption is inferred."
+  ]
+}
