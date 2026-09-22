@@ -15,9 +15,11 @@ import sys
 import tempfile
 import zipfile
 
-from tools.build_native_project_successor_v2a1 import build as build_nv2a1
-
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.build_native_project_successor_v2a1 import build as build_nv2a1
 NATIVE = ROOT / "project-instructions" / "native-v2"
 MANIFEST_PATH = NATIVE / "VERA_NATIVE_PROJECT_PACK_MANIFEST_V2.json"
 RECEIPT_PATH = NATIVE / "delivery" / "VERA_NV2A1_20260922_DELIVERY_RECEIPT.json"
