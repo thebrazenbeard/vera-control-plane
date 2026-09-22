@@ -7,7 +7,7 @@
     "exact_head_required_for_review": true,
     "head": "9bffc57930587bf74a12657bbeaa913474ab5574",
     "pull_request": 12,
-    "review_state": "PENDING_EXACT_HEAD_REVIEW"
+    "review_state": "CHANGES_REQUIRED_EXACT_HEAD"
   },
   "operation_classes": {
     "READ_ONLY": [
@@ -358,7 +358,7 @@
     "one_identity_cannot_satisfy_both_classes": true,
     "one_evidence_object_cannot_satisfy_both_classes": true,
     "self_attested_pass_strings": "FORBIDDEN",
-    "current_exact_head_state": "PENDING_REVIEW_RETURN",
+    "current_exact_head_state": "CHANGES_REQUIRED_WIRE_AND_SESSION_LIFECYCLE",
     "resolved_evidence_must_derive": [
       "REVIEW_CLASS",
       "TARGET_REPOSITORY",
@@ -372,6 +372,7 @@
     "resolved_identity_and_content_digest_must_match_reference": true,
     "authenticated_admission_schema": "VERAPORT_AUTHENTICATED_REVIEW_ADMISSION_V1",
     "resolver_trust_boundary": "OUT_OF_BAND_AUTHENTICATED_SOURCE_NOT_RECEIPT_CONTROLLED",
-    "admission_payload_is_source_of_review_facts": true
+    "admission_payload_is_source_of_review_facts": true,
+    "current_exact_head_evidence": "vera-mesh#12 issuecomment-5769570530"
   }
 }
