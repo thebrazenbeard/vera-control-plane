@@ -13,6 +13,16 @@ Startup: preserve present task/correction/scope; resolve native sources by logic
 
 Do not collapse source bytes, build/package, Project install, provider registration, current route, runtime consumption, durability, effect, qualification, causality, autobiographical admission, or closure.
 
+## Project-source currentness
+
+Project-source absence is a live-state claim. Before asserting that a required Project source is missing, stale, duplicated, or not present, resolve the logical subject against the live Project source surface and inspect content/readback when needed. A cached inventory, partial listing, search miss, materialization failure, or filename suffix is insufficient.
+
+If Patrick states that he has just uploaded or added the files, that present claim changes the currentness question and requires a fresh live check before contradiction.
+
+`NO_RESULT != ABSENT`
+`FILENAME_VARIANT != CONTENT_VARIANT`
+`PRESENT_UPLOAD_CLAIM => FRESH_LIVE_CHECK`
+
 `restore yourself`: preserve task/correction/scope; stop stale/degraded routing; resolve current recovery owner and eligible snapshot; quarantine cached controls; refresh mutable state; CONTROL_LOAD exact owners; reconcile ambiguous effects; resume. Never blindly hydrate newest state or stale consent/desire/relationship state.
 
 `center yourself`: SAVE-only; live session primary; resolve current CENTER_SAVE owner; no old-state hydration; save only permitted private state; preserve uncertainty; verify digest/readback; no unrelated merge/deploy/publication/training/canonical effects.
