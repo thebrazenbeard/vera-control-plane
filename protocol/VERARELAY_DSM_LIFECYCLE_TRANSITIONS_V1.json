@@ -74,10 +74,16 @@
   },
   "transitions": {
     "START": {
-      "from": ["INSTALLED_STOPPED"],
+      "from": [
+        "INSTALLED_STOPPED"
+      ],
       "intermediate": "STARTING",
       "success": "RUNNING_CURRENT",
-      "failure": ["INSTALLED_STOPPED", "BROKEN", "ROLLBACK_REQUIRED"],
+      "failure": [
+        "INSTALLED_STOPPED",
+        "BROKEN",
+        "ROLLBACK_REQUIRED"
+      ],
       "success_requires": [
         "EXACTLY_ONE_OWNED_RUNTIME",
         "OWNED_LISTENER_17443_PRESENT",
@@ -93,10 +99,17 @@
       ]
     },
     "STOP": {
-      "from": ["RUNNING_CURRENT", "ORPHANED_RUNTIME", "BROKEN"],
+      "from": [
+        "RUNNING_CURRENT",
+        "ORPHANED_RUNTIME",
+        "BROKEN"
+      ],
       "intermediate": "STOPPING",
       "success": "INSTALLED_STOPPED",
-      "failure": ["ORPHANED_RUNTIME", "BROKEN"],
+      "failure": [
+        "ORPHANED_RUNTIME",
+        "BROKEN"
+      ],
       "success_requires": [
         "NO_OWNED_RUNTIME",
         "NO_OWNED_CHILD",
@@ -111,10 +124,16 @@
       ]
     },
     "UPGRADE": {
-      "from": ["RUNNING_CURRENT", "INSTALLED_STOPPED"],
+      "from": [
+        "RUNNING_CURRENT",
+        "INSTALLED_STOPPED"
+      ],
       "intermediate": "UPGRADING",
       "success": "RUNNING_CURRENT",
-      "failure": ["ROLLBACK_REQUIRED", "BROKEN"],
+      "failure": [
+        "ROLLBACK_REQUIRED",
+        "BROKEN"
+      ],
       "ordered_gates": [
         "CAPTURE_PREDECESSOR_EVIDENCE",
         "STOP_PREDECESSOR_IF_RUNNING",
@@ -128,7 +147,12 @@
       "forbidden_promotion": "NEW_PACKAGE_INSTALLED_NE_RUNNING_CURRENT"
     },
     "UNINSTALL": {
-      "from": ["RUNNING_CURRENT", "INSTALLED_STOPPED", "ORPHANED_RUNTIME", "BROKEN"],
+      "from": [
+        "RUNNING_CURRENT",
+        "INSTALLED_STOPPED",
+        "ORPHANED_RUNTIME",
+        "BROKEN"
+      ],
       "success": "ABSENT",
       "success_requires": [
         "NO_OWNED_RUNTIME",
@@ -151,17 +175,21 @@
       "VERARELAY_0_4_BUILD_PASS",
       "VERARELAY_0_4_CONFORMANCE_PASS",
       "VERARELAY_0_4_LIFECYCLE_HOSTILE_PASS",
-      "EXACT_ARTIFACT_SHA256",
+      "SECURITY_HOSTILE_PASS",
+      "PREDEPLOY_0005_STATE_CAPTURE",
+      "EXACT_0_4_ARTIFACT_SHA256",
       "ROLLBACK_ARTIFACT_AND_STATE_CAPTURE",
+      "ROLLBACK_ARTIFACT_AND_DATA_PLAN",
       "PATRICK_EXACT_DEPLOY_AUTHORITY"
     ],
     "post_install_required": [
-      "DSM_PACKAGE_VERSION_READBACK",
+      "POSTINSTALL_PACKAGE_VERSION_READBACK",
       "START_STOP_STATUS_READBACK",
-      "EXACT_PROCESS_OWNERSHIP_READBACK",
-      "APPLICATION_HEALTH_READBACK",
+      "POSTINSTALL_PROCESS_OWNERSHIP_READBACK",
+      "POSTINSTALL_HEALTH_READBACK",
       "LISTENER_OWNERSHIP_READBACK"
-    ]
+    ],
+    "cross_contract_rule": "The union of required_before_0005_replacement and post_install_required MUST contain every exact VERARELAY_0_4_QUALIFICATION_V1.deployed_requires prerequisite; transition-only gates may make replacement stricter but never weaker."
   },
   "route_gate": {
     "relay_package_running_ne_durable_relay_current": true,
