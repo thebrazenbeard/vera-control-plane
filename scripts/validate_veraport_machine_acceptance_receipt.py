@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import hashlib
+import json
 import re
 from typing import Any, Callable
 
@@ -9,6 +10,7 @@ from typing import Any, Callable
 IMPLEMENTATION_REPOSITORY = "thebrazenbeard/vera-mesh"
 IMPLEMENTATION_PR = 12
 IMPLEMENTATION_HEAD = "9bffc57930587bf74a12657bbeaa913474ab5574"
+REVIEW_ADMISSION_SCHEMA = "VERAPORT_AUTHENTICATED_REVIEW_ADMISSION_V1"
 REVIEW_CLASSES = {
     "vcp": "VCP_SOURCE_REVIEW",
     "independent": "INDEPENDENT_SOURCE_REVIEW",
@@ -27,12 +29,6 @@ class ReviewEvidencePending(VeraPortAcceptanceError):
 class ResolvedReviewEvidence:
     evidence_id: str
     canonical_payload: bytes
-    review_class: str
-    target_repository: str
-    pull_request: int
-    reviewed_head: str
-    reviewer_identity: str
-    verdict: str
 
 
 ReviewEvidenceResolver = Callable[[str], ResolvedReviewEvidence | None]
@@ -43,6 +39,16 @@ _EVIDENCE_RE = re.compile(
     r"^(?:github:(?:review|comment):[A-Za-z0-9._:/@-]+|bus:[0-9a-f]{40})$"
 )
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+_ADMISSION_FIELDS = {
+    "schema",
+    "evidence_id",
+    "review_class",
+    "target_repository",
+    "pull_request",
+    "reviewed_head",
+    "reviewer_identity",
+    "verdict",
+}
 
 
 def _exact_nonempty_str(value: Any, field: str) -> str:
@@ -72,6 +78,38 @@ def _sha256(value: Any, field: str) -> str:
     return value
 
 
+def _parse_authenticated_admission(
+    payload: bytes,
+    *,
+    slot: str,
+    evidence_id: str,
+) -> dict[str, Any]:
+    if type(payload) is not bytes:
+        raise VeraPortAcceptanceError(
+            f"{slot} resolved evidence canonical_payload must be exact bytes"
+        )
+    try:
+        decoded = payload.decode("utf-8")
+        admission = json.loads(decoded)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise VeraPortAcceptanceError(
+            f"{slot} resolved evidence payload is not valid UTF-8 JSON"
+        ) from exc
+    if type(admission) is not dict or set(admission) != _ADMISSION_FIELDS:
+        raise VeraPortAcceptanceError(
+            f"{slot} resolved evidence admission fields are not exact"
+        )
+    if admission["schema"] != REVIEW_ADMISSION_SCHEMA:
+        raise VeraPortAcceptanceError(
+            f"{slot} resolved evidence admission schema mismatch"
+        )
+    if admission["evidence_id"] != evidence_id:
+        raise VeraPortAcceptanceError(
+            f"{slot} admission evidence identity does not match the receipt reference"
+        )
+    return admission
+
+
 def _resolve_review(
     *,
     slot: str,
@@ -79,7 +117,7 @@ def _resolve_review(
     reference: dict[str, Any],
     subject: dict[str, Any],
     resolver: ReviewEvidenceResolver | None,
-) -> ResolvedReviewEvidence:
+) -> tuple[ResolvedReviewEvidence, dict[str, Any], str]:
     if type(reference) is not dict or set(reference) != {
         "evidence_id",
         "evidence_content_sha256",
@@ -118,37 +156,37 @@ def _resolve_review(
         raise VeraPortAcceptanceError(
             f"{slot} resolved evidence identity does not match the receipt reference"
         )
-    if type(resolved.canonical_payload) is not bytes:
-        raise VeraPortAcceptanceError(
-            f"{slot} resolved evidence canonical_payload must be exact bytes"
-        )
 
     actual_digest = hashlib.sha256(resolved.canonical_payload).hexdigest()
     if actual_digest != expected_digest:
         raise VeraPortAcceptanceError(
             f"{slot} resolved evidence content digest mismatch"
         )
-    if resolved.review_class != expected_class:
+
+    admission = _parse_authenticated_admission(
+        resolved.canonical_payload,
+        slot=slot,
+        evidence_id=evidence_id,
+    )
+    if admission["review_class"] != expected_class:
         raise VeraPortAcceptanceError(f"{slot} resolved review class mismatch")
-    if resolved.target_repository != IMPLEMENTATION_REPOSITORY:
+    if admission["target_repository"] != IMPLEMENTATION_REPOSITORY:
         raise VeraPortAcceptanceError(
             f"{slot} resolved review target repository mismatch"
         )
-    if resolved.pull_request != IMPLEMENTATION_PR:
+    if admission["pull_request"] != IMPLEMENTATION_PR:
         raise VeraPortAcceptanceError(f"{slot} resolved review target PR mismatch")
-    if resolved.reviewed_head != subject["exact_head"]:
+    if admission["reviewed_head"] != subject["exact_head"]:
         raise VeraPortAcceptanceError(
             f"{slot} resolved review is bound to a stale/different head"
         )
-    if resolved.verdict != "PASS":
-        raise VeraPortAcceptanceError(
-            f"{slot} resolved review has not passed"
-        )
+    if admission["verdict"] != "PASS":
+        raise VeraPortAcceptanceError(f"{slot} resolved review has not passed")
     _reviewer_identity(
-        resolved.reviewer_identity,
+        admission["reviewer_identity"],
         f"{slot}.resolved_reviewer_identity",
     )
-    return resolved
+    return resolved, admission, actual_digest
 
 
 def validate_review_evidence_binding(
@@ -188,12 +226,9 @@ def validate_review_evidence_binding(
             )
         )
 
-    identities = [review.reviewer_identity for review in resolved_reviews]
-    evidence_ids = [review.evidence_id for review in resolved_reviews]
-    evidence_digests = [
-        hashlib.sha256(review.canonical_payload).hexdigest()
-        for review in resolved_reviews
-    ]
+    identities = [entry[1]["reviewer_identity"] for entry in resolved_reviews]
+    evidence_ids = [entry[0].evidence_id for entry in resolved_reviews]
+    evidence_digests = [entry[2] for entry in resolved_reviews]
     if identities[0] == identities[1]:
         raise VeraPortAcceptanceError(
             "one authenticated reviewer identity cannot satisfy both review classes"
@@ -219,6 +254,7 @@ def validate_review_evidence_binding(
 
 __all__ = [
     "IMPLEMENTATION_HEAD",
+    "REVIEW_ADMISSION_SCHEMA",
     "ResolvedReviewEvidence",
     "ReviewEvidencePending",
     "ReviewEvidenceResolver",
