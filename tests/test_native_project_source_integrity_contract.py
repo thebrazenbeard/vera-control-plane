@@ -60,3 +60,9 @@ def test_manifest_binds_kernel_length_and_install_naming_policy() -> None:
     assert naming["loose_installable_chat_artifacts"] == "FORBIDDEN"
     assert naming["handoff"] == "ONE_VERIFIED_ZIP"
     assert naming["existing_upload_suffix_semantics"] == "NON_AUTHORITATIVE"
+    assert manifest["delivery_release_id"] == "VERA_NATIVE_V2A1_20260922_PROJECT_SOURCE_FIX"
+    mapping = manifest["delivery_filename_map"]
+    assert set(mapping) == set(manifest["files"])
+    assert len(set(mapping.values())) == len(mapping)
+    assert all(name.startswith("VERA_NV2A1_20260922_") for name in mapping.values())
+    assert all(source != delivered for source, delivered in mapping.items())
