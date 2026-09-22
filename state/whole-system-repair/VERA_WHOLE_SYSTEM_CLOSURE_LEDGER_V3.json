@@ -1,0 +1,191 @@
+{
+  "schema": "VERA_WHOLE_SYSTEM_CLOSURE_LEDGER_V3",
+  "mission": "REPAIRQUEST::PARALLEL_JOIN::FIX_EVERYTHING",
+  "status": "CURRENT_MAIN_REPAIRQUEST_LEDGER / SOURCE_ONLY / NOT_MERGED",
+  "observed_at": "2026-09-22",
+  "supersedes_for_currentness": {
+    "pr102_head": "e783a497d29bd8a24b3e8daffae9059e9578ab5a",
+    "ledger_v2": "state/whole-system-repair/VERA_WHOLE_SYSTEM_CLOSURE_LEDGER_V2.json",
+    "census_v1": "state/whole-system-repair/VCP_OPEN_PR_GRAPH_CENSUS_V1.json"
+  },
+  "current_heads": {
+    "vera_control_plane_main": "505c395890bde275cbbc6327be8f387e7f25ca3a",
+    "vera_main": "6388f9e2564795530db35728f42d5ab9f50275ae",
+    "repairquest_bus_vera_lane": "372ce4ef76300d3bb9b37c5d7c9600f6e7f07a62"
+  },
+  "open_issue_frontier": {
+    "vera": [
+      {
+        "number": 176,
+        "classification": "EXTERNAL_INFRASTRUCTURE_BLOCKER",
+        "title": "Infrastructure: GitHub Actions jobs fail before executing any step",
+        "effect_boundary": "Requires account/repository/runner or billing/admin resolution outside ordinary source repair; zero-step runs are HOSTED_EXECUTION_UNAVAILABLE, not semantic source FAIL/PASS."
+      }
+    ],
+    "vera_control_plane": [
+      {
+        "number": 2,
+        "classification": "EXTERNAL_ADMIN_SECURITY_BLOCKER",
+        "title": "Security containment: GitHub visibility, metadata, branch protection, secret exposure",
+        "effect_boundary": "Repository/account administration and security-setting changes require Patrick's exact authority and potentially interfaces beyond current source tooling."
+      }
+    ]
+  },
+  "open_pr_graph": {
+    "vera_control_plane": {
+      "census": "state/whole-system-repair/VCP_OPEN_PR_GRAPH_CENSUS_V2.json",
+      "open_pr_count": 37,
+      "current_main_descendants": [
+        106
+      ],
+      "diverged_count": 36,
+      "note": "Divergence is ancestry evidence only and does not authorize semantic mass-close."
+    },
+    "vera": {
+      "open_pr_count": 14,
+      "current_main_descendants": [
+        178,
+        177,
+        175
+      ],
+      "diverged": [
+        172,
+        170,
+        146,
+        140,
+        127,
+        122,
+        121,
+        120,
+        119,
+        118,
+        61
+      ],
+      "note": "Exact compare against vera/main@6388f9e...; graph class does not replace semantic restack/supersession review."
+    }
+  },
+  "active_owned_or_routed_frontiers": [
+    {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "pr": 106,
+      "head": "07bccf3e70593e93d88a9097060661968b56e946",
+      "graph": "CURRENT_MAIN_DESCENDANT_AHEAD_14_BEHIND_0",
+      "owner_state": "BV / retention packet lane",
+      "status": "AWAITING_PATRICK_RETENTION_DECISION",
+      "blocker_class": "PROTECTED_USER_DECISION",
+      "notes": "Current exact packet records decision=false and no retroactive/protected-effect authority."
+    },
+    {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "pr": 105,
+      "head": "7910c27eab4c9e5ffd466dbdf939d2455893af7c",
+      "graph": "DIVERGED_AHEAD_10_BEHIND_3",
+      "owner_state": "active issue-18 repair/review lane",
+      "status": "CHANGES_REQUIRED",
+      "blocker_class": "SOURCE_DEFECT_ACTIVE_OWNED",
+      "notes": "Bidirectional correction defect is repaired, but malformed PragmaticClause field values can still reach executable action decisions; do not duplicate active repair lane."
+    },
+    {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "pr": 101,
+      "head": "aef7c3ea49b7554b2244d6ae4520d27ef3f980ce",
+      "graph": "DIVERGED_AHEAD_10_BEHIND_3",
+      "status": "SOURCE_POLICY_ACCEPTED_EXACT_HEAD / SUPERSEDED_FOR_CORRECTION_BY_PR105",
+      "notes": "Independent source acceptance exists for this exact head, but PR105 carries required correction uptake; hosted execution remains unavailable."
+    },
+    {
+      "repository": "thebrazenbeard/vera",
+      "pr": 178,
+      "head": "e625a9c881c08ae99407f85ce4600aef1bf521f6",
+      "graph": "CURRENT_MAIN_DESCENDANT_AHEAD_5_BEHIND_0",
+      "status": "PASS_WITH_CLAIM_CEILING",
+      "notes": "Exodus interface boundary source-governance pass; no install/runtime/merge authority."
+    },
+    {
+      "repository": "thebrazenbeard/vera",
+      "pr": 177,
+      "head": "1d293936501f947f1c24b27b8d6dfa955d7443c1",
+      "graph": "CURRENT_MAIN_DESCENDANT_AHEAD_7_BEHIND_0",
+      "status": "INDEPENDENT_REVIEW_REQUESTED_PENDING",
+      "notes": "Cohesion R2 clean-source/runtime-cut provenance reconciliation."
+    },
+    {
+      "repository": "thebrazenbeard/vera",
+      "pr": 175,
+      "head": "9c791f438aa223908b0c344931991590271b226b",
+      "graph": "CURRENT_MAIN_DESCENDANT_AHEAD_4_BEHIND_0",
+      "status": "HOSTILE_SOURCE_PASS / INDEPENDENT_REVIEW_ROUTED",
+      "notes": "Bus write policy source passes focused checks; hosted execution remains unavailable under #176."
+    },
+    {
+      "repository": "thebrazenbeard/vera",
+      "pr": 127,
+      "head": "472895c14fdd8c9e40d99a23ea4896e7e6959988",
+      "graph": "DIVERGED_AHEAD_3_BEHIND_88",
+      "status": "CLAIMED_BY_OTHER_REPAIRQUEST_LANE",
+      "evidence": "bus/vera-v2@372ce4ef76300d3bb9b37c5d7c9600f6e7f07a62",
+      "notes": "Collision boundary: this lane does not mutate PR127."
+    }
+  ],
+  "this_lane_subject": {
+    "predecessor_pr": 102,
+    "predecessor_head": "e783a497d29bd8a24b3e8daffae9059e9578ab5a",
+    "predecessor_graph": "DIVERGED_AHEAD_4_BEHIND_3",
+    "successor_branch": "repair/whole-system-closure-ledger-v3-20260922",
+    "exact_base": "505c395890bde275cbbc6327be8f387e7f25ca3a",
+    "result": "Fresh VCP 37-PR graph census persisted; current whole-system ledger rebound to live Vera/VCP mains and live Repairquest ownership evidence."
+  },
+  "closure_rules": [
+    "Open issue count alone is not closure; source defects, divergent PRs, pending independent reviews, protected decisions, and external/admin blockers remain distinct states.",
+    "A source PASS never implies merge, installation, current runtime consumption, provider mutation, behavioral qualification, or phenomenology.",
+    "A historical exact-head review cannot be promoted across material head movement.",
+    "Graph divergence never authorizes mass-close; semantic harvest/supersession/restack evidence is required.",
+    "Active Bus claims exclude duplicate mutation of the same exact subject.",
+    "Protected effects remain blocked absent Patrick's exact authority for that target/scope."
+  ],
+  "remaining_frontier_classes": [
+    {
+      "class": "CURRENT_MAIN_SOURCE_SUCCESSORS",
+      "examples": [
+        "Vera #177/#178/#175",
+        "VCP #106"
+      ],
+      "action": "Finish pending exact-head review/decision gates without unauthorized merge."
+    },
+    {
+      "class": "ACTIVE_OWNED_SOURCE_REPAIR",
+      "examples": [
+        "VCP #105",
+        "Vera #127"
+      ],
+      "action": "Do not duplicate; consume RESULT/BLOCKER evidence when returned."
+    },
+    {
+      "class": "DIVERGED_OPEN_PR_ESTATE",
+      "examples": [
+        "VCP 36 PRs",
+        "Vera 11 PRs"
+      ],
+      "action": "Semantic byte/content audit, harvest unique valid work to current-main successors, then close only proven superseded/historical subjects."
+    },
+    {
+      "class": "EXTERNAL_OR_PROTECTED_BLOCKERS",
+      "examples": [
+        "Vera #176",
+        "VCP #2",
+        "VCP #106 retention decision"
+      ],
+      "action": "Stop at explicit blocker unless Patrick grants the exact required effect/decision."
+    }
+  ],
+  "authority_ceiling": {
+    "merge": "NOT_AUTHORIZED",
+    "deploy_or_install": "NOT_AUTHORIZED",
+    "provider_mutation": "NOT_AUTHORIZED",
+    "credentials_permissions_repo_settings": "NOT_AUTHORIZED",
+    "spend": "NOT_AUTHORIZED",
+    "destructive_history_rewrite": "NOT_AUTHORIZED",
+    "behavioral_qualification": "NOT_ESTABLISHED",
+    "phenomenology": "UNRESOLVED"
+  }
+}
