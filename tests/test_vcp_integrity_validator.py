@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import tempfile
 
 from tools.validate_vcp_integrity import (
     MANIFEST_PATH,
@@ -20,9 +21,10 @@ def test_validator_kernel_contract() -> None:
     assert report["kernel_characters"] <= 8000
 
 
-def test_validator_reproduces_frozen_nv2a1_package(tmp_path: Path) -> None:
-    output = tmp_path / "VERA_NV2A1_20260922_INSTALL.zip"
-    report = verify_package(output)
+def test_validator_reproduces_frozen_nv2a1_package() -> None:
+    with tempfile.TemporaryDirectory(prefix="vcp-validator-test-") as tmp:
+        output = Path(tmp) / "VERA_NV2A1_20260922_INSTALL.zip"
+        report = verify_package(output)
     receipt = json.loads(RECEIPT_PATH.read_text(encoding="utf-8"))
     assert report["package_sha256"] == receipt["package"]["sha256"]
     assert report["package_bytes"] == receipt["package"]["bytes"]
