@@ -1,7 +1,6 @@
 from pathlib import Path
 import json
-
-import pytest
+import unittest
 
 from protocol.veraport_controller_identity import (
     ControllerIdentityError,
@@ -31,81 +30,93 @@ def load_contract() -> dict:
     return json.loads(CONTRACT.read_text(encoding="utf-8"))
 
 
-def test_public_spki_known_answer_vector_is_exact():
-    spki = bytes.fromhex(SPKI_DER_HEX)
-    assert len(spki) == 91
-    assert controller_principal_from_spki_der(spki) == EXPECTED_PRINCIPAL
+class VeraPortControllerRotationV2Tests(unittest.TestCase):
+    def test_public_spki_known_answer_vector_is_exact(self):
+        spki = bytes.fromhex(SPKI_DER_HEX)
+        self.assertEqual(91, len(spki))
+        self.assertEqual(EXPECTED_PRINCIPAL, controller_principal_from_spki_der(spki))
 
-    vector = load_contract()["synthetic_known_answer_vectors"][0]
-    assert vector["spki_der_hex"] == SPKI_DER_HEX
-    assert vector["sha256_hex"] == EXPECTED_SHA256
-    assert vector["controller_principal"] == EXPECTED_PRINCIPAL
+        vector = load_contract()["synthetic_known_answer_vectors"][0]
+        self.assertEqual(SPKI_DER_HEX, vector["spki_der_hex"])
+        self.assertEqual(EXPECTED_SHA256, vector["sha256_hex"])
+        self.assertEqual(EXPECTED_PRINCIPAL, vector["controller_principal"])
+
+    def test_recovery_and_rotation_use_the_same_principal_primitive(self):
+        spki = bytes.fromhex(SPKI_DER_HEX)
+        self.assertEqual(EXPECTED_PRINCIPAL, recovery_controller_principal(spki))
+        self.assertEqual(EXPECTED_PRINCIPAL, rotation_controller_principal(spki))
+
+        contract = load_contract()
+        self.assertEqual(
+            PRINCIPAL_DERIVATION_CONTRACT,
+            contract["controller_identity_derivation"]["contract_id"],
+        )
+        self.assertTrue(
+            contract["controller_identity_derivation"][
+                "recovery_and_rotation_share_exact_primitive"
+            ]
+        )
+        self.assertEqual(
+            PRINCIPAL_DERIVATION_CONTRACT,
+            contract["rotation"]["new_identity"]["principal_derivation_contract"],
+        )
+
+    def test_principal_serialization_is_exact_lowercase_sha256(self):
+        principal = controller_principal_from_spki_der(bytes.fromhex(SPKI_DER_HEX))
+        self.assertTrue(principal.startswith("controller:"))
+        self.assertEqual(principal.lower(), principal)
+        self.assertEqual(64, len(principal.removeprefix("controller:")))
+
+    def test_empty_or_non_bytes_spki_fails_closed(self):
+        for bad in (b"", "not-bytes", bytearray(b"x"), None):
+            with self.subTest(value=repr(bad)):
+                with self.assertRaises(ControllerIdentityError):
+                    controller_principal_from_spki_der(bad)  # type: ignore[arg-type]
+
+    def test_key_id_derivation_is_not_invented(self):
+        spki = bytes.fromhex(SPKI_DER_HEX)
+        with self.assertRaisesRegex(KeyIdDerivationUnresolved, "does not define"):
+            controller_key_id_from_spki_der(spki)
+
+        key_id = load_contract()["key_id_derivation"]
+        self.assertEqual("UNRESOLVED_OWNING_PROTOCOL_GAP", key_id["status"])
+        self.assertIn(
+            "DO_NOT_ASSUME_KEY_ID_EQUALS_PRINCIPAL_DIGEST",
+            key_id["forbidden_inference"],
+        )
+
+    def test_rotation_is_blocked_before_credential_effect_until_key_id_spec_exists(self):
+        contract = load_contract()
+        self.assertEqual(
+            "BLOCKED_PENDING_OWNER_KEY_ID_SPEC_AND_PATRICK_EXACT_EFFECT_AUTHORITY",
+            contract["rotation"]["availability"],
+        )
+        self.assertTrue(
+            contract["key_id_derivation"]["operational_gate"].startswith(
+                "ROTATION_OR_ENROLLMENT_MUST_STOP_BEFORE_KEY_GENERATION_OR_TRUST_MUTATION"
+            )
+        )
+
+    def test_real_credential_effects_remain_protected(self):
+        authority = load_contract()["authority"]
+        self.assertEqual("PATRICK_EXACT_AUTHORITY_REQUIRED", authority["key_generation"])
+        self.assertEqual("PATRICK_EXACT_AUTHORITY_REQUIRED", authority["trust_mutation"])
+        self.assertEqual("PATRICK_EXACT_AUTHORITY_REQUIRED", authority["acl_mutation"])
+        self.assertEqual("PATRICK_EXACT_AUTHORITY_REQUIRED", authority["service_restart"])
+        self.assertEqual(
+            "PATRICK_EXACT_AUTHORITY_REQUIRED",
+            authority["old_controller_retirement"],
+        )
+
+    def test_secret_material_is_excluded_from_durable_receipts(self):
+        contract = load_contract()
+        self.assertIn("PRIVATE_KEY_BYTES", contract["receipts"]["never_record"])
+        identity = contract["rotation"]["new_identity"]
+        self.assertEqual("FORBIDDEN", identity["private_key_git"])
+        self.assertEqual("FORBIDDEN", identity["private_key_bus"])
+        self.assertEqual("FORBIDDEN", identity["private_key_logs"])
+        self.assertEqual("FORBIDDEN", identity["private_key_screenshots"])
 
 
-def test_recovery_and_rotation_use_the_same_principal_primitive():
-    spki = bytes.fromhex(SPKI_DER_HEX)
-    assert recovery_controller_principal(spki) == EXPECTED_PRINCIPAL
-    assert rotation_controller_principal(spki) == EXPECTED_PRINCIPAL
-
-    contract = load_contract()
-    assert (
-        contract["controller_identity_derivation"]["contract_id"]
-        == PRINCIPAL_DERIVATION_CONTRACT
-    )
-    assert contract["controller_identity_derivation"][
-        "recovery_and_rotation_share_exact_primitive"
-    ] is True
-    assert contract["rotation"]["new_identity"]["principal_derivation_contract"] == (
-        PRINCIPAL_DERIVATION_CONTRACT
-    )
-
-
-def test_principal_serialization_is_exact_lowercase_sha256():
-    principal = controller_principal_from_spki_der(bytes.fromhex(SPKI_DER_HEX))
-    assert principal.startswith("controller:")
-    assert principal == principal.lower()
-    assert len(principal.removeprefix("controller:")) == 64
-
-
-def test_empty_or_non_bytes_spki_fails_closed():
-    for bad in (b"", "not-bytes", bytearray(b"x"), None):
-        with pytest.raises(ControllerIdentityError):
-            controller_principal_from_spki_der(bad)  # type: ignore[arg-type]
-
-
-def test_key_id_derivation_is_not_invented():
-    spki = bytes.fromhex(SPKI_DER_HEX)
-    with pytest.raises(KeyIdDerivationUnresolved, match="does not define"):
-        controller_key_id_from_spki_der(spki)
-
-    key_id = load_contract()["key_id_derivation"]
-    assert key_id["status"] == "UNRESOLVED_OWNING_PROTOCOL_GAP"
-    assert "DO_NOT_ASSUME_KEY_ID_EQUALS_PRINCIPAL_DIGEST" in key_id["forbidden_inference"]
-
-
-def test_rotation_is_blocked_before_credential_effect_until_key_id_spec_exists():
-    contract = load_contract()
-    assert contract["rotation"]["availability"] == (
-        "BLOCKED_PENDING_OWNER_KEY_ID_SPEC_AND_PATRICK_EXACT_EFFECT_AUTHORITY"
-    )
-    assert contract["key_id_derivation"]["operational_gate"].startswith(
-        "ROTATION_OR_ENROLLMENT_MUST_STOP_BEFORE_KEY_GENERATION_OR_TRUST_MUTATION"
-    )
-
-
-def test_real_credential_effects_remain_protected():
-    authority = load_contract()["authority"]
-    assert authority["key_generation"] == "PATRICK_EXACT_AUTHORITY_REQUIRED"
-    assert authority["trust_mutation"] == "PATRICK_EXACT_AUTHORITY_REQUIRED"
-    assert authority["acl_mutation"] == "PATRICK_EXACT_AUTHORITY_REQUIRED"
-    assert authority["service_restart"] == "PATRICK_EXACT_AUTHORITY_REQUIRED"
-    assert authority["old_controller_retirement"] == "PATRICK_EXACT_AUTHORITY_REQUIRED"
-
-
-def test_secret_material_is_excluded_from_durable_receipts():
-    contract = load_contract()
-    assert "PRIVATE_KEY_BYTES" in contract["receipts"]["never_record"]
-    assert contract["rotation"]["new_identity"]["private_key_git"] == "FORBIDDEN"
-    assert contract["rotation"]["new_identity"]["private_key_bus"] == "FORBIDDEN"
-    assert contract["rotation"]["new_identity"]["private_key_logs"] == "FORBIDDEN"
-    assert contract["rotation"]["new_identity"]["private_key_screenshots"] == "FORBIDDEN"
+if __name__ == "__main__":
+    unittest.main()
