@@ -19,11 +19,11 @@ class HostileReviewerBindingTests(unittest.TestCase):
     def test_binding_pins_current_main_control_cut(self):
         data = json.loads(BINDING.read_text(encoding="utf-8"))
         control = data["control_plane"]
-        self.assertEqual("47fb9175020d10c1d6a6e70ae81d7f971d32d578", control["source_commit"])
+        self.assertEqual("47fb9175020d10c1d6a6e70ae81d7f971d32d578", control["control_core_commit"])
         self.assertEqual("4e763372d28c844d35373ded64d1a231bf54e411", control["control_contract"]["blob"])
         self.assertEqual("8b59faac8985c1bd237ee3f72a9ff466df80a097", control["source_state"]["blob"])
         self.assertEqual("ddfc2ee230c821d867ed3aa2ac72e96f57b3678c", control["toggle_tool"]["blob"])
-        self.assertEqual("281dd03876c5c5b444fb4ccb3359954baee53239", control["focused_test"]["blob"])
+        self.assertEqual("281dd03876c5c5b444fb4ccb3359954baee53239", control["focused_test"]["blob"])\n        self.assertEqual("governance/VERA_HOSTILE_REVIEWER_BINDING_V1.json", control["binding_identity"]["path"])\n        self.assertIn("does not self-hash", control["binding_identity"]["rule"])
 
     def test_typed_contract_and_lifecycle_ceiling_are_explicit(self):
         data = json.loads(BINDING.read_text(encoding="utf-8"))
