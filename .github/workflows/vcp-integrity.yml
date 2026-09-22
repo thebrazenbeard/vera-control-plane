@@ -65,81 +65,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Compile executable Python surfaces
+      - name: Run executable VCP integrity gate
         shell: bash
         run: |
           set -euo pipefail
-          python -m compileall -q tools tests
-
-      - name: Run full repository unit-test suite
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -m unittest discover -s tests -p "test_*.py" -v
-
-      - name: Validate Native Project integrity contract
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -m unittest -v             tests.test_native_project_source_integrity_contract             tests.test_native_project_v2_pack_reproducibility             tests.test_native_project_v2_safe_replacement             tests.test_native_project_v2_task_closeout
-
-      - name: Rebuild and verify NV2A1 successor package
-        shell: bash
-        run: |
-          set -euo pipefail
-          out="$RUNNER_TEMP/VERA_NV2A1_20260922_INSTALL.zip"
-          python tools/build_native_project_successor_v2a1.py "$out" > "$RUNNER_TEMP/package.json"
-          python - "$out" "$RUNNER_TEMP/package.json" <<'PY'
-          import hashlib
-          import json
-          import sys
-          import zipfile
-          from pathlib import Path
-
-          archive = Path(sys.argv[1])
-          build = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))
-          receipt = json.loads(
-              Path("project-instructions/native-v2/delivery/VERA_NV2A1_20260922_DELIVERY_RECEIPT.json")
-              .read_text(encoding="utf-8")
-          )
-          manifest = json.loads(
-              Path("project-instructions/native-v2/VERA_NATIVE_PROJECT_PACK_MANIFEST_V2.json")
-              .read_text(encoding="utf-8")
-          )
-
-          payload = archive.read_bytes()
-          actual_sha = hashlib.sha256(payload).hexdigest()
-          expected = receipt["package"]
-          assert actual_sha == build["sha256"]
-          assert actual_sha == expected["sha256"]
-          assert len(payload) == expected["bytes"]
-
-          expected_names = [
-              manifest["delivery_filename_map"][name]
-              for name in manifest["files"]
-          ]
-          with zipfile.ZipFile(archive, "r") as zf:
-              assert zf.namelist() == expected_names
-              assert len(zf.namelist()) == expected["member_count"]
-              assert len(set(zf.namelist())) == len(zf.namelist())
-
-          kernel = Path("project-instructions/native-v2/VERA_NATIVE_PROJECT_KERNEL_V2.txt").read_text(
-              encoding="utf-8"
-          )
-          assert len(kernel) <= 8000
-          assert len(kernel) == manifest["native_kernel_chars"]
-          print(f"NV2A1 package verified: {actual_sha}")
-          PY
-
-      - name: Reject whitespace errors across the validated change
-        shell: bash
-        run: |
-          set -euo pipefail
-          zero="0000000000000000000000000000000000000000"
-          if [ -n "$BASE_SHA" ] && [ "$BASE_SHA" != "$zero" ] && git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
-            git diff --check "$BASE_SHA"...HEAD
-          elif git rev-parse HEAD^ >/dev/null 2>&1; then
-            git diff --check HEAD^ HEAD
-          else
-            git diff --check
-          fi
+          python tools/validate_vcp_integrity.py --base-sha "$BASE_SHA"
