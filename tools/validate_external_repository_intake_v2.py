@@ -405,6 +405,19 @@ def validate_intake(data: dict[str, Any]) -> None:
             if type(blob) is not str or not HEX40.fullmatch(blob):
                 _fail(f"{ewhere}.blob: expected lowercase 40-char Git blob SHA")
 
+        actual_profile = {
+            "license": license_value,
+            "lifecycle": lifecycle,
+            "disposition": disposition,
+            "pattern_ids": tuple(pattern_ids),
+            "destination": destination,
+            "restriction_classes": tuple(restrictions),
+            "evidence_mode": evidence_mode,
+            "evidence": tuple((ev["path"], ev["blob"]) for ev in evidence),
+        }
+        if actual_profile != EXPECTED_PROFILES[repository]:
+            _fail(f"{where}: normative repository profile changed")
+
     if seen != set(EXPECTED_REPOSITORIES):
         _fail("root.repositories: exact repository identity set changed")
 
