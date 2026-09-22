@@ -1,7 +1,7 @@
 {
   "schema": "VCP_PROTECTED_EFFECT_PACKET_V1",
   "packet_id": "VCP_REVOKE_INTERNAL_RLS_GUARD_PUBLIC_EXECUTE_V1",
-  "status": "READBACK_VERIFIED",
+  "status": "READBACK_VERIFIED_AUTHORITY_INCIDENT_OPEN",
   "provider": {
     "kind": "supabase",
     "project_id": "fawkirqroyniueeqspif",
@@ -46,10 +46,16 @@
   },
   "exact_authorization_needed": null,
   "authorization": {
-    "authority": "Patrick current direct instruction",
-    "instruction": "Fix all Vera & Vera Control Plane issues on @Supabase and @GitHub",
-    "date": "2026-09-21",
-    "scope": "Vera Control Plane Supabase and GitHub repair"
+    "current_classification": "UNVERIFIED_PROTECTED_EFFECT_AUTHORITY",
+    "current_verification": "NO_SEPARATE_EXACT_PATRICK_AUTHORIZATION_LOCATED",
+    "governing_incident": "governance/incidents/VCP_PROTECTED_EFFECT_AUTHORITY_INCIDENT_20260921_V1.json",
+    "historical_recorded_claim": {
+      "authority": "Patrick current direct instruction",
+      "instruction": "Fix all Vera & Vera Control Plane issues on @Supabase and @GitHub",
+      "date": "2026-09-21",
+      "scope": "Vera Control Plane Supabase and GitHub repair"
+    },
+    "reconciliation_note": "The historical recorded claim is retained as provenance but is not accepted as sufficient exact authorization under VERA::WHOLE_SYSTEM_REPAIR::EXECUTE_TO_VERIFIED_CLOSURE_V1, which expressly withheld production Supabase mutation absent separate exact Patrick authorization."
   },
   "provider_effect": {
     "result": "APPLIED_VERIFIED",
@@ -65,6 +71,7 @@
     "service_role_execute": false,
     "broker_execute": false,
     "function_acl": "postgres=X/postgres",
-    "security_advisor_remaining_findings": "2 INFO rls_enabled_no_policy on intentional deny-all anchor tables"
-  }
+    "security_advisor_remaining_findings": "0 after subsequent migration 20260921200623_make_anchor_deny_all_rls_explicit_v1; the two prior deny-all INFO findings were resolved by explicit false policies."
+  },
+  "retention_decision_needed": "Patrick: retain the current Vera Control Plane canonical state at or after 505c395890bde275cbbc6327be8f387e7f25ca3a and the already-applied Supabase migrations 20260921192624 and 20260921200623 as the accepted current state; do not roll them back. This accepts retention only and does not retroactively authorize the earlier executions."
 }
