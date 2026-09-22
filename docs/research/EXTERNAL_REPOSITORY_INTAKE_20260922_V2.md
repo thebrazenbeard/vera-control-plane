@@ -21,7 +21,7 @@ Follow-ups are structured objects containing only:
 - a finite research/history destination;
 - finite pattern IDs.
 
-The validator freezes the domain definitions themselves and each repository's full normative profile, including license observation, lifecycle, disposition, patterns, destination, restrictions, evidence mode, and evidence tuples. Adding or changing any of those values is therefore a new source subject rather than an unreviewed in-domain downgrade.
+The validator freezes the snapshot observation date (`2026-09-20`), the domain definitions themselves, each repository's full normative profile, and the exact follow-up set/order. Adding or changing any of those values is therefore a new reviewed snapshot subject rather than an unreviewed freshness relabel or in-domain downgrade.
 
 Human-readable explanations remain documentation. They are not parsed to infer admission, authority, installation, routing, memory, provider state, or effects.
 
@@ -35,7 +35,9 @@ Additional fail-closed rules include:
 - VeraMesh destinations require explicit owner-subsystem review;
 - follow-up action/destination combinations are finite and cross-checked; each follow-up pattern must retain the research destination bound by its source repository profile;
 - immutable evidence paths reject traversal and malformed blobs;
-- repository identities and exact observed heads are frozen to this snapshot.
+- repository identities and exact observed heads are frozen to this snapshot;
+- `observed_date` is exact snapshot metadata, not a caller-updatable currentness field;
+- follow-up membership, multiplicity, ordering, and pattern partitioning are frozen to the reviewed snapshot.
 
 This source does not admit any external repository as a Vera dependency, control source, Project source, memory, current route, runtime dependency, political position, license-approved code source, or effect authority.
 
