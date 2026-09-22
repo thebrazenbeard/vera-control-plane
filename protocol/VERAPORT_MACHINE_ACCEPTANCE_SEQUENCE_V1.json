@@ -8,7 +8,10 @@
     "vcp_control_contract": "PASS_REQUIRED",
     "live_process_policy": "MUST_REMAIN_FALSE_UNTIL_SEPARATELY_AUTHORIZED",
     "review_provenance": "VCP_AND_INDEPENDENT_REVIEWS_MUST_BIND_EXACT_IMPLEMENTATION_HEAD",
-    "self_attested_review_pass": "FORBIDDEN"
+    "self_attested_review_pass": "FORBIDDEN",
+    "review_evidence_resolver": "AUTHENTICATED_READBACK_REQUIRED",
+    "review_receipt_metadata": "REFERENCE_AND_CONTENT_DIGEST_ONLY_NOT_TRUST_ROOT",
+    "unresolved_review_evidence": "PENDING_REVIEW_EVIDENCE_NE_PASS"
   },
   "ordered_steps": [
     "CONTROLLER_IDENTITY",
