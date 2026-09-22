@@ -32,6 +32,7 @@ def test_pull_requests_are_bound_to_exact_head_sha() -> None:
 
 def test_workflow_delegates_to_executable_validator() -> None:
     data = text()
+    assert 'python -m pip install --disable-pip-version-check -r requirements/vcp-integrity.txt' in data
     assert 'python tools/validate_vcp_integrity.py --base-sha "$BASE_SHA"' in data
     assert "python -m unittest discover" not in data
     assert "build_native_project_successor_v2a1.py" not in data
@@ -39,7 +40,8 @@ def test_workflow_delegates_to_executable_validator() -> None:
 
 def test_validator_contains_full_suite_and_native_package_gate() -> None:
     data = validator_text()
-    assert '"unittest", "discover", "-s", "tests", "-p", "test_*.py", "-v"' in data
+    assert '"pytest", "-q", "tests"' in data
+    assert '"unittest", "discover"' not in data
     assert "build_nv2a1(output)" in data
     assert 'assert actual_sha == expected["sha256"]' in data
     assert "assert actual <= 8000" in data
