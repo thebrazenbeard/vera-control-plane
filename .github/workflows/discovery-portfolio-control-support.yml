@@ -1,0 +1,30 @@
+name: Discovery portfolio control-support validation
+
+on:
+  pull_request:
+    paths:
+      - "governance/VERA_DISCOVERY_PORTFOLIO_CONTROL_SUPPORT_INTAKE_V1.json"
+      - "tools/validate_discovery_portfolio_control_support_intake_v1.py"
+      - "tests/test_discovery_portfolio_control_support_intake_v1.py"
+      - ".github/workflows/discovery-portfolio-control-support.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate Discovery portfolio control-support intake
+        run: python tools/validate_discovery_portfolio_control_support_intake_v1.py
+      - name: Run hostile regressions
+        run: python -m pytest -q tests/test_discovery_portfolio_control_support_intake_v1.py
+      - name: Compile
+        run: >-
+          python -m py_compile
+          tools/validate_discovery_portfolio_control_support_intake_v1.py
+          tests/test_discovery_portfolio_control_support_intake_v1.py
