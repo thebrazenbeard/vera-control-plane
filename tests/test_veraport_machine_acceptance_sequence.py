@@ -45,6 +45,11 @@ def test_entry_gate_requires_exact_head_and_distinct_durable_reviews():
         "VCP_AND_INDEPENDENT_REVIEWS_MUST_BIND_EXACT_IMPLEMENTATION_HEAD"
     )
     assert gate["self_attested_review_pass"] == "FORBIDDEN"
+    assert gate["review_evidence_resolver"] == "AUTHENTICATED_READBACK_REQUIRED"
+    assert gate["review_receipt_metadata"] == (
+        "REFERENCE_AND_CONTENT_DIGEST_ONLY_NOT_TRUST_ROOT"
+    )
+    assert gate["unresolved_review_evidence"] == "PENDING_REVIEW_EVIDENCE_NE_PASS"
     assert gate["vcp_control_contract"] == "PASS_REQUIRED"
 
 def test_initial_trust_is_read_only():
