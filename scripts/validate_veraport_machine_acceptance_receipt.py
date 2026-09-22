@@ -214,6 +214,33 @@ def validate_review_evidence_binding(
             "review_evidence must contain exactly vcp and independent"
         )
 
+    reference_ids = []
+    reference_digests = []
+    for slot in REVIEW_CLASSES:
+        reference = reviews[slot]
+        if type(reference) is not dict or set(reference) != {
+            "evidence_id",
+            "evidence_content_sha256",
+        }:
+            raise VeraPortAcceptanceError(
+                f"{slot} review reference must contain only evidence_id and evidence_content_sha256"
+            )
+        reference_ids.append(_evidence_id(reference["evidence_id"], f"{slot}.evidence_id"))
+        reference_digests.append(
+            _sha256(
+                reference["evidence_content_sha256"],
+                f"{slot}.evidence_content_sha256",
+            )
+        )
+    if reference_ids[0] == reference_ids[1]:
+        raise VeraPortAcceptanceError(
+            "one evidence reference cannot satisfy both review classes"
+        )
+    if reference_digests[0] == reference_digests[1]:
+        raise VeraPortAcceptanceError(
+            "one evidence content digest cannot satisfy both review classes"
+        )
+
     resolved_reviews = []
     for slot, expected_class in REVIEW_CLASSES.items():
         resolved_reviews.append(
