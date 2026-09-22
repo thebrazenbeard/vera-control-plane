@@ -176,3 +176,35 @@ def test_immutable_evidence_path_traversal_is_rejected():
     item = next(x for x in data["repositories"] if x["evidence_mode"] == "IMMUTABLE_TUPLES")
     item["evidence"][0]["path"] = "../control.md"
     rejected(data, "traversal/absolute path forbidden")
+
+
+
+def test_observed_date_cannot_relabel_stale_snapshot_as_fresh():
+    data = load()
+    data["observed_date"] = "2026-09-22"
+    rejected(data, "exact snapshot date changed")
+
+
+def test_observed_date_malformed_or_older_alias_is_rejected():
+    data = load()
+    data["observed_date"] = "September 20, 2026"
+    rejected(data, "exact snapshot date changed")
+
+    data = load()
+    data["observed_date"] = "2026-09-19"
+    rejected(data, "exact snapshot date changed")
+
+
+def test_followup_snapshot_cannot_drop_duplicate_or_repartition_valid_entries():
+    data = load()
+    data["followups"].pop()
+    rejected(data, "exact reviewed followup snapshot changed")
+
+    data = load()
+    data["followups"].append(copy.deepcopy(data["followups"][-1]))
+    rejected(data, "exact reviewed followup snapshot changed")
+
+    data = load()
+    moved = data["followups"][0]["pattern_ids"].pop()
+    data["followups"][0]["pattern_ids"].insert(0, moved)
+    rejected(data, "exact reviewed followup snapshot changed")
