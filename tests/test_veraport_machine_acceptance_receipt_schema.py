@@ -9,7 +9,7 @@ def load():
     return json.loads(SCHEMA.read_text(encoding="utf-8"))
 
 
-def test_receipt_requires_exact_subject_and_durable_review_objects():
+def test_receipt_requires_exact_subject_and_authenticated_review_references():
     value = load()
     subject = value["properties"]["implementation_subject"]
     assert subject["required"] == ["repository", "pull_request", "exact_head"]
@@ -19,18 +19,16 @@ def test_receipt_requires_exact_subject_and_durable_review_objects():
 
     reviews = value["properties"]["review_evidence"]
     assert reviews["required"] == ["vcp", "independent"]
-    assert reviews["properties"]["vcp"]["allOf"][1]["properties"]["review_class"]["const"] == (
-        "VCP_SOURCE_REVIEW"
-    )
-    assert reviews["properties"]["independent"]["allOf"][1]["properties"]["review_class"]["const"] == (
-        "INDEPENDENT_SOURCE_REVIEW"
-    )
+    assert reviews["properties"]["vcp"]["$ref"] == "#/$defs/reviewEvidenceRef"
+    assert reviews["properties"]["independent"]["$ref"] == "#/$defs/reviewEvidenceRef"
 
-    evidence = value["$defs"]["reviewEvidence"]
-    assert evidence["properties"]["reviewed_head"]["const"] == "9bffc57930587bf74a12657bbeaa913474ab5574"
-    assert evidence["properties"]["verdict"]["const"] == "PASS"
-    assert "reviewer_identity" in evidence["required"]
-    assert "evidence_id" in evidence["required"]
+    evidence = value["$defs"]["reviewEvidenceRef"]
+    assert evidence["additionalProperties"] is False
+    assert evidence["required"] == ["evidence_id", "evidence_content_sha256"]
+    assert "reviewer_identity" not in evidence["properties"]
+    assert "reviewed_head" not in evidence["properties"]
+    assert "verdict" not in evidence["properties"]
+    assert evidence["properties"]["evidence_content_sha256"]["pattern"] == "^[0-9a-f]{64}$"
 
 
 def test_fencing_token_is_positive_integer():
