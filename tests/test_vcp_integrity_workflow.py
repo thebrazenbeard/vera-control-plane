@@ -56,3 +56,4 @@ def test_workflow_runs_for_relevant_pr_main_and_manual_events() -> None:
     assert '"project-instructions/**"' in data
     assert '"tools/**"' in data
     assert '"tests/**"' in data
+    assert '"requirements/**"' in data
