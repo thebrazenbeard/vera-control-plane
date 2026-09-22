@@ -40,7 +40,6 @@
   "control_plane": {
     "repository": "thebrazenbeard/vera-control-plane",
     "branch": "repair/hostile-reviewer-control-current-main-20260922",
-    "source_commit": "47fb9175020d10c1d6a6e70ae81d7f971d32d578",
     "control_contract": {
       "path": "governance/VERA_HOSTILE_REVIEWER_CONTROL_V1.json",
       "blob": "4e763372d28c844d35373ded64d1a231bf54e411"
@@ -60,6 +59,11 @@
     "currentness_doc": {
       "path": "docs/HOSTILE_REVIEWER_CONTROL_CURRENTNESS_V1.md",
       "blob": "4dcc78efe9708710885858a070c0211c95b3d40b"
+    },
+    "control_core_commit": "47fb9175020d10c1d6a6e70ae81d7f971d32d578",
+    "binding_identity": {
+      "path": "governance/VERA_HOSTILE_REVIEWER_BINDING_V1.json",
+      "rule": "Resolve from the exact reviewed PR head plus path. The binding does not self-hash or self-pin its own containing commit."
     }
   },
   "lifecycle": {
