@@ -285,4 +285,22 @@ def test_review_provenance_requires_two_distinct_exact_head_reviews():
     assert review["one_identity_cannot_satisfy_both_classes"] is True
     assert review["one_evidence_object_cannot_satisfy_both_classes"] is True
     assert review["self_attested_pass_strings"] == "FORBIDDEN"
+    assert review["each_review_requires"] == [
+        "IMMUTABLE_EVIDENCE_ID",
+        "IMMUTABLE_EVIDENCE_CONTENT_SHA256",
+        "AUTHENTICATED_EVIDENCE_RESOLUTION",
+    ]
+    assert review["resolved_evidence_must_derive"] == [
+        "REVIEW_CLASS",
+        "TARGET_REPOSITORY",
+        "PULL_REQUEST",
+        "REVIEWED_HEAD",
+        "REVIEWER_IDENTITY",
+        "PASS_VERDICT",
+    ]
+    assert review["receipt_claims_are_not_trust_root"] is True
+    assert review["unresolved_or_unavailable_evidence"] == (
+        "PENDING_REVIEW_EVIDENCE_NE_PASS"
+    )
+    assert review["resolved_identity_and_content_digest_must_match_reference"] is True
     assert review["current_exact_head_state"] == "PENDING_REVIEW_RETURN"
