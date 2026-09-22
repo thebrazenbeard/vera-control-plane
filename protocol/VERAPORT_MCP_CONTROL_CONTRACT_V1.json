@@ -369,6 +369,9 @@
     ],
     "receipt_claims_are_not_trust_root": true,
     "unresolved_or_unavailable_evidence": "PENDING_REVIEW_EVIDENCE_NE_PASS",
-    "resolved_identity_and_content_digest_must_match_reference": true
+    "resolved_identity_and_content_digest_must_match_reference": true,
+    "authenticated_admission_schema": "VERAPORT_AUTHENTICATED_REVIEW_ADMISSION_V1",
+    "resolver_trust_boundary": "OUT_OF_BAND_AUTHENTICATED_SOURCE_NOT_RECEIPT_CONTROLLED",
+    "admission_payload_is_source_of_review_facts": true
   }
 }
