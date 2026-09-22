@@ -1,0 +1,367 @@
+{
+  "schema": "VERAPORT_MCP_CONTROL_CONTRACT_V1",
+  "status": "SOURCE_CONTROL_CONTRACT / NO_INSTALL_OR_ROUTE_EFFECT",
+  "implementation_subject": {
+    "repository": "thebrazenbeard/vera-mesh",
+    "branch": "vera/veraport-chatgpt-mcp-v2-20260920",
+    "exact_head_required_for_review": true,
+    "head": "9bffc57930587bf74a12657bbeaa913474ab5574",
+    "pull_request": 12,
+    "review_state": "PENDING_EXACT_HEAD_REVIEW"
+  },
+  "operation_classes": {
+    "READ_ONLY": [
+      "machine_info",
+      "lane.list",
+      "fs.read_text",
+      "process.list",
+      "process.status",
+      "process.output"
+    ],
+    "MUTATING": [
+      "fs.write_text"
+    ],
+    "PROCESS_EXECUTION": [
+      "process.exec",
+      "process.start"
+    ],
+    "PROCESS_CONTROL": [
+      "process.terminate"
+    ],
+    "SESSION_CONTROL": [
+      "lane.open",
+      "lane.renew",
+      "lane.close"
+    ],
+    "ADMINISTRATIVE": [
+      "mcp.install",
+      "mcp.register",
+      "mcp.route_activate",
+      "controller.credential_change",
+      "workstation.policy_change",
+      "service.install",
+      "service.config_change"
+    ]
+  },
+  "authority_ceiling": {
+    "rule": "EFFECTIVE_AUTHORITY_IS_INTERSECTION_ONLY",
+    "ordered_narrowing_layers": [
+      "PATRICK_EXACT_EFFECT_AUTHORITY",
+      "VCP_GATEWAY_POLICY",
+      "WORKSTATION_LOCAL_POLICY",
+      "AUTHENTICATED_SESSION_CAPABILITY",
+      "LANE_CAPABILITY",
+      "LANE_RESOURCE_CLAIM"
+    ],
+    "tool_discoverability": "NO_AUTHORITY",
+    "edge_reachability": "NO_APPLICATION_AUTHORITY",
+    "source_presence": "NO_INSTALL_OR_CURRENT_ROUTE_AUTHORITY"
+  },
+  "routes": {
+    "preferred_order": [
+      "DIRECT_STREAM",
+      "EDGE_STREAM"
+    ],
+    "DURABLE_RELAY": "FUTURE_NOT_IMPLEMENTED_NOT_CURRENT",
+    "current_requires": [
+      "FRESH_TRANSPORT_OBSERVATION",
+      "TLS_1_3_VERAPORT_ALPN",
+      "VERAPORT_APPLICATION_AUTH_PASS",
+      "EXPECTED_CONTROLLER_PRINCIPAL",
+      "EXPECTED_WORKSTATION_PRINCIPAL",
+      "UNEXPIRED_APPLICATION_SESSION",
+      "LIVE_APPLICATION_READBACK",
+      "OBSERVATION_WITHIN_FRESHNESS_WINDOW"
+    ],
+    "stale_route": "INELIGIBLE_EVEN_IF_LOWER_PRIORITY_ROUTE_IS_FRESH",
+    "edge_tls_only": "TRANSPORT_REACHABLE_NOT_CURRENT_APPLICATION_ROUTE",
+    "current_application_route": "NONE_QUALIFIED_PENDING_CONTROLLER_PRIVATE_KEY",
+    "transport_ready": {
+      "DIRECT_STREAM": "FRESH_TLS_1_3_ALPN_AND_CHALLENGE_READBACK",
+      "EDGE_STREAM": "FRESH_TLS_1_3_ALPN_AND_CHALLENGE_READBACK"
+    },
+    "max_path_age_policy": {
+      "single_authoritative_value": "ControllerConfig.max_path_age_ms",
+      "must_apply_to": [
+        "MACHINE_INFO",
+        "READ_ROUTER",
+        "GATEWAY_LANE_CONTROL",
+        "GATEWAY_WRITE",
+        "GATEWAY_PROCESS"
+      ],
+      "hard_coded_secondary_default": "FORBIDDEN"
+    }
+  },
+  "mcp_reconnect": {
+    "client_transport_reconnect": "MUST_REUSE_EXISTING_CONTROLLER_RUNTIME_WHERE_RUNNING",
+    "must_not_imply": "VERAPORT_APPLICATION_SESSION_RECREATION",
+    "controller_process_restart": "APPLICATION_SESSION_RECREATION_CURRENTLY_REQUIRED",
+    "session_resume_across_controller_restart": "NOT_IMPLEMENTED"
+  },
+  "mutation_failover": {
+    "pre_delivery_failure": "MAY_SELECT_NEXT_CURRENT_AUTHENTICATED_ROUTE",
+    "unknown_delivery": "NO_CROSS_SESSION_RETRY",
+    "same_request_id_required": true,
+    "same_application_session_required": true,
+    "durable_idempotency_required": true,
+    "no_compatible_same_session_path": "AMBIGUOUS_DELIVERY_STOP"
+  },
+  "filesystem": {
+    "allowed_root_enforcement": "WORKSTATION_LOCAL_POLICY_REQUIRED",
+    "resolved_path_must_remain_under_allowed_root": true,
+    "static_parent_symlink_escape": "REJECT",
+    "local_privileged_reparse_point_race": "RESIDUAL_HOST_SECURITY_BOUNDARY_NOT_CLAIMED_SOLVED"
+  },
+  "process_activation": {
+    "required_all": [
+      "PATRICK_EXACT_PROCESS_EFFECT_AUTHORITY_WHEN_ACTIVATING_OR_EXECUTING",
+      "VCP_EXACT_HEAD_SOURCE_REVIEW_PASS",
+      "LIVE_WORKSTATION_ALLOW_PROCESS_EXEC_TRUE",
+      "GATEWAY_OPERATION_ALLOWED",
+      "SESSION_PROCESS_CAPABILITY_GRANTED",
+      "LANE_PROCESS_CAPABILITY_GRANTED",
+      "LANE_CWD_RESOURCE_CLAIM_GRANTED"
+    ],
+    "current_live_workstation_policy": "FALSE_READBACK_20260920",
+    "pid_only_termination": "FORBIDDEN",
+    "managed_process_handle_required": true,
+    "output_must_be_bounded": true,
+    "hanging_process_must_have_TIMEOUT_OR_EXPLICIT_TERMINATION_PATH": true
+  },
+  "state_model": [
+    "SOURCE_CREATED",
+    "BUILD_PASS",
+    "MCP_SERVER_RUNNING",
+    "PLUGIN_REGISTERED",
+    "CURRENT_ROUTE",
+    "LIVE_READ_PASS",
+    "LIVE_WRITE_PASS",
+    "PROCESS_EXEC_PASS",
+    "RDC_EQUIVALENCE_BOUNDARY_PASS"
+  ],
+  "state_non_implications": [
+    "SOURCE_CREATED_NE_BUILD_PASS",
+    "BUILD_PASS_NE_MCP_SERVER_RUNNING",
+    "MCP_SERVER_RUNNING_NE_PLUGIN_REGISTERED",
+    "PLUGIN_REGISTERED_NE_CURRENT_ROUTE",
+    "CURRENT_ROUTE_NE_LIVE_READ_PASS",
+    "LIVE_READ_PASS_NE_LIVE_WRITE_PASS",
+    "LIVE_WRITE_PASS_NE_PROCESS_EXEC_PASS",
+    "PROCESS_EXEC_PASS_NE_RDC_EQUIVALENCE_BOUNDARY_PASS"
+  ],
+  "rdc_equivalence_boundary": {
+    "must_enumerate_gaps": true,
+    "screen_capture_required_for_full_parity": false,
+    "gui_interaction_required_for_full_parity": false,
+    "initial_milestone": [
+      "MCP_SERVER_SOURCE_EXISTS",
+      "AUTHENTICATED_VERAPORT_GATEWAY_PATH",
+      "LIVE_LANE_LIST",
+      "LIVE_READ_ONLY_FILESYSTEM_OPERATION",
+      "VCP_EXACT_HEAD_PASS",
+      "PLUGIN_STATE_EXPLICIT",
+      "CAPABILITY_GAPS_EXPLICIT"
+    ]
+  },
+  "hostile_regressions": [
+    "TOOL_DISCOVERABILITY_AUTHORITY",
+    "MCP_RECONNECT_IDENTITY_RESET",
+    "STALE_DIRECT_BEATS_FRESH_EDGE",
+    "EDGE_REACHABILITY_EQUALS_AUTHORIZATION",
+    "MUTATION_REPLAY_CROSS_SESSION",
+    "PATH_TRAVERSAL",
+    "SYMLINK_ROOT_ESCAPE",
+    "OVERSIZED_OUTPUT",
+    "HANGING_PROCESS",
+    "PID_REUSE",
+    "OUTPUT_SPOOFING",
+    "REQUEST_ID_COLLISION",
+    "SESSION_EXPIRY_RACE",
+    "LANE_FENCING_RACE",
+    "STALE_PROCESS_HANDLE",
+    "UNAUTHORIZED_PROCESS_TERMINATION",
+    "FAILOVER_AFTER_UNKNOWN_MUTATION",
+    "CONTROLLER_KEY_MISMATCH",
+    "WORKSTATION_KEY_MISMATCH",
+    "EDGE_TLS_BREAKS_END_TO_END_AUTH",
+    "LOCAL_PROCESS_DISABLED_BUT_REMOTE_CLAIMED_PASS",
+    "SOURCE_AS_INSTALL_OR_CURRENT_ROUTE",
+    "LOGICAL_READ_CLOSE_RACE",
+    "POST_CLOSE_MIRROR_MATERIALIZATION",
+    "CONTROLLER_RESTART_FENCE_REUSE",
+    "DIRECT_BLACKHOLE_EDGE_FAILOVER",
+    "PROBE_TIMEOUT",
+    "OPERATION_TIMEOUT",
+    "PATH_AGE_POLICY_DIVERGENCE",
+    "WORKSTATION_CLOSE_INFLIGHT_READ",
+    "WORKSTATION_CLOSE_INFLIGHT_WRITE",
+    "WORKSTATION_CLOSE_INFLIGHT_PROCESS",
+    "WIRE_RESPONSE_OVERFLOW",
+    "JSON_ESCAPE_EXPANSION",
+    "UNCORRELATED_RESPONSE_WRITE_FAILURE",
+    "MAX_READ_EQUALS_MAX_FRAME_FALSE_SAFETY",
+    "SESSION_DISCONNECT_LANE_LEAK",
+    "SESSION_EXPIRY_LANE_LEAK",
+    "RECONNECT_STORM_MAX_LANES_EXHAUSTION",
+    "REMOTE_CLOSE_APPLICATION_ERROR_IGNORED",
+    "CROSS_SESSION_REAP",
+    "SESSION_EXPIRY_INFLIGHT_EFFECT",
+    "UNBOUNDED_REQUEST_LEDGER",
+    "READ_ONLY_PROBE_DURABLE_WRITE_AMPLIFICATION",
+    "MUTATION_REPLAY_AFTER_LEDGER_GC",
+    "STATE_DB_DISK_FULL_ROUTE_COLLAPSE",
+    "MAX_INFLIGHT_TASK_QUEUE_UNBOUNDED",
+    "OVERLOAD_WITH_STALLED_HANDLERS",
+    "TEARDOWN_UNDER_REQUEST_FLOOD"
+  ],
+  "chatgpt_exposure": {
+    "local_mcp_server": "NOT_DIRECTLY_REACHABLE_BY_CHATGPT",
+    "admitted_modes": [
+      "REMOTE_HTTPS",
+      "SECURE_MCP_TUNNEL"
+    ],
+    "preferred_private_mode": "SECURE_MCP_TUNNEL",
+    "tunnel_effect_class": "ADMINISTRATIVE_PROVIDER_AND_CREDENTIAL_EFFECT",
+    "tunnel_creation_requires": "PATRICK_EXACT_AUTHORITY_AND_PLATFORM_CREDENTIALS",
+    "plugin_registered_requires": [
+      "MCP_SERVER_RUNNING",
+      "CHATGPT_REACHABLE_MCP_ENDPOINT_OR_TUNNEL",
+      "TOOL_SCAN_PASS",
+      "PRODUCT_SIDE_REGISTRATION_READBACK"
+    ],
+    "local_server_non_implication": "MCP_SERVER_RUNNING_NE_PLUGIN_REGISTERED",
+    "product_gate": {
+      "current_workspace_availability": "MUST_BE_LIVE_VERIFIED",
+      "docs_full_mcp_write_availability": "BUSINESS_ENTERPRISE_EDU_BETA",
+      "docs_pro_read_fetch": "DOCUMENTED",
+      "plus_full_custom_mcp": "NOT_ESTABLISHED_BY_CURRENT_DOCS",
+      "missing_product_path": "CHATGPT_PRODUCT_GATE_UNAVAILABLE_NOT_TRANSPORT_FAILURE",
+      "no_public_ingress_workaround_without_review": true,
+      "states": [
+        "MCP_SERVER_RUNNING",
+        "TUNNEL_OBJECT_CREATED",
+        "TUNNEL_CLIENT_READY",
+        "TARGET_CHATGPT_WORKSPACE_ASSOCIATED",
+        "CHATGPT_DEVELOPER_MODE_AVAILABLE",
+        "APP_DRAFT_CREATED",
+        "TOOL_SCAN_PASS",
+        "APP_ENABLED_FOR_TARGET_USER",
+        "READ_TOOL_INVOCATION_PASS",
+        "WRITE_TOOL_PRODUCT_PERMISSION_AVAILABLE",
+        "WRITE_TOOL_INVOCATION_PASS"
+      ]
+    },
+    "secure_tunnel": {
+      "network_model": "OUTBOUND_HTTPS_FROM_TRUST_BOUNDARY",
+      "public_inbound_required": false,
+      "local_mcp_reachability": "REQUIRED_FROM_TUNNEL_CLIENT_HOST",
+      "tunnel_health_readback": "REQUIRED",
+      "tunnel_authority": "NO_VERAPORT_MACHINE_AUTHORITY",
+      "credentials_git_bus_logs": "FORBIDDEN"
+    }
+  },
+  "concurrency_fencing": {
+    "lane_close_linearization": "CLOSE_RETURN_MUST_FENCE_ALL_PRIOR_AND_CONCURRENT_LANE_OPERATIONS",
+    "post_close_mirror_materialization": "FORBIDDEN",
+    "post_close_content_return": "FORBIDDEN",
+    "await_boundary_rule": "AUTHORITY_MUST_BE_REVALIDATED_OR_SERIALIZED_ACROSS_ASYNC_AWAITS",
+    "controller_restart_fence_reuse": "FORBIDDEN",
+    "fence_generation_requirement": "NONREPEATING_ACROSS_CONTROLLER_LIFETIMES_OR_DURABLY_MONOTONIC",
+    "stale_prior_lifetime_fence": "MUST_REJECT",
+    "required_tests": [
+      "BLOCKED_READ_RACES_CLOSE",
+      "BLOCKED_MIRROR_OPEN_RACES_CLOSE",
+      "CONTROLLER_RESTART_STALE_FENCE",
+      "REOPEN_SAME_LANE_ID_AFTER_RESTART",
+      "NO_POST_CLOSE_REMOTE_OPERATION"
+    ],
+    "workstation_close_semantics": {
+      "required_choice": "DRAIN_BEFORE_CLOSE_RETURN_OR_EXPLICIT_INFLIGHT_STATE",
+      "simple_closed_true_while_effects_continue": "FORBIDDEN",
+      "must_cover": [
+        "FS_READ",
+        "FS_WRITE",
+        "PROCESS_EXECUTION",
+        "SESSION_LANE_CONTROL"
+      ]
+    },
+    "logical_close_truth": {
+      "remote_application_errors_must_be_inspected": true,
+      "closed_true_requires": "ALL_REACHABLE_MIRRORS_PROVEN_CLOSED_OR_ALREADY_ABSENT",
+      "unresolved_mirror": "PARTIAL_OR_UNKNOWN_NOT_SUCCESS",
+      "reconciliation_state_required": true
+    }
+  },
+  "transport_deadlines": {
+    "connect_tls_application_handshake": "BOUNDED_REQUIRED",
+    "probe": "BOUNDED_REQUIRED",
+    "operation": "BOUNDED_REQUIRED",
+    "read_only_timeout": "MAY_FAILOVER_AS_TRANSPORT_FAILURE",
+    "mutation_timeout": "AMBIGUOUS_DELIVERY",
+    "direct_blackhole_must_not_block_edge": "REQUIRED",
+    "timeout_values": "EXPLICIT_CONFIGURED_POLICY_NOT_OS_DEFAULT"
+  },
+  "wire_limits": {
+    "local_file_read_limit_ne_wire_frame_limit": true,
+    "successful_executor_result_must_fit_or_be_chunked": true,
+    "json_escape_expansion_must_be_accounted": true,
+    "response_write_failure": "CORRELATED_ERROR_OR_STREAM_TERMINATION_REQUIRED",
+    "uncorrelated_task_failure": "FORBIDDEN",
+    "client_wait_without_deadline": "FORBIDDEN",
+    "preferred_file_read_model": "RANGED_OR_CHUNKED_READ_WITH_EXPLICIT_LIMITS"
+  },
+  "session_lifecycle": {
+    "lane_ttl_must_not_exceed_remaining_session_lifetime": true,
+    "session_disconnect_cleanup": "DRAIN_THEN_REAP_EXACT_SESSION_LANES",
+    "session_expiry_cleanup": "NO_NEW_ADMISSION_THEN_DRAIN_BOUNDED_INFLIGHT_AND_REAP",
+    "cross_session_reap": "FORBIDDEN",
+    "dead_session_resource_claims": "MUST_NOT_PERSIST_BEYOND_BOUNDED_DRAIN",
+    "reconnect_storm_lane_leak": "FORBIDDEN",
+    "expiry_semantics": "ADMISSION_CUTOFF_NOT_IMPLICIT_INSTANT_EFFECT_CANCELLATION"
+  },
+  "request_ledger": {
+    "durable_idempotency_scope": "MUTATION_OPERATIONS_ONLY_UNLESS_READ_LEDGER_SEPARATELY_JUSTIFIED",
+    "read_probe_permanent_rows": "FORBIDDEN",
+    "unbounded_request_table": "FORBIDDEN",
+    "mutation_retention": "BOUNDED_POLICY_REQUIRED_WITH_REPLAY_SAFETY",
+    "late_retry_after_detail_gc": "MUST_REJECT_OR_USE_COMPACT_TOMBSTONE_NOT_REEXECUTE",
+    "state_store_health_dimensions": [
+      "SIZE",
+      "WRITE_AVAILABILITY",
+      "CHECKPOINT_MAINTENANCE"
+    ],
+    "disk_full_before_mutation_admission": "FAIL_CLOSED",
+    "read_probe_storage_failure": "MUST_NOT_MASQUERADE_AS_APPLICATION_AUTH_FAILURE"
+  },
+  "request_admission": {
+    "max_inflight_semantics": "BOUND_ADMITTED_OUTSTANDING_REQUESTS_NOT_ONLY_EXECUTING_HANDLERS",
+    "unbounded_waiting_tasks": "FORBIDDEN",
+    "backpressure_before_unbounded_task_creation": "REQUIRED",
+    "accepted_request_without_correlated_terminal_result": "FORBIDDEN",
+    "overload_behavior": "DETERMINISTIC_BACKPRESSURE_OR_CORRELATED_ERROR_OR_STREAM_TERMINATION",
+    "teardown_under_overload": "BOUNDED_REQUIRED",
+    "per_session_fairness_or_timeout_policy": "REQUIRED_IF_CAPACITY_IS_SHARED"
+  },
+  "review_provenance": {
+    "required_for_machine_acceptance": true,
+    "exact_reviewed_head": "9bffc57930587bf74a12657bbeaa913474ab5574",
+    "required_classes": [
+      "VCP_SOURCE_REVIEW",
+      "INDEPENDENT_SOURCE_REVIEW"
+    ],
+    "each_review_requires": [
+      "REVIEW_CLASS",
+      "TARGET_REPOSITORY",
+      "PULL_REQUEST",
+      "REVIEWED_HEAD",
+      "REVIEWER_IDENTITY",
+      "IMMUTABLE_EVIDENCE_ID",
+      "PASS_VERDICT"
+    ],
+    "reviewed_head_must_equal_implementation_head": true,
+    "one_identity_cannot_satisfy_both_classes": true,
+    "one_evidence_object_cannot_satisfy_both_classes": true,
+    "self_attested_pass_strings": "FORBIDDEN",
+    "current_exact_head_state": "PENDING_REVIEW_RETURN"
+  }
+}
