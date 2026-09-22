@@ -120,6 +120,114 @@ EXPECTED_REPOSITORIES = {
     "DNSCrypt/dnscrypt-server-docker": "1218e90963b4551fbc1e1272f1202fcbd1780a6c",
     "encodeous/nylon": "c4a96c804f7aa08512721dec7994907eab100bc8",
 }
+EXPECTED_PROFILES = {
+    "KKKKhazix/khazix-skills": {
+        "license": "MIT",
+        "lifecycle": "ACTIVE",
+        "disposition": "HIGH_VALUE_PATTERN_SOURCE",
+        "pattern_ids": ("GOAL_HARNESS_EVIDENCE", "TRUTH_SURFACE_CLOSEOUT", "SEPARATE_TRUTH_SURFACES"),
+        "destination": "VCP_COORDINATION_CURRENTNESS_RESEARCH",
+        "restriction_classes": ("NO_AUTOMATIC_CODE_IMPORT",),
+        "evidence_mode": "IMMUTABLE_TUPLES",
+        "evidence": (
+            ("leader/SKILL.md", "deb36d81b75eed93b476b4469a085c6666156973"),
+            ("neat-freak/SKILL.md", "51333e97c010a8ba13b10dc3c89d17021d915aa8"),
+        ),
+    },
+    "yhatt/marp": {
+        "license": "MIT",
+        "lifecycle": "ARCHIVED",
+        "disposition": "HISTORICAL_ONLY_SUCCESSOR_REQUIRED",
+        "pattern_ids": ("ARCHIVE_CURRENTNESS_CHECK",),
+        "destination": "DOCUMENTATION_TOOLING_RESEARCH",
+        "restriction_classes": ("PRESERVE_HISTORICAL_ONLY",),
+        "evidence_mode": "IMMUTABLE_TUPLES",
+        "evidence": (("README.md", "b1e9197e192b79aba14e55a86456169dfc8f1611"),),
+    },
+    "cirosantilli/china-dictatorship": {
+        "license": "CC-BY-SA-4.0",
+        "lifecycle": "ACTIVE",
+        "disposition": "CONTENT_CORPUS_ONLY",
+        "pattern_ids": ("MULTILINGUAL_PROVENANCE_FIXTURE",),
+        "destination": "NONE_BY_DEFAULT",
+        "restriction_classes": ("CONTENT_POSITION_NONADOPTION",),
+        "evidence_mode": "REPOSITORY_HEAD_ONLY",
+        "evidence": (),
+    },
+    "hughhowey/neo": {
+        "license": "MIT",
+        "lifecycle": "ACTIVE",
+        "disposition": "PATTERN_SOURCE",
+        "pattern_ids": (
+            "LOCAL_FIRST_CUSTODY",
+            "REVERSIBLE_REMOVAL",
+            "UNRESOLVED_PLACEHOLDER",
+            "SHA256_EXPORT_RECEIPT",
+            "AUTOSAVE_ROTATING_BACKUP",
+        ),
+        "destination": "VCP_RECOVERY_CREATIVE_RESEARCH",
+        "restriction_classes": (),
+        "evidence_mode": "IMMUTABLE_TUPLES",
+        "evidence": (("README.md", "6d48c346514d2919473b8bb261dc1a0463fbbd23"),),
+    },
+    "fivesheep/chnroutes": {
+        "license": None,
+        "lifecycle": "STALE",
+        "disposition": "HISTORICAL_TECHNIQUE_ONLY_NO_CODE_REUSE",
+        "pattern_ids": ("EXTERNAL_ALLOCATION_ROUTE_POLICY", "ROUTING_DATA_REFRESH"),
+        "destination": "NETWORK_ROUTING_HISTORY",
+        "restriction_classes": ("NO_CODE_REUSE", "PRESERVE_HISTORICAL_ONLY"),
+        "evidence_mode": "IMMUTABLE_TUPLES",
+        "evidence": (("README.en.md", "4f1ba81ddce775a2788ba4c2bf94ef9e36f04cdf"),),
+    },
+    "CluvexStudio/Aether": {
+        "license": "AGPL-3.0",
+        "lifecycle": "ACTIVE",
+        "disposition": "NETWORK_RESEARCH_ONLY_LICENSE_REVIEW_REQUIRED",
+        "pattern_ids": (
+            "DATA_PLANE_ROUTE_VALIDATION",
+            "LAST_KNOWN_GOOD_RECONNECT",
+            "PERSISTENT_NODE_IDENTITY",
+            "LOOPBACK_SAFE_EXPOSURE",
+            "RELEASE_CHECKSUM_VERIFICATION",
+        ),
+        "destination": "VERAMESH_TRANSPORT_RESILIENCE_RESEARCH",
+        "restriction_classes": ("LICENSE_REVIEW_REQUIRED", "OWNER_SUBSYSTEM_REVIEW_REQUIRED"),
+        "evidence_mode": "IMMUTABLE_TUPLES",
+        "evidence": (("README.md", "4cbad772417faca610d9ad05f06f16b38f5847d6"),),
+    },
+    "DNSCrypt/dnscrypt-server-docker": {
+        "license": "ISC",
+        "lifecycle": "ACTIVE",
+        "disposition": "OPERATIONS_PATTERN_SOURCE",
+        "pattern_ids": (
+            "DURABLE_STATE_OUTSIDE_RUNTIME",
+            "VERIFY_STATE_BEFORE_REPLACEMENT",
+            "RETAIN_PREDECESSOR_UNTIL_SUCCESSOR_RUNNING",
+            "OPERATIONAL_READBACK_METRICS",
+        ),
+        "destination": "VCP_INSTALL_RECOVERY_RESEARCH",
+        "restriction_classes": (),
+        "evidence_mode": "IMMUTABLE_TUPLES",
+        "evidence": (("README.md", "b0e96c0307340f272c3eca5e54d4a893f17acf2d"),),
+    },
+    "encodeous/nylon": {
+        "license": "Apache-2.0",
+        "lifecycle": "ACTIVE",
+        "disposition": "HIGH_VALUE_NETWORK_ARCHITECTURE_SOURCE",
+        "pattern_ids": (
+            "SELF_HEALING_ROUTE_CONVERGENCE",
+            "DECENTRALIZED_ROUTE_EXCHANGE",
+            "MULTIHOP_LATENCY_FORWARDING",
+            "AUTHENTICATED_CONTROL_TRANSPORT",
+        ),
+        "destination": "VERAMESH_PRIMARY_BUS_SECONDARY_RESEARCH",
+        "restriction_classes": ("OWNER_SUBSYSTEM_REVIEW_REQUIRED",),
+        "evidence_mode": "IMMUTABLE_TUPLES",
+        "evidence": (("README.md", "1b01fccfb91281a222b9ebb715cdb4f67d7867f8"),),
+    },
+}
+
 REPOSITORY_KEYS = {
     "repository",
     "head",
@@ -214,6 +322,7 @@ def validate_intake(data: dict[str, Any]) -> None:
 
     seen: set[str] = set()
     all_patterns: set[str] = set()
+    pattern_destinations: dict[str, set[str]] = {}
     for index, raw in enumerate(repositories):
         where = f"root.repositories[{index}]"
         item = _exact_keys(raw, REPOSITORY_KEYS, where)
@@ -240,6 +349,8 @@ def validate_intake(data: dict[str, Any]) -> None:
         destination = _enum(item["destination"], DOMAINS["destination"], f"{where}.destination")
         pattern_ids = _enum_list(item["pattern_ids"], DOMAINS["pattern_id"], f"{where}.pattern_ids")
         all_patterns.update(pattern_ids)
+        for pattern_id in pattern_ids:
+            pattern_destinations.setdefault(pattern_id, set()).add(destination)
         restrictions = _enum_list(
             item["restriction_classes"],
             DOMAINS["restriction_class"],
@@ -314,6 +425,9 @@ def validate_intake(data: dict[str, Any]) -> None:
         patterns = _enum_list(item["pattern_ids"], DOMAINS["pattern_id"], f"{where}.pattern_ids")
         if not set(patterns) <= all_patterns:
             _fail(f"{where}.pattern_ids: followup references pattern absent from intake snapshot")
+        for pattern_id in patterns:
+            if destination not in pattern_destinations[pattern_id]:
+                _fail(f"{where}.pattern_ids: followup destination differs from source profile")
 
 
 def load_and_validate(path: Path = CONTRACT) -> dict[str, Any]:
