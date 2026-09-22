@@ -96,3 +96,19 @@ def test_review_target_cannot_point_at_different_pr():
     value["review_evidence"]["vcp"]["pull_request"] = 11
     with pytest.raises(VeraPortAcceptanceError, match="target PR mismatch"):
         validate_review_evidence_binding(value)
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("reviewer_identity", "bad reviewer", "invalid shape"),
+        ("evidence_id", "PASS", "durable evidence shape"),
+        ("evidence_id", "github:review:", "durable evidence shape"),
+        ("evidence_id", "bus:not-a-sha", "durable evidence shape"),
+    ],
+)
+def test_review_provenance_identifier_shapes_fail_closed(field, value, message):
+    candidate = receipt()
+    candidate["review_evidence"]["vcp"][field] = value
+    with pytest.raises(VeraPortAcceptanceError, match=message):
+        validate_review_evidence_binding(candidate)
