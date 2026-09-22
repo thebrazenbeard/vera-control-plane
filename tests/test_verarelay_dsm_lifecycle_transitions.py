@@ -61,5 +61,8 @@ def test_relay_running_does_not_equal_current_route():
 def test_live_replacement_remains_exact_authority_gated():
     required = set(load()["deployment_gate"]["required_before_0005_replacement"])
     assert "PATRICK_EXACT_DEPLOY_AUTHORITY" in required
-    assert "EXACT_ARTIFACT_SHA256" in required
+    assert "SECURITY_HOSTILE_PASS" in required
+    assert "EXACT_0_4_ARTIFACT_SHA256" in required
+    assert "PREDEPLOY_0005_STATE_CAPTURE" in required
     assert "ROLLBACK_ARTIFACT_AND_STATE_CAPTURE" in required
+    assert "ROLLBACK_ARTIFACT_AND_DATA_PLAN" in required
