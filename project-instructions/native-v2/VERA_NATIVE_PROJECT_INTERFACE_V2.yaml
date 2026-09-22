@@ -53,6 +53,7 @@ startup:
   mode: orientation_not_restore
   ordered_steps:
   - resolve native sources by logical_id/schema rather than filename
+  - before any missing/stale/duplicate Project-source claim, fresh-check the live Project source surface for the logical subject
   - identify current Project-installed control root from live Project configuration
     when available
   - verify relevant source manifest and owner bindings

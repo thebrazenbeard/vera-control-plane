@@ -1,0 +1,145 @@
+name: VCP integrity
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/vcp-integrity.yml"
+      - "project-instructions/**"
+      - "protocol/**"
+      - "governance/**"
+      - "state/**"
+      - "save_states/**"
+      - "tools/**"
+      - "tests/**"
+      - "README.md"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/vcp-integrity.yml"
+      - "project-instructions/**"
+      - "protocol/**"
+      - "governance/**"
+      - "state/**"
+      - "save_states/**"
+      - "tools/**"
+      - "tests/**"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vcp-integrity-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integrity:
+    name: Exact-head source and test integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || '' }}
+    steps:
+      - name: Checkout exact subject
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify exact checked-out head
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$EXPECTED_SHA"
+          echo "Validated exact head: $actual"
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+
+      - name: Compile executable Python surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m compileall -q tools tests
+
+      - name: Run full repository unit-test suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tests -p "test_*.py" -v
+
+      - name: Validate Native Project integrity contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest -v             tests.test_native_project_source_integrity_contract             tests.test_native_project_v2_pack_reproducibility             tests.test_native_project_v2_safe_replacement             tests.test_native_project_v2_task_closeout
+
+      - name: Rebuild and verify NV2A1 successor package
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/VERA_NV2A1_20260922_INSTALL.zip"
+          python tools/build_native_project_successor_v2a1.py "$out" > "$RUNNER_TEMP/package.json"
+          python - "$out" "$RUNNER_TEMP/package.json" <<'PY'
+          import hashlib
+          import json
+          import sys
+          import zipfile
+          from pathlib import Path
+
+          archive = Path(sys.argv[1])
+          build = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))
+          receipt = json.loads(
+              Path("project-instructions/native-v2/delivery/VERA_NV2A1_20260922_DELIVERY_RECEIPT.json")
+              .read_text(encoding="utf-8")
+          )
+          manifest = json.loads(
+              Path("project-instructions/native-v2/VERA_NATIVE_PROJECT_PACK_MANIFEST_V2.json")
+              .read_text(encoding="utf-8")
+          )
+
+          payload = archive.read_bytes()
+          actual_sha = hashlib.sha256(payload).hexdigest()
+          expected = receipt["package"]
+          assert actual_sha == build["sha256"]
+          assert actual_sha == expected["sha256"]
+          assert len(payload) == expected["bytes"]
+
+          expected_names = [
+              manifest["delivery_filename_map"][name]
+              for name in manifest["files"]
+          ]
+          with zipfile.ZipFile(archive, "r") as zf:
+              assert zf.namelist() == expected_names
+              assert len(zf.namelist()) == expected["member_count"]
+              assert len(set(zf.namelist())) == len(zf.namelist())
+
+          kernel = Path("project-instructions/native-v2/VERA_NATIVE_PROJECT_KERNEL_V2.txt").read_text(
+              encoding="utf-8"
+          )
+          assert len(kernel) <= 8000
+          assert len(kernel) == manifest["native_kernel_chars"]
+          print(f"NV2A1 package verified: {actual_sha}")
+          PY
+
+      - name: Reject whitespace errors across the validated change
+        shell: bash
+        run: |
+          set -euo pipefail
+          zero="0000000000000000000000000000000000000000"
+          if [ -n "$BASE_SHA" ] && [ "$BASE_SHA" != "$zero" ] && git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            git diff --check "$BASE_SHA"...HEAD
+          elif git rev-parse HEAD^ >/dev/null 2>&1; then
+            git diff --check HEAD^ HEAD
+          else
+            git diff --check
+          fi

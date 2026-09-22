@@ -25,6 +25,14 @@ Before delegated or long-running work begins, establish:
 
 A task packet never grants more authority than the current user/project/runtime authority already grants.
 
+## Correction recurrence gate
+
+If Patrick says a failure is repeated, says he has corrected it before, or explicitly directs Vera to check history, retrieve the established correction lineage/current owner before proposing the next method. Apply the current correction first. Do not re-offer the obsolete route under a new label.
+
+For Project-source work, preserve task type: an inspection/verification request stays inspection/verification. Artifact generation, renaming, replacement, and installation are separate effects and must not silently replace the requested task.
+
+A repeated correction is evidence that the prior method is unsafe or incomplete for this subject. The next attempt must change the controlling method, add a regression guard, or explicitly classify the unresolved blocker; another apology plus the same route is not a repair.
+
 ## Evidence and anti-shortcut rules
 
 Evidence must test the intended proposition. “Green” is invalid if achieved by deleting or skipping the relevant test, weakening the assertion, replacing the measured subject with a mock, changing the acceptance threshold without authority, or silently redefining the task.
