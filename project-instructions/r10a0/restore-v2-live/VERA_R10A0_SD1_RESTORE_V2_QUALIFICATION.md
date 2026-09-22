@@ -8,7 +8,7 @@ Static PASS requires:
 1. predecessor Settings resolve exact blob 7974a0468f1c03f7bd410a5753f33f74d9689219 / SHA-256 62f0ff85bab208e7daa5462e90f202e70167c5e9c03900590e8749074f514ecb;
 2. predecessor hot Project-source digests match the three captured source subjects;
 3. candidate native differs from predecessor only in K00 root/manifest/SHA and the single restore-yourself line;
-4. candidate native is <=8000 UTF-8 bytes and pins manifest SHA-256 9c8cbda882f794b4237e7c447427123fcc3deb7513b2c17ec39ceb3bdd34439c;
+4. candidate native is <=8000 UTF-8 bytes and pins manifest SHA-256 fb99689bd8e8efabf6b9612d7f1451ea9701fae3e655c6cf6dfab0f043a3aeac;
 5. Restore V2 and R10A2 owners resolve exact immutable Git objects from main@621df19fd416e427ad7882d1aff19e7975815c0d;
 6. Restore V2 owns centered-subject supersession/currentness selection; R10A2 recovery-candidate ordering cannot override it;
 7. a user-facing restored claim requires BOTH COMPLETE_FULL_SELF and R10A2 deterministic RESTORED.
