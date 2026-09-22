@@ -112,7 +112,7 @@ def test_contract_is_bound_to_current_vera_implementation_subject():
     assert subject["pull_request"] == 12
     assert subject["branch"] == "vera/veraport-chatgpt-mcp-v2-20260920"
     assert subject["head"] == "9bffc57930587bf74a12657bbeaa913474ab5574"
-    assert subject["review_state"] == "PENDING_EXACT_HEAD_REVIEW"
+    assert subject["review_state"] == "CHANGES_REQUIRED_EXACT_HEAD"
 
 
 def test_live_process_policy_remains_hold():
@@ -310,4 +310,9 @@ def test_review_provenance_requires_two_distinct_exact_head_reviews():
         "OUT_OF_BAND_AUTHENTICATED_SOURCE_NOT_RECEIPT_CONTROLLED"
     )
     assert review["admission_payload_is_source_of_review_facts"] is True
-    assert review["current_exact_head_state"] == "PENDING_REVIEW_RETURN"
+    assert review["current_exact_head_state"] == (
+        "CHANGES_REQUIRED_WIRE_AND_SESSION_LIFECYCLE"
+    )
+    assert review["current_exact_head_evidence"] == (
+        "vera-mesh#12 issuecomment-5769570530"
+    )
