@@ -8,7 +8,6 @@ from typing import Any
 
 SCHEMA = "SD1_SUPABASE_WITNESS_QUALIFICATION_CONTRACT_V1"
 CURRENTNESS_PATHS = (
-    ("status",),
     ("current_frontier", "qualification_artifact"),
     ("current_frontier", "production_witness"),
     ("current_frontier", "causal_data_collection"),
@@ -52,6 +51,8 @@ def validate_acceptance_contract(value: dict[str, Any]) -> None:
         raise SD1AcceptanceIntegrityError("acceptance contract envelope mismatch")
     if value.get("schema") != SCHEMA:
         raise SD1AcceptanceIntegrityError("acceptance contract schema mismatch")
+    if type(value.get("status")) is not str or not value["status"]:
+        raise SD1AcceptanceIntegrityError("acceptance contract status must be a nonempty string")
 
     frontier = value.get("current_frontier")
     domains = value.get("current_frontier_allowed_values")
