@@ -98,7 +98,7 @@ def verify_whitespace(base_sha: str | None) -> None:
 
 def run_repository_tests() -> None:
     run([sys.executable, "-m", "compileall", "-q", "tools", "tests"])
-    run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py", "-v"])
+    run([sys.executable, "-m", "pytest", "-q", "tests"])
 
 
 def validate(base_sha: str | None = None, run_tests: bool = True) -> dict[str, object]:
