@@ -32,7 +32,7 @@ def test_entry_gate_requires_exact_head_and_distinct_durable_reviews():
         "repository": "thebrazenbeard/vera-mesh",
         "pull_request": 12,
         "exact_head": "9bffc57930587bf74a12657bbeaa913474ab5574",
-        "current_review_state": "PENDING_EXACT_HEAD_REVIEW",
+        "current_review_state": "CHANGES_REQUIRED_EXACT_HEAD",
     }
     gate = value["entry_gate"]
     assert gate["vera_mesh_pr12_exact_head_review"] == (
@@ -50,6 +50,12 @@ def test_entry_gate_requires_exact_head_and_distinct_durable_reviews():
         "REFERENCE_AND_CONTENT_DIGEST_ONLY_NOT_TRUST_ROOT"
     )
     assert gate["unresolved_review_evidence"] == "PENDING_REVIEW_EVIDENCE_NE_PASS"
+    assert gate["current_implementation_review"] == (
+        "CHANGES_REQUIRED_WIRE_AND_SESSION_LIFECYCLE"
+    )
+    assert gate["current_implementation_review_evidence"] == (
+        "vera-mesh#12 issuecomment-5769570530"
+    )
     assert gate["vcp_control_contract"] == "PASS_REQUIRED"
 
 def test_initial_trust_is_read_only():
