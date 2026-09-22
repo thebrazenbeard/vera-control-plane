@@ -476,8 +476,6 @@ def validate_intake(data: dict[str, Any]) -> None:
     followups = root["followups"]
     if type(followups) is not list or not followups:
         _fail("root.followups: expected non-empty structured action list")
-    if followups != EXPECTED_FOLLOWUPS:
-        _fail("root.followups: exact reviewed followup snapshot changed")
     for index, raw in enumerate(followups):
         where = f"root.followups[{index}]"
         item = _exact_keys(raw, FOLLOWUP_KEYS, where)
@@ -495,6 +493,9 @@ def validate_intake(data: dict[str, Any]) -> None:
         for pattern_id in patterns:
             if destination not in pattern_destinations[pattern_id]:
                 _fail(f"{where}.pattern_ids: followup destination differs from source profile")
+
+    if followups != EXPECTED_FOLLOWUPS:
+        _fail("root.followups: exact reviewed followup snapshot changed")
 
 
 def load_and_validate(path: Path = CONTRACT) -> dict[str, Any]:
