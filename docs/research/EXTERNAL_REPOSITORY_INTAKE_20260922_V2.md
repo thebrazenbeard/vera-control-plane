@@ -21,7 +21,7 @@ Follow-ups are structured objects containing only:
 - a finite research/history destination;
 - finite pattern IDs.
 
-The validator freezes the domain definitions themselves. Adding a new lifecycle, disposition, destination, restriction, pattern ID, action kind, evidence mode, repository identity, or source head is therefore a new source subject rather than an unreviewed wording change.
+The validator freezes the domain definitions themselves and each repository's full normative profile, including license observation, lifecycle, disposition, patterns, destination, restrictions, evidence mode, and evidence tuples. Adding or changing any of those values is therefore a new source subject rather than an unreviewed in-domain downgrade.
 
 Human-readable explanations remain documentation. They are not parsed to infer admission, authority, installation, routing, memory, provider state, or effects.
 
@@ -33,7 +33,7 @@ Additional fail-closed rules include:
 - archived/stale evidence remains historical and carries `PRESERVE_HISTORICAL_ONLY`;
 - content-corpus evidence stays `NONE_BY_DEFAULT` and carries `CONTENT_POSITION_NONADOPTION`;
 - VeraMesh destinations require explicit owner-subsystem review;
-- follow-up action/destination combinations are finite and cross-checked;
+- follow-up action/destination combinations are finite and cross-checked; each follow-up pattern must retain the research destination bound by its source repository profile;
 - immutable evidence paths reject traversal and malformed blobs;
 - repository identities and exact observed heads are frozen to this snapshot.
 
