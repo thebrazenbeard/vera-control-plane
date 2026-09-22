@@ -20,6 +20,7 @@ INCIDENT = (
 )
 CLASSIFICATION = ROOT / "governance" / "VCP_OPEN_PR_CLASSIFICATION_V2.json"
 GITHUB_SECURITY = ROOT / "governance" / "VCP_GITHUB_SECURITY_CURRENTNESS_V1.json"
+ISSUE1_CLOSURE = ROOT / "governance" / "VCP_ISSUE1_RUNTIME_CLOSURE_V1.json"
 
 EXPECTED = {
     "20260912170153": (
@@ -69,6 +70,7 @@ class VcpProviderCustodyTests(unittest.TestCase):
         self.github_security = json.loads(
             GITHUB_SECURITY.read_text(encoding="utf-8")
         )
+        self.issue1 = json.loads(ISSUE1_CLOSURE.read_text(encoding="utf-8"))
 
     def test_provider_identity_is_exact(self):
         provider = self.custody["provider"]
