@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import re
-from datetime import date
 from pathlib import Path, PurePosixPath
 from typing import Any
 
@@ -10,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "governance" / "VERA_EXTERNAL_REPOSITORY_INTAKE_V2.json"
 
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
+SNAPSHOT_OBSERVED_DATE = "2026-09-20"
 
 ROOT_KEYS = {
     "schema",
@@ -259,6 +259,57 @@ ACTION_DESTINATIONS = {
     },
 }
 
+EXPECTED_FOLLOWUPS = [
+    {
+        "action_kind": "ADAPT_PATTERN_IN_VCP_RESEARCH",
+        "destination": "VCP_COORDINATION_CURRENTNESS_RESEARCH",
+        "pattern_ids": [
+            "GOAL_HARNESS_EVIDENCE",
+            "TRUTH_SURFACE_CLOSEOUT",
+            "SEPARATE_TRUTH_SURFACES",
+        ],
+    },
+    {
+        "action_kind": "ROUTE_PATTERN_TO_VERAMESH_RESEARCH",
+        "destination": "VERAMESH_TRANSPORT_RESILIENCE_RESEARCH",
+        "pattern_ids": [
+            "DATA_PLANE_ROUTE_VALIDATION",
+            "LAST_KNOWN_GOOD_RECONNECT",
+            "PERSISTENT_NODE_IDENTITY",
+            "LOOPBACK_SAFE_EXPOSURE",
+            "RELEASE_CHECKSUM_VERIFICATION",
+        ],
+    },
+    {
+        "action_kind": "ROUTE_PATTERN_TO_VERAMESH_RESEARCH",
+        "destination": "VERAMESH_PRIMARY_BUS_SECONDARY_RESEARCH",
+        "pattern_ids": [
+            "SELF_HEALING_ROUTE_CONVERGENCE",
+            "DECENTRALIZED_ROUTE_EXCHANGE",
+            "MULTIHOP_LATENCY_FORWARDING",
+            "AUTHENTICATED_CONTROL_TRANSPORT",
+        ],
+    },
+    {
+        "action_kind": "EVALUATE_PATTERN_FOR_RECOVERY_RESEARCH",
+        "destination": "VCP_INSTALL_RECOVERY_RESEARCH",
+        "pattern_ids": [
+            "DURABLE_STATE_OUTSIDE_RUNTIME",
+            "VERIFY_STATE_BEFORE_REPLACEMENT",
+            "RETAIN_PREDECESSOR_UNTIL_SUCCESSOR_RUNNING",
+            "OPERATIONAL_READBACK_METRICS",
+        ],
+    },
+    {
+        "action_kind": "PRESERVE_AS_REFERENCE_ONLY",
+        "destination": "NETWORK_ROUTING_HISTORY",
+        "pattern_ids": [
+            "EXTERNAL_ALLOCATION_ROUTE_POLICY",
+            "ROUTING_DATA_REFRESH",
+        ],
+    },
+]
+
 
 class IntakeValidationError(ValueError):
     pass
@@ -302,10 +353,11 @@ def validate_intake(data: dict[str, Any]) -> None:
         _fail("root.schema: unexpected schema")
     if root["status"] != "SOURCE_RESEARCH_INTAKE_ONLY_NOT_DEPENDENCY_NOT_CONTROL":
         _fail("root.status: unexpected or promoted status")
-    try:
-        date.fromisoformat(root["observed_date"])
-    except (TypeError, ValueError):
-        _fail("root.observed_date: expected ISO date YYYY-MM-DD")
+    if root["observed_date"] != SNAPSHOT_OBSERVED_DATE:
+        _fail(
+            "root.observed_date: exact snapshot date changed; "
+            "fresh observation requires a new reviewed snapshot subject"
+        )
 
     rules = _exact_keys(root["guard_rules"], GUARD_RULES, "root.guard_rules")
     if any(type(value) is not bool or value is not True for value in rules.values()):
@@ -424,6 +476,8 @@ def validate_intake(data: dict[str, Any]) -> None:
     followups = root["followups"]
     if type(followups) is not list or not followups:
         _fail("root.followups: expected non-empty structured action list")
+    if followups != EXPECTED_FOLLOWUPS:
+        _fail("root.followups: exact reviewed followup snapshot changed")
     for index, raw in enumerate(followups):
         where = f"root.followups[{index}]"
         item = _exact_keys(raw, FOLLOWUP_KEYS, where)
