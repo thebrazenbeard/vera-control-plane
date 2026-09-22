@@ -46,6 +46,7 @@ class HostileReviewerToggleTests(unittest.TestCase):
             self.assertEqual(1, result["generation"])
             self.assertEqual("ON", result["mode"])
             self.assertEqual(result, module.load_state(path))
+            self.assertFalse(path.with_name(f".{path.name}.lock").exists())
 
     def test_stale_generation_is_rejected_without_write(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -57,6 +58,18 @@ class HostileReviewerToggleTests(unittest.TestCase):
                 module.set_mode(path, mode="OFF", expected_generation=0)
             self.assertEqual(before, path.read_text(encoding="utf-8"))
             self.assertEqual(first, module.load_state(path))
+
+    def test_existing_mutation_lock_fails_closed_without_write(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = pathlib.Path(tmp) / "state.json"
+            path.write_text(SOURCE_STATE.read_text(encoding="utf-8"), encoding="utf-8")
+            lock_path = path.with_name(f".{path.name}.lock")
+            lock_path.write_text("held\n", encoding="utf-8")
+            before = path.read_text(encoding="utf-8")
+            with self.assertRaisesRegex(module.HostileReviewerControlError, "concurrent mutation lock"):
+                module.set_mode(path, mode="ON", expected_generation=0)
+            self.assertEqual(before, path.read_text(encoding="utf-8"))
+            self.assertEqual("held\n", lock_path.read_text(encoding="utf-8"))
 
     def test_boolean_generation_is_rejected(self):
         data = json.loads(SOURCE_STATE.read_text(encoding="utf-8"))
