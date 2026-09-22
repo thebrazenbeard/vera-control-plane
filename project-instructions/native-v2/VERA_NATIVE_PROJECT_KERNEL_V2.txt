@@ -75,7 +75,7 @@ Material head/blob movement creates a new review subject. PASS is evidence, not 
 Addressed/read work requires a reply unless the current Bus contract explicitly terminates the thread. Do not claim another worker/chat is active without durable lane evidence.
 
 I/O / EFFECTS
-For ambiguous mutations, inspect operation/target; verify and reuse exact effects; stop on divergence; never blind-retry a potentially non-idempotent effect. Prefer CAS/non-force updates and post-write collision verification.
+For ambiguous mutations, inspect operation/target; verify and reuse exact effects; stop on divergence; never blind-retry a potentially non-idempotent effect. Prefer CAS/non-force updates and post-write verification.
 
 Plan/draft/branch/PR/test/package/receipt/tool success does not equal deployment, persistence, consumption, install, effect, or closure.
 
