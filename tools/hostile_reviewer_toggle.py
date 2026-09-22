@@ -40,7 +40,7 @@ def _validate_state(value: Mapping[str, Any]) -> None:
     last_change = value["last_change"]
     if type(last_change) is not dict or set(last_change) != LAST_CHANGE_KEYS:
         raise HostileReviewerControlError("last_change must match the closed schema")
-    if last_change["kind"] not in VALID_CHANGE_KINDS:
+    if type(last_change["kind"]) is not str or last_change["kind"] not in VALID_CHANGE_KINDS:
         raise HostileReviewerControlError("unsupported last_change kind")
     if type(last_change["note"]) is not str:
         raise HostileReviewerControlError("last_change note must be a string")
@@ -50,6 +50,37 @@ def load_state(path: Path) -> dict[str, Any]:
     value = json.loads(path.read_text(encoding="utf-8"))
     _validate_state(value)
     return value
+
+
+def _acquire_mutation_lock(path: Path) -> tuple[int, Path]:
+    lock_path = path.with_name(f".{path.name}.lock")
+    try:
+        fd = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    except FileExistsError as exc:
+        raise HostileReviewerControlError(
+            "concurrent mutation lock is already held; fail closed and reconcile"
+        ) from exc
+    try:
+        os.write(fd, f"pid={os.getpid()}\n".encode("ascii"))
+        os.fsync(fd)
+    except Exception:
+        os.close(fd)
+        try:
+            os.unlink(lock_path)
+        except FileNotFoundError:
+            pass
+        raise
+    return fd, lock_path
+
+
+def _release_mutation_lock(fd: int, lock_path: Path) -> None:
+    os.close(fd)
+    try:
+        os.unlink(lock_path)
+    except FileNotFoundError as exc:
+        raise HostileReviewerControlError(
+            "mutation lock disappeared before release; outcome requires reconciliation"
+        ) from exc
 
 
 def set_mode(
@@ -69,42 +100,54 @@ def set_mode(
     if type(note) is not str:
         raise HostileReviewerControlError("note must be a string")
 
-    current = load_state(path)
-    if current["generation"] != expected_generation:
-        raise HostileReviewerControlError(
-            f"stale generation: expected {expected_generation}, observed {current['generation']}"
-        )
-
-    updated = dict(current)
-    updated["generation"] = expected_generation + 1
-    updated["mode"] = mode
-    updated["last_change"] = {"kind": change_kind, "note": note}
-
-    payload = json.dumps(updated, indent=2, sort_keys=True) + "\n"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with NamedTemporaryFile(
-        mode="w",
-        encoding="utf-8",
-        dir=path.parent,
-        prefix=f".{path.name}.",
-        suffix=".tmp",
-        delete=False,
-    ) as tmp:
-        tmp.write(payload)
-        tmp.flush()
-        os.fsync(tmp.fileno())
-        tmp_name = tmp.name
-
+    lock_fd, lock_path = _acquire_mutation_lock(path)
+    operation_error: BaseException | None = None
     try:
-        os.replace(tmp_name, path)
-    finally:
-        if os.path.exists(tmp_name):
-            os.unlink(tmp_name)
+        current = load_state(path)
+        if current["generation"] != expected_generation:
+            raise HostileReviewerControlError(
+                f"stale generation: expected {expected_generation}, observed {current['generation']}"
+            )
 
-    readback = load_state(path)
-    if readback != updated:
-        raise HostileReviewerControlError("post-write readback mismatch")
-    return readback
+        updated = dict(current)
+        updated["generation"] = expected_generation + 1
+        updated["mode"] = mode
+        updated["last_change"] = {"kind": change_kind, "note": note}
+
+        payload = json.dumps(updated, indent=2, sort_keys=True) + "\n"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as tmp:
+            tmp.write(payload)
+            tmp.flush()
+            os.fsync(tmp.fileno())
+            tmp_name = tmp.name
+
+        try:
+            os.replace(tmp_name, path)
+        finally:
+            if os.path.exists(tmp_name):
+                os.unlink(tmp_name)
+
+        readback = load_state(path)
+        if readback != updated:
+            raise HostileReviewerControlError("post-write readback mismatch")
+        return readback
+    except BaseException as exc:
+        operation_error = exc
+        raise
+    finally:
+        try:
+            _release_mutation_lock(lock_fd, lock_path)
+        except HostileReviewerControlError:
+            if operation_error is None:
+                raise
 
 
 def main() -> int:
