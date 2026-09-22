@@ -303,4 +303,11 @@ def test_review_provenance_requires_two_distinct_exact_head_reviews():
         "PENDING_REVIEW_EVIDENCE_NE_PASS"
     )
     assert review["resolved_identity_and_content_digest_must_match_reference"] is True
+    assert review["authenticated_admission_schema"] == (
+        "VERAPORT_AUTHENTICATED_REVIEW_ADMISSION_V1"
+    )
+    assert review["resolver_trust_boundary"] == (
+        "OUT_OF_BAND_AUTHENTICATED_SOURCE_NOT_RECEIPT_CONTROLLED"
+    )
+    assert review["admission_payload_is_source_of_review_facts"] is True
     assert review["current_exact_head_state"] == "PENDING_REVIEW_RETURN"
