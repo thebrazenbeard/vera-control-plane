@@ -149,16 +149,68 @@ class VcpProviderCustodyTests(unittest.TestCase):
         ):
             self.assertIn(role, text)
 
-    def test_effect_packet_records_external_authority_and_verified_effect(self):
-        self.assertEqual(self.packet["status"], "READBACK_VERIFIED")
+    def test_issue1_source_fixed_does_not_promote_to_runtime(self):
+        self.assertEqual(
+            self.issue1["closure"]["source_defect"],
+            "VERIFIED_FIXED",
+        )
+        self.assertEqual(
+            self.issue1["closure"]["live_runtime_defect"],
+            "BLOCKED_EXTERNAL",
+        )
+        self.assertEqual(
+            self.issue1["runtime_boundary"]["live_router_consumption"],
+            "NOT_ESTABLISHED",
+        )
+        self.assertFalse(
+            self.issue1["runtime_boundary"]["repository_source_auto_consumption"]
+        )
+        identities = self.issue1["canonical_source"]["byte_identity"]
+        self.assertEqual(len(identities), 3)
+        self.assertTrue(all(row["identical"] for row in identities.values()))
+        self.assertIsNone(
+            self.issue1["closure"]["protected_effect_packet"]
+        )
+
+    def test_effect_packet_separates_verified_effect_from_unverified_authority(self):
+        self.assertEqual(
+            self.packet["status"],
+            "READBACK_VERIFIED_AUTHORITY_INCIDENT_OPEN",
+        )
         self.assertEqual(
             self.packet["provider"]["project_id"],
             "fawkirqroyniueeqspif",
         )
-        self.assertEqual(self.packet["authorization"]["authority"], "Patrick current direct instruction")
-        self.assertEqual(self.packet["provider_effect"]["result"], "APPLIED_VERIFIED")
-        self.assertEqual(self.packet["provider_effect"]["migration_version"], "20260921192624")
+        authorization = self.packet["authorization"]
+        self.assertEqual(
+            authorization["current_classification"],
+            "UNVERIFIED_PROTECTED_EFFECT_AUTHORITY",
+        )
+        self.assertEqual(
+            authorization["current_verification"],
+            "NO_SEPARATE_EXACT_PATRICK_AUTHORIZATION_LOCATED",
+        )
+        self.assertEqual(
+            authorization["historical_recorded_claim"]["authority"],
+            "Patrick current direct instruction",
+        )
+        self.assertIn(
+            "is not accepted as sufficient exact authorization",
+            authorization["reconciliation_note"],
+        )
+        self.assertEqual(
+            self.packet["provider_effect"]["result"],
+            "APPLIED_VERIFIED",
+        )
+        self.assertEqual(
+            self.packet["provider_effect"]["migration_version"],
+            "20260921192624",
+        )
         self.assertIsNone(self.packet["exact_authorization_needed"])
+        self.assertIn(
+            "does not retroactively authorize",
+            self.packet["retention_decision_needed"],
+        )
         self.assertTrue(
             self.packet["rollback_recovery"][
                 "emergency_regrant_requires_separate_authority"
