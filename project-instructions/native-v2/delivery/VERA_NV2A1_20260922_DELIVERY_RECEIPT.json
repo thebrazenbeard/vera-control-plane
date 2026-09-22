@@ -73,6 +73,6 @@
     "current_route": "verified-current",
     "runtime_consumption": "verified-current-for_native_kernel_and_project_source_resolution",
     "behavior_effect": "bounded-live-verification-pass",
-    "workspace_coordination": "draft_pr_open_not_merged"
+    "workspace_coordination": "MUTABLE_GITHUB_STATE_NOT_FROZEN_HERE; VERIFY_SOURCE_PR_AND_MAIN_LIVE"
   }
 }
