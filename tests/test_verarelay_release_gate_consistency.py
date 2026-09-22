@@ -4,6 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 LIFECYCLE = ROOT / "protocol" / "VERARELAY_DSM_LIFECYCLE_CURRENTNESS_V1.json"
 QUALIFICATION = ROOT / "protocol" / "VERARELAY_0_4_QUALIFICATION_V1.json"
+TRANSITIONS = ROOT / "protocol" / "VERARELAY_DSM_LIFECYCLE_TRANSITIONS_V1.json"
 
 
 def load(path):
@@ -29,3 +30,13 @@ def test_security_hostile_pass_is_a_real_qualification_state():
     assert "SECURITY_HOSTILE_PASS" in qualification["ordered_states"]
     assert qualification["current_observation"]["SECURITY_HOSTILE_PASS"] is False
     assert "SECURITY_HOSTILE_PASS" in qualification["deployed_requires"]
+
+
+def test_live_replacement_gate_is_not_weaker_than_qualification_deployment():
+    qualification = load(QUALIFICATION)
+    transitions = load(TRANSITIONS)["deployment_gate"]
+    pre = set(transitions["required_before_0005_replacement"])
+    post = set(transitions["post_install_required"])
+    qualification_required = set(qualification["deployed_requires"])
+    assert qualification_required <= (pre | post)
+    assert "SECURITY_HOSTILE_PASS" in pre
