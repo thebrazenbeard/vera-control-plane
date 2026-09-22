@@ -1,0 +1,32 @@
+{
+  "schema": "VERA_NV2A1_DELIVERY_RECEIPT_V1",
+  "logical_id": "VERA_NV2A1_DELIVERY_RECEIPT",
+  "release_id": "VERA_NATIVE_V2A1_20260922_PROJECT_SOURCE_FIX",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "source_pr": 124,
+  "source_subject_head": "5838ca90e65ce8fdfecab99fa9ffefc615c7dcc3",
+  "source_base": "558e7de395709a18b3bd1ba8b9994afbbf874dd1",
+  "package": {
+    "filename": "VERA_NV2A1_20260922_INSTALL.zip",
+    "sha256": "5bc6e095f3dac39e1889b76d42d7f018b044770cc8e0b156dc61918de998de27",
+    "bytes": 36945,
+    "member_count": 10,
+    "archive_format": "ZIP_STORED_V1",
+    "fixed_datetime": "1980-01-01T00:00:00",
+    "fixed_mode": "100644"
+  },
+  "checks": {
+    "source_blobs_match_exact_pr_subject": true,
+    "unique_fresh_delivery_namespace": true,
+    "no_loose_installable_member_handoff": true,
+    "kernel_character_count": 7995
+  },
+  "delivery_namespace": "VERA_NV2A1_20260922",
+  "non_effects": [
+    "not merged",
+    "not native Project installed",
+    "not Project Instructions replaced",
+    "not runtime qualification",
+    "not provider mutation"
+  ]
+}
