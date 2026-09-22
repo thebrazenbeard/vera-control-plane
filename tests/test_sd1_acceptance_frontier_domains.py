@@ -70,7 +70,6 @@ def test_expanding_a_domain_changes_semantic_subject():
 def test_in_domain_currentness_movement_does_not_move_semantic_subject():
     baseline = load()
     moved = deepcopy(baseline)
-    moved["status"] = "QUALIFIED"
     moved["current_frontier"] = {
         "qualification_artifact": "PINNED",
         "production_witness": "CONSTRUCTIBLE",
@@ -78,6 +77,20 @@ def test_in_domain_currentness_movement_does_not_move_semantic_subject():
         "control_causality": "PENDING_EXECUTION",
     }
     assert semantic_subject_sha256(moved) == semantic_subject_sha256(baseline)
+
+
+def test_status_change_moves_semantic_subject():
+    baseline = load()
+    changed = deepcopy(baseline)
+    changed["status"] = "PROVIDER_WRITE_AUTHORIZED"
+    assert semantic_subject_sha256(changed) != semantic_subject_sha256(baseline)
+
+
+def test_non_string_status_fails_closed():
+    value = load()
+    value["status"] = True
+    with pytest.raises(SD1AcceptanceIntegrityError, match="status must be a nonempty string"):
+        validate_acceptance_contract(value)
 
 
 def test_fixed_state_separation_change_moves_or_fails_subject():
