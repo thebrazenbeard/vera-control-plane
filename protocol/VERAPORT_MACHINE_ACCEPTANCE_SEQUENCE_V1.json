@@ -1,0 +1,176 @@
+{
+  "schema": "VERAPORT_MACHINE_ACCEPTANCE_SEQUENCE_V1",
+  "status": "SOURCE_CONTROL_GATE_ONLY_NO_MACHINE_EFFECT",
+  "coordination_id": "VERAMESH_PARALLEL_WORK_RUN_ID238983n3nrr3",
+  "entry_gate": {
+    "vera_mesh_pr12_exact_head_review": "TWO_DISTINCT_DURABLE_PASS_REVIEWS_REQUIRED",
+    "independent_reviewer": "DISTINCT_INDEPENDENT_REVIEW_IDENTITY_AND_EVIDENCE_REQUIRED",
+    "vcp_control_contract": "PASS_REQUIRED",
+    "live_process_policy": "MUST_REMAIN_FALSE_UNTIL_SEPARATELY_AUTHORIZED",
+    "review_provenance": "VCP_AND_INDEPENDENT_REVIEWS_MUST_BIND_EXACT_IMPLEMENTATION_HEAD",
+    "self_attested_review_pass": "FORBIDDEN"
+  },
+  "ordered_steps": [
+    "CONTROLLER_IDENTITY",
+    "READ_ONLY_TRUST",
+    "SERVICE_RESTART_AND_READBACK",
+    "DIRECT_APPLICATION_AUTH",
+    "EDGE_APPLICATION_AUTH",
+    "LANE_LIST",
+    "READ_ONLY_LANE_OPEN",
+    "BOUNDED_READ",
+    "DRAINED_CLOSE"
+  ],
+  "non_skippable": true,
+  "non_implications": [
+    "CONTROLLER_IDENTITY_NE_TRUST_ENROLLED",
+    "TRUST_ENROLLED_NE_SERVICE_CURRENT",
+    "SERVICE_CURRENT_NE_DIRECT_AUTH",
+    "DIRECT_AUTH_NE_EDGE_AUTH",
+    "EDGE_AUTH_NE_LANE_LIST_PASS",
+    "LANE_LIST_PASS_NE_LANE_OPEN_PASS",
+    "LANE_OPEN_PASS_NE_READ_PASS",
+    "READ_PASS_NE_DRAINED_CLOSE_PASS",
+    "DRAINED_CLOSE_PASS_NE_WRITE_AUTHORITY",
+    "DRAINED_CLOSE_PASS_NE_PROCESS_AUTHORITY",
+    "DRAINED_CLOSE_PASS_NE_CHATGPT_PLUGIN_REGISTERED"
+  ],
+  "steps": {
+    "CONTROLLER_IDENTITY": {
+      "success_requires": [
+        "EXACT_CONTROLLER_PRIVATE_KEY_IDENTITY_PROVEN_OR_EXACT_ROTATION_AUTHORIZED",
+        "EC_P256",
+        "DERIVED_CONTROLLER_PRINCIPAL_RECORDED",
+        "PRIVATE_KEY_NEVER_PERSISTED_TO_GIT_BUS_LOGS"
+      ],
+      "on_failure": "STOP"
+    },
+    "READ_ONLY_TRUST": {
+      "success_requires": [
+        "EXACT_CONTROLLER_PUBLIC_KEY_ENROLLED",
+        "CAPABILITY_CEILING_EXACTLY_FS_READ",
+        "NO_FS_WRITE",
+        "NO_PROCESS_EXEC",
+        "PRE_AND_POST_TRUST_HASHES_RECORDED"
+      ],
+      "authority": "PATRICK_EXACT_TRUST_MUTATION_AUTHORITY_REQUIRED_IF_ROTATION_NEEDED"
+    },
+    "SERVICE_RESTART_AND_READBACK": {
+      "success_requires": [
+        "VERAPORT_AGENT_RESTART_EFFECT_AUTHORIZED",
+        "SERVICE_RUNNING_READBACK",
+        "EXPECTED_CONFIG_HASH_READBACK",
+        "EXPECTED_TRUST_HASH_READBACK",
+        "EXPECTED_WORKSTATION_PRINCIPAL_READBACK",
+        "ALLOW_PROCESS_EXEC_FALSE_READBACK"
+      ],
+      "failure": "ROLLBACK_TRUST_AND_RESTORE_LAST_GOOD_SERVICE_STATE"
+    },
+    "DIRECT_APPLICATION_AUTH": {
+      "route": "DIRECT_STREAM",
+      "success_requires": [
+        "TLS_1_3",
+        "ALPN_VERAPORT_1",
+        "VERAPORT_APPLICATION_AUTH_PASS",
+        "EXPECTED_CONTROLLER_PRINCIPAL",
+        "EXPECTED_WORKSTATION_PRINCIPAL",
+        "GRANTED_CAPABILITIES_EXACTLY_FS_READ",
+        "UNEXPIRED_APPLICATION_SESSION"
+      ]
+    },
+    "EDGE_APPLICATION_AUTH": {
+      "route": "EDGE_STREAM",
+      "success_requires": [
+        "TLS_1_3",
+        "ALPN_VERAPORT_1",
+        "VERAPORT_APPLICATION_AUTH_PASS",
+        "SAME_EXPECTED_CONTROLLER_PRINCIPAL",
+        "SAME_EXPECTED_WORKSTATION_PRINCIPAL",
+        "GRANTED_CAPABILITIES_EXACTLY_FS_READ",
+        "UNEXPIRED_APPLICATION_SESSION",
+        "NO_RDC_WORKSTATION_OPERATION_DEPENDENCY"
+      ]
+    },
+    "LANE_LIST": {
+      "success_requires": [
+        "LIVE_VERAPORT_REQUEST",
+        "CORRELATED_RESPONSE",
+        "NO_DURABLE_READ_ONLY_LEDGER_GROWTH_BEYOND_POLICY",
+        "DIRECT_AND_EDGE_ROUTE_STATE_TRUTHFUL"
+      ]
+    },
+    "READ_ONLY_LANE_OPEN": {
+      "success_requires": [
+        "CAPABILITIES_EXACTLY_FS_READ",
+        "CLAIM_WITHIN_ALLOWED_ROOT",
+        "TTL_NOT_GREATER_THAN_REMAINING_SESSION_LIFETIME",
+        "NONREUSABLE_FENCE_IDENTITY",
+        "NO_WRITE_CLAIM"
+      ]
+    },
+    "BOUNDED_READ": {
+      "fixture": "HARMLESS_KNOWN_FILE_WITHIN_ALLOWED_ROOT",
+      "success_requires": [
+        "CONTENT_MATCH_EXPECTED_FIXTURE",
+        "READ_WITHIN_DECLARED_BYTE_LIMIT",
+        "WIRE_RESPONSE_WITHIN_FRAME_POLICY_OR_CHUNKED_POLICY",
+        "OPERATION_DEADLINE_OBSERVED",
+        "NO_ROUTE_AUTHORITY_WIDENING",
+        "NO_FS_WRITE",
+        "NO_PROCESS_EXEC"
+      ]
+    },
+    "DRAINED_CLOSE": {
+      "success_requires": [
+        "NO_INFLIGHT_LANE_OPERATION_REMAINS",
+        "ALL_REACHABLE_MIRRORS_CONFIRMED_CLOSED_OR_EXPLICITLY_RECONCILED",
+        "NO_POST_CLOSE_REMOTE_OPERATION",
+        "NO_POST_CLOSE_CONTENT_RETURN",
+        "RESOURCE_CLAIM_RELEASED",
+        "REOPEN_REQUIRES_NEW_NONREUSED_FENCE"
+      ]
+    }
+  },
+  "route_acceptance": {
+    "direct_and_edge_must_both_pass_application_auth": true,
+    "transport_only_is_insufficient": true,
+    "same_workstation_identity_required": true,
+    "same_controller_identity_required": true,
+    "edge_pass_without_direct_pass": "PARTIAL_NOT_CURRENT_MULTI_PATH_ACCEPTANCE",
+    "direct_pass_without_edge_pass": "PARTIAL_NOT_CURRENT_MULTI_PATH_ACCEPTANCE"
+  },
+  "completion_state": {
+    "name": "LIVE_READ_ONLY_MACHINE_ACCEPTANCE_PASS",
+    "requires_all_ordered_steps": true,
+    "claim_ceiling": [
+      "READ_ONLY_MACHINE_PATH_PROVEN",
+      "DIRECT_AND_EDGE_APPLICATION_AUTH_PROVEN",
+      "LANE_FENCING_AND_DRAINED_CLOSE_PROVEN"
+    ],
+    "does_not_establish": [
+      "FS_WRITE_PASS",
+      "PROCESS_EXEC_PASS",
+      "DURABLE_RELAY_ROUTE_CURRENT",
+      "CHATGPT_PLUGIN_REGISTERED",
+      "RDC_EQUIVALENCE_BOUNDARY_PASS"
+    ]
+  },
+  "protected_effects_not_authorized_by_this_contract": [
+    "CREDENTIAL_ROTATION",
+    "TRUST_MUTATION",
+    "SERVICE_RESTART",
+    "FS_WRITE",
+    "PROCESS_POLICY_ENABLE",
+    "PROCESS_EXECUTION",
+    "MCP_TUNNEL_CREATION",
+    "CHATGPT_APP_REGISTRATION",
+    "MERGE",
+    "DEPLOY"
+  ],
+  "implementation_subject": {
+    "repository": "thebrazenbeard/vera-mesh",
+    "pull_request": 12,
+    "exact_head": "9bffc57930587bf74a12657bbeaa913474ab5574",
+    "current_review_state": "PENDING_EXACT_HEAD_REVIEW"
+  }
+}
