@@ -187,6 +187,9 @@
       "fresh VCP migration frontier",
       "fresh provider health/security readback",
       "all protected effects observed under this incident"
-    ]
+    ],
+    "final_packet_path": "governance/retention-packets/VCP_PR106_FINAL_RETENTION_PACKET_V1.json",
+    "final_packet_prepared_from_pr_head": "b5c978ea10ab7693c8e2c0f3658e159a4c28ee98",
+    "patrick_retention_decision_recorded": false
   }
 }

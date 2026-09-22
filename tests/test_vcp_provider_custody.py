@@ -109,11 +109,16 @@ class VcpProviderCustodyTests(unittest.TestCase):
             "0769c527ad8fc8280d052dc1ce93f85673b6bb7d",
         )
 
-    def test_deny_all_rls_findings_are_not_misclassified_as_exposure(self):
+    def test_supabase_advisor_is_clear_after_explicit_deny_policies(self):
         advisor = self.custody["security_readback"]["supabase_advisor"]["security"]
-        self.assertEqual(len(advisor), 1)
-        self.assertEqual(advisor[0]["finding"], "rls_enabled_no_policy")
-        self.assertEqual(advisor[0]["classification"], "INTENTIONAL_DENY_ALL")
+        self.assertEqual(advisor, [])
+        explicit = self.custody["security_readback"]["explicit_deny_all_policies"]
+        self.assertEqual(explicit["provider_readback"], "VERIFIED")
+        self.assertEqual(len(explicit["policies"]), 2)
+        self.assertTrue(all(policy["using"] is False for policy in explicit["policies"]))
+        self.assertTrue(
+            all(policy["with_check"] is False for policy in explicit["policies"])
+        )
 
     def test_internal_guard_execute_revoke_is_readback_verified(self):
         guard = self.custody["security_readback"]["internal_rls_guard"]

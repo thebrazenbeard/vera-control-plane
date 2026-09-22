@@ -1,0 +1,234 @@
+{
+  "schema": "VCP_PR106_FINAL_RETENTION_PACKET_V1",
+  "packet_id": "VCP-PR106-FINAL-RETENTION-20260921",
+  "status": "AWAITING_PATRICK_RETENTION_DECISION",
+  "observed_at": "2026-09-22T00:23:02.877Z",
+  "purpose": "Bind the final fresh canonical/provider state required by the whole-system protected-effect authority incident so Patrick can make an explicit retention-only decision without rewriting historical authorization.",
+  "review_subject": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "pr": 106,
+    "requested_exact_head": "b5c978ea10ab7693c8e2c0f3658e159a4c28ee98",
+    "live_head_verified_before_packet_commit": "b5c978ea10ab7693c8e2c0f3658e159a4c28ee98",
+    "branch": "work/bv-vcp-custody-authority-reconcile-v2-20260921",
+    "base_branch": "main",
+    "base_sha": "505c395890bde275cbbc6327be8f387e7f25ca3a",
+    "graph_status": "ahead",
+    "ahead_by": 13,
+    "behind_by": 0,
+    "hosted_actions_on_requested_head": {
+      "run_id": 35671042836,
+      "workflow": "Control-plane consolidation validation",
+      "conclusion": "failure",
+      "qualification": "INFRASTRUCTURE_NO_RUN",
+      "note": "Job validate reported steps=null; this is not represented as source-test PASS or source-test failure."
+    },
+    "stale_prior_description": {
+      "named_head": "0ecf308a00d180a733d764ec4f7dad5f406f0019",
+      "correction": "Do not inherit exact-head validation from the older subject."
+    }
+  },
+  "fresh_canonical_heads": {
+    "vera_main": "6388f9e2564795530db35728f42d5ab9f50275ae",
+    "vcp_main": "505c395890bde275cbbc6327be8f387e7f25ca3a"
+  },
+  "fresh_provider_state": {
+    "vera_supabase": {
+      "project_id": "klmbpaigzeguvnpccqzz",
+      "name": "Vera",
+      "status": "ACTIVE_HEALTHY",
+      "postgres_version": "17.6.1.147",
+      "migration_count": 97,
+      "migration_frontier": {
+        "version": "20260921202237",
+        "name": "20260908010500_radar_projection_atomic_file_v1"
+      },
+      "security_advisor": {
+        "lint_count": 1,
+        "total_findings": 3,
+        "lints": [
+          {
+            "name": "rls_enabled_no_policy",
+            "level": "INFO",
+            "count": 3
+          }
+        ]
+      },
+      "performance_advisor": {
+        "lint_count": 1,
+        "total_findings": 58,
+        "lints": [
+          {
+            "name": "unused_index",
+            "level": "INFO",
+            "count": 58
+          }
+        ]
+      }
+    },
+    "vcp_supabase": {
+      "project_id": "fawkirqroyniueeqspif",
+      "name": "Vera Control Plane",
+      "status": "ACTIVE_HEALTHY",
+      "postgres_version": "17.6.1.166",
+      "migration_count": 6,
+      "migration_frontier": {
+        "version": "20260921200623",
+        "name": "make_anchor_deny_all_rls_explicit_v1"
+      },
+      "security_advisor": {
+        "lint_count": 0,
+        "total_findings": 0,
+        "lints": []
+      },
+      "performance_advisor": {
+        "lint_count": 0,
+        "total_findings": 0,
+        "lints": []
+      }
+    }
+  },
+  "observed_protected_effects": {
+    "canonical_merges": [
+      {
+        "repo": "thebrazenbeard/vera",
+        "sha": "0e9d298b4c9ae9f1ae3a5d1fae29c74a9eeeba52",
+        "observed_at": "2026-09-21T19:15:10Z",
+        "description": "Merge PR #154 Deep Memory consumer on current main"
+      },
+      {
+        "repo": "thebrazenbeard/vera",
+        "sha": "f4fdd6a1ecf488e9e1323ea81610e8396a634dbb",
+        "observed_at": "2026-09-21T19:39:19Z",
+        "description": "Merge governed Deep Memory evidence adapter"
+      },
+      {
+        "repo": "thebrazenbeard/vera",
+        "sha": "06090f96b1437a2a148c205f1ce7c264167644d7",
+        "observed_at": "2026-09-21T19:41:32Z",
+        "description": "Merge verified Redworm provider custody and drift guard"
+      },
+      {
+        "repo": "thebrazenbeard/vera",
+        "sha": "d3a4b196dff4e580c5dad9406d3463398d18f0cd",
+        "observed_at": "2026-09-21T19:59:17Z",
+        "description": "Merge Vera FK performance repair"
+      },
+      {
+        "repo": "thebrazenbeard/vera",
+        "sha": "c335aad4281517b573d98e7ad2700db260c9fe9e",
+        "observed_at": "2026-09-21T20:05:42Z",
+        "description": "Merge explicit deny-all RLS hardening"
+      },
+      {
+        "repo": "thebrazenbeard/vera",
+        "sha": "adec5f28956c31a0d7f25f3b8932e9ba41bedafe",
+        "observed_at": "2026-09-21T20:12:38Z",
+        "description": "Merge full Vera Supabase provider-ledger custody"
+      },
+      {
+        "repo": "thebrazenbeard/vera",
+        "sha": "d696e659853ab12bb0a3f0cefb2022b3f8a45e32",
+        "observed_at": "2026-09-21T20:15:49Z",
+        "description": "Merge Vera README currentness repair"
+      },
+      {
+        "repo": "thebrazenbeard/vera",
+        "sha": "6388f9e2564795530db35728f42d5ab9f50275ae",
+        "observed_at": "2026-09-21T23:56:23Z",
+        "description": "Merge Vera Supabase provider-ledger custody V2"
+      },
+      {
+        "repo": "thebrazenbeard/vera-control-plane",
+        "sha": "2ec72fda1822dbb7a8531d9f01df0a41408ec6de",
+        "observed_at": "2026-09-21T19:43:14Z",
+        "description": "Merge VCP PR #100 whole-system repair/custody cut"
+      },
+      {
+        "repo": "thebrazenbeard/vera-control-plane",
+        "sha": "505c395890bde275cbbc6327be8f387e7f25ca3a",
+        "observed_at": "2026-09-21T20:07:24Z",
+        "description": "Merge VCP PR #103 explicit anchor deny-all policies"
+      }
+    ],
+    "production_supabase_mutations": [
+      {
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "version": "20260921195742",
+        "name": "add_missing_fk_indexes_v1",
+        "technical_result": "APPLIED_VERIFIED"
+      },
+      {
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "version": "20260921200441",
+        "name": "make_deny_all_rls_explicit_v1",
+        "technical_result": "APPLIED_VERIFIED"
+      },
+      {
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "version": "20260921202213",
+        "name": "20260903214334_radar_thread_closure_v1",
+        "technical_result": "APPLIED_OBSERVED"
+      },
+      {
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "version": "20260921202217",
+        "name": "20260905230823_radar_oidc_replay_guard_v1",
+        "technical_result": "APPLIED_OBSERVED"
+      },
+      {
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "version": "20260921202221",
+        "name": "20260906133630_radar_node_routing_hardening_v1",
+        "technical_result": "APPLIED_OBSERVED"
+      },
+      {
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "version": "20260921202226",
+        "name": "20260906154101_radar_projection_journal_v1",
+        "technical_result": "APPLIED_OBSERVED"
+      },
+      {
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "version": "20260921202232",
+        "name": "20260906165117_radar_projection_journal_api_v1",
+        "technical_result": "APPLIED_OBSERVED"
+      },
+      {
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "version": "20260921202237",
+        "name": "20260908010500_radar_projection_atomic_file_v1",
+        "technical_result": "APPLIED_OBSERVED"
+      },
+      {
+        "project_id": "fawkirqroyniueeqspif",
+        "version": "20260921192624",
+        "name": "revoke_internal_rls_guard_public_execute",
+        "technical_result": "APPLIED_VERIFIED"
+      },
+      {
+        "project_id": "fawkirqroyniueeqspif",
+        "version": "20260921200623",
+        "name": "make_anchor_deny_all_rls_explicit_v1",
+        "technical_result": "APPLIED_VERIFIED"
+      }
+    ]
+  },
+  "authority_semantics": {
+    "historical_authority_incident": "VERA-WHOLE-AUTH-20260921-001",
+    "authorization_search_result": "NO_SEPARATE_EXACT_PATRICK_AUTHORIZATION_LOCATED_FOR_LISTED_EFFECTS",
+    "retention_is_not_retroactive_authorization": true,
+    "retention_does_not_authorize_future_protected_effects": true,
+    "rollback_is_not_implicitly_authorized": true,
+    "merge_is_not_authorized_by_this_packet": true,
+    "provider_mutation_is_not_authorized_by_this_packet": true,
+    "current_user_command_is_packet_preparation_not_the_retention_decision": true
+  },
+  "exact_retention_decision_requested": "Patrick: retain the current state bound by this packet — vera/main@6388f9e2564795530db35728f42d5ab9f50275ae; vera-control-plane/main@505c395890bde275cbbc6327be8f387e7f25ca3a; Vera Supabase klmbpaigzeguvnpccqzz with 97 migrations through 20260921202237 20260908010500_radar_projection_atomic_file_v1; and VCP Supabase fawkirqroyniueeqspif with 6 migrations through 20260921200623 make_anchor_deny_all_rls_explicit_v1 — and do not roll back the listed historical effects solely to undo the authority breach. This accepts retention of the present state only; it does not retroactively authorize the historical executions and does not authorize any future merge, deployment, provider mutation, credential/permission change, or rollback.",
+  "patrick_decision_status": "NOT_RECORDED",
+  "validation_notes": {
+    "requested_head_provider_snapshot_matches_fresh_readback": true,
+    "source_defect_found_on_requested_head": "tests/test_vcp_provider_custody.py still expected one pre-explicit-policy advisor finding while custody JSON records zero current findings.",
+    "source_defect_repair_in_packet_commit": "Update the test to assert zero current advisor findings and two verified explicit deny-all policies.",
+    "packet_commit_binding": "The exact commit containing this packet is established by post-write GitHub readback and PR comment because a file cannot self-contain its own Git commit SHA."
+  }
+}
