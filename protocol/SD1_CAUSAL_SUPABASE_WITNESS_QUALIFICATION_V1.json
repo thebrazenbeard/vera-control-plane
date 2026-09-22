@@ -37,13 +37,12 @@
   "implementation_subject_binding": {
     "digest_algorithm": "SHA256_CANONICAL_JSON_SEMANTIC_PROJECTION_V1",
     "subject_projection_excludes": [
-      "status",
       "current_frontier.qualification_artifact",
       "current_frontier.production_witness",
       "current_frontier.causal_data_collection",
       "current_frontier.control_causality"
     ],
-    "rule": "The qualification artifact MUST bind this acceptance contract's canonical semantic projection. Only the declared mutable status/current-frontier leaves are excluded; every excluded current_frontier leaf must remain inside its exact declared value domain, and unknown keys/values are invalid. Evidence-gate definitions, artifact shape, state-separation rules, value-domain rules, non-effects, and any undeclared semantics remain bound."
+    "rule": "The qualification artifact MUST bind this acceptance contract's canonical semantic projection. Top-level status remains bound into the semantic subject. Only the declared mutable current_frontier leaves are excluded; every excluded current_frontier leaf must remain inside its exact declared value domain, and unknown keys/values are invalid. Evidence-gate definitions, artifact shape, state-separation rules, value-domain rules, non-effects, status, and any undeclared semantics remain bound."
   },
   "non_effects": [
     "NOT_PROVIDER_MUTATION",
