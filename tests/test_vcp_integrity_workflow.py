@@ -4,10 +4,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "vcp-integrity.yml"
+VALIDATOR = ROOT / "tools" / "validate_vcp_integrity.py"
 
 
 def text() -> str:
     return WORKFLOW.read_text(encoding="utf-8")
+
+
+def validator_text() -> str:
+    return VALIDATOR.read_text(encoding="utf-8")
 
 
 def test_workflow_exists_and_is_read_only() -> None:
@@ -25,21 +30,20 @@ def test_pull_requests_are_bound_to_exact_head_sha() -> None:
     assert 'test "$actual" = "$EXPECTED_SHA"' in data
 
 
-def test_full_suite_and_native_project_regressions_are_required() -> None:
+def test_workflow_delegates_to_executable_validator() -> None:
     data = text()
-    assert 'python -m unittest discover -s tests -p "test_*.py" -v' in data
-    assert "tests.test_native_project_source_integrity_contract" in data
-    assert "tests.test_native_project_v2_pack_reproducibility" in data
-    assert "tests.test_native_project_v2_safe_replacement" in data
-    assert "tests.test_native_project_v2_task_closeout" in data
+    assert 'python tools/validate_vcp_integrity.py --base-sha "$BASE_SHA"' in data
+    assert "python -m unittest discover" not in data
+    assert "build_native_project_successor_v2a1.py" not in data
 
 
-def test_package_rebuild_and_kernel_ceiling_are_required() -> None:
-    data = text()
-    assert "build_native_project_successor_v2a1.py" in data
+def test_validator_contains_full_suite_and_native_package_gate() -> None:
+    data = validator_text()
+    assert '"unittest", "discover", "-s", "tests", "-p", "test_*.py", "-v"' in data
+    assert "build_nv2a1(output)" in data
     assert 'assert actual_sha == expected["sha256"]' in data
-    assert "assert len(kernel) <= 8000" in data
-    assert 'assert len(kernel) == manifest["native_kernel_chars"]' in data
+    assert "assert actual <= 8000" in data
+    assert '"git", "diff", "--check"' in data
 
 
 def test_workflow_runs_for_relevant_pr_main_and_manual_events() -> None:
