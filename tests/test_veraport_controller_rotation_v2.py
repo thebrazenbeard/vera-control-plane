@@ -73,6 +73,29 @@ class VeraPortControllerRotationV2Tests(unittest.TestCase):
                 with self.assertRaises(ControllerIdentityError):
                     controller_principal_from_spki_der(bad)  # type: ignore[arg-type]
 
+    def test_malformed_and_trailing_der_fail_closed(self):
+        spki = bytes.fromhex(SPKI_DER_HEX)
+        for bad in (b"x", spki[:-1], spki + b"\\x00"):
+            with self.subTest(value=bad.hex()[:40]):
+                with self.assertRaises(ControllerIdentityError):
+                    controller_principal_from_spki_der(bad)
+
+    def test_wrong_key_algorithm_fails_closed(self):
+        spki = bytearray(bytes.fromhex(SPKI_DER_HEX))
+        marker = bytes.fromhex("2a8648ce3d0201")
+        offset = bytes(spki).index(marker)
+        spki[offset + len(marker) - 1] = 0x02
+        with self.assertRaisesRegex(ControllerIdentityError, "id-ecPublicKey"):
+            controller_principal_from_spki_der(bytes(spki))
+
+    def test_wrong_ec_curve_fails_closed(self):
+        spki = bytearray(bytes.fromhex(SPKI_DER_HEX))
+        marker = bytes.fromhex("2a8648ce3d030107")
+        offset = bytes(spki).index(marker)
+        spki[offset + len(marker) - 1] = 0x08
+        with self.assertRaisesRegex(ControllerIdentityError, "P-256"):
+            controller_principal_from_spki_der(bytes(spki))
+
     def test_key_id_derivation_is_not_invented(self):
         spki = bytes.fromhex(SPKI_DER_HEX)
         with self.assertRaisesRegex(KeyIdDerivationUnresolved, "does not define"):
