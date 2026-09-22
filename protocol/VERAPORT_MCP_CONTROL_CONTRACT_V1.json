@@ -350,18 +350,25 @@
       "INDEPENDENT_SOURCE_REVIEW"
     ],
     "each_review_requires": [
-      "REVIEW_CLASS",
-      "TARGET_REPOSITORY",
-      "PULL_REQUEST",
-      "REVIEWED_HEAD",
-      "REVIEWER_IDENTITY",
       "IMMUTABLE_EVIDENCE_ID",
-      "PASS_VERDICT"
+      "IMMUTABLE_EVIDENCE_CONTENT_SHA256",
+      "AUTHENTICATED_EVIDENCE_RESOLUTION"
     ],
     "reviewed_head_must_equal_implementation_head": true,
     "one_identity_cannot_satisfy_both_classes": true,
     "one_evidence_object_cannot_satisfy_both_classes": true,
     "self_attested_pass_strings": "FORBIDDEN",
-    "current_exact_head_state": "PENDING_REVIEW_RETURN"
+    "current_exact_head_state": "PENDING_REVIEW_RETURN",
+    "resolved_evidence_must_derive": [
+      "REVIEW_CLASS",
+      "TARGET_REPOSITORY",
+      "PULL_REQUEST",
+      "REVIEWED_HEAD",
+      "REVIEWER_IDENTITY",
+      "PASS_VERDICT"
+    ],
+    "receipt_claims_are_not_trust_root": true,
+    "unresolved_or_unavailable_evidence": "PENDING_REVIEW_EVIDENCE_NE_PASS",
+    "resolved_identity_and_content_digest_must_match_reference": true
   }
 }
