@@ -116,12 +116,22 @@ def test_followup_action_destination_pair_is_finite():
     rejected(data, "action/destination combination")
 
 
-def test_followup_pattern_must_exist_in_snapshot():
+def test_in_domain_repository_profile_mutation_is_rejected():
     data = load()
-    data["followups"][0]["pattern_ids"] = ["ARCHIVE_CURRENTNESS_CHECK"]
-    validate_intake(data)
-    data["repositories"][1]["pattern_ids"] = ["LOCAL_FIRST_CUSTODY"]
-    rejected(data, "followup references pattern absent")
+    data["repositories"][0]["destination"] = "VCP_INSTALL_RECOVERY_RESEARCH"
+    rejected(data, "normative repository profile changed")
+
+
+def test_valid_looking_evidence_rebinding_is_rejected_by_profile_freeze():
+    data = load()
+    data["repositories"][0]["evidence"][0]["blob"] = "0" * 40
+    rejected(data, "normative repository profile changed")
+
+
+def test_followup_cannot_route_pattern_to_different_source_destination():
+    data = load()
+    data["followups"][1]["pattern_ids"] = ["SELF_HEALING_ROUTE_CONVERGENCE"]
+    rejected(data, "followup destination differs from source profile")
 
 
 def test_repository_identity_and_head_are_frozen():
