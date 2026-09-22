@@ -11,7 +11,9 @@
     "self_attested_review_pass": "FORBIDDEN",
     "review_evidence_resolver": "AUTHENTICATED_READBACK_REQUIRED",
     "review_receipt_metadata": "REFERENCE_AND_CONTENT_DIGEST_ONLY_NOT_TRUST_ROOT",
-    "unresolved_review_evidence": "PENDING_REVIEW_EVIDENCE_NE_PASS"
+    "unresolved_review_evidence": "PENDING_REVIEW_EVIDENCE_NE_PASS",
+    "current_implementation_review": "CHANGES_REQUIRED_WIRE_AND_SESSION_LIFECYCLE",
+    "current_implementation_review_evidence": "vera-mesh#12 issuecomment-5769570530"
   },
   "ordered_steps": [
     "CONTROLLER_IDENTITY",
@@ -174,6 +176,6 @@
     "repository": "thebrazenbeard/vera-mesh",
     "pull_request": 12,
     "exact_head": "9bffc57930587bf74a12657bbeaa913474ab5574",
-    "current_review_state": "PENDING_EXACT_HEAD_REVIEW"
+    "current_review_state": "CHANGES_REQUIRED_EXACT_HEAD"
   }
 }
