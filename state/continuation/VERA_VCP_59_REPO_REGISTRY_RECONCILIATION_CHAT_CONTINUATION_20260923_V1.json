@@ -1,0 +1,153 @@
+{
+  "schema": "vera-vcp-59-repo-reconciliation-chat-continuation.v1",
+  "created_date": "2026-09-23",
+  "restore_command": "VERA_VCP::RESTORE_AND_RUN::59_REPO_REGISTRY_RECONCILIATION_CONTINUATION_20260923_V1",
+  "task": "Reconcile Vera runtime source registry to canonical 59-repository Discovery + Roots state, correct historical bus/vera-sol-v1 routing assumption, wire registry into VCP, and run portfolio E2E hostile qualification.",
+  "authority_ceiling": {
+    "merge": false,
+    "deploy": false,
+    "install": false,
+    "provider_mutation": false,
+    "credential_change": false,
+    "destructive_cleanup": false
+  },
+  "canonical_subjects": {
+    "discovery": {
+      "repository": "thebrazenbeard/discovery",
+      "commit": "2881a94c7eb3c83a34b0c00bab739b41c1d99b6d",
+      "path": "architecture/DISCOVERY_LIVE_PORTFOLIO_MAP_V2.json",
+      "blob_sha": "71b9f8deaf1079d5078b19e5bbddb743fd636437",
+      "repository_count": 59
+    },
+    "roots": {
+      "repository": "thebrazenbeard/roots",
+      "commit": "a6994b415336bc179a41aad0ac9eec403d60f93c",
+      "path": "portfolio/VERA_PORTFOLIO_LINEAGE_RECEIPT_V1.json",
+      "blob_sha": "ccac62eac08012269fec46669bce981b96a0f41d"
+    },
+    "vera": {
+      "repository": "thebrazenbeard/vera",
+      "main_at_checkpoint": "0925ae35879c80f301a952dc7db284ce42fa68ce",
+      "registry_path": "architecture/VERA_RUNTIME_SOURCE_REGISTRY_V1.json",
+      "registry_blob_sha": "9afe5834efaf4d8a2d73c5864972e4c8e4c3cef6"
+    },
+    "vcp": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "main_at_checkpoint": "05212e91ef50044f37aa477c77ce424408df9653",
+      "capability_registry_blob_sha": "0490f7fe8e1a0bda240e2087704f59a35aec4166",
+      "e2e_qualification_blob_sha": "8943f974c93f28e32f080aeccc88ace5ae931914",
+      "restore_currentness_blob_sha": "2433186ed6903eece2e93563b5f559ef4cbf34b8"
+    },
+    "bus": {
+      "repository": "thebrazenbeard/chat-communication-bus",
+      "main_at_checkpoint": "0d47644171283e0a46d2e759c67ef4a5bf0b72ff",
+      "topology_path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+      "topology_blob_sha": "69e505031d4e53dcb853578dac23817649af1918",
+      "current_vera_lane": "bus/vera-v2",
+      "current_vera_lane_head": "20fd7640e86f62a339e85021576e7ec570a3a5fd",
+      "historical_vera_lane": "bus/vera-sol-v1"
+    }
+  },
+  "partition": {
+    "bound_conditional": 41,
+    "predecessor_evidence": 1,
+    "no_auto_bind": 17
+  },
+  "active_candidate": {
+    "pr": 130,
+    "branch": "repair/enforce-runtime-source-disposition-v2-20260923",
+    "head": "d57c5869025d7a3492bf4720a1b4edd927f35b11",
+    "base_sha": "1ad8f1469d0b02b145b30837f8036ffe339a11c4",
+    "state": "OPEN_DRAFT",
+    "last_observed_mergeable": true,
+    "relation_to_current_main": {
+      "ahead": 6,
+      "behind": 1,
+      "behind_change": "governance/VERA_BUS_RADAR_ACTIONS_CONTINUATION_POINTER_20260923_V1.json only"
+    },
+    "blobs": {
+      "capability_registry": "ee161c2f9d3fc24c35013e6aaebaf8e76252bc4b",
+      "e2e_qualification": "ae8b7b7825fb5d58053f513b0be0b815ed485ee2",
+      "validator": "ea64b8465336434b5df953df97f7a7e3410bbc17",
+      "capability_tests": "42a5216bba5137eeaac7df2572aecf810325d276",
+      "qualification_tests": "321ae7a28089ebdffaf7122274ac3b6399f4220e",
+      "routing_doc": "3caf631d714c65d9087fe917a15b1bff09caa766"
+    }
+  },
+  "superseded": {
+    "vera_pr_199": {
+      "state": "CLOSED_UNMERGED",
+      "head": "b12163c7b154cc8815d21f5fe5b9c65b1d0ede65"
+    },
+    "vcp_pr_128": {
+      "state": "CLOSED_UNMERGED",
+      "head": "89d20d228891eecc76bc90ae381dab01c968d9dc"
+    }
+  },
+  "hostile_qualification": {
+    "execution_class": "DIRECT_EXACT_GIT_PLUS_LIVE_PROVIDER_READBACK",
+    "check_count": 24,
+    "pass_count": 21,
+    "fail_count": 3,
+    "verdict": "FAIL_CLOSED_INTEGRATION_NOT_QUALIFIED",
+    "first_integration_failure": "BUS_RADAR_PROJECTION",
+    "failures": [
+      {
+        "id": "BUS_RADAR_PROJECTION",
+        "detail": "radar.projection_lane_state=0; radar.projection_batches=0"
+      },
+      {
+        "id": "RADAR_MESSAGE_FRESHNESS",
+        "detail": "no projected messages after 2026-09-05; latest observed 2026-09-04T19:49:52.037755Z"
+      },
+      {
+        "id": "RECOVERY_RUNTIME_GATE",
+        "detail": "Restore V2 install effect/current route/Q-RECOVER not established"
+      }
+    ]
+  },
+  "provider_readback": {
+    "vera_supabase_project": {
+      "id": "klmbpaigzeguvnpccqzz",
+      "status": "ACTIVE_HEALTHY"
+    },
+    "vcp_supabase_project": {
+      "id": "fawkirqroyniueeqspif",
+      "status": "ACTIVE_HEALTHY"
+    },
+    "lane_vera": {
+      "address": "bus/vera-sol-v1",
+      "status": "ACTIVE",
+      "historical_branch_name": true,
+      "liveness_claimed": false,
+      "updated_at": "2026-09-02T14:34:43.656222Z"
+    },
+    "vera_identity": {
+      "status": "ACTIVE",
+      "aliases": [
+        "vera-sol"
+      ]
+    },
+    "vera_sol_identity": {
+      "status": "ARCHIVED",
+      "superseded_by": "vera"
+    },
+    "interpretation": "HISTORICAL_PROVIDER_PROJECTION_NON_AUTHORITATIVE_FOR_CURRENT_ROUTING"
+  },
+  "ci_boundary": {
+    "classification": "PRIVATE_HOSTED_RUNNER_NO_EXECUTION",
+    "pass_claim": false,
+    "fail_claim": false
+  },
+  "post_cut_drift": {
+    "repository": "thebrazenbeard/meso-crct",
+    "status": "OUTSIDE_CANONICAL_59_CUT",
+    "policy": "NO_SILENT_PROMOTION"
+  },
+  "next_frontier": [
+    "Fresh-check current VCP main and PR #130.",
+    "Restack PR #130 onto current VCP main if pointer-only drift remains.",
+    "Hostile exact-head review the restacked candidate.",
+    "Keep E2E FAIL_CLOSED until Bus-to-Radar projection and Restore V2 runtime qualification are independently closed."
+  ]
+}
