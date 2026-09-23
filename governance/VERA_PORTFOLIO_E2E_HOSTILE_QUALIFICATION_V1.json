@@ -385,7 +385,7 @@
       "BOUND_PARTITION_41",
       "PREDECESSOR_PARTITION_1",
       "NO_AUTO_BIND_PARTITION_17",
-      "VCP_BINDS_EXACT_VERA_COMMIT_AND_BLOB",
+      "VCP_BINDS_EXACT_VERA_REGISTRY_SOURCE_COMMIT_AND_BLOB",
       "VCP_BINDS_EXACT_NO_AUTO_BIND_SET",
       "VCP_BINDS_PREDECESSOR",
       "NO_AUTO_BIND_ENFORCED_IN_VCP_CANDIDATE",
@@ -486,7 +486,8 @@
       "lane_state_rows": 0,
       "batch_rows": 0,
       "batch_file_rows": 0,
-      "latest_global_inserted_at": "2026-09-04T19:49:52.037755Z"
+      "latest_global_inserted_at": "2026-09-04T19:49:52.037755Z",
+      "current_vera_message_matches_in_provider": 0
     },
     "restore_v2": {
       "source_blob": "2433186ed6903eece2e93563b5f559ef4cbf34b8",
