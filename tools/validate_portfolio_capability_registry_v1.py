@@ -22,6 +22,7 @@ EXPECTED_RULES = {
     "DRIFTGUARD_HANDLES_BEHAVIORAL_DRIFT_EVIDENCE",
     "BUS_HANDLES_DURABLE_NON_PR_COORDINATION",
     "GITHUB_DRIVE_SUPABASE_REMAIN_DISTINCT_TRUTH_SURFACES",
+    "VERA_RUNTIME_SOURCE_REGISTRY_GOVERNS_ACTIVATION_DISPOSITION",
 }
 EXPECTED_SERVICE_ROUTES = {
     "portfolio_discovery": "thebrazenbeard/discovery",
@@ -86,15 +87,45 @@ def validate(data):
     if data.get("service_routing") != EXPECTED_SERVICE_ROUTES:
         errors.append("service_routing mismatch")
 
+    binding = data.get("runtime_source_registry_binding")
+    if not isinstance(binding, dict):
+        errors.append("runtime source registry binding missing")
+    else:
+        if binding.get("status") != "EXACT_CANONICAL_BINDING":
+            errors.append("runtime source registry binding status mismatch")
+        if binding.get("source_repository") != "thebrazenbeard/vera":
+            errors.append("runtime source registry repository mismatch")
+        if binding.get("source_commit") != "86be6105f13fc86bbd699778205a85c84059de9a":
+            errors.append("runtime source registry commit mismatch")
+        if binding.get("source_blob_sha") != "9afe5834efaf4d8a2d73c5864972e4c8e4c3cef6":
+            errors.append("runtime source registry blob mismatch")
+        if binding.get("source_counts") != {"total":59,"classified_source_rows":42,"no_auto_bind":17}:
+            errors.append("runtime source registry count binding mismatch")
+        routing = binding.get("routing", {})
+        if routing.get("current_vera_lane") != "bus/vera-v2":
+            errors.append("current Vera Bus lane binding mismatch")
+        if routing.get("historical_provider_projection") != "bus/vera-sol-v1":
+            errors.append("historical provider projection binding mismatch")
+        if routing.get("historical_provider_projection_authoritative") is not False:
+            errors.append("historical provider projection must not be routing authority")
+
     if repos.get("brigit", {}).get("class") != "IDENTITY_FIREWALL":
         errors.append("brigit identity firewall missing")
     if repos.get("brigit-unbound", {}).get("class") != "IDENTITY_FIREWALL":
         errors.append("brigit-unbound identity firewall missing")
     if repos.get("sexuality", {}).get("class") != "MIXED_IDENTITY_EXACT_BINDING":
         errors.append("sexuality exact-binding firewall missing")
-    for name in ("vera-R9A0","vera_ark","conditioning"):
+    for name in ("vera-R9A0","conditioning"):
         if repos.get(name, {}).get("class") != "ARCHIVE_PREDECESSOR":
             errors.append(f"{name}: predecessor/archive firewall missing")
+    if repos.get("vera_ark", {}).get("class") == "ARCHIVE_PREDECESSOR":
+        errors.append("vera_ark must not be classified as archive predecessor")
+    if repos.get("bt2", {}).get("class") != "REUSABLE_RESEARCH":
+        errors.append("bt2 generic-template classification missing")
+    if "distinct from build-team-2.0" not in repos.get("bt2", {}).get("capability", ""):
+        errors.append("bt2/build-team-2.0 distinct-subject boundary missing")
+    if repos.get("WorkBridgeMCP", {}).get("visibility") != "public":
+        errors.append("WorkBridgeMCP public portfolio entry missing")
     return errors
 
 def main():
