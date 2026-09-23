@@ -430,10 +430,10 @@
       "visibility": "public"
     },
     "vera-works": {
-      "class": "VERA_SYSTEM",
-      "load_mode": "TASK_RELEVANT_LIVE_READ",
-      "capability": "economic/work operating system",
-      "boundary": "work authority is not global Vera control",
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "separate economic/work operating-system project",
+      "boundary": "NO_AUTO_BIND into Vera runtime; work/project authority remains separately scoped",
       "visibility": "private"
     },
     "vera_ark": {
@@ -543,6 +543,28 @@
         }
       }
     },
-    "policy": "VCP capability routing may narrow task use but may not override Vera registry NO_AUTO_BIND, identity firewalls, activation gates, or currentness requirements."
+    "policy": "VCP capability routing may narrow task use but may not override Vera registry NO_AUTO_BIND, identity firewalls, activation gates, or currentness requirements.",
+    "no_auto_bind_repositories": [
+      "brigit",
+      "brigit-unbound",
+      "bt2",
+      "conditioning",
+      "entropyinc",
+      "firesafe",
+      "hc-brain",
+      "hephaestus",
+      "masamune",
+      "mediaphile",
+      "project-lantern",
+      "self",
+      "trek-data-core",
+      "vera-apk",
+      "vera-habitat",
+      "vera-works",
+      "wreckforge"
+    ],
+    "predecessor_evidence_repositories": [
+      "vera-R9A0"
+    ]
   }
 }
