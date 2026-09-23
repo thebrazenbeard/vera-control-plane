@@ -110,6 +110,31 @@ class PortfolioCapabilityRegistryTests(unittest.TestCase):
             "TASK_SPECIFIC_ONLY",
         )
 
+
+    def test_effective_runtime_source_disposition_preserves_upstream_ceiling(self):
+        self.assertEqual(
+            mod.runtime_source_disposition(self.data, "vera-apk")["status"],
+            "NO_AUTO_BIND",
+        )
+        self.assertFalse(
+            mod.runtime_source_disposition(self.data, "vera-apk")["auto_bind_allowed"]
+        )
+        self.assertEqual(
+            mod.runtime_source_disposition(self.data, "vera-R9A0")["status"],
+            "PREDECESSOR_EVIDENCE_ONLY",
+        )
+        self.assertEqual(
+            mod.runtime_source_disposition(self.data, "voss")["status"],
+            "BOUND_CONDITIONAL",
+        )
+        self.assertFalse(
+            mod.runtime_source_disposition(self.data, "voss")["auto_bind_allowed"]
+        )
+        self.assertEqual(
+            mod.runtime_source_disposition(self.data, "meso-crct")["status"],
+            "UNRESOLVED",
+        )
+
     def test_source_binding_mutations_fail_closed(self):
         mutant = copy.deepcopy(self.data)
         mutant["runtime_source_registry_binding"]["current_vera_bus_lane"] = "bus/vera-sol-v1"
