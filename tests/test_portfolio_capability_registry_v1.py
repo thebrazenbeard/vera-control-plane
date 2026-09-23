@@ -20,8 +20,8 @@ class PortfolioCapabilityRegistryTests(unittest.TestCase):
 
     def test_current_snapshot_shape(self):
         self.assertEqual([], mod.validate(copy.deepcopy(self.data)))
-        self.assertEqual(58, self.data["inventory"]["repository_count"])
-        self.assertEqual(23, self.data["inventory"]["public_count"])
+        self.assertEqual(59, self.data["inventory"]["repository_count"])
+        self.assertEqual(24, self.data["inventory"]["public_count"])
         self.assertEqual(35, self.data["inventory"]["private_count"])
 
     def test_digest_binds_exact_repository_set(self):
@@ -46,6 +46,29 @@ class PortfolioCapabilityRegistryTests(unittest.TestCase):
         mutant = copy.deepcopy(self.data)
         mutant["repositories"]["vera-R9A0"]["class"] = "CORE_CONTROL"
         self.assertIn("vera-R9A0: predecessor/archive firewall missing", mod.validate(mutant))
+
+    def test_runtime_source_registry_binding_is_exact(self):
+        b = self.data["runtime_source_registry_binding"]
+        self.assertEqual(b["source_commit"], "86be6105f13fc86bbd699778205a85c84059de9a")
+        self.assertEqual(b["source_blob_sha"], "9afe5834efaf4d8a2d73c5864972e4c8e4c3cef6")
+        self.assertEqual(b["source_counts"], {"total":59,"classified_source_rows":42,"no_auto_bind":17})
+        self.assertEqual(b["routing"]["current_vera_lane"], "bus/vera-v2")
+        self.assertEqual(b["routing"]["historical_provider_projection"], "bus/vera-sol-v1")
+        self.assertFalse(b["routing"]["historical_provider_projection_authoritative"])
+
+    def test_bt2_is_distinct_generic_template_not_build_team_two_service(self):
+        self.assertEqual(self.data["repositories"]["bt2"]["class"], "REUSABLE_RESEARCH")
+        self.assertIn("distinct from build-team-2.0", self.data["repositories"]["bt2"]["capability"])
+        self.assertEqual(self.data["repositories"]["build-team-2.0"]["class"], "SPECIALIST_SERVICE")
+
+    def test_vera_ark_is_action_adapter_not_archive_predecessor(self):
+        self.assertEqual(self.data["repositories"]["vera_ark"]["class"], "VERA_SYSTEM")
+        self.assertEqual(self.data["repositories"]["vera_ark"]["load_mode"], "EXACT_BINDING_ONLY")
+
+    def test_empty_stubs_are_evidence_only_and_workbridge_is_present(self):
+        self.assertEqual(self.data["repositories"]["vera-apk"]["load_mode"], "EVIDENCE_ONLY")
+        self.assertEqual(self.data["repositories"]["vera-habitat"]["load_mode"], "EVIDENCE_ONLY")
+        self.assertIn("WorkBridgeMCP", self.data["repositories"])
 
     def test_unknown_class_fails(self):
         mutant = copy.deepcopy(self.data)

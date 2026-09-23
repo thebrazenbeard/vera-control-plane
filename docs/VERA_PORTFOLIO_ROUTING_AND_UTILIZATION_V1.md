@@ -4,11 +4,11 @@ Status: private source guidance; not native Project installation evidence and no
 
 ## Purpose
 
-Vera should be able to use Patrick's whole repository portfolio without turning the native Project prompt into a 58-repository monolith.
+Vera should be able to use Patrick's whole repository portfolio without turning the native Project prompt into a 59-repository monolith.
 
 The routing rule is simple: **keep the native Project small; resolve capability and currentness at use time.**
 
-`governance/VERA_PORTFOLIO_CAPABILITY_REGISTRY_V1.json` is the private routing snapshot. It records what each currently observed repository is useful for and, equally importantly, what it is not allowed to mean.
+`governance/VERA_PORTFOLIO_CAPABILITY_REGISTRY_V1.json` is the private routing snapshot. It records what each currently observed repository is useful for and, equally importantly, what it is not allowed to mean. Its `runtime_source_registry_binding` is exact-bound to Vera's canonical 59-repository source directory; VCP routing policy may narrow use but may not override Vera's NO_AUTO_BIND, identity-firewall, activation, or currentness decisions.
 
 ## Portfolio routing
 
@@ -24,7 +24,7 @@ For behavioral drift/restore evidence, use **DriftGuard** as an evidence system,
 
 Use the **Chat Communication Bus** for durable non-PR coordination. A transport/projection record does not create identity, memory, authority, or semantic incorporation.
 
-Use **Hephaestus**, **Voss**, **Masamune**, and **Project Achilles** as specialist services for native Project engineering, forensic review, debugging, and security review. Their role names do not grant effect authority.
+Use **Hephaestus**, **Voss**, **Masamune**, and **Project Achilles** as specialist services for native Project engineering, forensic review, debugging, and security review. Their role names do not grant effect authority. `bt2` is not Build Team 2.0: it is a separate generic Hyperconnectome-template claimant, and its canonicality conflict with `self` and `hc-brain` remains unresolved.
 
 ## Truth surfaces
 
