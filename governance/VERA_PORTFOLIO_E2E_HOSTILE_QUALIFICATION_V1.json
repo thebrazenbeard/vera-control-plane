@@ -293,8 +293,8 @@
       "answer": "NO; Radar projection is stale despite healthy database/function status."
     },
     {
-      "question": "Does deployed edge byte match prove canonical source custody?",
-      "answer": "NO; deployed bytes match an unmerged draft PR, so source custody fails."
+      "question": "Does deployed edge byte match prove end-to-end Radar operation?",
+      "answer": "NO; fresh provider-to-current-main byte equality closes source custody for the deployed function, but projection execution, replay rejection, idempotent recovery, and runtime effects remain separate gates."
     },
     {
       "question": "Does WorkBridge green CI prove Vera can use the workstation bridge?",
