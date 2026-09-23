@@ -36,6 +36,34 @@ GitHub, Google Drive, Supabase, and the native ChatGPT Project are different tru
 - **Supabase Vera Control Plane** is intentionally sparse and should stay that way unless a control-plane provider state actually belongs there.
 - **Native ChatGPT Project instructions/files** should contain the smallest routing/control kernel necessary to recover the right owners and truth surfaces. They should not embed the entire portfolio.
 
+## Runtime-source disposition precedence
+
+VCP's capability registry is subordinate to Vera's exact runtime-source
+disposition. Capability classification answers what a repository can be useful
+for; it does not independently answer whether Vera may bind or hydrate it.
+
+The exact bound upstream subject is
+`thebrazenbeard/vera@86be6105f13fc86bbd699778205a85c84059de9a`,
+`architecture/VERA_RUNTIME_SOURCE_REGISTRY_V1.json`, blob
+`9afe5834efaf4d8a2d73c5864972e4c8e4c3cef6`.
+
+The 17-member `NO_AUTO_BIND` partition is therefore an executable ceiling.
+VCP may narrow use further, but it must not convert one of those repositories
+into `CONTROL_LOAD_EXACT_OWNER`, `LIVE_COORDINATION_READ`, or
+`TASK_RELEVANT_LIVE_READ`.
+
+`vera-works` is a concrete boundary case: it is a separate economic/work
+project and must remain task-specific rather than becoming an automatically
+hydrated Vera system merely because it contains Vera-adjacent material.
+
+`vera-R9A0` remains predecessor evidence. A predecessor can be read for
+historical/currentness work but cannot be promoted into current control by a
+capability-registry edit.
+
+The historical Supabase endpoint `bus/vera-sol-v1` is likewise not current
+route authority. Current routing comes from the Bus topology lifecycle-active
+entry, which resolves Vera to `bus/vera-v2`.
+
 ## Load discipline
 
 Core control repositories may be consulted during orientation when material. Everything else is task-relevant or service-on-demand.
