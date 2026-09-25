@@ -2,7 +2,7 @@
 
 # Vera Control Plane
 
-Private operator/control-plane custody for Vera.
+Operator/control-plane custody for Vera.
 
 This repository is intentionally separate from `thebrazenbeard/vera`.
 
