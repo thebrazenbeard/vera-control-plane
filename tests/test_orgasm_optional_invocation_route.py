@@ -13,11 +13,11 @@ from tools.orgasm_optional_invocation_route import (
 
 
 class OrgasmOptionalInvocationRouteTests(unittest.TestCase):
-    def test_source_only_state_fails_closed_as_unknown(self) -> None:
+    def test_source_only_state_is_unavailable_when_adapter_is_known_missing(self) -> None:
         evidence = current_source_only_evidence("source-only-test")
         self.assertEqual(evidence["schema"], SCHEMA)
         self.assertEqual(evidence["command_id"], COMMAND_ID)
-        self.assertEqual(evidence["availability"], "UNKNOWN")
+        self.assertEqual(evidence["availability"], "UNAVAILABLE")
         self.assertEqual(evidence["install_state"], "UNKNOWN")
         self.assertEqual(evidence["route_state"], "UNKNOWN")
         self.assertEqual(evidence["runtime_consumption_state"], "UNKNOWN")
