@@ -32,7 +32,7 @@ EXPECTED = {
         "e979320f17ca7895f08008bd7b5f2d0d62aca3b532e843308e0ae55aec7671d5",
     ),
     "20260919223652": (
-        "supabase/migrations/20260919195000_create_sd1_causal_secondary_anchor.sql",
+        "supabase/migrations/20260919223652_create_sd1_causal_secondary_anchor.sql",
         24103,
         "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
     ),
@@ -110,7 +110,7 @@ class VcpProviderCustodyTests(unittest.TestCase):
             ROOT
             / "supabase"
             / "migrations"
-            / "20260921173000_revoke_internal_rls_guard_public_execute.sql"
+            / "20260921192624_revoke_internal_rls_guard_public_execute.sql"
         )
         text = path.read_text(encoding="utf-8")
         self.assertIn(
