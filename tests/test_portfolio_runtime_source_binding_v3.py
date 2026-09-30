@@ -105,6 +105,26 @@ class PortfolioRuntimeSourceBindingV3Tests(unittest.TestCase):
             rules,
         )
 
+    def test_legacy_runtime_registry_is_historical_and_v3_is_activation_authority(self):
+        binding = self.capability["runtime_source_registry_binding"]
+        self.assertEqual(binding["status"], "SUPERSEDED_HISTORICAL_EVIDENCE_ONLY")
+        self.assertEqual(
+            binding["legacy_semantics"],
+            "HISTORICAL_EVIDENCE_ONLY_NOT_ACTIVATION_AUTHORITY",
+        )
+        activation = binding["activation_authority"]
+        self.assertEqual(activation["status"], "CURRENT_V3_BINDING")
+        self.assertEqual(activation["binding_blob_sha"], mod.git_blob_sha(mod.BINDING))
+        self.assertEqual(activation["upstream_vera_head"], mod.VERA_HEAD)
+        self.assertEqual(activation["qualification_rezon_head"], mod.REVIEW_HEAD)
+
+        mutant = json.loads(json.dumps(self.capability))
+        mutant["runtime_source_registry_binding"]["status"] = "EXACT_CANONICAL_BINDING"
+        errors = mod.validate(self.data, mutant)
+        self.assertTrue(
+            any("legacy runtime source registry remains activation authority" in e for e in errors)
+        )
+
     def test_no_fixed_legacy_partition_constants_drive_policy(self):
         raw = VALIDATOR.read_text(encoding="utf-8")
         self.assertNotIn("EXPECTED_NO_AUTO_BIND", raw)

@@ -93,6 +93,32 @@ def validate(data: Mapping[str, object], capability: Mapping[str, object]) -> li
                 errors.append(f"private inventory leaks membership via {key}")
     old = {row["repository"]: row["runtime_source_disposition"] for row in predecessor["public_sources"]}
     cap_repos = capability.get("repositories", {}) if isinstance(capability, Mapping) else {}
+    legacy_binding = capability.get("runtime_source_registry_binding", {}) if isinstance(capability, Mapping) else {}
+    if not isinstance(legacy_binding, Mapping):
+        errors.append("capability legacy runtime source registry binding missing")
+    else:
+        if legacy_binding.get("status") != "SUPERSEDED_HISTORICAL_EVIDENCE_ONLY":
+            errors.append("legacy runtime source registry remains activation authority")
+        if legacy_binding.get("legacy_semantics") != "HISTORICAL_EVIDENCE_ONLY_NOT_ACTIVATION_AUTHORITY":
+            errors.append("legacy runtime source registry semantics mismatch")
+        activation = legacy_binding.get("activation_authority")
+        if not isinstance(activation, Mapping):
+            errors.append("capability V3 activation authority missing")
+        else:
+            if activation.get("status") != "CURRENT_V3_BINDING":
+                errors.append("capability V3 activation status mismatch")
+            if activation.get("repository") != "thebrazenbeard/vera-control-plane":
+                errors.append("capability V3 activation repository mismatch")
+            if activation.get("path") != "governance/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V3.json":
+                errors.append("capability V3 activation path mismatch")
+            if activation.get("binding_blob_sha") != git_blob_sha(BINDING):
+                errors.append("capability V3 activation blob mismatch")
+            if activation.get("upstream_vera_head") != VERA_HEAD:
+                errors.append("capability V3 activation Vera head mismatch")
+            if activation.get("qualification_rezon_head") != REVIEW_HEAD:
+                errors.append("capability V3 activation Rezon head mismatch")
+            if activation.get("semantics") != "V3_GOVERNS_ACTIVATION; LEGACY_REGISTRY_HISTORICAL_ONLY":
+                errors.append("capability V3 activation semantics mismatch")
     for row in sources:
         if not isinstance(row, Mapping):
             errors.append("public source row is not an object")

@@ -97,3 +97,14 @@ It does not merge Vera or VCP, install Project sources, auto-load repositories, 
 ## Claim ceiling
 
 VCP_NO_AUTO_BIND_V3__VERA_PR206_EXACT_PUBLIC_CUT_AND_ABSORPTION__PREDECESSOR_POLICY_FLOOR__NO_RUNTIME_ACTIVATION
+
+## 2026-09-30 hostile-review repair — legacy canonical-binding contradiction
+
+Hostile exact-head review of predecessor subject `659c2b3fc04bc8bc98db3f702b00490b0dc21612` found that the capability registry still labeled the superseded Vera V1 runtime-source registry as `EXACT_CANONICAL_BINDING` even though V3 was declared to govern activation disposition.
+
+That was a real competing-authority defect. The retained V1 metadata is now explicitly `SUPERSEDED_HISTORICAL_EVIDENCE_ONLY`, while the registry binds activation to the exact V3 artifact blob `66279e3e612309673fb5a6403f48ced536d63f66`.
+
+The validators now fail if the legacy registry becomes activation authority again or if the capability registry's V3 artifact/upstream Vera/Rezon bindings drift.
+
+This repair does not broaden authority: NO_AUTO_BIND remains fail-closed, private inventory remains count-only, mutable head drift remains a currentness failure rather than immutable-cut corruption, and no merge/install/runtime effect is implied.
+

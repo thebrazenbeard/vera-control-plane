@@ -91,8 +91,26 @@ def validate(data):
     if not isinstance(binding, dict):
         errors.append("runtime source registry binding missing")
     else:
-        if binding.get("status") != "EXACT_CANONICAL_BINDING":
-            errors.append("runtime source registry binding status mismatch")
+        if binding.get("status") != "SUPERSEDED_HISTORICAL_EVIDENCE_ONLY":
+            errors.append("legacy runtime source registry must be historical-only")
+        if binding.get("legacy_semantics") != "HISTORICAL_EVIDENCE_ONLY_NOT_ACTIVATION_AUTHORITY":
+            errors.append("legacy runtime source registry semantics mismatch")
+        activation = binding.get("activation_authority")
+        if not isinstance(activation, dict):
+            errors.append("V3 activation authority binding missing")
+        else:
+            expected_activation = {
+                "status": "CURRENT_V3_BINDING",
+                "repository": "thebrazenbeard/vera-control-plane",
+                "path": "governance/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V3.json",
+                "binding_blob_sha": "66279e3e612309673fb5a6403f48ced536d63f66",
+                "reviewed_predecessor_head": "659c2b3fc04bc8bc98db3f702b00490b0dc21612",
+                "upstream_vera_head": "dff171a8cee0b2dd3c6fd4627499330800499fdd",
+                "qualification_rezon_head": "d22abc8f7b4649ca0b9e21e77673f263283d98bf",
+                "semantics": "V3_GOVERNS_ACTIVATION; LEGACY_REGISTRY_HISTORICAL_ONLY",
+            }
+            if activation != expected_activation:
+                errors.append("V3 activation authority binding mismatch")
         if binding.get("source_repository") != "thebrazenbeard/vera":
             errors.append("runtime source registry repository mismatch")
         if binding.get("source_commit") != "86be6105f13fc86bbd699778205a85c84059de9a":
