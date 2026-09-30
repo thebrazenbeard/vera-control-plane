@@ -51,7 +51,7 @@
     "DRIFTGUARD_HANDLES_BEHAVIORAL_DRIFT_EVIDENCE",
     "BUS_HANDLES_DURABLE_NON_PR_COORDINATION",
     "GITHUB_DRIVE_SUPABASE_REMAIN_DISTINCT_TRUTH_SURFACES",
-    "VERA_RUNTIME_SOURCE_REGISTRY_GOVERNS_ACTIVATION_DISPOSITION"
+    "VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V3_GOVERNS_ACTIVATION_DISPOSITION"
   ],
   "service_routing": {
     "portfolio_discovery": "thebrazenbeard/discovery",
@@ -487,7 +487,7 @@
     }
   },
   "runtime_source_registry_binding": {
-    "status": "EXACT_CANONICAL_BINDING",
+    "status": "SUPERSEDED_HISTORICAL_EVIDENCE_ONLY",
     "source_repository": "thebrazenbeard/vera",
     "source_commit": "86be6105f13fc86bbd699778205a85c84059de9a",
     "source_path": "architecture/VERA_RUNTIME_SOURCE_REGISTRY_V1.json",
@@ -543,6 +543,17 @@
         }
       }
     },
-    "policy": "VCP capability routing may narrow task use but may not override Vera registry NO_AUTO_BIND, identity firewalls, activation gates, or currentness requirements."
+    "policy": "VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V3 governs activation disposition. The retained V1 registry metadata is historical evidence only and cannot grant activation, authority, currentness, installation, or runtime effect.",
+    "legacy_semantics": "HISTORICAL_EVIDENCE_ONLY_NOT_ACTIVATION_AUTHORITY",
+    "activation_authority": {
+      "status": "CURRENT_V3_BINDING",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "governance/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V3.json",
+      "binding_blob_sha": "66279e3e612309673fb5a6403f48ced536d63f66",
+      "reviewed_predecessor_head": "659c2b3fc04bc8bc98db3f702b00490b0dc21612",
+      "upstream_vera_head": "dff171a8cee0b2dd3c6fd4627499330800499fdd",
+      "qualification_rezon_head": "d22abc8f7b4649ca0b9e21e77673f263283d98bf",
+      "semantics": "V3_GOVERNS_ACTIVATION; LEGACY_REGISTRY_HISTORICAL_ONLY"
+    }
   }
 }
