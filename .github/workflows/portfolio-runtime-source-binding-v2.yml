@@ -1,0 +1,40 @@
+name: VCP Vera Runtime Source Binding V2
+
+on:
+  pull_request:
+    paths:
+      - "governance/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V2.json"
+      - "tools/validate_portfolio_runtime_source_binding_v2.py"
+      - "tests/test_portfolio_runtime_source_binding_v2.py"
+      - "docs/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V2.md"
+      - ".github/workflows/portfolio-runtime-source-binding-v2.yml"
+  push:
+    branches:
+      - "portfolio/rebind-no-auto-bind-v2-20260924"
+    paths:
+      - "governance/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V2.json"
+      - "tools/validate_portfolio_runtime_source_binding_v2.py"
+      - "tests/test_portfolio_runtime_source_binding_v2.py"
+      - "docs/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V2.md"
+      - ".github/workflows/portfolio-runtime-source-binding-v2.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate V2 JSON
+        run: python -m json.tool governance/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V2.json >/dev/null
+      - name: Validate exact Vera V2 binding
+        run: python tools/validate_portfolio_runtime_source_binding_v2.py
+      - name: Run V2 source-disposition regressions
+        run: python -m unittest tests.test_portfolio_runtime_source_binding_v2 -v
+      - name: Compile validator and tests
+        run: python -m py_compile tools/validate_portfolio_runtime_source_binding_v2.py tests/test_portfolio_runtime_source_binding_v2.py

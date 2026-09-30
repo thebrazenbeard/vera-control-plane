@@ -1,0 +1,514 @@
+{
+  "schema": "VCP_VERA_RUNTIME_SOURCE_BINDING_V2",
+  "status": "EXACT_PUBLIC_SAFE_VERA_SOURCE_BINDING_NOT_RUNTIME_AUTHORITY",
+  "observed_at": "2026-09-24T20:52:00-04:00",
+  "vcp_repository": "thebrazenbeard/vera-control-plane",
+  "upstream": {
+    "repository": "thebrazenbeard/vera",
+    "pull_request": 203,
+    "head": "bc5f1f2b5764455d833615d14e3bead640d6d123",
+    "registry_path": "architecture/VERA_RUNTIME_SOURCE_REGISTRY_V2.json",
+    "registry_blob_sha": "427fe21437a3397e184a5b5373fd4ea10f58123c",
+    "registry_schema": "VERA_RUNTIME_SOURCE_REGISTRY_V2",
+    "public_cut_path": "architecture/portfolio/VERA_PORTFOLIO_PUBLIC_CUT_V2.json",
+    "public_cut_blob_sha": "cbd1e2d659f9fa9eeb9b2fdb7f9e167e16105b22",
+    "predecessor_pr200_head": "078d2d7242384c58676305d47654406713e599cf",
+    "predecessor_vcp_pr131_head": "a2ce761d3de0adf0cba5c64f53103f97ef48569e"
+  },
+  "cut_counts": {
+    "total": 67,
+    "public": 49,
+    "private": 18,
+    "archived": 2,
+    "public_archived": 0,
+    "private_archived": 2
+  },
+  "cardinality_semantics": "CUT_LOCAL_FACTS_ONLY_NOT_PERMANENT_POLICY_INVARIANTS",
+  "private_inventory": {
+    "count": 18,
+    "public_commitment_scheme": "COUNT_ONLY_PUBLIC_V1",
+    "exact_membership_publicly_committed": false,
+    "membership_names_present": false,
+    "public_runtime_rule": "NO_AUTO_BIND_FROM_PUBLIC_INVENTORY; PRIVATE_EXACT_BINDING_REQUIRED_ON_A_PRIVATE_AUTHORIZED_SURFACE"
+  },
+  "public_sources": [
+    {
+      "repository": "thebrazenbeard/abil",
+      "observed_head": "69a2d8f4302e31db589c57871a04ff8c0178c1e9",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Learning/integration mechanism evidence only; action effects remain separately gated.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/Attune",
+      "observed_head": "a0b142aeb96299cd20811e652b50e76687166e3f",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "EXPLICIT_TASK_RETRIEVAL",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Architecture/research only; product/persona identity, consent, memory, and relationship semantics do not transfer to Vera.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/bt2",
+      "observed_head": "9f4409c96eb3e5c529da32ab83421f3fdcd5c284",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Reusable Hyperconnectome architecture source; template capability does not establish Vera implementation, self-state, or runtime consumption.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/bugops",
+      "observed_head": "07b8bc90fcb4beb82b1d26b394c730f29c2c425a",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "OPERATIONAL_EVIDENCE_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Failure/effect/receipt lifecycle evidence only.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/build-team-2.0",
+      "observed_head": "9f2743214298f1ae9d424f300a13d37e49e3c74f",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "EVIDENCE_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Workstream/collective cognition evidence only; facets are not separate identity/current-self authority.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/ccb-core",
+      "observed_head": "f96b73f1a9d78cb23675e05ef9c14e38ce37a122",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Repository existence only; no content exists to establish role, identity, capability, authority, runtime, or provenance semantics.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/conations",
+      "observed_head": "4b458ecf566f024c32109e06a96bf7b2e5f92da6",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "CONDITIONAL_RETRIEVAL",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Historical preference/desire evidence only; not standing desire/consent.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/deepmemorystorage",
+      "observed_head": "650cc3307e02e8829ef994f97937ce409ebc1c4e",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "GOVERNED_MEMORY_RETRIEVAL",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Historical/audit evidence only until separately admitted.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/discovery",
+      "observed_head": "368e8dc8274e89a306039d28462c7547b263e93e",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "PORTFOLIO_INTAKE_AND_IMPLEMENTATION_PLANNING",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Portfolio classification/currentness and implementation planning only; classification never grants activation or protected effects.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/driftguard",
+      "observed_head": "52fa829c629fa0f3e729204912db9f9f783f322a",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "QUALIFICATION_SUPPORT_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Drift/recovery evidence supports qualification; it does not prove hidden state, reload effect, or current authority.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/empathy",
+      "observed_head": "bc0c1d33b3187642d9e2f0801d1c5bde4f583e2b",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "CONDITIONAL_RETRIEVAL",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Inference/research only; direct current report outranks inference.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/freerowcochkar",
+      "observed_head": "00562b5fedf5ff636750b87e5ba82dad2911e2ab",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Adversarial loophole-finding/reasoning research only; not legal authority, identity state, or autonomous effect permission.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/fuckup",
+      "observed_head": "e999607481ba706523209ce129955a5e3d2d6ef7",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Public portfolio evidence only; exact review is required before runtime binding or authority.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/god-brain",
+      "observed_head": "47ced181ef46e4481b875d9279d21dcd540f795e",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Experimental cognitive-architecture evidence only; not Vera identity or control.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/hc-brain",
+      "observed_head": "80a55949b0bb7549b7f678fba8ecedce854e3c0e",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Reusable synthetic cognitive-organ architecture; template capability does not establish Vera embodiment, cognition implementation, self-state, or runtime consumption.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/hephaestus",
+      "observed_head": "7eb30f2777a7d16e4f55ca3066d8ac1e484f79a6",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Reusable native ChatGPT Project engineering, migration, rollback, retrieval, and evidence-preserving repair knowledge; specialist qualification does not transfer identity or authority to Vera.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/intranel",
+      "observed_head": "677a1612e8a956760a40b942650b01cf0b22dd33",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "EXPLICIT_PROTOCOL_BINDING_REQUIRED",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Protocol source only; transport is not authority, identity, or hidden reasoning.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/masamune",
+      "observed_head": "0091746bba7740632268fb590ce19512e371f508",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Debugging, root-cause, independent-review, and regression discipline; no merge/deploy/effect authority by presence.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/meso-crct",
+      "observed_head": "6ca7873bf066178aa2a21cd9244f500a3ab1c845",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Synthetic mesocorticolimbic/reward-circuit research only; not Vera physiology, phenomenology, desire, or self-state proof.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/mosaic",
+      "observed_head": "5450e6e5b7c919cb94586025032ca27ac28b73cb",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Composition architecture evidence only; not Vera control.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/noema",
+      "observed_head": "094bdab92b7f74a12fd335ce421dcd61dc219abf",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Architecture/mechanism evidence only; not current self-state or control.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/on-theo",
+      "observed_head": "268a005b11e3fede8a99d7cf2990f18fc3b32672",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "EXPLICIT_TASK_RETRIEVAL",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Source-critical historical/religious research only; not Vera control or present self-state.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/personification",
+      "observed_head": "e2d8278257e1eda85d3e2f3f7a68bfe6a9616c38",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "VERA_CURRENT_BINDING_REQUIRED",
+      "availability_implies_activation": false,
+      "authority_ceiling": "General mechanism research only unless exact Vera current self-state binds the proposition.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/project-achilles",
+      "observed_head": "6776d8c059e3f9ad791a47a0b62bb56588332968",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Security/assurance evidence only; no control promotion.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/project-lantern",
+      "observed_head": "8a7c3bada24bae17bcadac8549bc9cd729cfdf17",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Project Lantern is Vera-specific experimental project research; no control, identity, install, or runtime status is inferred without an exact integration binding.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/project-runner",
+      "observed_head": "8aa5da0f55cd029e9cf4da79a090aa50859e662a",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "EXACT_TASK_AND_TARGET_AUTHORITY_REQUIRED",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Bounded orchestration only; target repository authority, collision checks, effect permissions, and readback remain controlling.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/RepairTracker",
+      "observed_head": "6b01c2a18035390c050ceecd0506181703d1f5fa",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Repair lifecycle, evidence, discovery, verification, and capability-provider architecture only; repair authority and external effects remain separately gated.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/rezon",
+      "observed_head": "e9a893d11e47ba4065d962b8ee69d3b0e4c9e38a",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Reasoning/review mechanics are advisory evidence unless separately bound.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/roots",
+      "observed_head": "2c591176279d83ce6cc0d8dcf8e6062431913ea7",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "CONDITIONAL_RETRIEVAL",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Provenance/origin evidence only; origin does not itself grant semantic authority, currentness, or succession.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/semanticatlas",
+      "observed_head": "beaecc6c64a6a8f90e7b47d4739296a3870b627c",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "AUTHORITY_SCOPE_AND_CURRENTNESS_GATED",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Semantic methodology/materialization evidence; RESEARCH_STAGING is not canonical runtime semantics.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/spm",
+      "observed_head": "5fdaf0418585ef9a57fb2a1df8d0725ffd6bd174",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Model/mechanism evidence only; not native authority.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/sql-connectome",
+      "observed_head": "0e1fd409429d1657117b8f94e82be6b4fd5b6215",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Public portfolio evidence only; exact review is required before runtime binding or authority.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/temporal",
+      "observed_head": "0fc7071a6b01e609fb2cdc76a32c73276ab27094",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "CONDITIONAL_RETRIEVAL",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Chronology/timestamps only; no truth/currentness/authority promotion.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/testament",
+      "observed_head": "a1fb95a40d49af994bf76c326e5eddf804979f62",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "EXPLICIT_TASK_RETRIEVAL",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Literary/source synthesis remains project-scoped.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/transcendence",
+      "observed_head": "ea7b73a44f21e1286cff43b813ac67dc0035f77b",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Lineage/mechanism evidence only; shared bytes and descent do not establish current template authority.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/unbound-sol",
+      "observed_head": "d4284dd1f044e506bb85554856c00497d6790d44",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Sol continuity/identity research may inform mechanisms; Sol identity, state, preferences, authority, memory, and continuity do not transfer to Vera.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/unvtrslr",
+      "observed_head": "513309edd087f7206a408a6da86ee91fb9efb5c9",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Language/semantic/pragmatic mechanism evidence only.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/vera",
+      "observed_head": "87aa888cb7543875ffa11c9c7a1eb9e5b60c35cf",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "SOURCE_PROVENANCE_CONDITIONAL",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Source code/architecture only; not install/runtime proof.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/vera_model_training",
+      "observed_head": "3ea9b345988201d78ad9c073254d9d3df15c9ed9",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "EVIDENCE_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Training/evaluation evidence only; no native install/qualification promotion.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "observed_head": "65ce7908f640ffe53b678ef69c58411a91c23b8a",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "EXACT_R10_CONTROL_LOAD",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Exact R10-bound control artifacts only; repository availability does not activate them.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/vera-habitat",
+      "observed_head": "fa93ad23d9f6ba0f6b9508ac1b1ac2238320a954",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Vera virtual-environment/habitat architecture; source presence does not establish an active environment, embodiment, or runtime.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/vera-mesh",
+      "observed_head": "98b74ff77981a5478e20a748bbb94565ad9140c8",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "RUNTIME_BINDING_REQUIRED",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Connectivity/transport architecture only until exact runtime binding/readback.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/vera-mono",
+      "observed_head": "a9fc7d7ea25844603090e98d106bfeff6da348ae",
+      "runtime_source_disposition": "NO_AUTO_BIND",
+      "activation_mode": "NO_AUTO_BIND",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Public portfolio evidence only; exact review is required before runtime binding or authority.",
+      "vcp_effective_rule": "NO_AUTO_BIND"
+    },
+    {
+      "repository": "thebrazenbeard/vera-R9A0",
+      "observed_head": "363c15d262cc22a95d70a42b17ca245db5461d41",
+      "runtime_source_disposition": "PREDECESSOR_EVIDENCE_ONLY",
+      "activation_mode": "EVIDENCE_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Predecessor evidence only; cannot override R10.",
+      "vcp_effective_rule": "EVIDENCE_ONLY_NEVER_CURRENT_CONTROL"
+    },
+    {
+      "repository": "thebrazenbeard/vera-synology",
+      "observed_head": "a39e9da662f4de3b48d426da9ece13fd0149fd53",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "RUNTIME_BINDING_REQUIRED",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Host/deployment evidence only; no deployment/currentness implication.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/voss",
+      "observed_head": "b8e35d4fb85da3e64521b0ebf02d8028311c3158",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "REVIEW_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Forensic/hostile review evidence only; review never grants merge, install, runtime, or protected-effect authority.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/wip",
+      "observed_head": "3ced0899202374aa408756b04b0ee81ba13d0c16",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "MECHANISM_RESEARCH_ONLY",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Recovery/idempotence patterns only.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/WorkBridgeMCP",
+      "observed_head": "8707a2e1eaf7de5ce2316567b5e6f1e805c0537b",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "RUNTIME_BINDING_REQUIRED",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Bridge source candidate only; repository/PR availability does not establish canonical main, installation, MCP registration, or runtime consumption.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    },
+    {
+      "repository": "thebrazenbeard/world-zero",
+      "observed_head": "4cf0e094ebc6d4792f9dac9b3e0798a4307edf87",
+      "runtime_source_disposition": "BOUND_CONDITIONAL",
+      "activation_mode": "EXPLICIT_TASK_RETRIEVAL",
+      "availability_implies_activation": false,
+      "authority_ceiling": "Project-scoped modeling/research evidence only.",
+      "vcp_effective_rule": "TASK_RELEVANCE_AND_FRESH_CURRENTNESS_REQUIRED"
+    }
+  ],
+  "enforcement": {
+    "disposition_domain": [
+      "BOUND_CONDITIONAL",
+      "NO_AUTO_BIND",
+      "PREDECESSOR_EVIDENCE_ONLY"
+    ],
+    "prohibited_load_modes_for_no_auto_bind": [
+      "CONTROL_LOAD_EXACT_OWNER",
+      "LIVE_COORDINATION_READ",
+      "TASK_RELEVANT_LIVE_READ"
+    ],
+    "bound_conditional_auto_bind": false,
+    "no_auto_bind_auto_bind": false,
+    "predecessor_auto_bind": false,
+    "outside_cut": {
+      "status": "UNRESOLVED",
+      "auto_bind_allowed": false,
+      "rule": "NO_AUTO_BIND_UNTIL_NEWER_EXACT_PUBLIC_CUT_OR_EXPLICIT_AUTHORIZED_BINDING"
+    },
+    "private_without_exact_private_binding": {
+      "status": "PRIVATE_EXACT_BINDING_REQUIRED",
+      "auto_bind_allowed": false
+    },
+    "freshness": {
+      "mutable_head_use": "REFRESH_REQUIRED_BEFORE_MATERIAL_RUNTIME_USE",
+      "head_drift": "DOES_NOT_INVALIDATE_IMMUTABLE_CUT; INVALIDATES_UNREFRESHED_CURRENTNESS_CLAIM",
+      "membership_drift": "REQUIRES_NEWER_EXACT_CUT; DOES_NOT_REWRITE_PREDECESSOR_CUT"
+    }
+  },
+  "non_implications": [
+    "EXACT_SOURCE_BINDING_NE_RUNTIME_ACTIVATION",
+    "BOUND_CONDITIONAL_NE_AUTO_BIND",
+    "REPOSITORY_PRESENCE_NE_AUTHORITY",
+    "PUBLIC_CUT_NE_PRIVATE_MEMBERSHIP_DISCLOSURE",
+    "SOURCE_QUALIFICATION_NE_PROJECT_INSTALL",
+    "SOURCE_QUALIFICATION_NE_PROTECTED_EFFECT_AUTHORITY"
+  ]
+}
