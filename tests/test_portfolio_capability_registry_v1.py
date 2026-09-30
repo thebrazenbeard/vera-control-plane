@@ -70,6 +70,78 @@ class PortfolioCapabilityRegistryTests(unittest.TestCase):
         self.assertEqual(self.data["repositories"]["vera-habitat"]["load_mode"], "EVIDENCE_ONLY")
         self.assertIn("WorkBridgeMCP", self.data["repositories"])
 
+
+    def test_runtime_source_binding_carries_exact_no_auto_bind_partition(self):
+        expected = {
+            "brigit",
+            "brigit-unbound",
+            "bt2",
+            "conditioning",
+            "entropyinc",
+            "firesafe",
+            "hc-brain",
+            "hephaestus",
+            "masamune",
+            "mediaphile",
+            "project-lantern",
+            "self",
+            "trek-data-core",
+            "vera-apk",
+            "vera-habitat",
+            "vera-works",
+            "wreckforge",
+        }
+        binding = self.data["runtime_source_registry_binding"]
+        self.assertEqual(
+            set(binding.get("no_auto_bind_repositories", [])),
+            expected,
+        )
+        self.assertEqual(
+            binding.get("predecessor_evidence_repositories"),
+            ["vera-R9A0"],
+        )
+
+    def test_no_auto_bind_source_cannot_be_promoted_to_live_read(self):
+        mutant = copy.deepcopy(self.data)
+        mutant["repositories"]["vera-works"]["load_mode"] = "TASK_RELEVANT_LIVE_READ"
+        self.assertTrue(
+            any("NO_AUTO_BIND" in error for error in mod.validate(mutant))
+        )
+
+    def test_vera_works_respects_upstream_no_auto_bind(self):
+        self.assertEqual(
+            self.data["repositories"]["vera-works"]["class"],
+            "DOMAIN_PROJECT",
+        )
+        self.assertEqual(
+            self.data["repositories"]["vera-works"]["load_mode"],
+            "TASK_SPECIFIC_ONLY",
+        )
+
+    def test_runtime_source_disposition_helper_never_promotes_availability(self):
+        self.assertEqual(
+            mod.runtime_source_disposition(self.data, "vera-apk")["status"],
+            "NO_AUTO_BIND",
+        )
+        self.assertFalse(
+            mod.runtime_source_disposition(self.data, "vera-apk")["auto_bind_allowed"]
+        )
+        self.assertEqual(
+            mod.runtime_source_disposition(self.data, "vera-R9A0")["status"],
+            "PREDECESSOR_EVIDENCE_ONLY",
+        )
+        self.assertEqual(
+            mod.runtime_source_disposition(self.data, "voss")["status"],
+            "BOUND_CONDITIONAL",
+        )
+        self.assertFalse(
+            mod.runtime_source_disposition(self.data, "voss")["auto_bind_allowed"]
+        )
+        self.assertEqual(
+            mod.runtime_source_disposition(self.data, "meso-crct")["status"],
+            "UNRESOLVED",
+        )
+
     def test_unknown_class_fails(self):
         mutant = copy.deepcopy(self.data)
         mutant["repositories"]["world-zero"]["class"] = "MAGIC_GLOBAL_CONTROL"

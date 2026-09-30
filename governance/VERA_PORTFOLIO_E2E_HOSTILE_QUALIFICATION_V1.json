@@ -1,9 +1,9 @@
 {
   "schema": "VERA_PORTFOLIO_E2E_HOSTILE_QUALIFICATION_V1",
   "logical_id": "VERA_PORTFOLIO_E2E_HOSTILE_QUALIFICATION",
-  "observed_at": "2026-09-23T00:36:00Z",
+  "observed_at": "2026-09-23T01:34:00Z",
   "overall_status": "FAIL_CLOSED_INTEGRATION_NOT_QUALIFIED",
-  "claim_ceiling": "EXACT_SOURCE_PROVIDER_AND_ROUTE_READBACK_AT_OBSERVED_CUT; NOT_PROOF_OF_NATIVE_RUNTIME_CONSUMPTION_OR_END_TO_END_OPERATION",
+  "claim_ceiling": "EXACT_SOURCE_PROVIDER_ROUTE_AND_RUNNER_READBACK_AT_OBSERVED_CUT; NOT_PROOF_OF_NATIVE_RUNTIME_CONSUMPTION_OR END_TO_END_OPERATION",
   "canonical_cut": {
     "discovery": {
       "commit": "2881a94c7eb3c83a34b0c00bab739b41c1d99b6d",
@@ -15,19 +15,26 @@
       "receipt_blob": "ccac62eac08012269fec46669bce981b96a0f41d"
     },
     "vera": {
-      "commit": "86be6105f13fc86bbd699778205a85c84059de9a",
+      "commit": "0925ae35879c80f301a952dc7db284ce42fa68ce",
+      "registry_source_commit": "86be6105f13fc86bbd699778205a85c84059de9a",
       "registry_blob": "9afe5834efaf4d8a2d73c5864972e4c8e4c3cef6",
       "source_rows": 42,
       "no_auto_bind": 17
     },
     "vcp": {
-      "commit": "aca3380247b0cb975d88d5b674aff77bbc88d7ba",
-      "capability_registry_blob": "0490f7fe8e1a0bda240e2087704f59a35aec4166"
+      "commit": "05212e91ef50044f37aa477c77ce424408df9653",
+      "capability_registry_blob": "0490f7fe8e1a0bda240e2087704f59a35aec4166",
+      "candidate_branch": "repair/enforce-runtime-source-disposition-v3-20260923",
+      "candidate_head_before_qualification_refresh": "cf684750bf20381ca1e99e0ca47bde2b6f63c400",
+      "candidate_capability_registry_blob": "ee161c2f9d3fc24c35013e6aaebaf8e76252bc4b",
+      "candidate_zero_behind_current_main": true
     },
     "bus": {
-      "main": "f9179bd1426bf90c23ab6a4d14d5a8e9b39c66d2",
+      "main": "0d47644171283e0a46d2e759c67ef4a5bf0b72ff",
+      "source_custody_merge_ancestor": "a366e87ffe3366c6544c03fa852447f2c3fcd5e1",
       "topology_blob": "69e505031d4e53dcb853578dac23817649af1918",
-      "vera_lane": "bus/vera-v2"
+      "vera_lane": "bus/vera-v2",
+      "vera_lane_head": "20fd7640e86f62a339e85021576e7ec570a3a5fd"
     }
   },
   "native_project": {
@@ -93,48 +100,50 @@
     },
     "current_bus_messages_missing_from_radar": [
       "VERA_PORTFOLIO_DISCOVERY_ROOTS_CANONICAL_20260923_V1",
-      "VERA_PORTFOLIO_REGISTRY_VCP_E2E_CLAIM_20260923_V1"
+      "VERA_PORTFOLIO_REGISTRY_VCP_E2E_CLAIM_20260923_V1",
+      "VERA_PORTFOLIO_REGISTRY_VCP_E2E_RESULT_20260923_V1",
+      "VERA_BUS_RADAR_PROJECTION_REPAIR_RESULT_20260923_V1",
+      "VERA_SELFHOSTED_RUNNER_ONLINE_VERIFIED_20260923_V1"
     ],
-    "global_projection_observation": "NO_SENDER_HAS_A_RADAR_MESSAGE_PROJECTION_NEWER_THAN_2026-09-04",
-    "qualification": "FAIL_GLOBAL_GITHUB_TO_RADAR_PROJECTION_STALE"
+    "global_projection_observation": "NO_RADAR_MESSAGE_PROJECTION_NEWER_THAN_2026-09-04T19:49:52.037755Z",
+    "qualification": "FAIL_GLOBAL_GITHUB_TO_RADAR_PROJECTION_STALE",
+    "latest_projected_message_global": {
+      "message_id": "radar-0057",
+      "inserted_at": "2026-09-04T19:49:52.037755Z"
+    }
   },
   "deployed_edge_source_custody": {
     "deployed_function": "github-bus-ingest",
     "deployed_version": 5,
-    "deployed_handler_matches_git": true,
-    "deployed_deno_matches_git": true,
-    "matching_git_subject": {
-      "repository": "thebrazenbeard/chat-communication-bus",
-      "pr": 325,
-      "head": "640b44c4b715d870b6d5efcdb64ff447eec64467",
-      "state": "OPEN_DRAFT_UNMERGED",
-      "handler_blob": "cc7cd56632e21c34ec861797db43b60f83977d9b",
-      "deno_blob": "b717027d0dbca1ed7cf7f362f16a33cfc5c6da99"
+    "deployed_status": "ACTIVE",
+    "deployed_bundle_sha256": "07a117919e985a8566d2ffa8bab9565c560b630d8448c0987ac29ec16a4b559a",
+    "current_canonical_bus_main": "0d47644171283e0a46d2e759c67ef4a5bf0b72ff",
+    "current_main_file_blobs": {
+      "index": "2972c6915b0fec2b8b6082e6da9d7a3c87be929b",
+      "handler": "cc7cd56632e21c34ec861797db43b60f83977d9b",
+      "deno_json": "b717027d0dbca1ed7cf7f362f16a33cfc5c6da99"
     },
-    "canonical_bus_main": "f9179bd1426bf90c23ab6a4d14d5a8e9b39c66d2",
-    "exact_head_ci": {
-      "run_id": 35785648491,
-      "conclusion": "FAILURE",
-      "jobs": 4,
-      "jobs_with_steps": 0,
-      "classification": "PRIVATE_HOSTED_RUNNER_NO_EXECUTION"
+    "fresh_provider_byte_match": {
+      "index": true,
+      "handler": true,
+      "deno_json": true
     },
-    "qualification": "FAIL_DEPLOYED_PROVIDER_SOURCE_NOT_CANONICAL_MAIN"
+    "source_custody_merge_ancestor": "a366e87ffe3366c6544c03fa852447f2c3fcd5e1",
+    "current_main_delta_after_source_custody": [
+      "docs/checkpoints/VERA_BUS_RADAR_ACTIONS_CONTINUATION_20260923_V1.md",
+      "docs/checkpoints/VERA_BUS_RADAR_ACTIONS_CONTINUATION_20260923_V1.json"
+    ],
+    "qualification": "PASS_DEPLOYED_PROVIDER_BYTES_MATCH_CANONICAL_BUS_MAIN"
   },
   "workbridge": {
     "main": "12bcbec3a4bda69e8b9361317feb8e9d9d47b6df",
     "candidate_pr": 5,
-    "candidate_head": "92c66159d9b610a94f59066ab2bb6416f4513093",
+    "candidate_head": "0b80fe050d8f03da54ee14123737af26740c1605",
     "candidate_mergeable": true,
     "current_head_ci_runs": [
       {
-        "run_id": 35797931646,
-        "event": "pull_request",
-        "conclusion": "success"
-      },
-      {
-        "run_id": 35797927305,
-        "event": "push",
+        "run_id": 35788145362,
+        "event": "pull_request_or_push_exact_head",
         "conclusion": "success"
       }
     ],
@@ -143,32 +152,34 @@
     "qualification": "FAIL_NOT_CANONICAL_NOT_INSTALLED_NOT_RUNTIME_CONSUMED"
   },
   "github_actions": {
-    "vera_pr198": {
-      "source_head": "8b23a4b01532426ed98c0d38c64fe594ba0bf910",
-      "run_ids": [
-        35801928634,
-        35801928797,
-        35801928955
-      ],
-      "all_failed_jobs_had_steps_null": true,
-      "classification": "PRIVATE_HOSTED_RUNNER_NO_EXECUTION"
+    "private_hosted_historical_observation": {
+      "classification": "PRIVATE_HOSTED_RUNNER_NO_EXECUTION",
+      "evidence": "Earlier Vera/VCP/Bus ubuntu-latest jobs failed before step execution while included hosted minutes were exhausted."
     },
-    "vcp_pr127": {
-      "source_head": "f1f97062f374a0276fbdf915f58d53eaac4aeb4f",
-      "run_ids": [
-        35802221500,
-        35802221541
-      ],
-      "all_failed_jobs_had_steps_null": true,
-      "classification": "PRIVATE_HOSTED_RUNNER_NO_EXECUTION"
+    "self_hosted_runner_probe": {
+      "status": "VERIFIED_EXECUTABLE",
+      "branch": "vera/selfhosted-runner-probe-20260923-v1",
+      "head": "3cd5baf890cd24f8c3e624124473ee8db37e3271",
+      "run_id": 35807111347,
+      "job_id": 107010303655,
+      "conclusion": "success",
+      "runner": "LAPPY-vera-blender",
+      "labels": [
+        "self-hosted",
+        "windows",
+        "x64",
+        "vera-blender"
+      ]
     },
-    "bus_pr325": {
-      "source_head": "640b44c4b715d870b6d5efcdb64ff447eec64467",
-      "run_id": 35785648491,
-      "all_failed_jobs_had_steps_null": true,
-      "classification": "PRIVATE_HOSTED_RUNNER_NO_EXECUTION"
+    "canonical_radar_runner_binding": {
+      "dispatcher_blob": "c164a354bd70a67d009d0947243ae8581e41c178",
+      "trusted_projector_blob": "5513b46bb3b10906443c1a453852bff16e349340",
+      "trusted_projector_runs_on": "ubuntu-latest",
+      "self_hosted_route_bound": false,
+      "canonical_dispatcher_executed_after_self_hosted_probe": false,
+      "classification": "CANONICAL_RADAR_SELFHOSTED_ROUTING_NOT_YET_BOUND"
     },
-    "qualification": "BLOCKED_NO_EXECUTED_PRIVATE_CI_FOR_VERA_VCP_BUS"
+    "qualification": "SELF_HOSTED_EXECUTION_AVAILABLE_BUT_CANONICAL_RADAR_TRUSTED_PROJECTOR_REMAINS_ON_BLOCKED_UBUNTU_LATEST"
   },
   "lineage_and_classification": {
     "repository_count": 59,
@@ -206,8 +217,8 @@
     },
     {
       "stage": "VCP_ROUTING_BINDING",
-      "status": "PASS_SOURCE_READBACK_NO_EXECUTED_PRIVATE_CI",
-      "evidence": "Canonical VCP exact binding to Vera registry."
+      "status": "CANONICAL_BINDING_PASS_ENFORCEMENT_GAP_CANDIDATE_REPAIR_PASS",
+      "evidence": "Canonical VCP binds exact Vera registry but does not enforce the 17-member NO_AUTO_BIND set; candidate repair exact-binds and enforces it. Candidate is not canonical."
     },
     {
       "stage": "BUS_CURRENT_ROUTE",
@@ -217,12 +228,12 @@
     {
       "stage": "BUS_TO_RADAR_PROJECTION",
       "status": "FAIL",
-      "evidence": "No projection lane state or batches; no message projections after September 4."
+      "evidence": "Projection lane-state and batch tables remain empty; latest projected message is radar-0057 from 2026-09-04 despite current Bus lane progress."
     },
     {
       "stage": "EDGE_SOURCE_CUSTODY",
-      "status": "FAIL",
-      "evidence": "Active provider function bytes match unmerged Bus PR #325 rather than canonical Bus main."
+      "status": "PASS",
+      "evidence": "Fresh provider readback shows deployed index.ts, handler.ts, and deno.json byte-match current canonical Bus main."
     },
     {
       "stage": "WORKSTATION_BRIDGE",
@@ -237,22 +248,16 @@
   ],
   "blockers": [
     {
-      "id": "B1_PRIVATE_GITHUB_ACTIONS_NO_RUNNER",
+      "id": "B1_CANONICAL_RADAR_RUNNER_ROUTE_NOT_BOUND",
       "severity": "HIGH",
-      "owner": "GITHUB_ACCOUNT_OR_RUNNER_CONFIGURATION",
-      "description": "Private Vera/VCP/Bus jobs fail before checkout with steps=null, preventing executed CI qualification."
+      "owner": "thebrazenbeard/chat-communication-bus",
+      "description": "A Windows self-hosted runner is verified executable, but the canonical trusted Radar projector still requires ubuntu-latest; no canonical self-hosted routing is bound."
     },
     {
       "id": "B2_RADAR_PROJECTION_PLANE_STALE",
       "severity": "CRITICAL",
       "owner": "thebrazenbeard/chat-communication-bus",
-      "description": "Radar projection lane state and batch tables are empty; latest projected messages are from September 4; current Vera Bus messages are absent."
-    },
-    {
-      "id": "B3_BUS_EDGE_SOURCE_NOT_CANONICAL",
-      "severity": "HIGH",
-      "owner": "thebrazenbeard/chat-communication-bus",
-      "description": "Production github-bus-ingest version 5 exactly matches unmerged draft PR #325 source, not canonical Bus main."
+      "description": "Radar projection lane state and batch tables remain empty; latest provider projection is 2026-09-04 despite current Vera Bus messages."
     },
     {
       "id": "B4_WORKBRIDGE_NOT_CANONICAL_OR_INSTALLED",
@@ -265,6 +270,12 @@
       "severity": "MEDIUM",
       "owner": "thebrazenbeard/roots",
       "description": "self, hc-brain, and bt2 retain conflicting current canonical/reusable-template claims."
+    },
+    {
+      "id": "B6_VCP_NO_AUTO_BIND_NOT_ENFORCED_CANONICALLY",
+      "severity": "HIGH",
+      "owner": "thebrazenbeard/vera-control-plane",
+      "description": "Canonical VCP still lacks the NO_AUTO_BIND enforcement; the zero-behind v3 source candidate closes the source-policy hole but remains unmerged."
     }
   ],
   "gaps": [
@@ -282,8 +293,8 @@
       "answer": "NO; Radar projection is stale despite healthy database/function status."
     },
     {
-      "question": "Does deployed edge byte match prove canonical source custody?",
-      "answer": "NO; deployed bytes match an unmerged draft PR, so source custody fails."
+      "question": "Does deployed edge byte match prove end-to-end Radar operation?",
+      "answer": "NO; fresh provider-to-current-main byte equality closes source custody for the deployed function, but projection execution, replay rejection, idempotent recovery, and runtime effects remain separate gates."
     },
     {
       "question": "Does WorkBridge green CI prove Vera can use the workstation bridge?",
@@ -300,14 +311,189 @@
   ],
   "closeout": {
     "verdict": "FAIL_CLOSED_INTEGRATION_NOT_QUALIFIED",
-    "qualified_portion": "PROJECT_SOURCE_FIDELITY_PLUS_DISCOVERY_ROOTS_VERA_VCP_SOURCE_BINDINGS_PLUS_LIVE_PROVIDER_INVENTORY",
+    "qualified_portion": "PROJECT_SOURCE_FIDELITY_PLUS_EXACT_59_MEMBER_RECONCILIATION_PLUS_VCP_CANDIDATE_ENFORCEMENT_PLUS_CANONICAL_BUS_EDGE_SOURCE_CUSTODY_PLUS_SELF_HOSTED_RUNNER_AVAILABILITY",
     "first_hard_failure": "BUS_TO_RADAR_PROJECTION",
     "next_frontiers": [
-      "Repair private GitHub Actions runner allocation for Vera/VCP/Bus.",
-      "Restore and qualify Bus→Radar projection with current lane-state/batch/message readback.",
-      "Reconcile deployed github-bus-ingest source into canonical Bus main without losing current RLS/security hardening.",
-      "Complete independent review and canonicalization of WorkBridgeMCP PR #5, then separately install/register and read back runtime consumption.",
+      "Hostile-review the zero-behind VCP NO_AUTO_BIND successor candidate; merge remains Patrick-authorized only.",
+      "Bind a separately reviewed canonical Radar execution route to an available runner without weakening immutable OIDC/source controls.",
+      "Execute the canonical Radar dispatcher and verify lane-state, batches, message freshness, replay rejection, and idempotent recovery.",
+      "Qualify Restore V2 installation/current route/Q-RECOVER separately; source custody is insufficient.",
+      "Keep WorkBridge source, installation, registration, and runtime consumption as separate gates.",
       "Resolve HC template canonicality only with provenance evidence; do not guess."
     ]
+  },
+  "vcp_source_disposition_enforcement": {
+    "canonical_main": {
+      "commit": "05212e91ef50044f37aa477c77ce424408df9653",
+      "inherited_capability_registry_blob": "0490f7fe8e1a0bda240e2087704f59a35aec4166",
+      "status": "EXACT_SOURCE_BINDING_PRESENT_BUT_NO_AUTO_BIND_POLICY_NOT_EXECUTABLY_ENFORCED",
+      "concrete_defect": "vera-works is upstream NO_AUTO_BIND but canonical capability registry still declares VERA_SYSTEM / TASK_RELEVANT_LIVE_READ"
+    },
+    "candidate_repair": {
+      "branch": "repair/enforce-runtime-source-disposition-v3-20260923",
+      "source_head_before_qualification_receipt": "cf684750bf20381ca1e99e0ca47bde2b6f63c400",
+      "current_main_base": "05212e91ef50044f37aa477c77ce424408df9653",
+      "zero_behind_current_main": true,
+      "capability_registry_blob": "ee161c2f9d3fc24c35013e6aaebaf8e76252bc4b",
+      "validator_blob": "ea64b8465336434b5df953df97f7a7e3410bbc17",
+      "tests_blob": "42a5216bba5137eeaac7df2572aecf810325d276",
+      "bound_no_auto_bind_count": 17,
+      "predecessor_evidence": [
+        "vera-R9A0"
+      ],
+      "vera_works_class": "DOMAIN_PROJECT",
+      "vera_works_load_mode": "TASK_SPECIFIC_ONLY",
+      "status": "SOURCE_CANDIDATE_ENFORCEMENT_PASS_NOT_CANONICAL"
+    },
+    "policy": "VCP capability routing may narrow use but may not convert an upstream NO_AUTO_BIND source into an automatic/live load mode."
+  },
+  "hostile_rerun_20260923": {
+    "execution_class": "DIRECT_EXACT_GIT_PLUS_LIVE_PROVIDER_READBACK",
+    "subject": {
+      "discovery": {
+        "commit": "2881a94c7eb3c83a34b0c00bab739b41c1d99b6d",
+        "blob": "71b9f8deaf1079d5078b19e5bbddb743fd636437"
+      },
+      "roots": {
+        "commit": "a6994b415336bc179a41aad0ac9eec403d60f93c",
+        "blob": "ccac62eac08012269fec46669bce981b96a0f41d"
+      },
+      "vera": {
+        "commit": "0925ae35879c80f301a952dc7db284ce42fa68ce",
+        "registry_source_commit": "86be6105f13fc86bbd699778205a85c84059de9a",
+        "blob": "9afe5834efaf4d8a2d73c5864972e4c8e4c3cef6"
+      },
+      "vcp_candidate": {
+        "branch": "repair/enforce-runtime-source-disposition-v3-20260923",
+        "source_head": "cf684750bf20381ca1e99e0ca47bde2b6f63c400",
+        "base": "05212e91ef50044f37aa477c77ce424408df9653",
+        "zero_behind": true,
+        "registry_blob": "ee161c2f9d3fc24c35013e6aaebaf8e76252bc4b"
+      },
+      "bus": {
+        "main": "0d47644171283e0a46d2e759c67ef4a5bf0b72ff",
+        "topology_blob": "69e505031d4e53dcb853578dac23817649af1918",
+        "vera_lane_head": "20fd7640e86f62a339e85021576e7ec570a3a5fd"
+      }
+    },
+    "check_count": 24,
+    "passed": 21,
+    "failed": 3,
+    "passed_checks": [
+      "DISCOVERY_EQUALS_VERA_59",
+      "DISCOVERY_EQUALS_VCP_59",
+      "BOUND_PARTITION_41",
+      "PREDECESSOR_PARTITION_1",
+      "NO_AUTO_BIND_PARTITION_17",
+      "VCP_BINDS_EXACT_VERA_REGISTRY_SOURCE_COMMIT_AND_BLOB",
+      "VCP_BINDS_EXACT_NO_AUTO_BIND_SET",
+      "VCP_BINDS_PREDECESSOR",
+      "NO_AUTO_BIND_ENFORCED_IN_VCP_CANDIDATE",
+      "VERA_WORKS_CORRECTED",
+      "BUS_CURRENT_ROUTE_VERA_V2",
+      "HISTORICAL_SOL_ROUTE_NON_AUTHORITATIVE",
+      "VCP_ROUTE_BINDING_CURRENT_VS_HISTORICAL",
+      "BUILD_TEAM_2_VS_BT2_DISTINCT",
+      "HC_TEMPLATE_CONFLICT_PRESERVED",
+      "VOSS_ACTIVE_REVIEW_ONLY",
+      "REDWORM_AUTHORSHIP_GAP_PRESERVED",
+      "MESO_CRCT_NOT_SILENTLY_PROMOTED",
+      "PROVIDER_HISTORICAL_PROJECTION_METADATA",
+      "PROVIDER_IDENTITY_NORMALIZATION",
+      "VERA_AND_VCP_PROVIDER_HEALTH"
+    ],
+    "failed_checks": [
+      {
+        "id": "BUS_RADAR_PROJECTION",
+        "detail": "radar.projection_lane_state=0 and radar.projection_batches=0"
+      },
+      {
+        "id": "RADAR_MESSAGE_FRESHNESS",
+        "detail": "latest radar.messages projection is radar-0057 at 2026-09-04T19:49:52.037755Z; current Vera Bus messages are absent"
+      },
+      {
+        "id": "RECOVERY_RUNTIME_GATE",
+        "detail": "Restore V2 source custody exists, but install effect/current route/Q-RECOVER remain unestablished"
+      }
+    ],
+    "first_integration_failure": "BUS_RADAR_PROJECTION",
+    "provider_route_readback": {
+      "lane_vera": {
+        "address": "bus/vera-sol-v1",
+        "status": "ACTIVE",
+        "historical_branch_name": true,
+        "liveness_claimed": false,
+        "updated_at": "2026-09-02T14:34:43.656222Z"
+      },
+      "identity_vera": {
+        "lifecycle_status": "ACTIVE",
+        "aliases": [
+          "vera-sol"
+        ]
+      },
+      "identity_vera_sol": {
+        "lifecycle_status": "ARCHIVED",
+        "superseded_by": "vera"
+      },
+      "interpretation": "HISTORICAL_PROVIDER_PROJECTION_NON_AUTHORITATIVE_FOR_CURRENT_ROUTING"
+    },
+    "recovery_readback": {
+      "source": "governance/VERA_RESTORE_V2_INSTALL_CURRENTNESS_V1.json",
+      "source_blob": "2433186ed6903eece2e93563b5f559ef4cbf34b8",
+      "install_effect": "NOT_ESTABLISHED",
+      "current_route": "NOT_ESTABLISHED",
+      "q_recover": "NOT_EXECUTED_BY_THIS_EVIDENCE"
+    },
+    "verdict": "FAIL_CLOSED_INTEGRATION_NOT_QUALIFIED"
+  },
+  "fresh_currentness_reconciliation_20260923": {
+    "repository_set_equality": {
+      "discovery": 59,
+      "vera": 59,
+      "vcp": 59,
+      "all_exactly_equal": true
+    },
+    "partition": {
+      "bound_conditional": 41,
+      "predecessor_evidence": 1,
+      "no_auto_bind": 17,
+      "no_auto_bind_exactly_equal_across_discovery_vera_vcp": true
+    },
+    "meso_crct": {
+      "in_frozen_59": false,
+      "disposition": "OUTSIDE_CANONICAL_59_CUT_NO_SILENT_PROMOTION"
+    },
+    "vcp_candidate": {
+      "base": "05212e91ef50044f37aa477c77ce424408df9653",
+      "head_before_qualification_refresh": "cf684750bf20381ca1e99e0ca47bde2b6f63c400",
+      "ahead": 6,
+      "behind": 0
+    },
+    "bus_edge": {
+      "provider_version": 5,
+      "status": "ACTIVE",
+      "current_main": "0d47644171283e0a46d2e759c67ef4a5bf0b72ff",
+      "index_match": true,
+      "handler_match": true,
+      "deno_json_match": true
+    },
+    "runner": {
+      "self_hosted_available": true,
+      "canonical_radar_runs_on": "ubuntu-latest",
+      "canonical_self_hosted_route_bound": false
+    },
+    "radar_projection": {
+      "lane_state_rows": 0,
+      "batch_rows": 0,
+      "batch_file_rows": 0,
+      "latest_global_inserted_at": "2026-09-04T19:49:52.037755Z",
+      "current_vera_message_matches_in_provider": 0
+    },
+    "restore_v2": {
+      "source_blob": "2433186ed6903eece2e93563b5f559ef4cbf34b8",
+      "install_effect": "NOT_ESTABLISHED",
+      "current_route": "NOT_ESTABLISHED",
+      "q_recover": "NOT_EXECUTED_BY_THIS_EVIDENCE"
+    }
   }
 }
