@@ -1,54 +1,75 @@
-[Reading 50 lines from start (total: 50 lines, 0 remaining)]
-
 name: VCP Vera Runtime Source Binding V3
 
 on:
   pull_request:
+    branches:
+      - main
     paths:
+      - ".github/workflows/portfolio-runtime-source-binding-v3.yml"
       - "governance/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V3.json"
       - "governance/VERA_PORTFOLIO_CAPABILITY_REGISTRY_V1.json"
       - "governance/vendor/vera/**"
       - "governance/vendor/vcp/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V2.json"
       - "tools/build_portfolio_runtime_source_binding_v3.py"
       - "tools/validate_portfolio_runtime_source_binding_v3.py"
+      - "tools/validate_portfolio_capability_registry_v1.py"
       - "tests/test_portfolio_runtime_source_binding_v3.py"
       - "docs/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V3.md"
-      - ".github/workflows/portfolio-runtime-source-binding-v3.yml"
   push:
     branches:
-      - "portfolio/rebind-no-auto-bind-v3-vera-pr206-ciqualified-20260930"
-    paths:
-      - "governance/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V3.json"
-      - "governance/VERA_PORTFOLIO_CAPABILITY_REGISTRY_V1.json"
-      - "governance/vendor/vera/**"
-      - "governance/vendor/vcp/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V2.json"
-      - "tools/build_portfolio_runtime_source_binding_v3.py"
-      - "tools/validate_portfolio_runtime_source_binding_v3.py"
-      - "tests/test_portfolio_runtime_source_binding_v3.py"
-      - "docs/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V3.md"
-      - ".github/workflows/portfolio-runtime-source-binding-v3.yml"
+      - portfolio/rebind-no-auto-bind-v3-vera-pr206-ciqualified-20260930
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: vcp-vera-runtime-source-binding-v3-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
+    name: Exact V3 NO_AUTO_BIND source policy
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Checkout exact subject
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+
+      - name: Verify exact checked-out head
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.12"
+
       - name: Rebuild exact V3 binding
         run: python tools/build_portfolio_runtime_source_binding_v3.py
+
       - name: Require deterministic checked-in output
         run: git diff --exit-code -- governance/VERA_PORTFOLIO_RUNTIME_SOURCE_BINDING_V3.json
+
       - name: Validate exact PR206 fail-closed binding
         run: python tools/validate_portfolio_runtime_source_binding_v3.py
+
+      - name: Validate capability registry
+        run: python tools/validate_portfolio_capability_registry_v1.py
+
       - name: Run V3 source-disposition regressions
         run: python -m unittest tests.test_portfolio_runtime_source_binding_v3 -v
+
       - name: Compile builder validator and tests
-        run: python -m py_compile tools/build_portfolio_runtime_source_binding_v3.py tools/validate_portfolio_runtime_source_binding_v3.py tests/test_portfolio_runtime_source_binding_v3.py
+        run: python -m py_compile tools/build_portfolio_runtime_source_binding_v3.py tools/validate_portfolio_runtime_source_binding_v3.py tools/validate_portfolio_capability_registry_v1.py tests/test_portfolio_runtime_source_binding_v3.py
+
+      - name: Verify no whitespace damage
+        run: git diff --check
