@@ -5,7 +5,7 @@
   "upstream": {
     "repository": "thebrazenbeard/vera",
     "pull_request": 206,
-    "head": "be3d11a5b4d3a9880c18e03522f0d4e341b71f99",
+    "head": "dff171a8cee0b2dd3c6fd4627499330800499fdd",
     "public_cut_path": "architecture/portfolio/VERA_PORTFOLIO_PUBLIC_CUT_V2.json",
     "public_cut_blob_sha": "19c20a5fceae81f3324d477317f1ec79062cd9f2",
     "absorption_path": "architecture/portfolio/VERA_PORTFOLIO_ABSORPTION_V2.json",
@@ -14,7 +14,7 @@
   "qualification": {
     "repository": "thebrazenbeard/rezon",
     "pull_request": 95,
-    "head": "c8d97b14b20b653178dbc079c8f2943fecbc3c34",
+    "head": "d22abc8f7b4649ca0b9e21e77673f263283d98bf",
     "review_path": "docs/assurance/VERA_PR206_PUBLIC_SUCCESSOR_HOSTILE_REVIEW.md",
     "disposition": "SURVIVES_NARROWED_PUBLIC_SAFE_SUCCESSOR"
   },
