@@ -252,5 +252,70 @@ class BehavioralIntegrityPolicyTests(unittest.TestCase):
             )
 
 
+    def test_non_command_correction_demotes_previously_parsed_command(self):
+        clause = PragmaticClause(
+            raw="Bug report",
+            action_id="CREATE_BUG_REPORT",
+            force=CommandForce.REQUESTED_ACTION,
+            target=None,
+            hedge_terms=(),
+            hedge_scope=HedgeScope.NONE,
+            uncertainty_preserved=False,
+        )
+        decision = apply_command_force_correction(
+            clause,
+            corrected_as_command=False,
+            context=ExecutionContext(True, True, True, True),
+        )
+        self.assertEqual(ExecutionStatus.CLARIFY_OR_DISCUSS, decision.status)
+        self.assertEqual(("COMMAND_FORCE_UNRESOLVED",), decision.blockers)
+
+    def test_malformed_pragmatic_clause_fields_fail_closed(self):
+        base = dict(
+            raw="Bug report",
+            action_id="CREATE_BUG_REPORT",
+            force=CommandForce.REQUESTED_ACTION,
+            target=None,
+            hedge_terms=(),
+            hedge_scope=HedgeScope.NONE,
+            uncertainty_preserved=False,
+        )
+        mutations = (
+            {"raw": ""},
+            {"action_id": 123},
+            {"force": "REQUESTED_ACTION"},
+            {"target": 7},
+            {"hedge_terms": []},
+            {"hedge_scope": "NONE"},
+            {"uncertainty_preserved": "false"},
+        )
+        for mutation in mutations:
+            with self.subTest(mutation=mutation):
+                values = dict(base)
+                values.update(mutation)
+                clause = PragmaticClause(**values)
+                with self.assertRaises(Exception):
+                    decide_execution(clause, ExecutionContext(True, True, True, True))
+                with self.assertRaises(Exception):
+                    apply_command_force_correction(
+                        clause,
+                        corrected_as_command=False,
+                        context=ExecutionContext(True, True, True, True),
+                    )
+
+    def test_pragmatic_clause_internal_consistency_fails_closed(self):
+        inconsistent = PragmaticClause(
+            raw="a note perhaps",
+            action_id="CREATE_NOTE",
+            force=CommandForce.REQUESTED_ACTION,
+            target=None,
+            hedge_terms=("perhaps",),
+            hedge_scope=HedgeScope.NONE,
+            uncertainty_preserved=False,
+        )
+        with self.assertRaises(Exception):
+            decide_execution(inconsistent, ExecutionContext(True, True, True, True))
+
+
 if __name__ == "__main__":
     unittest.main()

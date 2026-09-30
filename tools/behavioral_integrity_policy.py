@@ -338,14 +338,49 @@ def parse_pragmatic_command(
     return tuple(result)
 
 
+
+def _validate_pragmatic_clause(clause: PragmaticClause) -> None:
+    if type(clause) is not PragmaticClause:
+        raise TypeError("clause must be an exact PragmaticClause")
+    if type(clause.raw) is not str or not clause.raw.strip():
+        raise BehavioralPolicyViolation("clause.raw must be a non-empty string")
+    if clause.action_id is not None and (
+        type(clause.action_id) is not str or not clause.action_id.strip()
+    ):
+        raise BehavioralPolicyViolation("clause.action_id must be None or a non-empty string")
+    if type(clause.force) is not CommandForce:
+        raise BehavioralPolicyViolation("clause.force must be an exact CommandForce")
+    if clause.target is not None and (
+        type(clause.target) is not str or not clause.target.strip()
+    ):
+        raise BehavioralPolicyViolation("clause.target must be None or a non-empty string")
+    if type(clause.hedge_terms) is not tuple or any(
+        type(term) is not str or not term.strip() for term in clause.hedge_terms
+    ):
+        raise BehavioralPolicyViolation("clause.hedge_terms must be a tuple of non-empty strings")
+    if type(clause.hedge_scope) is not HedgeScope:
+        raise BehavioralPolicyViolation("clause.hedge_scope must be an exact HedgeScope")
+    if type(clause.uncertainty_preserved) is not bool:
+        raise BehavioralPolicyViolation("clause.uncertainty_preserved must be boolean")
+    if clause.action_id is None and clause.force is CommandForce.REQUESTED_ACTION:
+        raise BehavioralPolicyViolation("requested action requires a resolved action_id")
+    if bool(clause.hedge_terms) != clause.uncertainty_preserved:
+        raise BehavioralPolicyViolation("hedge terms and uncertainty flag are inconsistent")
+    expected_scope = (
+        HedgeScope.RELEVANCE_NECESSITY_APPLICABILITY
+        if clause.hedge_terms
+        else HedgeScope.NONE
+    )
+    if clause.hedge_scope is not expected_scope:
+        raise BehavioralPolicyViolation("hedge scope is inconsistent with hedge terms")
+
 def decide_execution(
     clause: PragmaticClause,
     context: ExecutionContext,
 ) -> ExecutionDecision:
     """Convert parsed command force into an effect decision without granting authority."""
 
-    if type(clause) is not PragmaticClause:
-        raise TypeError("clause must be an exact PragmaticClause")
+    _validate_pragmatic_clause(clause)
     if type(context) is not ExecutionContext:
         raise TypeError("context must be an exact ExecutionContext")
     for field_name in (
@@ -400,15 +435,19 @@ def apply_command_force_correction(
 ) -> ExecutionDecision:
     """Apply a present command-force correction to the next relevant behavior."""
 
+    _validate_pragmatic_clause(clause)
     if type(corrected_as_command) is not bool:
         raise BehavioralPolicyViolation("corrected_as_command must be boolean")
-    corrected = clause
+    if type(context) is not ExecutionContext:
+        raise TypeError("context must be an exact ExecutionContext")
     if corrected_as_command:
         if clause.action_id is None:
             raise BehavioralPolicyViolation(
                 "cannot promote a correction without a resolved bounded action"
             )
         corrected = replace(clause, force=CommandForce.REQUESTED_ACTION)
+    else:
+        corrected = replace(clause, force=CommandForce.AMBIGUOUS)
     return decide_execution(corrected, context)
 
 
