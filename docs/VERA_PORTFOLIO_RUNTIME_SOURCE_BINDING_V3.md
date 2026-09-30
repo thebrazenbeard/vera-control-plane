@@ -107,4 +107,3 @@ That was a real competing-authority defect. The retained V1 metadata is now expl
 The validators now fail if the legacy registry becomes activation authority again or if the capability registry's V3 artifact/upstream Vera/Rezon bindings drift.
 
 This repair does not broaden authority: NO_AUTO_BIND remains fail-closed, private inventory remains count-only, mutable head drift remains a currentness failure rather than immutable-cut corruption, and no merge/install/runtime effect is implied.
-
