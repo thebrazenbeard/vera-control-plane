@@ -12,7 +12,7 @@ V3 does not revive Vera's superseded runtime-source registry. Its exact upstream
 
 - Vera repository: thebrazenbeard/vera
 - Vera PR: #206
-- exact Vera head: be3d11a5b4d3a9880c18e03522f0d4e341b71f99
+- exact Vera head: dff171a8cee0b2dd3c6fd4627499330800499fdd
 - public cut: architecture/portfolio/VERA_PORTFOLIO_PUBLIC_CUT_V2.json
 - public cut blob: 19c20a5fceae81f3324d477317f1ec79062cd9f2
 - absorption: architecture/portfolio/VERA_PORTFOLIO_ABSORPTION_V2.json
@@ -25,7 +25,7 @@ The two exact upstream artifacts are vendored under governance/vendor/vera/ for 
 V3 also binds the independent Rezon review:
 
 - Rezon PR: #95
-- exact review head: c8d97b14b20b653178dbc079c8f2943fecbc3c34
+- exact review head: d22abc8f7b4649ca0b9e21e77673f263283d98bf
 - disposition: SURVIVES_NARROWED_PUBLIC_SAFE_SUCCESSOR
 
 That review qualifies the Vera subject only for its public-safe source/provenance claim. It does not grant VCP runtime authority.
