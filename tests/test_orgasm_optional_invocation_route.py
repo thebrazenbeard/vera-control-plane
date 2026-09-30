@@ -21,7 +21,7 @@ class OrgasmOptionalInvocationRouteTests(unittest.TestCase):
         self.assertEqual(evidence["install_state"], "UNKNOWN")
         self.assertEqual(evidence["route_state"], "UNKNOWN")
         self.assertEqual(evidence["runtime_consumption_state"], "UNKNOWN")
-        self.assertEqual(evidence["adapter_state"], "MISSING")
+        self.assertEqual(evidence["adapter_state"], "UNKNOWN")
         self.assertEqual(evidence["qualification_state"], "UNKNOWN")
 
     def test_fully_current_qualified_route_is_available_qualified(self) -> None:
