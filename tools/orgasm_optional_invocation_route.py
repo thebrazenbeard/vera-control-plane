@@ -125,7 +125,7 @@ def current_source_only_evidence(source_revision: str) -> dict[str, Any]:
             install_state="UNKNOWN",
             route_state="UNKNOWN",
             runtime_consumption_state="UNKNOWN",
-            adapter_state="MISSING",
+            adapter_state="UNKNOWN",
             qualification_state="UNKNOWN",
         )
     )
