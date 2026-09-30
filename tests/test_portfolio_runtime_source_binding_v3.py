@@ -28,7 +28,7 @@ class PortfolioRuntimeSourceBindingV3Tests(unittest.TestCase):
     def test_exact_subject_validates(self):
         self.assertEqual([], mod.validate(copy.deepcopy(self.data), self.capability))
         self.assertEqual(self.data["upstream"]["pull_request"], 206)
-        self.assertEqual(self.data["upstream"]["head"], "be3d11a5b4d3a9880c18e03522f0d4e341b71f99")
+        self.assertEqual(self.data["upstream"]["head"], "dff171a8cee0b2dd3c6fd4627499330800499fdd")
         self.assertEqual(self.data["qualification"]["pull_request"], 95)
     def test_builder_is_deterministic(self):
         before = BINDING.read_bytes()
