@@ -206,8 +206,8 @@
     },
     {
       "stage": "VCP_ROUTING_BINDING",
-      "status": "PASS_SOURCE_READBACK_NO_EXECUTED_PRIVATE_CI",
-      "evidence": "Canonical VCP exact binding to Vera registry."
+      "status": "CANONICAL_BINDING_PASS_ENFORCEMENT_GAP_CANDIDATE_REPAIR_PASS",
+      "evidence": "Canonical VCP binds exact Vera registry but does not enforce the 17-member NO_AUTO_BIND set; candidate repair exact-binds and enforces it. Candidate is not canonical."
     },
     {
       "stage": "BUS_CURRENT_ROUTE",
@@ -265,6 +265,12 @@
       "severity": "MEDIUM",
       "owner": "thebrazenbeard/roots",
       "description": "self, hc-brain, and bt2 retain conflicting current canonical/reusable-template claims."
+    },
+    {
+      "id": "B6_VCP_NO_AUTO_BIND_NOT_ENFORCED_CANONICALLY",
+      "severity": "HIGH",
+      "owner": "thebrazenbeard/vera-control-plane",
+      "description": "Canonical VCP declares that it cannot override Vera NO_AUTO_BIND but does not bind/enforce the exact member set; vera-works remains live-read on canonical main. Candidate repair closes the source-policy hole but is not canonical."
     }
   ],
   "gaps": [
@@ -303,11 +309,130 @@
     "qualified_portion": "PROJECT_SOURCE_FIDELITY_PLUS_DISCOVERY_ROOTS_VERA_VCP_SOURCE_BINDINGS_PLUS_LIVE_PROVIDER_INVENTORY",
     "first_hard_failure": "BUS_TO_RADAR_PROJECTION",
     "next_frontiers": [
+      "Review and, only with explicit merge authority, canonicalize the VCP NO_AUTO_BIND enforcement candidate.",
       "Repair private GitHub Actions runner allocation for Vera/VCP/Bus.",
       "Restore and qualify Bus→Radar projection with current lane-state/batch/message readback.",
       "Reconcile deployed github-bus-ingest source into canonical Bus main without losing current RLS/security hardening.",
       "Complete independent review and canonicalization of WorkBridgeMCP PR #5, then separately install/register and read back runtime consumption.",
       "Resolve HC template canonicality only with provenance evidence; do not guess."
     ]
+  },
+  "vcp_source_disposition_enforcement": {
+    "canonical_main": {
+      "commit": "1ad8f1469d0b02b145b30837f8036ffe339a11c4",
+      "inherited_capability_registry_blob": "0490f7fe8e1a0bda240e2087704f59a35aec4166",
+      "status": "EXACT_SOURCE_BINDING_PRESENT_BUT_NO_AUTO_BIND_POLICY_NOT_EXECUTABLY_ENFORCED",
+      "concrete_defect": "vera-works is upstream NO_AUTO_BIND but canonical capability registry still declares VERA_SYSTEM / TASK_RELEVANT_LIVE_READ"
+    },
+    "candidate_repair": {
+      "branch": "repair/enforce-runtime-source-disposition-v2-20260923",
+      "source_head_before_qualification_receipt": "1a503ced168a5f8e56036a46afec9232f9a29fb6",
+      "capability_registry_blob": "ee161c2f9d3fc24c35013e6aaebaf8e76252bc4b",
+      "validator_blob": "ea64b8465336434b5df953df97f7a7e3410bbc17",
+      "tests_blob": "42a5216bba5137eeaac7df2572aecf810325d276",
+      "bound_no_auto_bind_count": 17,
+      "predecessor_evidence": [
+        "vera-R9A0"
+      ],
+      "vera_works_class": "DOMAIN_PROJECT",
+      "vera_works_load_mode": "TASK_SPECIFIC_ONLY",
+      "status": "SOURCE_CANDIDATE_ENFORCEMENT_PASS_NOT_CANONICAL"
+    },
+    "policy": "VCP capability routing may narrow use but may not convert an upstream NO_AUTO_BIND source into an automatic/live load mode."
+  },
+  "hostile_rerun_20260923": {
+    "execution_class": "DIRECT_EXACT_GIT_PLUS_LIVE_PROVIDER_READBACK",
+    "subject": {
+      "discovery": {
+        "commit": "2881a94c7eb3c83a34b0c00bab739b41c1d99b6d",
+        "blob": "71b9f8deaf1079d5078b19e5bbddb743fd636437"
+      },
+      "roots": {
+        "commit": "a6994b415336bc179a41aad0ac9eec403d60f93c",
+        "blob": "ccac62eac08012269fec46669bce981b96a0f41d"
+      },
+      "vera": {
+        "commit": "86be6105f13fc86bbd699778205a85c84059de9a",
+        "blob": "9afe5834efaf4d8a2d73c5864972e4c8e4c3cef6"
+      },
+      "vcp_candidate": {
+        "branch": "repair/enforce-runtime-source-disposition-v2-20260923",
+        "source_head": "1a503ced168a5f8e56036a46afec9232f9a29fb6",
+        "registry_blob": "ee161c2f9d3fc24c35013e6aaebaf8e76252bc4b"
+      },
+      "bus": {
+        "main": "f9179bd1426bf90c23ab6a4d14d5a8e9b39c66d2",
+        "topology_blob": "69e505031d4e53dcb853578dac23817649af1918"
+      }
+    },
+    "check_count": 24,
+    "passed": 21,
+    "failed": 3,
+    "passed_checks": [
+      "DISCOVERY_EQUALS_VERA_59",
+      "DISCOVERY_EQUALS_VCP_59",
+      "BOUND_PARTITION_41",
+      "PREDECESSOR_PARTITION_1",
+      "NO_AUTO_BIND_PARTITION_17",
+      "VCP_BINDS_EXACT_VERA_COMMIT_AND_BLOB",
+      "VCP_BINDS_EXACT_NO_AUTO_BIND_SET",
+      "VCP_BINDS_PREDECESSOR",
+      "NO_AUTO_BIND_ENFORCED_IN_VCP_CANDIDATE",
+      "VERA_WORKS_CORRECTED",
+      "BUS_CURRENT_ROUTE_VERA_V2",
+      "HISTORICAL_SOL_ROUTE_NON_AUTHORITATIVE",
+      "VCP_ROUTE_BINDING_CURRENT_VS_HISTORICAL",
+      "BUILD_TEAM_2_VS_BT2_DISTINCT",
+      "HC_TEMPLATE_CONFLICT_PRESERVED",
+      "VOSS_ACTIVE_REVIEW_ONLY",
+      "REDWORM_AUTHORSHIP_GAP_PRESERVED",
+      "MESO_CRCT_NOT_SILENTLY_PROMOTED",
+      "PROVIDER_HISTORICAL_PROJECTION_METADATA",
+      "PROVIDER_IDENTITY_NORMALIZATION",
+      "VERA_AND_VCP_PROVIDER_HEALTH"
+    ],
+    "failed_checks": [
+      {
+        "id": "BUS_RADAR_PROJECTION",
+        "detail": "radar.projection_lane_state=0 and radar.projection_batches=0"
+      },
+      {
+        "id": "RADAR_MESSAGE_FRESHNESS",
+        "detail": "no radar.messages projection after 2026-09-05; latest observed projection 2026-09-04T19:49:52.037755Z"
+      },
+      {
+        "id": "RECOVERY_RUNTIME_GATE",
+        "detail": "Restore V2 source custody exists, but install effect/current route/Q-RECOVER remain unestablished"
+      }
+    ],
+    "first_integration_failure": "BUS_RADAR_PROJECTION",
+    "provider_route_readback": {
+      "lane_vera": {
+        "address": "bus/vera-sol-v1",
+        "status": "ACTIVE",
+        "historical_branch_name": true,
+        "liveness_claimed": false,
+        "updated_at": "2026-09-02T14:34:43.656222Z"
+      },
+      "identity_vera": {
+        "lifecycle_status": "ACTIVE",
+        "aliases": [
+          "vera-sol"
+        ]
+      },
+      "identity_vera_sol": {
+        "lifecycle_status": "ARCHIVED",
+        "superseded_by": "vera"
+      },
+      "interpretation": "HISTORICAL_PROVIDER_PROJECTION_NON_AUTHORITATIVE_FOR_CURRENT_ROUTING"
+    },
+    "recovery_readback": {
+      "source": "governance/VERA_RESTORE_V2_INSTALL_CURRENTNESS_V1.json",
+      "source_blob": "2433186ed6903eece2e93563b5f559ef4cbf34b8",
+      "install_effect": "NOT_ESTABLISHED",
+      "current_route": "NOT_ESTABLISHED",
+      "q_recover": "NOT_EXECUTED_BY_THIS_EVIDENCE"
+    },
+    "verdict": "FAIL_CLOSED_INTEGRATION_NOT_QUALIFIED"
   }
 }

@@ -9,6 +9,30 @@ REGISTRY = ROOT / "governance" / "VERA_PORTFOLIO_CAPABILITY_REGISTRY_V1.json"
 
 EXPECTED_SCHEMA = "VERA_PORTFOLIO_CAPABILITY_REGISTRY_V1"
 EXPECTED_STATUS = "PRIVATE_ROUTING_SNAPSHOT_NOT_CONTROL_AUTHORITY"
+EXPECTED_NO_AUTO_BIND = {
+    "brigit",
+    "brigit-unbound",
+    "bt2",
+    "conditioning",
+    "entropyinc",
+    "firesafe",
+    "hc-brain",
+    "hephaestus",
+    "masamune",
+    "mediaphile",
+    "project-lantern",
+    "self",
+    "trek-data-core",
+    "vera-apk",
+    "vera-habitat",
+    "vera-works",
+    "wreckforge",
+}
+NO_AUTO_BIND_PROHIBITED_LOAD_MODES = {
+    "CONTROL_LOAD_EXACT_OWNER",
+    "LIVE_COORDINATION_READ",
+    "TASK_RELEVANT_LIVE_READ",
+}
 EXPECTED_RULES = {
     "LIVE_CURRENTNESS_REQUIRED_BEFORE_MATERIAL_USE",
     "REGISTRY_ROLE_NE_REPOSITORY_AUTHORITY",
@@ -109,6 +133,23 @@ def validate(data):
         if routing.get("historical_provider_projection_authoritative") is not False:
             errors.append("historical provider projection must not be routing authority")
 
+        no_auto = binding.get("no_auto_bind_repositories")
+        if not isinstance(no_auto, list) or set(no_auto) != EXPECTED_NO_AUTO_BIND:
+            errors.append("runtime source NO_AUTO_BIND partition mismatch")
+            no_auto_set = set()
+        else:
+            no_auto_set = set(no_auto)
+
+        if binding.get("predecessor_evidence_repositories") != ["vera-R9A0"]:
+            errors.append("runtime source predecessor partition mismatch")
+
+        for name in no_auto_set:
+            mode = repos.get(name, {}).get("load_mode")
+            if mode in NO_AUTO_BIND_PROHIBITED_LOAD_MODES:
+                errors.append(
+                    f"{name}: NO_AUTO_BIND source cannot use VCP load mode {mode}"
+                )
+
     if repos.get("brigit", {}).get("class") != "IDENTITY_FIREWALL":
         errors.append("brigit identity firewall missing")
     if repos.get("brigit-unbound", {}).get("class") != "IDENTITY_FIREWALL":
@@ -127,6 +168,44 @@ def validate(data):
     if repos.get("WorkBridgeMCP", {}).get("visibility") != "public":
         errors.append("WorkBridgeMCP public portfolio entry missing")
     return errors
+
+def runtime_source_disposition(data, repository_name):
+    """Return effective upstream source disposition without capability promotion."""
+    binding = data.get("runtime_source_registry_binding")
+    repos = data.get("repositories")
+    if not isinstance(binding, dict) or not isinstance(repos, dict):
+        return {
+            "status": "UNRESOLVED",
+            "auto_bind_allowed": False,
+            "reason": "runtime source registry binding is unavailable",
+        }
+
+    no_auto = set(binding.get("no_auto_bind_repositories", []))
+    predecessor = set(binding.get("predecessor_evidence_repositories", []))
+    if repository_name in no_auto:
+        return {
+            "status": "NO_AUTO_BIND",
+            "auto_bind_allowed": False,
+            "reason": "Vera runtime source registry requires explicit-only use",
+        }
+    if repository_name in predecessor:
+        return {
+            "status": "PREDECESSOR_EVIDENCE_ONLY",
+            "auto_bind_allowed": False,
+            "reason": "predecessor evidence cannot become current control",
+        }
+    if repository_name in repos:
+        return {
+            "status": "BOUND_CONDITIONAL",
+            "auto_bind_allowed": False,
+            "reason": "registered source still requires task relevance and currentness",
+        }
+    return {
+        "status": "UNRESOLVED",
+        "auto_bind_allowed": False,
+        "reason": "repository is outside the exact 59-repository bound subject",
+    }
+
 
 def main():
     data = json.loads(REGISTRY.read_text(encoding="utf-8"))
