@@ -162,7 +162,7 @@ def runtime_source_disposition(data: Mapping[str, object], repository: str, *, c
     if private_source:
         return {"status": "PRIVATE_EXACT_BINDING_REQUIRED", "auto_bind_allowed": False}
     rows = data.get("public_sources", [])
-    row = next((item for item in rows if item.get("repository") == repository), None) if isinstance(rows, list) else None
+    row = next((item for item in rows if isinstance(item, Mapping) and item.get("repository") == repository), None) if isinstance(rows, list) else None
     if row is None:
         return {"status": "UNRESOLVED", "auto_bind_allowed": False}
     if current_head is not None and current_head != row.get("observed_head"):
