@@ -87,6 +87,12 @@ class PortfolioRuntimeSourceBindingV3Tests(unittest.TestCase):
         private = mod.runtime_source_disposition(self.data, "opaque-private", private_source=True)
         self.assertEqual(private["status"], "PRIVATE_EXACT_BINDING_REQUIRED")
         self.assertFalse(private["auto_bind_allowed"])
+    def test_malformed_public_source_rows_do_not_crash_lookup(self):
+        malformed = {"public_sources": [None, 17, "wrong"]}
+        disposition = mod.runtime_source_disposition(malformed, "thebrazenbeard/vera-mono")
+        self.assertEqual(disposition["status"], "UNRESOLVED")
+        self.assertFalse(disposition["auto_bind_allowed"])
+
     def test_head_drift_is_currentness_failure_not_cut_corruption(self):
         row = self.row("thebrazenbeard/discovery")
         result = mod.runtime_source_disposition(self.data, row["repository"], current_head="f" * 40)
