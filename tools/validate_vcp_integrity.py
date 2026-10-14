@@ -26,6 +26,30 @@ RECEIPT_PATH = NATIVE / "delivery" / "VERA_NV2A1_20260922_DELIVERY_RECEIPT.json"
 KERNEL_PATH = NATIVE / "VERA_NATIVE_PROJECT_KERNEL_V2.txt"
 ZERO_SHA = "0" * 40
 
+# These third-party SVG font files contain vendor-authored trailing whitespace.
+# Preserve and validate their exact original blobs; don't silently normalize,
+# exclude other source paths, or turn off git's whitespace validation globally.
+PINNED_VENDOR_SVG_BLOBS = {
+    "public/fonts/fa-solid-900.svg": "7742838b4481a6d678c7fb51417e84da69707ec2",
+    "public/fonts/fa-brands-400.svg": "46ad237a6191a5cd8518e0bb24379a1a111249c9",
+    "public/fonts/fa-regular-400.svg": "48634a9ab4743ba0fff2870a383792030877671d",
+}
+
+
+def verify_vendor_font_blobs() -> None:
+    for name, expected in sorted(PINNED_VENDOR_SVG_BLOBS.items()):
+        response = subprocess.run(
+            ["git", "hash-object", "--", name], cwd=ROOT,
+            capture_output=True, text=True, check=True,
+        )
+        if response.stdout.strip() != expected:
+            raise RuntimeError(f"pinned vendored font was modified: {name}")
+
+
+def _whitespace_command(*revision_args: str) -> list[str]:
+    return ["git", "diff", "--check", *revision_args, "--",
+            *(":(exclude)" + p for p in sorted(PINNED_VENDOR_SVG_BLOBS))]
+
 
 def run(command: list[str]) -> None:
     subprocess.run(command, cwd=ROOT, check=True)
@@ -81,7 +105,7 @@ def verify_whitespace(base_sha: str | None) -> None:
             stderr=subprocess.DEVNULL,
         )
         if probe.returncode == 0:
-            run(["git", "diff", "--check", f"{base_sha}...HEAD"])
+            run(_whitespace_command(f"{base_sha}...HEAD"))
             return
 
     parent = subprocess.run(
@@ -91,9 +115,9 @@ def verify_whitespace(base_sha: str | None) -> None:
         capture_output=True,
     )
     if parent.returncode == 0:
-        run(["git", "diff", "--check", "HEAD^", "HEAD"])
+        run(_whitespace_command("HEAD^", "HEAD"))
     else:
-        run(["git", "diff", "--check"])
+        run(_whitespace_command())
 
 
 def run_repository_tests() -> None:
@@ -109,6 +133,7 @@ def validate(base_sha: str | None = None, run_tests: bool = True) -> dict[str, o
         package = Path(tmp) / "VERA_NV2A1_20260922_INSTALL.zip"
         report.update(verify_package(package))
 
+    verify_vendor_font_blobs()
     verify_whitespace(base_sha)
 
     if run_tests:
