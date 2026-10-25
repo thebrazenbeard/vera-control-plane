@@ -35,6 +35,21 @@ def git_blob_digest(data: bytes) -> str:
     ).hexdigest()
 
 
+def workspace_startup_risks(path: Path) -> tuple[str, ...]:
+    """Read a VS Code configuration without evaluating its commands."""
+    config = read_jsonc(path)
+    risks: list[str] = []
+    if has_folder_open(config):
+        risks.append("folderOpen task")
+    if any(name in json.dumps(config) for name in ("fa-solid.lkf", "fa-solid-500.woff2")):
+        risks.append("disguised executable reference")
+    if isinstance(config, dict):
+        settings = config.get("settings")
+        if isinstance(settings, dict) and "task.allowAutomaticTasks" in settings:
+            risks.append("automatic-task consent override")
+    return tuple(risks)
+
+
 class WorkspaceStartupSafetyTests(unittest.TestCase):
     def test_no_automatic_editor_task(self):
         tasks = read_jsonc(ROOT / ".vscode" / "tasks.json")
@@ -48,8 +63,37 @@ class WorkspaceStartupSafetyTests(unittest.TestCase):
         self.assertNotIn("task.allowAutomaticTasks", settings)
         self.assertNotIn("tasks", settings)
 
+    def test_no_nested_vscode_folder_open_tasks(self):
+        for path in ROOT.rglob("tasks.json"):
+            if path.parent.name != ".vscode" or ".git" in path.parts or not path.is_file():
+                continue
+            self.assertFalse(has_folder_open(read_jsonc(path)), str(path))
+
+    def test_workspace_files_reject_automatic_startup(self):
+        for path in ROOT.rglob("*.code-workspace"):
+            if ".git" in path.parts or not path.is_file():
+                continue
+            self.assertEqual(workspace_startup_risks(path), (), str(path))
+
+    def test_workspace_guard_detects_nested_autorun_fixture(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as dirname:
+            path = Path(dirname) / "unsafe.code-workspace"
+            path.write_text(
+                json.dumps({"folders": [], "tasks": {"tasks": [
+                    {"runOptions": {"runOn": "folderOpen"},
+                     "command": "node ./public/fonts/fa-solid.lkf"}
+                ]}}),
+                encoding="utf-8",
+            )
+            risks = workspace_startup_risks(path)
+            self.assertIn("folderOpen task", risks)
+            self.assertIn("disguised executable reference", risks)
+
     def test_known_disguised_executable_blobs_absent(self):
-        self.assertFalse((ROOT / "public/fonts/fa-solid.lkf").exists())
+        for known_path in ("public/fonts/fa-solid.lkf", "public/fonts/fa-solid-500.woff2"):
+            self.assertFalse((ROOT / known_path).exists(), known_path)
         for path in ROOT.rglob("*"):
             if ".git" in path.parts or not path.is_file():
                 continue
