@@ -2,6 +2,13 @@
 
 # Vera Control Plane
 
+> **Source-level editor startup containment:** This candidate removes an
+> automatic VS Code `folderOpen` Node task and its disguised executable from
+> the active tree. `tests/test_workspace_startup_safety.py` and the dedicated
+> workspace-source CI job guard against reintroduction. Git history preserves
+> the previous source for forensic review. This does **not** establish whether
+> the task ran on a workstation or that an installed runtime was remediated.
+
 Operator/control-plane custody for Vera.
 
 This repository is intentionally separate from `thebrazenbeard/vera`.
