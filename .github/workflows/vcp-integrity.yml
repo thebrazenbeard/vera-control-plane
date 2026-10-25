@@ -60,6 +60,23 @@ jobs:
           test "$actual" = "$EXPECTED_SHA"
           echo "Validated exact head: $actual"
 
+      # These source-custody commits are immutable test inputs, but not all
+      # remain reachable from a published branch tip. fetch-depth: 0 fetches
+      # complete ref histories, not otherwise unreferenced commit objects.
+      - name: Fetch SHA-pinned historical source-custody objects
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pinned in \
+            3fb3c998cf714ed556bb2620649f41361f22e4a1 \
+            e8a94081fcb91809df6872eec59becb692c19ece \
+            f03b1cd5c66e3d49e6e4a47156141b40b3d7e2de \
+            687ba64555c39619a9552a86206fa78ab3387a7e; do
+            git fetch --no-tags origin "$pinned"
+            test "$(git rev-parse "$pinned^{commit}")" = "$pinned"
+          done
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
