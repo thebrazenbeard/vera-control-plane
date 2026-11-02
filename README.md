@@ -9,12 +9,40 @@
 > the previous source for forensic review. This does **not** establish whether
 > the task ran on a workstation or that an installed runtime was remediated.
 
-Operator/control-plane custody for Vera.
+Public source-level design and provenance for Vera's control plane. **This
+GitHub repository is public**. It is not a confidential store for operational
+state, private conversation exports, credentials, or original archival files.
 
 This repository is intentionally separate from `thebrazenbeard/vera`.
 
 - `thebrazenbeard/vera` owns cross-cutting technical architecture, source code, schemas, migrations, validators, tests, and sanitized engineering history.
-- `thebrazenbeard/vera-control-plane` owns private operational continuity/state artifacts, control-plane governance/design records, role-training packages, and private Vera assets that do not belong in the technical source repository.
+- `thebrazenbeard/vera-control-plane` maintains reviewed control-plane governance/design source, historical provenance records, and reusable role-training source. Confidential operational state and original private artifacts remain outside this public repository in access-controlled local/NAS custody.
+
+## Public source and private export boundary
+
+The source tree and its Git history are publicly readable. The public repository's
+presence does **not** certify that historical files were reviewed for privacy,
+license rights, or current authority. A README change cannot make an existing
+Git commit private or undo an earlier disclosure.
+
+- **Do not commit:** raw chat histories, personal or relational data, complete
+  historical project handoffs, secret-bearing logs, access tokens, SSH keys,
+  private source locators, or unpublished media/assets.
+- **Keep under controlled local/NAS access:** original exports, exact-byte hashes
+  and path-to-person mappings, private evidence manifests, and unadmitted
+  training/evaluation data. Even filename-and-hash lists can reveal sensitive
+  information.
+- **Publish only after review:** sanitized source code, tests with synthetic
+  fixtures, and architectural findings whose provenance, attribution, rights,
+  and privacy have been assessed for the exact target repository.
+- **Never infer installation:** old Project packages, role scripts, and release
+  candidates remain historical source unless separately installed and
+  independently qualified. Source inclusion grants no runtime authority or
+  training-data rights.
+
+Public visibility is not an open-source license; the proprietary license at
+the top of this README still governs reuse. Existing historical Git content
+requires a separate privacy audit if its disclosure status is in question.
 
 ## Current repository state
 
@@ -39,16 +67,16 @@ Current release/source candidates live under `project-instructions/` and carry t
 
 ## Layout
 
-- `protocol/` — private control-plane protocols, including Center Yourself.
+- `protocol/` — source-level control-plane protocol designs, including Center Yourself; repository visibility is public.
 - `save_states/` — earlier centered-state lineage retained at its historical paths.
 - `state/centered/` — later centered-state snapshots.
-- `state/closeouts/` — private closeout/supplement artifacts.
+- `state/closeouts/` — historical closeout/supplement source; presence here does not establish confidentiality.
 - `governance/` — control-plane design/authority-binding provenance; historical source does not self-authorize current execution.
 - `project-instructions/` — release/source candidates with explicit installation/runtime qualification boundaries.
 - `supabase/provider-custody/` — exact production provider SQL custody with explicit provenance class.
 - `docs/` — control-plane design and consolidation documentation.
 - `training/roles/four/` and `training/roles/five/` — preserved role-training packages.
-- `assets/stickers/` — canonical private custody for the Vera sticker set.
+- `assets/stickers/` — historical tracked sticker assets, subject to file-level rights and privacy review; public Git is not private custody.
 
 ## Currentness and authority boundary
 
