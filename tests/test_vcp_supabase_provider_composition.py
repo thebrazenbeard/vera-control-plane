@@ -1,5 +1,6 @@
 from tools.validate_vcp_supabase_provider_composition import (
     LiveProviderQualificationRequired,
+    REPORT_SCHEMA,
     require_live_provider_parity,
     validate,
 )
@@ -15,6 +16,7 @@ def assert_live_qualification_rejected(report: dict) -> None:
 
 def test_vcp_supabase_provider_composition_is_exact() -> None:
     report = validate()
+    assert report["report_schema"] == REPORT_SCHEMA
     assert report["status"] == "HISTORICAL_BASELINE_ONLY"
     assert report["historical_source_byte_check"] == "PASS"
     assert report["historical_inventory_observed_date"] == "2026-09-22"
@@ -25,6 +27,17 @@ def test_vcp_supabase_provider_composition_is_exact() -> None:
     assert report["live_full_ledger_parity"] == "UNVERIFIED_NOT_QUERIED"
     assert report["live_sql_bytes_attested"] is False
     assert report["provider_apply_or_install_authorized"] is False
+    assert report["legacy_v1_pass_compatible"] is False
+
+
+def test_old_pass_contract_cannot_be_implicitly_reenabled() -> None:
+    report = validate()
+    # The old generic PASS combined local source bytes with apparent provider
+    # parity. Emitting it for compatibility would falsely qualify live state.
+    assert report["status"] != "PASS"
+    assert {"provider_migrations", "pending_migrations", "last_provider_version"}.isdisjoint(report)
+    assert report["report_schema"] == "VCP_PROVIDER_COMPOSITION_REPORT_V2"
+    assert_live_qualification_rejected(report)
 
 
 def test_frozen_six_version_match_cannot_promote_live_eight_row_ledger() -> None:
