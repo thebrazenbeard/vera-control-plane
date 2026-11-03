@@ -93,3 +93,11 @@ jobs:
         run: |
           set -euo pipefail
           python tools/validate_vcp_integrity.py --base-sha "$BASE_SHA"
+
+      - name: Check frozen provider composition (source-only, not live parity)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest -q \
+            tests/test_vcp_supabase_provider_composition.py \
+            tests/test_vcp_provider_custody.py
