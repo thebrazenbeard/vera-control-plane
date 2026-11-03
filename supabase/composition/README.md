@@ -21,6 +21,16 @@ UNVERIFIED_NOT_QUERIED`. Any operator requiring live parity must obtain
 separate authenticated exact-project provider readback and byte/provenance
 evidence; the static validator always refuses live promotion.
 
+The JSON report is explicitly `VCP_PROVIDER_COMPOSITION_REPORT_V2` and sets
+`legacy_v1_pass_compatible=false`. The old generic `status=PASS` and ambiguous
+`provider_migrations`, `pending_migrations`, and `last_provider_version` keys
+are deliberately not emitted: recreating them as a v1 compatibility facade
+would let an unmodified caller mistake a frozen 2026-09-22 source snapshot for
+live parity. In-repository source inspection found no consumer beyond the
+validator's own tests, but external consumers are not proven absent. A
+downstream caller must explicitly adopt the v2 contract or hold; this source
+change is not a verified portfolio-wide migration.
+
 The three pre-repair alternate-timestamp sources are preserved under
 `supabase/drafts/pre-provider-composition-20260922/` for audit only.
 

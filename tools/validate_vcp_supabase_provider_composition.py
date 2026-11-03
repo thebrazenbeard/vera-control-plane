@@ -11,6 +11,7 @@ CUSTODY = SUPABASE / "provider-custody" / "fawkirqroyniueeqspif"
 INVENTORY = CUSTODY / "VCP_PROVIDER_LEDGER_CUSTODY_V1.json"
 COMPOSITION = SUPABASE / "composition" / "VCP_PROVIDER_COMPOSITION_V1.json"
 PENDING = SUPABASE / "composition" / "PENDING_MIGRATIONS_V1.json"
+REPORT_SCHEMA = "VCP_PROVIDER_COMPOSITION_REPORT_V2"
 
 
 class LiveProviderQualificationRequired(ValueError):
@@ -64,6 +65,7 @@ def validate() -> dict[str, object]:
             raise AssertionError(f"pending migration lacks exact source binding: {name}")
 
     return {
+        "report_schema": REPORT_SCHEMA,
         "status": "HISTORICAL_BASELINE_ONLY",
         "historical_source_byte_check": "PASS",
         "historical_inventory_observed_date": inventory["observed_date"],
@@ -74,6 +76,7 @@ def validate() -> dict[str, object]:
         "live_full_ledger_parity": "UNVERIFIED_NOT_QUERIED",
         "live_sql_bytes_attested": False,
         "provider_apply_or_install_authorized": False,
+        "legacy_v1_pass_compatible": False,
     }
 
 
