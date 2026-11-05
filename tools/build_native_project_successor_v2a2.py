@@ -21,6 +21,19 @@ MANIFEST = NATIVE / "delivery" / "VERA_NV2A2_20261105_SOURCE_CANDIDATE.json"
 OLD_MANIFEST = NATIVE / "VERA_NATIVE_PROJECT_PACK_MANIFEST_V2.json"
 OLD_RECEIPT = NATIVE / "delivery" / "VERA_NV2A1_20260922_DELIVERY_RECEIPT.json"
 ZIP_DATETIME = (1980, 1, 1, 0, 0, 0)
+REVIEWED_SOURCE_HEAD = "ba91e5aa805b2745f221ac6f5f67b65edaf79295"
+EXPECTED_DELIVERY_NAMES = (
+    "VERA_NV2A2_20261105_KERNEL.txt",
+    "VERA_NV2A2_20261105_INTERFACE.yaml",
+    "VERA_NV2A2_20261105_CHARTER.md",
+    "VERA_NV2A2_20261105_CONTROL_SOURCE_SEPARATION.md",
+    "VERA_NV2A2_20261105_CURRENTNESS_RECOVERY.md",
+    "VERA_NV2A2_20261105_REPOSITORY_TOPOLOGY.yaml",
+    "VERA_NV2A2_20261105_MEMORY_PRIVACY.md",
+    "VERA_NV2A2_20261105_COORDINATION.md",
+    "VERA_NV2A2_20261105_TASK_EXECUTION_CLOSEOUT.md",
+    "VERA_NV2A2_20261105_PACK_MANIFEST.json",
+)
 
 
 def git_bytes(commit: str, path: str) -> bytes:
@@ -55,12 +68,21 @@ def checked_entries() -> list[tuple[str, bytes]]:
         raise ValueError("logical source owner changed")
     if manifest["release_id"] != "VERA_NATIVE_V2A2_20261105_PUBLIC_COORDINATION_BOUNDARY":
         raise ValueError("candidate release identity changed")
+    if manifest["source_subject_head"] != REVIEWED_SOURCE_HEAD:
+        raise ValueError("candidate reviewed source head changed")
     if namespace != "VERA_NV2A2_20261105":
         raise ValueError("unexpected candidate namespace")
     if names != old["files"][:-1]:
         raise ValueError("candidate source inventory diverges from native V2")
     if len(delivered) != len(names) + 1 or len(delivered) != len(set(delivered)):
         raise ValueError("candidate delivered names must be unique and complete")
+    if any(
+        "/" in name or "\\" in name or ".." in name or "\x00" in name
+        for name in delivered
+    ):
+        raise ValueError("unsafe delivery basename or dot segment")
+    if tuple(delivered) != EXPECTED_DELIVERY_NAMES:
+        raise ValueError("candidate delivery names changed from reviewed allowlist")
     if not all(name.startswith(namespace + "_") for name in delivered):
         raise ValueError("candidate delivery name escaped namespace")
     if any(name in old["delivery_filename_map"].values() for name in delivered):
