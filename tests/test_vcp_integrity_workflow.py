@@ -42,7 +42,9 @@ def test_validator_contains_full_suite_and_native_package_gate() -> None:
     data = validator_text()
     assert '"pytest", "-q", "tests"' in data
     assert '"unittest", "discover"' not in data
-    assert "build_nv2a1(output)" in data
+    assert 'source_commit = receipt["source_subject_head"]' in data
+    assert "pinned_git_bytes(source_commit" in data
+    assert "verify_current_release_subject(successor)" in data
     assert 'assert actual_sha == expected["sha256"]' in data
     assert "assert actual <= 8000" in data
     assert '"git", "diff", "--check"' in data
