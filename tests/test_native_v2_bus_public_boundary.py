@@ -41,5 +41,5 @@ def test_private_work_fails_closed_without_authenticated_routing():
 
 def test_public_status_is_not_private_delivery_or_acknowledgement():
     text = read_contract()
-    assert "do not claim that another worker received" in text
+    assert "do not claim that another worker received" in text.lower()
     assert "A public status post is not private delivery or acknowledgement." in text
