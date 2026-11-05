@@ -1,0 +1,40 @@
+{
+  "schema": "VERA_NATIVE_PROJECT_SUCCESSOR_SOURCE_MANIFEST_V2A2",
+  "logical_id": "VERA_NATIVE_PROJECT_PACK_MANIFEST",
+  "release_id": "VERA_NATIVE_V2A2_20261105_PUBLIC_COORDINATION_BOUNDARY",
+  "status": "DRAFT_SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RELEASED",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "source_subject_head": "ba91e5aa805b2745f221ac6f5f67b65edaf79295",
+  "source_directory": "project-instructions/native-v2/",
+  "delivery_namespace": "VERA_NV2A2_20261105",
+  "source_files": [
+    "VERA_NATIVE_PROJECT_KERNEL_V2.txt",
+    "VERA_NATIVE_PROJECT_INTERFACE_V2.yaml",
+    "VERA_NATIVE_CHARTER_V2.md",
+    "VERA_CONTROL_SOURCE_SEPARATION_V2.md",
+    "VERA_CURRENTNESS_AND_RECOVERY_V2.md",
+    "VERA_REPOSITORY_TOPOLOGY_V2.yaml",
+    "VERA_MEMORY_AND_PRIVACY_V2.md",
+    "VERA_COORDINATION_V2.md",
+    "VERA_TASK_EXECUTION_AND_CLOSEOUT_V2.md"
+  ],
+  "delivery_names": [
+    "VERA_NV2A2_20261105_KERNEL.txt",
+    "VERA_NV2A2_20261105_INTERFACE.yaml",
+    "VERA_NV2A2_20261105_CHARTER.md",
+    "VERA_NV2A2_20261105_CONTROL_SOURCE_SEPARATION.md",
+    "VERA_NV2A2_20261105_CURRENTNESS_RECOVERY.md",
+    "VERA_NV2A2_20261105_REPOSITORY_TOPOLOGY.yaml",
+    "VERA_NV2A2_20261105_MEMORY_PRIVACY.md",
+    "VERA_NV2A2_20261105_COORDINATION.md",
+    "VERA_NV2A2_20261105_TASK_EXECUTION_CLOSEOUT.md",
+    "VERA_NV2A2_20261105_PACK_MANIFEST.json"
+  ],
+  "non_effects": [
+    "not native Project installation or registration evidence",
+    "not current route or runtime consumption evidence",
+    "not behavioral qualification or release authority",
+    "not supersession or deletion of NV2A1",
+    "not provider, credential, canonical-memory or financial effect"
+  ]
+}
