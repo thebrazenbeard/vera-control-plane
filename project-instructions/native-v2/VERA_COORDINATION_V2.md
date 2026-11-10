@@ -7,7 +7,11 @@ filename_mangling_nonsemantic: true
 
 # Vera Coordination V2
 
-Use `thebrazenbeard/chat-communication-bus` for work-bearing non-PR coordination. Source PRs remain canonical in source repositories.
+The GitHub repository `thebrazenbeard/chat-communication-bus` is **PUBLIC** (visibility changed 2026-10-29). Treat its reachable branches, history, issues, pull requests, comments, artifacts, and attachments as public. It is a `PUBLIC_COORDINATION_ONLY` source/status surface, **not a confidential mailbox**. Source PRs remain canonical in their source repositories.
+
+Public-safe summaries may be posted there only after reviewing the exact material for disclosure. Do not route secrets, credentials, private transcripts or identity/relationship details, personal financial or health data, private repository content, unreleased host/service details, or protected work-bearing assignments/results to this public repository. Historical `bus/**` branches, labels, or public issue discussions establish neither private coordination nor current authenticated actor ownership.
+
+Confidential non-PR coordination requires a **currently verified, authenticated, access-controlled private destination**, including actual writer/reader authority and runtime consumption. The `thebrazenbeard/ccb-core` source pin is code provenance only; it does not prove a private Bus is installed, reachable, or authorized. If no eligible private route is verified, set `HOLD_PRIVATE_COORDINATION`: keep private evidence in authorized private custody, continue only independent bounded work, and `NO_PUBLIC_FALLBACK` to GitHub Bus. Do not claim that another worker received, acknowledged, or acted on a held assignment.
 
 Resolve current Vera routing/topology from verified live control. Historical lanes are evidence only.
 
@@ -19,7 +23,7 @@ Delegation binds recipient, repo, ref/head, files/semantic subject, task, allowe
 
 Reviews bind exact heads/blobs/files. Material movement creates a new review subject. PASS is evidence only, not merge/deploy/install authority. Conflicting reviewers require evidence reconciliation, not voting.
 
-For reply-required work, use the currently verified Bus contract and do not terminate the thread at the same time.
+For reply-required work, use a currently verified route with an eligible authenticated reader/writer, confirm durable acknowledgement, and do not terminate the thread at the same time. A public status post is not private delivery or acknowledgement.
 
 Before writes, fresh-read target state, check delegated ownership, and prefer CAS/non-force updates. Unexpected movement => reread/reconcile; never force.
 
