@@ -39,6 +39,32 @@ EXPECTED_BINDINGS = {
     "human-approval-ui": ("USER_APPROVAL", "authenticated-human", "proposed-protected-effect", "PROTECTED", "PATRICK_EXACT_TARGET_SCOPE_AND_APPROVAL", "USE_NATIVE_HOST_UI"),
 }
 
+# V1 is a frozen advisory policy: an added/removed control or a relaxed failure
+# rule is a material new review subject even when the path ID stays unchanged.
+EXPECTED_CONTROLS = {
+    "vera-plugin-tools": ("EXACT_TOOL_SCOPE", "HOST_GRANT_CHECK", "NO_IMPLICIT_ESCALATION", "EFFECT_RECEIPT", "NO_BLIND_MUTATION_RETRY"),
+    "vera-peer-coordination": ("EXACT_SUBJECT_HEAD", "OWNER_LANE", "ALLOWED_AND_PROHIBITED_EFFECTS", "RETURN_RECEIPT", "NO_IMPLICIT_ESCALATION"),
+    "remote-independent-agent": ("AGENT_CARD_IDENTITY", "EXACT_TASK_ID", "EXACT_SUBJECT_HEAD", "EXPLICIT_SCOPE", "RECEIPT_AND_ARTIFACT", "NO_IMPLICIT_ESCALATION"),
+    "same-process-functions": ("EXACT_FUNCTION_CONTRACT", "EFFECT_GATE", "NO_IMPLICIT_ESCALATION"),
+    "authorized-host-service": ("TARGET_HOST_BINDING", "EXACT_EFFECT_SCOPE", "LEASE_AND_REVOKE", "IDEMPOTENCY_OR_RECONCILE", "NO_IMPLICIT_ESCALATION"),
+    "authorized-screen-share": ("LIVE_HOST_TARGET", "SEPARATE_INPUT_LEASE", "REVOKE_ON_FAILURE", "NO_IMPLICIT_ESCALATION"),
+    "human-approval-ui": ("SERVER_SIDE_APPROVAL_CHECK", "APPROVAL_NOT_INFERRED_FROM_BUTTON", "EXPIRY_AND_REVOCATION", "NO_IMPLICIT_ESCALATION"),
+}
+EXPECTED_FAILURE_CONTRACT = {
+    "read_timeout": "RETRY_WITH_BOUNDS_AND_FRESH_CURRENTNESS",
+    "mutation_timeout": "UNKNOWN_EFFECT_RECONCILE_BEFORE_RETRY",
+    "unavailable_requested_route": "FAIL_CLOSED_DO_NOT_SILENTLY_SWITCH_TRANSPORT",
+    "transport_loss": "DROP_EXPIRED_LEASES_REVOKE_INPUT_RECHECK_HOST_IDENTITY",
+    "agent_handoff_loss": "REASSIGN_ONLY_WITH_DURABLE_OWNER_RECONCILIATION",
+    "audit": "APPEND_SOURCE_CLASS_EXACT_HEAD_EFFECT_RECEIPT_AND_REDACT_PRIVATE_DATA",
+}
+EXPECTED_NON_CLAIMS = (
+    "NOT_AN_INSTALLED_CONTROL", "NOT_A_DEPLOYMENT",
+    "NOT_A_CURRENT_PROVIDER_PROBE", "NOT_AN_AUTHORIZATION_TOKEN",
+    "NOT_A_BEHAVIORAL_QUALIFICATION",
+)
+EXPECTED_SCOPE = "Vera Unbound inter-service communication design, not active installation or delegated effect authority"
+
 
 def validate(document: Any) -> list[str]:
     errors: list[str] = []
@@ -46,6 +72,10 @@ def validate(document: Any) -> list[str]:
         return ["root must be an object"]
     if document.get("schema") != "VERA_AGENT_PROTOCOL_BOUNDARIES_V1":
         errors.append("schema mismatch")
+    if document.get("logical_id") != "VERA_AGENT_PROTOCOL_BOUNDARIES":
+        errors.append("logical identity differs from reviewed V1 owner")
+    if document.get("scope") != EXPECTED_SCOPE:
+        errors.append("scope differs from reviewed non-activating V1 limit")
     if document.get("status") != "ADVISORY_SOURCE_CANDIDATE_NON_ACTIVATING":
         errors.append("may not promote source to activated status")
     if document.get("runtime_consumption") != "UNVERIFIED_NOT_CLAIMED":
@@ -84,6 +114,9 @@ def validate(document: Any) -> list[str]:
             controls = []
         if REQUIRED_CONTROL not in controls:
             errors.append(f"paths[{i}] lacks no-escalation control")
+        if isinstance(pid, str) and pid in EXPECTED_CONTROLS:
+            if controls != list(EXPECTED_CONTROLS[pid]):
+                errors.append(f"paths[{i}] controls differ from reviewed {pid} V1 list")
         if kind == "AGENT_DELEGATION":
             if path.get("adoption") != "DEFERRED_UNTIL_INDEPENDENT_RUNTIME_VERIFIED":
                 errors.append("A2A not qualified for current deployment")
@@ -99,6 +132,8 @@ def validate(document: Any) -> list[str]:
     if not isinstance(failures, dict):
         errors.append("missing failure contract")
     else:
+        if failures != EXPECTED_FAILURE_CONTRACT:
+            errors.append("failure policy changed from reviewed V1 contract")
         if failures.get("mutation_timeout") != "UNKNOWN_EFFECT_RECONCILE_BEFORE_RETRY":
             errors.append("ambiguous mutations must be reconciled before retry")
         if failures.get("unavailable_requested_route") != "FAIL_CLOSED_DO_NOT_SILENTLY_SWITCH_TRANSPORT":
@@ -108,6 +143,8 @@ def validate(document: Any) -> list[str]:
     non_claims = document.get("non_claims")
     if not isinstance(non_claims, list) or "NOT_AN_AUTHORIZATION_TOKEN" not in non_claims:
         errors.append("advisory cannot act as authorization token")
+    if non_claims != list(EXPECTED_NON_CLAIMS):
+        errors.append("non-activation disclaimers differ from reviewed V1")
     return errors
 
 
