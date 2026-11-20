@@ -38,6 +38,11 @@ Each evidence element contains a class, source_ref, revision and observed_at (UT
 
 The validator checks internal shape and declared evidence class only. It neither authenticates a caller, fetches the referenced source, proves a probe happened, reviews private data, nor grants effects. A validator PASS must not be described as an authenticated source verification.
 
+**Git source-locator contract (draft hardening):** `SOURCE_INSPECTION` must carry a canonical `https://github.com/{owner}/{repo}/blob/{40-hex-commit}/{relative-file}` reference. `revision` must exactly match the commit in that locator. If `subject_id` is `repo:owner/repo`, the locator repository must match that subject (case-insensitively). Branch names, SHA mismatches, traversal segments (`.` or `..`), encoded or noncanonical paths, and other URL schemes are rejected. V1 intentionally supports a restrictive GitHub file-path subset; private/local and non-Git source adapters need their own separately reviewed contract, not a fake GitHub locator.
+
+**Security boundary:** syntactic consistency is not source inspection. A fictional or deleted Git commit can still satisfy this local gate. Consumers must independently fetch the exact source and verify its actual Git object identity, subject binding, access rights and disclosure scope. The validator does not scrub free-text secrets or authorize public publication on the strength of `PUBLIC_SAFE` labels alone.
+
+
 ## Retrieval and search
 
 Proposed read path:
