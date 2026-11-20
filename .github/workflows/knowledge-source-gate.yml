@@ -1,0 +1,39 @@
+name: Knowledge source claim gate
+
+on:
+  pull_request:
+    paths:
+      - "tools/knowledge_record_gate.py"
+      - "tests/test_knowledge_record_gate.py"
+      - "docs/knowledge/KNOWLEDGE_PLANE_V1.md"
+      - ".github/workflows/knowledge-source-gate.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  knowledge-source-gate:
+    name: Synthetic knowledge claim contract tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      EXPECTED_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - name: Checkout exact PR head without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          persist-credentials: false
+      - name: Verify checked out source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Compile isolated knowledge gate and tests
+        run: python -m py_compile tools/knowledge_record_gate.py tests/test_knowledge_record_gate.py
+      - name: Run isolated synthetic knowledge regressions
+        run: python -m unittest discover -s tests -p test_knowledge_record_gate.py -v
