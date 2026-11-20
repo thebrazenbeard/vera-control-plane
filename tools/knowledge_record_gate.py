@@ -26,6 +26,7 @@ ENUMS = {
 CLASSES = frozenset({"DOC", "SOURCE_INSPECTION", "TEST", "REAL_PROBE", "PROVIDER_READBACK", "INFERENCE"})
 CURRENT_EVIDENCE = {"SOURCE": "SOURCE_INSPECTION", "RUNTIME": "REAL_PROBE", "PROVIDER": "PROVIDER_READBACK"}
 SHA40 = re.compile(r"[0-9a-f]{40}\Z")
+GIT_BLOB_LOCATOR = re.compile(r"https://github\.com/(?P<owner>[A-Za-z0-9_.-]+)/(?P<repo>[A-Za-z0-9_.-]+)/blob/(?P<sha>[0-9a-f]{40})/(?P<path>[A-Za-z0-9_./-]+)\Z")
 TIMESTAMP = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\Z")
 
 
@@ -112,6 +113,20 @@ def validate_record(record: object, *, now: datetime) -> list[str]:
                 observations.append((typ, observed))
             if typ == "SOURCE_INSPECTION" and not (isinstance(rev, str) and SHA40.fullmatch(rev)):
                 fail.add("evidence.git_revision")
+            if typ == "SOURCE_INSPECTION":
+                locator = item.get("source_ref")
+                match = GIT_BLOB_LOCATOR.fullmatch(locator) if isinstance(locator, str) else None
+                if match is None:
+                    fail.add("evidence.source_unpinned")
+                else:
+                    if match.group("sha") != rev:
+                        fail.add("evidence.source_revision_mismatch")
+                    if any(part in {"", ".", ".."} for part in match.group("path").split("/")):
+                        fail.add("evidence.source_path_invalid")
+                    subject = record.get("subject_id")
+                    if (isinstance(subject, str) and subject.startswith("repo:")
+                            and subject[5:].casefold() != (match.group("owner") + "/" + match.group("repo")).casefold()):
+                        fail.add("evidence.source_repository_mismatch")
     if record.get("publication_target") == "PUBLIC_REPOSITORY":
         if record.get("visibility") != "PUBLIC_SAFE":
             fail.add("publication.restricted_or_unknown")
