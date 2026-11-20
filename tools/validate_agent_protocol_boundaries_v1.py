@@ -26,6 +26,19 @@ REQUIRED_IDS = {
     "authorized-screen-share", "human-approval-ui",
 }
 
+# Immutable semantics of this reviewed V1 contract. Intentional route changes
+# require a versioned successor and independent review, not silent in-place edits.
+BINDING_FIELDS = ("kind", "from", "to", "effect_class", "permission_source", "adoption")
+EXPECTED_BINDINGS = {
+    "vera-plugin-tools": ("TOOL_ACCESS", "vera-chat-orchestrator", "connected-authorized-tool-server", "CAPABILITY_SCOPED", "LIVE_HOST_GRANT_AND_PER_EFFECT_AUTHORIZATION", "EXISTING_ROUTE_REVERIFY_LIVE"),
+    "vera-peer-coordination": ("DURABLE_COORDINATION", "vera-coordinator", "assigned-engineering-worker", "SOURCE_COORDINATION_ONLY", "CURRENT_OWNER_ASSIGNMENT_AND_EXACT_EFFECT_GRANT", "EXISTING_ROUTE_REVERIFY_LIVE"),
+    "remote-independent-agent": ("AGENT_DELEGATION", "authenticated-delegator", "independently-deployed-agent-service", "SOURCE_COORDINATION_ONLY", "EXPLICIT_TASK_SCOPED_DELEGATION_AND_REMOTE_AUTHZ", "DEFERRED_UNTIL_INDEPENDENT_RUNTIME_VERIFIED"),
+    "same-process-functions": ("IN_PROCESS", "coordinator-module", "same-process-helper", "CAPABILITY_SCOPED", "CALLER_CONTEXT_WITH_IN_PROCESS_EFFECT_GATE", "USE_WHEN_LOCAL_AND_BOUND"),
+    "authorized-host-service": ("SERVICE_API", "approved-host-controller", "host-owned-service", "CAPABILITY_SCOPED", "HOST_IDENTITY_AND_PER_EFFECT_LEASE", "KEEP_EXISTING_ROUTE_REVERIFY_LIVE"),
+    "authorized-screen-share": ("UI_STREAM", "approved-screen-client", "consenting-screen-host", "OBSERVE_ONLY_UNTIL_INPUT_LEASE", "SEPARATE_HUMAN_OBSERVE_AND_INPUT_CONSENT", "UNDER_INDEPENDENT_QUALIFICATION"),
+    "human-approval-ui": ("USER_APPROVAL", "authenticated-human", "proposed-protected-effect", "PROTECTED", "PATRICK_EXACT_TARGET_SCOPE_AND_APPROVAL", "USE_NATIVE_HOST_UI"),
+}
+
 
 def validate(document: Any) -> list[str]:
     errors: list[str] = []
@@ -54,6 +67,10 @@ def validate(document: Any) -> list[str]:
             errors.append(f"duplicate id {pid}")
         else:
             seen.add(pid)
+        if isinstance(pid, str) and pid in EXPECTED_BINDINGS:
+            for field, expected in zip(BINDING_FIELDS, EXPECTED_BINDINGS[pid]):
+                if path.get(field) != expected:
+                    errors.append(f"paths[{i}] {field} diverges from reviewed {pid} binding")
         kind = path.get("kind")
         if not isinstance(kind, str) or kind not in MECHANISMS or path.get("mechanism") != MECHANISMS.get(kind):
             errors.append(f"paths[{i}] incompatible kind/mechanism")
