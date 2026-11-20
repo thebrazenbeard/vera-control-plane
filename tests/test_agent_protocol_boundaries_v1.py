@@ -96,5 +96,31 @@ class DecisionContractTests(unittest.TestCase):
         self.assertTrue(validate(d))
 
 
+    def test_tool_path_cannot_recast_as_a2a_with_coherent_metadata(self):
+        d = copy.deepcopy(BASE)
+        tool = d["paths"][0]
+        agent = d["paths"][2]
+        tool["kind"] = "AGENT_DELEGATION"
+        tool["mechanism"] = "A2A"
+        tool["adoption"] = "DEFERRED_UNTIL_INDEPENDENT_RUNTIME_VERIFIED"
+        tool["controls"] = agent["controls"].copy()
+        self.assertTrue(validate(d))
+
+    def test_permission_source_cannot_be_replaced_by_opaque_claim(self):
+        d = copy.deepcopy(BASE)
+        d["paths"][0]["permission_source"] = "ANYONE_CAN_APPROVE"
+        self.assertTrue(validate(d))
+
+    def test_screen_endpoint_cannot_be_silently_retargeted(self):
+        d = copy.deepcopy(BASE)
+        d["paths"][5]["to"] = "untrusted-screen-host"
+        self.assertTrue(validate(d))
+
+    def test_human_approval_path_cannot_downgrade_effect_class(self):
+        d = copy.deepcopy(BASE)
+        d["paths"][6]["effect_class"] = "SOURCE_COORDINATION_ONLY"
+        self.assertTrue(validate(d))
+
+
 if __name__ == "__main__":
     unittest.main()
