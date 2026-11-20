@@ -1,0 +1,141 @@
+{
+  "schema": "VERA_AGENT_PROTOCOL_BOUNDARIES_V1",
+  "logical_id": "VERA_AGENT_PROTOCOL_BOUNDARIES",
+  "status": "ADVISORY_SOURCE_CANDIDATE_NON_ACTIVATING",
+  "runtime_consumption": "UNVERIFIED_NOT_CLAIMED",
+  "authority_rule": "TRANSPORT_AND_DISCOVERY_NEVER_CONFER_AUTHORITY",
+  "scope": "Vera Unbound inter-service communication design, not active installation or delegated effect authority",
+  "paths": [
+    {
+      "id": "vera-plugin-tools",
+      "from": "vera-chat-orchestrator",
+      "to": "connected-authorized-tool-server",
+      "kind": "TOOL_ACCESS",
+      "mechanism": "MCP",
+      "adoption": "EXISTING_ROUTE_REVERIFY_LIVE",
+      "effect_class": "CAPABILITY_SCOPED",
+      "permission_source": "LIVE_HOST_GRANT_AND_PER_EFFECT_AUTHORIZATION",
+      "controls": [
+        "EXACT_TOOL_SCOPE",
+        "HOST_GRANT_CHECK",
+        "NO_IMPLICIT_ESCALATION",
+        "EFFECT_RECEIPT",
+        "NO_BLIND_MUTATION_RETRY"
+      ]
+    },
+    {
+      "id": "vera-peer-coordination",
+      "from": "vera-coordinator",
+      "to": "assigned-engineering-worker",
+      "kind": "DURABLE_COORDINATION",
+      "mechanism": "BUS",
+      "adoption": "EXISTING_ROUTE_REVERIFY_LIVE",
+      "effect_class": "SOURCE_COORDINATION_ONLY",
+      "permission_source": "CURRENT_OWNER_ASSIGNMENT_AND_EXACT_EFFECT_GRANT",
+      "controls": [
+        "EXACT_SUBJECT_HEAD",
+        "OWNER_LANE",
+        "ALLOWED_AND_PROHIBITED_EFFECTS",
+        "RETURN_RECEIPT",
+        "NO_IMPLICIT_ESCALATION"
+      ]
+    },
+    {
+      "id": "remote-independent-agent",
+      "from": "authenticated-delegator",
+      "to": "independently-deployed-agent-service",
+      "kind": "AGENT_DELEGATION",
+      "mechanism": "A2A",
+      "adoption": "DEFERRED_UNTIL_INDEPENDENT_RUNTIME_VERIFIED",
+      "effect_class": "SOURCE_COORDINATION_ONLY",
+      "permission_source": "EXPLICIT_TASK_SCOPED_DELEGATION_AND_REMOTE_AUTHZ",
+      "controls": [
+        "AGENT_CARD_IDENTITY",
+        "EXACT_TASK_ID",
+        "EXACT_SUBJECT_HEAD",
+        "EXPLICIT_SCOPE",
+        "RECEIPT_AND_ARTIFACT",
+        "NO_IMPLICIT_ESCALATION"
+      ]
+    },
+    {
+      "id": "same-process-functions",
+      "from": "coordinator-module",
+      "to": "same-process-helper",
+      "kind": "IN_PROCESS",
+      "mechanism": "DIRECT_CALL",
+      "adoption": "USE_WHEN_LOCAL_AND_BOUND",
+      "effect_class": "CAPABILITY_SCOPED",
+      "permission_source": "CALLER_CONTEXT_WITH_IN_PROCESS_EFFECT_GATE",
+      "controls": [
+        "EXACT_FUNCTION_CONTRACT",
+        "EFFECT_GATE",
+        "NO_IMPLICIT_ESCALATION"
+      ]
+    },
+    {
+      "id": "authorized-host-service",
+      "from": "approved-host-controller",
+      "to": "host-owned-service",
+      "kind": "SERVICE_API",
+      "mechanism": "HTTPS_OR_EXISTING_AUTHENTICATED_API",
+      "adoption": "KEEP_EXISTING_ROUTE_REVERIFY_LIVE",
+      "effect_class": "CAPABILITY_SCOPED",
+      "permission_source": "HOST_IDENTITY_AND_PER_EFFECT_LEASE",
+      "controls": [
+        "TARGET_HOST_BINDING",
+        "EXACT_EFFECT_SCOPE",
+        "LEASE_AND_REVOKE",
+        "IDEMPOTENCY_OR_RECONCILE",
+        "NO_IMPLICIT_ESCALATION"
+      ]
+    },
+    {
+      "id": "authorized-screen-share",
+      "from": "approved-screen-client",
+      "to": "consenting-screen-host",
+      "kind": "UI_STREAM",
+      "mechanism": "VNC_OR_APPROVED_SCREEN_CHANNEL",
+      "adoption": "UNDER_INDEPENDENT_QUALIFICATION",
+      "effect_class": "OBSERVE_ONLY_UNTIL_INPUT_LEASE",
+      "permission_source": "SEPARATE_HUMAN_OBSERVE_AND_INPUT_CONSENT",
+      "controls": [
+        "LIVE_HOST_TARGET",
+        "SEPARATE_INPUT_LEASE",
+        "REVOKE_ON_FAILURE",
+        "NO_IMPLICIT_ESCALATION"
+      ]
+    },
+    {
+      "id": "human-approval-ui",
+      "from": "authenticated-human",
+      "to": "proposed-protected-effect",
+      "kind": "USER_APPROVAL",
+      "mechanism": "NATIVE_UI",
+      "adoption": "USE_NATIVE_HOST_UI",
+      "effect_class": "PROTECTED",
+      "permission_source": "PATRICK_EXACT_TARGET_SCOPE_AND_APPROVAL",
+      "controls": [
+        "SERVER_SIDE_APPROVAL_CHECK",
+        "APPROVAL_NOT_INFERRED_FROM_BUTTON",
+        "EXPIRY_AND_REVOCATION",
+        "NO_IMPLICIT_ESCALATION"
+      ]
+    }
+  ],
+  "failure_contract": {
+    "read_timeout": "RETRY_WITH_BOUNDS_AND_FRESH_CURRENTNESS",
+    "mutation_timeout": "UNKNOWN_EFFECT_RECONCILE_BEFORE_RETRY",
+    "unavailable_requested_route": "FAIL_CLOSED_DO_NOT_SILENTLY_SWITCH_TRANSPORT",
+    "transport_loss": "DROP_EXPIRED_LEASES_REVOKE_INPUT_RECHECK_HOST_IDENTITY",
+    "agent_handoff_loss": "REASSIGN_ONLY_WITH_DURABLE_OWNER_RECONCILIATION",
+    "audit": "APPEND_SOURCE_CLASS_EXACT_HEAD_EFFECT_RECEIPT_AND_REDACT_PRIVATE_DATA"
+  },
+  "non_claims": [
+    "NOT_AN_INSTALLED_CONTROL",
+    "NOT_A_DEPLOYMENT",
+    "NOT_A_CURRENT_PROVIDER_PROBE",
+    "NOT_AN_AUTHORIZATION_TOKEN",
+    "NOT_A_BEHAVIORAL_QUALIFICATION"
+  ]
+}

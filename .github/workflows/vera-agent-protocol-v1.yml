@@ -1,0 +1,39 @@
+name: Vera protocol boundary V1 source checks
+
+on:
+  pull_request:
+    paths:
+      - 'protocol/VERA_AGENT_PROTOCOL_BOUNDARIES_V1.json'
+      - 'tools/validate_agent_protocol_boundaries_v1.py'
+      - 'tests/test_agent_protocol_boundaries_v1.py'
+      - '.github/workflows/vera-agent-protocol-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'protocol/VERA_AGENT_PROTOCOL_BOUNDARIES_V1.json'
+      - 'tools/validate_agent_protocol_boundaries_v1.py'
+      - 'tests/test_agent_protocol_boundaries_v1.py'
+      - '.github/workflows/vera-agent-protocol-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  source-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Validate advisory V1 protocol boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B tools/validate_agent_protocol_boundaries_v1.py
+      - name: Test source contract and hostile cases
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -m unittest discover -s tests -p 'test_agent_protocol_boundaries_v1.py' -v
