@@ -32,7 +32,7 @@ def card():
         "claim_surface": "SOURCE",
         "currentness": "CURRENT",
         "valid_until": "2026-11-20T22:00:00Z",
-        "evidence": [{"class": "SOURCE_INSPECTION", "source_ref": "synthetic:blob-17", "revision": "a" * 40, "observed_at": "2026-11-20T19:00:00Z"}],
+        "evidence": [{"class": "SOURCE_INSPECTION", "source_ref": "https://github.com/synthetic/example/blob/" + "a" * 40 + "/docs/README.md", "revision": "a" * 40, "observed_at": "2026-11-20T19:00:00Z"}],
         "supersedes": [],
         "limitations": ["Structural check, source inspection not independently executed by the validator"],
     }
@@ -168,6 +168,26 @@ class KnowledgeGateTests(unittest.TestCase):
         record = card(); record["currentness"] = "HISTORICAL"
         self.assert_bad(record, "currentness.until_without_current")
 
+
+    def test_source_branch_reference_cannot_pass_currentness(self):
+        record = card()
+        record["evidence"][0]["source_ref"] = "https://github.com/synthetic/example/blob/main/docs/README.md"
+        self.assert_bad(record, "evidence.source_unpinned")
+
+    def test_source_revision_must_match_pinned_url(self):
+        record = card()
+        record["evidence"][0]["source_ref"] = "https://github.com/synthetic/example/blob/" + "b" * 40 + "/docs/README.md"
+        self.assert_bad(record, "evidence.source_revision_mismatch")
+
+    def test_source_path_traversal_cannot_pass_currentness(self):
+        record = card()
+        record["evidence"][0]["source_ref"] = "https://github.com/synthetic/example/blob/" + "a" * 40 + "/docs/../secrets.txt"
+        self.assert_bad(record, "evidence.source_path_invalid")
+
+    def test_source_repository_must_match_repo_subject(self):
+        record = card()
+        record["evidence"][0]["source_ref"] = "https://github.com/synthetic/other/blob/" + "a" * 40 + "/docs/README.md"
+        self.assert_bad(record, "evidence.source_repository_mismatch")
 
 if __name__ == "__main__":
     unittest.main()
