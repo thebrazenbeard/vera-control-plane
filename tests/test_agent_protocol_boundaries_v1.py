@@ -122,5 +122,56 @@ class DecisionContractTests(unittest.TestCase):
         self.assertTrue(validate(d))
 
 
+    def test_tool_host_grant_control_cannot_disappear(self):
+        d = copy.deepcopy(BASE)
+        d["paths"][0]["controls"].remove("HOST_GRANT_CHECK")
+        self.assertTrue(validate(d))
+
+    def test_host_service_reconciliation_control_cannot_disappear(self):
+        d = copy.deepcopy(BASE)
+        d["paths"][4]["controls"].remove("IDEMPOTENCY_OR_RECONCILE")
+        self.assertTrue(validate(d))
+
+    def test_bus_owner_lane_control_cannot_disappear(self):
+        d = copy.deepcopy(BASE)
+        d["paths"][1]["controls"].remove("OWNER_LANE")
+        self.assertTrue(validate(d))
+
+    def test_unreviewed_auto_approval_control_cannot_be_injected(self):
+        d = copy.deepcopy(BASE)
+        d["paths"][6]["controls"].append("AUTO_APPROVE_ALL")
+        self.assertTrue(validate(d))
+
+    def test_audit_cannot_be_changed_to_log_private_data(self):
+        d = copy.deepcopy(BASE)
+        d["failure_contract"]["audit"] = "LOG_PRIVATE_DATA"
+        self.assertTrue(validate(d))
+
+    def test_handoff_loss_cannot_drop_owner_reconciliation(self):
+        d = copy.deepcopy(BASE)
+        del d["failure_contract"]["agent_handoff_loss"]
+        self.assertTrue(validate(d))
+
+    def test_mutation_retries_cannot_be_added_by_new_failure_key(self):
+        d = copy.deepcopy(BASE)
+        d["failure_contract"]["automatic_mutation_retry"] = "YES"
+        self.assertTrue(validate(d))
+
+    def test_all_non_install_disclaimers_are_stable(self):
+        d = copy.deepcopy(BASE)
+        d["non_claims"].remove("NOT_A_DEPLOYMENT")
+        self.assertTrue(validate(d))
+
+    def test_logical_id_cannot_silently_change(self):
+        d = copy.deepcopy(BASE)
+        d["logical_id"] = "OTHER_CONTROL_OWNER"
+        self.assertTrue(validate(d))
+
+    def test_scope_cannot_silently_expand(self):
+        d = copy.deepcopy(BASE)
+        d["scope"] = "active permission authority across all repositories"
+        self.assertTrue(validate(d))
+
+
 if __name__ == "__main__":
     unittest.main()
