@@ -1,0 +1,40 @@
+name: NV2A1 frozen native package byte parity
+
+on:
+  pull_request:
+    paths:
+      - '.gitattributes'
+      - 'project-instructions/native-v2/**'
+      - 'tools/validate_vcp_integrity.py'
+      - 'tools/build_native_project_successor_v2a1.py'
+      - '.github/workflows/nv2a1-frozen-package.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.gitattributes'
+      - 'project-instructions/native-v2/**'
+      - 'tools/validate_vcp_integrity.py'
+      - 'tools/build_native_project_successor_v2a1.py'
+      - '.github/workflows/nv2a1-frozen-package.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce-frozen-zip:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Verify ten-file frozen byte-for-byte package
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B tools/validate_vcp_integrity.py --skip-tests
