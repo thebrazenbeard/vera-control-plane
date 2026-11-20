@@ -2,9 +2,10 @@
 
 # Vera Control Plane
 
-> **Source-level editor startup containment:** This candidate removes an
-> automatic VS Code `folderOpen` Node task and its disguised executable from
-> the active tree. `tests/test_workspace_startup_safety.py` and the dedicated
+> **Tracked-main editor startup containment:** The verified source tree no
+> longer contains the concealed VS Code `folderOpen` Node task or its disguised
+> executable; `.vscode/tasks.json` is inert and automatic task authorization
+> is absent from `.vscode/settings.json`. `tests/test_workspace_startup_safety.py` and the dedicated
 > workspace-source CI job guard against reintroduction. Git history preserves
 > the previous source for forensic review. This does **not** establish whether
 > the task ran on a workstation or that an installed runtime was remediated.
