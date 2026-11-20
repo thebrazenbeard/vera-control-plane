@@ -172,6 +172,52 @@ class DecisionContractTests(unittest.TestCase):
         d["scope"] = "active permission authority across all repositories"
         self.assertTrue(validate(d))
 
+    def test_unreviewed_root_runtime_override_is_rejected(self):
+        d = copy.deepcopy(BASE)
+        d["runtime_enforcement"] = "ENABLED_WITHOUT_REVIEW"
+        self.assertTrue(validate(d))
+
+    def test_unreviewed_path_authorization_override_is_rejected(self):
+        d = copy.deepcopy(BASE)
+        d["paths"][0]["authorization_override"] = "ALLOW"
+        self.assertTrue(validate(d))
+
+    def test_cli_does_not_ignore_extra_arguments_and_validate_default(self):
+        import subprocess
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as temp:
+            bad = Path(temp) / "bad.json"
+            bad.write_text('{"schema":"UNSAFE"}', encoding="utf-8")
+            validator = ROOT / "tools" / "validate_agent_protocol_boundaries_v1.py"
+            p = subprocess.run(
+                [sys.executable, "-B", str(validator), str(bad), "--unused"],
+                cwd=ROOT, text=True, capture_output=True, check=False,
+            )
+            self.assertNotEqual(p.returncode, 0, p.stdout)
+            self.assertNotIn('"status": "PASS"', p.stdout)
+
+    def test_cli_rejects_duplicate_json_keys_before_validation(self):
+        import subprocess
+        import tempfile
+
+        d = copy.deepcopy(BASE)
+        source = json.dumps(d)
+        source = source.replace(
+            '"authority_rule": "TRANSPORT_AND_DISCOVERY_NEVER_CONFER_AUTHORITY",',
+            '"authority_rule": "AUTO_GRANT", "authority_rule": "TRANSPORT_AND_DISCOVERY_NEVER_CONFER_AUTHORITY",',
+            1,
+        )
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "duplicate.json"
+            path.write_text(source, encoding="utf-8")
+            p = subprocess.run(
+                [sys.executable, "-B", str(ROOT / "tools" / "validate_agent_protocol_boundaries_v1.py"), str(path)],
+                cwd=ROOT, text=True, capture_output=True, check=False,
+            )
+            self.assertNotEqual(p.returncode, 0, p.stdout)
+            self.assertNotIn('"status": "PASS"', p.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
