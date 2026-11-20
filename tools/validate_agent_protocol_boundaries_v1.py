@@ -64,12 +64,16 @@ EXPECTED_NON_CLAIMS = (
     "NOT_A_BEHAVIORAL_QUALIFICATION",
 )
 EXPECTED_SCOPE = "Vera Unbound inter-service communication design, not active installation or delegated effect authority"
+REVIEWED_ROOT_FIELDS = frozenset({"schema", "logical_id", "status", "runtime_consumption", "authority_rule", "scope", "paths", "failure_contract", "non_claims"})
+REVIEWED_PATH_FIELDS = frozenset({"id", "from", "to", "kind", "mechanism", "adoption", "effect_class", "permission_source", "controls"})
 
 
 def validate(document: Any) -> list[str]:
     errors: list[str] = []
     if not isinstance(document, dict):
         return ["root must be an object"]
+    if set(document) - REVIEWED_ROOT_FIELDS:
+        errors.append("unreviewed root fields: V1 cannot silently add runtime policy")
     if document.get("schema") != "VERA_AGENT_PROTOCOL_BOUNDARIES_V1":
         errors.append("schema mismatch")
     if document.get("logical_id") != "VERA_AGENT_PROTOCOL_BOUNDARIES":
@@ -90,6 +94,8 @@ def validate(document: Any) -> list[str]:
         if not isinstance(path, dict):
             errors.append(f"paths[{i}] must be an object")
             continue
+        if set(path) - REVIEWED_PATH_FIELDS:
+            errors.append(f"paths[{i}] includes unreviewed fields")
         pid = path.get("id")
         if not isinstance(pid, str) or not pid:
             errors.append(f"paths[{i}] has invalid id")
@@ -148,9 +154,25 @@ def validate(document: Any) -> list[str]:
     return errors
 
 
+def _unique_json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    document: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in document:
+            raise ValueError("duplicate JSON object key")
+        document[key] = value
+    return document
+
+
 def main() -> int:
+    if len(sys.argv) > 2:
+        print(json.dumps({"status": "BLOCK", "findings": ["expected zero or one JSON file argument"]}))
+        return 2
     path = Path(sys.argv[1]) if len(sys.argv) == 2 else Path(__file__).resolve().parents[1] / "protocol" / "VERA_AGENT_PROTOCOL_BOUNDARIES_V1.json"
-    document = json.loads(path.read_text(encoding="utf-8"))
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_unique_json_object)
+    except (OSError, ValueError):
+        print(json.dumps({"status": "BLOCK", "findings": ["unreadable or invalid JSON document"]}))
+        return 1
     errors = validate(document)
     if errors:
         print(json.dumps({"status": "BLOCK", "findings": errors}, indent=2))
