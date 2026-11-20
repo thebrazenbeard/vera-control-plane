@@ -1,0 +1,6 @@
+# Preserve bytes in native Project release sources across operating systems.
+# Frozen NV2A1 ZIP receipts hash the working-tree bytes, not normalized text.
+project-instructions/native-v2/*.txt text eol=lf
+project-instructions/native-v2/*.md text eol=lf
+project-instructions/native-v2/*.yaml text eol=lf
+project-instructions/native-v2/*.json text eol=lf
